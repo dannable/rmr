@@ -1,0 +1,104 @@
+# Critical Strike Table 4.2 — Grapple
+# Transcribed from author-supplied PDF (X:\RMFRPSuite\grapple_crit.pdf).
+#
+@name:           Grapple
+@table_number:   4.2
+@crit_type_code: G
+@notes:
+@column_axis:    severity
+#
+01-05 | A | Foe escapes like the wind. | +0H
+01-05 | B | Your attack falls short. | +0H
+01-05 | C | Your fingernails deal a vicious wound. | +1H
+01-05 | D | A little elbow before you lose your grip. | +2H
+01-05 | E | You grip strand of foe's hair. It breaks. | +3H
+06-10 | A | Grab foe's arm. Oops. Try again. | +0H
+06-10 | B | Your grip fails. | +2H
+06-10 | C | Foe grabs, misses. You have initiative. | +3H
+06-10 | D | This was not a special moment. | +4H
+06-10 | E | You have initiative next round. | +5H
+11-15 | A | You impede foe's combat stance. You have the initiative. | +0H
+11-15 | B | Foe collides with your attack before you get a grip. Small bruise. | +2H
+11-15 | C | You cannot get a good grip, foe hurts himself evading. You have initiative. | +4H
+11-15 | D | Grab foe's head. If foe has helm, you twist it. Otherwise, you gain initiative. | ∑ | with helm
+11-15 | E | Lame attack, but foe is concerned. He moves back. | +6H – π
+16-20 | A | Foe breaks free of a weak grip. You have the initiative next round. | +0H
+16-20 | B | Grab foe and give him a weak punch. He thinks you are dangerous. | π
+16-20 | C | Foe recovers, continues his defense by sweeping his weapon at your feet. | π
+16-20 | D | Push foe, unbalancing him. You have initiative for 2 rounds. | —
+16-20 | E | Strong passing blow near foe's head. His violent evasion is not productive. | +3H – ∑
+21-35 | A | Almost get a grip on foe's arm. He avoids his mistake. You gain the initiative next round. | +3H
+21-35 | B | You grip foe's shield arm. Foe's strike toward your head makes you let go of him. He keeps a distance. | π(-20)
+21-35 | C | Collide with foe. You push him away and he stumbles back 5 feet. It went better than you could have hoped. | +2H – ∑
+21-35 | D | Hard, but poorly placed. Foe bounces back out of your grip. He looks like he does not recognize you. | +3H – ∑
+21-35 | E | Uncoordinated attack and a little luck, allows foe to escape your grasp. You have initiative for 2 rounds. | ∑
+36-45 | A | Grip to lower back. Foe wards off your attack and prepares for your next move. | π
+36-45 | B | Grip fails, but bash does not. You unbalance your foe. You have the initiative. | +4H – π
+36-45 | C | Your attack is almost comical as you seek any little grip you can get. All the tiny tugs finally have an effect on foe. | ∑π
+36-45 | D | Strike to foe's shield arm. If foe has no shield, you immobilize arm for 6 rounds. | +3H | with shield
+36-45 | E | Attack to upper leg. Foe spins to break free. He is disoriented badly. It takes a moment for him to see you. | ∑∏
+46-50 | A | Hinder foe's weapon arm. Foe violently frees himself and takes a defensive stance. | π
+46-50 | B | Pull foe over, he breaks free. He is having trouble recovering. Your heart is broken. | 5H – ∑
+46-50 | C | Grab foe's waist. Your grip appeared to be strong, but now it is losing its advantage. Your foe is working free. | 3(-25)
+46-50 | D | Painful grip on foe's hand. You do not break anything, but he thinks so. You have initiative for 4 rounds. | 3(-30)
+46-50 | E | You and foe collide. He breaks your grip and stumbles away. You bounce back and miss a good opportunity. | 2∑∏
+51-55 | A | You get in close and grab at foe's hair. He is daunted and steps back to escape your reach. | π(-20)
+51-55 | B | Grip to foe's garments. They rip and you lose a hopeful hold. Foe is carried back by his break-away. | +7H – ∑
+51-55 | C | Grapple foe's leg and try to lift it up off the ground. Foe slips away, but is off balance while recovering. | ∑∏
+51-55 | D | Catch foe's waist garments and pull him in. He is in trouble. He seeks to strike your hand and break your hold. | 3(-50)
+51-55 | E | Grip to shield arm. Foe drops his shield as he wails in pain. You try to stay serious. | +5H – 2∑∏
+56-60 | A | Foe spins away and comes back to face you. He is unbalanced. | +3H – ∑
+56-60 | B | Foe spins out of your grasp. However, spin nullifies his counterattack. | ∑π
+56-60 | C | Short fingers render thigh hold ineffectual. Try lower next time. | +3H – ∑∏
+56-60 | D | Grip foe's side and shake him like a rattle. He is disoriented, but gets free. | +6H – 3∑
+56-60 | E | Grasp around foe's leg proves effective. Foe is unbalanced for a moment. | ∑∏ – 3(-25)
+61-65 | A | Grip to arm gives foe a bruised bicep. Foe shakes free and prepares for your assault. | +3H – π(-20)
+61-65 | B | Slipping grasp around foe's waist is weak. He breaks your grip and stumbles out of your way. | 2∑
+61-65 | C | Grab foe around waist. Just when you think your grip is iron, he begins to break free. You might still prevail. | +3H – 3(-50)
+61-65 | D | Clumsy bear hug around foe. Foe can do little to escape for the moment. Both his arms are pinned. | 2∏ – π(-20)
+61-65 | E | You find yourself on foe's shield side. If he has a shield, you are stymied. | +7H – 3∑∏ | without shield
+66    | A | Strike foe's weapon, disarming him. Foe fails to recover weapon. He has put himself in a bad spot. | +3H – 2∑
+66    | B | You grab foe's weapon arm and make him drop it with a violent shake. Foe strains wrist trying to break free. | 2∑ – (-25)
+66    | C | Grab foe, he falls down and you follow. You knock him prone to stand back up. He is down for 1 round. | +5H
+66    | D | Grab leg and flip foe to ground, pinning him. Prone and immobile for 2 rounds, he might surrender. | +6H
+66    | E | Grasp foe around neck and bring him to ground. Muscles and tendons tear. Foe is prone and immobilized for 3 rounds. | +3H – ∑
+67-70 | A | Passing chest strike. Foe eludes grapple, keeps defensive stance. | 2π(-20)
+67-70 | B | Grip foe's neck. Push foe's chin back steadily. He should act soon, or... | 1(-10) – 1(-20) – 1(-30)
+67-70 | C | Grab foe's shield arm. If foe has shield you grapple it. Until dropped: (-50) | 3(-40) | without shield
+67-70 | D | Foe barely escapes immobilization, but must recover from the ordeal. | +7H – 2∏
+67-70 | E | You almost disarm foe and trip him. He uses weapon arm to prevent his fall. | 2∑∏ – 1(-75)
+71-75 | A | Grab an exposed garment. Uneasy grip impedes foe's actions. | +5H – 2(-50)
+71-75 | B | Weak hold around foe's waist. He brings his knee up and you lose your grip. Foe does not recover quickly. | +4H – 3(-50)
+71-75 | C | Very strong grip around foe's waist. Foe is held at a great disadvantage. He might get free. | 2∑∏ – (-50)
+71-75 | D | You grapple foe in a brutal way. Hold proves to be excellent. You have him. What next? | ∑∏ – 3(-70)
+71-75 | E | Foe evades your grasp by falling to the ground. A clever ploy. Smile at your good fortune. | +9H – 2∑∏
+76-80 | A | Grapple foe's shield arm. If foe has a shield, you pull it down. If foe has no shield, you immobilize his arm. | +2H – 4(-50)
+76-80 | B | Entangle foe's shield arm. If foe has shield, your grip makes it impossible to use. Until shield dropped: (-30) If no shield his arm is entangled. | (-40)
+76-80 | C | Entangle foe's weapon arm. His weapon is held immobile. He cannot use it, but he will not drop it. He tries to knee you to escape, this fails. | 2∑∏ – (-50)
+76-80 | D | Entangle foe's weapon arm. Foe hangs onto his weapon, but the arm is immobilized. You try to make him strike himself. It fails. | +4H
+76-80 | E | Grab foe's weapon arm and beat on it, without concern for the rest of foe. Foe is disarmed. You tear ligaments and pull muscles. | 3∑ – (-40)
+81-85 | A | Useful grip on foe's neck. Foe's face turns red. He cannot breath easily. Slowly he breaks your grip. | +5H – 2∑ – 2(-25)
+81-85 | B | Grip around foe's waist unbalances him. You have the initiative. Foe shares much profanity with you. | 6(-50)
+81-85 | C | Brutal grip around foe's chest, leaves bruises all over him. Your assault has created much confusion. | +3H – 3∑∏ – (-5)
+81-85 | D | Grab knee and send foe down. He breaks his fall by breaking his shield arm. He is disarmed and prone. | +5H – 2∑∏ – (-10)
+81-85 | E | Entangle both of foe's arms and pin them to his body. Foe cannot move his arms and he looks ready to surrender. | 10(-75)
+86-90 | A | Grasp foe's leg, lifting it off the ground for a moment. You have the initiative for 6 rounds. | +3H – 3∑
+86-90 | B | Entangle foe's leg and send him down. He does not hit hard. He pulls a muscle in his leg struggling. | 2∑∏ – (-10)
+86-90 | C | Your assault is strong and lucky. As you grapple foe, you stomp his foot. He falls hard, breaking his shoulder. | +10H – 6∑ – (-40)
+86-90 | D | Tie up both of foe's arms. He is immobile and cannot fight back effectively. You have him now. | +10H – 9∑∏
+86-90 | E | Foe stumbles, with your assistance, and falls. His weapon breaks on impact. If foe has no chest armor, he takes a 'D' Krush. | +3H – ∑
+91-95 | A | Entangle foe's leg. Foe is knocked down. Foe lands on his weapon arm. He kicks and breaks free. | +4H – 2∑∏
+91-95 | B | Pull foe's legs together. He goes down, hitting hard and dropping his weapon. He feebly attempts to crawl for it. | 2∑∏ – 4(-25)
+91-95 | C | Painfully immobilize weapon arm. Foe cannot surrender quickly enough to avoid the damage and pain. | +15H – 4∑∏ – 8(-95)
+91-95 | D | Grapple foe's legs and send him over. He hits his head in the fall. You get little resistance after that. | +10H – 30∑∏
+91-95 | E | Wrap up foe's legs. Foe tumbles to the ground like a ragdoll breaking both arms and an ankle. Foe is knocked out. | +20H – (-95)
+96-99 | A | Ride foe down and immobilize him. He can do nothing for 12 rounds. You are prone also, while holding him down. | (-40)
+96-99 | B | Entangle foe's arm and flip him to ground, fracturing his leg. You immobilize him completely. He is prone, face down and still conscious. | +20H – 10∑∏ – (-30)
+96-99 | C | Entangle foe's legs. Grapple weapon arm and break it on an available surface. You send foe to the ground. He falls very hard and is knocked out. | —
+96-99 | D | Crushing grip around foe's neck. If no neck armor, foe dies in 6 rounds from your mortal grip. Foe is disarmed. | 3∑∏ | with neck armor
+96-99 | E | Attack results in strangling hold. Foe flails legs in desperation. Foe is unable to break free and dies after 9 rounds of helpless struggling. Grim. | +3H – ∑
+100   | A | Foe's legs are entangled long enough to make him fall. He is knocked out for 5 rounds. | +9H – (+20)
+100   | B | Grip foe's neck in a vicious hold. If foe cannot break your grip in 4 rounds, he will begin to pass out from suffocation. | +10H – ∑ – (-40)
+100   | C | Grip foe's head and jerk it around. If foe has no neck armor, he dies. | +5H – 5∑∏ – (-75) | without neck armor
+100   | D | Grapple foe's head. His skull is fractured during this assault. If he has no helm, he is in a coma for 30 days. | +3H – 9∑∏ | with helmet
+100   | E | Crush foe's windpipe and pull the head from his body. You are mighty. | 1(+25)

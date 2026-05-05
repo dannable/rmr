@@ -1,0 +1,109 @@
+# Critical Strike Table 4.3 — Krush
+# Transcribed from author-supplied PDF (X:\RMFRPSuite\krush_crit.pdf).
+#
+@name:           Krush
+@table_number:   4.3
+@crit_type_code: K
+@notes:
+@column_axis:    severity
+#
+01-05 | A | Not very impressive. | +0H
+01-05 | B | Your grip fails you. | +0H
+01-05 | C | Practice this one. | +1H
+01-05 | D | Strike blunted by clothing. | +2H
+01-05 | E | Destroy one of foe's silly decorations. | +3H
+06-10 | A | The strike lost something in the translation. | +0H
+06-10 | B | Thud. | +2H
+06-10 | C | You should have swung much harder. | +3H
+06-10 | D | Foe steps right, then left, and almost evades your blow. | +4H
+06-10 | E | Blow is forceful, not hard. Foe is unbalanced. You have initiative. | +6H
+11-15 | A | Foe evades your much of your swing. You have initiative. | +3H
+11-15 | B | Foe evades frantically. You have the initiative next round. | +3H
+11-15 | C | Really solid strike to foe's shield side. You have initiative. | +7H
+11-15 | D | Shot close to foe's throat. He seeks to avoid your next strike. | +5H – (π-10)
+11-15 | E | Foe raises an arm to block your strike. He does himself harm. You profit. | +6H – ∑ – (+5)
+16-20 | A | Foe steps back 5 feet. He is out of position. | +2H – π
+16-20 | B | Foe is concerned with his own preservation. He steps back 5 feet. | +4H – (π-10)
+16-20 | C | Blow to foe's waist. He spins sideways. | +6H – (π-20)
+16-20 | D | Glancing blow takes skin with it. You have initiative next round. | +5H – (-5)
+16-20 | E | Strong blow breaks foe's guard. He is unbalanced. | ∑∏ – (+10)
+21-35 | A | Foe tries to duck under your strike. You knock him back. | +3H – π – (+5)
+21-35 | B | Foe loses some resolve from your solid strike. | +4H – (π-20)
+21-35 | C | Disorient foe with a tricky shot. He is at a loss for words. | +5H – ∑
+21-35 | D | Foe goes airborne to evade your strike. He is stumbling back. | +4H – ∑∏
+21-35 | E | Solid shot breaks foe's ribs. You have initiative next round. | +6H – (-10)
+36-45 | A | Bust foe's shin. You have initiative. | +9H | with leg greaves
+36-45 | A | Bust foe's shin. You have initiative. | +6H – (-5) | without leg greaves
+36-45 | B | Blow to foe's left calf. You gain initiative. | +9H – 2π | with leg greaves
+36-45 | B | Blow to foe's left calf. You gain initiative. | +6H – 2(-20) | without leg greaves
+36-45 | C | Catch foe in lower leg. You gain initiative, while foe regains footing. | +9H – 2(-25)
+36-45 | D | Light swing to foe's leg. Foe's calf is bruised. You have the initiative. | +10H – (-10)
+36-45 | E | Blow to upper leg. Minor fracture. You have initiative. | +12H – (-10)
+46-50 | A | Foe steps under your blow. You catch him in the back. | +4H – (π-25)
+46-50 | B | Solid blow to back. Foe seeks to avoid this attack again. He has lost his way. | +6H – (π-25)
+46-50 | C | He leans to your shield side and you hit him in the back. You have the initiative for 2 rounds. | +5H – ∑∏
+46-50 | D | Catch foe in shoulder blade. Foe drops his guard and reels from your blow. | +10H – ∑∏
+46-50 | E | Glancing strike to lower back. Foe turns away to avoid the damage. Foe uses his weapon for balance. | +15H – ∑∏
+51-55 | A | Blow to foe's chest. Foe leans sideways in pain. | +5H – (π-25)
+51-55 | B | Foe recoils before your blow impacts. He steps back 5 feet to defend himself. | +6H – 2π
+51-55 | C | Hard strike to chest, armor does not help. | +5H – ∑ – (-10)
+51-55 | D | Blow to foe's ribs. It hurts him to raise his arms. Foe cannot lean over. | +10H – (-15)
+51-55 | E | Blow to chest. He seeks to regain his wind and survive your onslaught. | +15H – 2∑ – (-15)
+56-60 | A | Blow to foe's waist sends a piece of equipment flying. Foe recoils. | +5H – (π-25)
+56-60 | B | Strike passes under shield arm and lands on foe's thigh. Big bruise. | +6H – π – (-5)
+56-60 | C | Strike grazes across left thigh and lands on right. It lands solid. | +6H – π – (-5) – (+10)
+56-60 | D | Miss foe's arm and strike his thigh. He stumbles and drops something. | +6H – ∑ – (-10)
+56-60 | E | Blow to foe's thigh causes his right leg to falter for a moment. | +10H – ∑∏ – (-10)
+61-65 | A | Strike to weapon forearm. | +8H – π | with arm greaves
+61-65 | A | Strike to weapon forearm. | +5H – ∑ | without arm greaves
+61-65 | B | Blow to foe's forearm. The strike is solid. The pain is certain. | +9H – ∑ – (-10)
+61-65 | C | Catch foe in mid-swing and disarm him. His weapon tumbles behind you. | +8H – ∑
+61-65 | D | Blow to forearm. Blow tears clothing, but not skin. Arm is bruised. | +10H – ∑∏ – (-10)
+61-65 | E | Strike foe's weapon arm with a titanic blow. Foe drops his weapon and reels. | +10H – ∑ – (-15)
+66    | A | Shatter shoulder in foe's shield arm. Arm is quite useless. Foe drops shield, if he has one. | +8H – 2∑∏
+66    | B | Drive elbow backwards and break it. Arm is useless. Foe drops weapon, leans way over, and yells out. | 3∑∏
+66    | C | That does it for him. Your strike lands on foe's knee. The knee buckles and foe goes down hard. | +9H – 3∑∏ – (-90)
+66    | D | Masterful strike to foe's head. If he has no helm, he is dead. If he has a helm, he is knocked out for 4 hours. | +20H
+66    | E | Crush what was once foe's head. If foe has a helm, it is destroyed also. You are spackled with blood. | +15H – (+10)
+67-70 | A | Solid strike to foe's chest. Knocks the breath out of foe. | +8H – 3∑ – ∏
+67-70 | B | Bloom! Shot strikes foe's upper chest. Foe stumbles. | +10H – 2∑∏ – (-10)
+67-70 | C | Strike to chest causes a host of trouble. | +10H – 3∑ – 2∏ – (-10)
+67-70 | D | Blow to shoulder. | —
+67-70 | E | Blow to foe's shield arm. If foe has a shield, it is broken. If not, arm is broken. | +6H – ∑∏ | with shoulder armor
+67-70 | E | Blow to foe's shield arm. If foe has a shield, it is broken. If not, arm is broken. | 2∑∏ – (-20) | without shoulder armor
+71-75 | A | Shot takes foe in lower leg. He fails to jump over it. | +5H – 2∑∏ – (-20)
+71-75 | B | Strike to foe's right achilles tendon. Oh that hurts ya know! | +10H – 2∑ – ∏ – (-35)
+71-75 | C | Strike twists foe's knee. | +10H – 2∑∏ – (-40)
+71-75 | D | Blow lands with a crack. Leg bone is broken. Major cartilage damage. | +12H – 2∑∏ – (-50)
+71-75 | E | Blow to foe's hip bone breaks it. Help! Foe has fallen and cannot get up. | +15H – 3∑ – (-75)
+76-80 | A | Blow to foe's shield arm destroys shield. If no shield, arm is broken. | —
+76-80 | B | Blow to foe's shield arm breaks wrist. Hand is useless. Foe drops shield. | +6H – ∑
+76-80 | C | Blow to foe's weapon arm. A metal armguard is bent and the arm is useless until until the armor is removed. | +9H – ∑∏ – (-50)
+76-80 | D | Blow breaks foe's weapon arm. Sling foe's weapon to the right 5 feet. Foe's arm is useless. Tendon damage. | +8H – ∑∏
+76-80 | E | Slap foe's arm and elbow around like string. Joint is shattered. Arm is useless. Foe should have stayed in bed. | +9H – 2∑∏
+81-85 | A | Blow to foe's side sends him stumbling 5 feet to your right. | +10H – 2∑∏ – (-20)
+81-85 | B | Blow thunders as it connects. Foe's ribs crackle in response. It hurts. | +12H – 2∑∏ – (-25)
+81-85 | C | Foe yells out before the impact and is silenced by the blow. Ribs crack. | +12H – 3∑∏ – (-40)
+81-85 | D | Blow lands on foe's side. He goes down hard. Victory is close. | +15H – 3∑∏ – (+10)
+81-85 | E | Blow to foe's armpit. Crush ribs and destroy organs. Foe dies in 3 rounds. | +30H
+86-90 | A | Strike foe in lower back. Muscles and cartilage are damaged. | +12H – 3∑∏ – (-25)
+86-90 | B | Foe makes a mistake and pays. You send him prone with a fell strike. Tendons are smashed. | 4∑∏ – (-30)
+86-90 | C | Powerful blow sweeps foe onto his back. Bones break and muscles tear. | +20H – 6∑ – (-50)
+86-90 | D | Blow to foe's neck. If foe has a throat protector, he is paralyzed from the neck down. If not, he dies in two rounds. | +25H
+86-90 | E | Neck strike shatters bone and severs an artery. Foe cannot breath. Foe is inactive and suffocates in 12 rounds. | —
+91-95 | A | Break foe's nose. | +10H – 2∑∏ | with nose guard
+91-95 | A | Break foe's nose. | +15H – 3∑∏ | without nose guard
+91-95 | B | Strike to foe's head. If he has no helm, he falls into a coma for 3 weeks. | +20H – 12∑
+91-95 | C | Blow to thigh. Compound fracture severs an artery. Foe goes down hard and dies in 12 rounds. | +9H
+91-95 | D | Strike comes down on the shield shoulder of foe. Arm shatters. Foe dies from shock and blood loss in 9 rounds. | —
+91-95 | E | Blast to foe's back. A bone is driven into vital organs. Foe is down and dies in six rounds. | +25H
+96-99 | A | Blow to foe's head. If foe has no helm, he is dead. If foe has a helm, he is knocked down. | +20H – 6∑
+96-99 | B | Blast foe's chest. Send ribcage into heart. Foe drops and dies in 6 rounds. | (+20)
+96-99 | C | Blow to foe's abdomen. Strike destroys a variety of organs. Poor fool expires after 6 rounds of inactivity. | —
+96-99 | D | Crush foe's chest cavity. He grips your arm, looks into your eyes, then drops and dies in 3 rounds. | (+25)
+96-99 | E | Blow to foe's face. If visored, the visor is driven into his face and foe dies in 10 rounds. Without a visor, he dies instantly. You have half the round left. | +30H – (+20)
+100   | A | Crush foe's jaw. Drive bone through brain. Foe dies instantly. | +50H – (+20)
+100   | B | Blow snaps neck. Foe is paralyzed from the shoulders down. | +25H – 15∑
+100   | C | Strike to forehead. Destroy foe's eyes. Send his helm flying. Foe is spun about. | +30H – 24∑∏
+100   | D | Blast to foe's heart. It stops. He dies. You consider yourself to be deadly. Fine work. You are ready to slay. | +25H
+100   | E | Blow turns hip to dust. Foe falls down. Attempts to stand. Falls again and dies in 6 rounds. | +35H – 2∑ – 6(-30)

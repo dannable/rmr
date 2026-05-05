@@ -1,0 +1,33 @@
+# Source PDFs — author's IP, kept local
+*.pdf
+
+# Generated artifacts
+rmfrp.db
+.scratch/
+*.bak
+
+# Secrets / local config
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,108 @@
+# Critical Strike Table 4.8 — Slash
+# Transcribed from author-supplied PDF (X:\RMFRPSuite\slash_crit.pdf).
+#
+@name:           Slash
+@table_number:   4.8
+@crit_type_code: S
+@notes:
+@column_axis:    severity
+#
+01-05 | A | Weak strike. | +0H
+01-05 | B | Feeble strike falls clear of target. | +0H
+01-05 | C | Firm shot. Good recovery. Try again. | +1H
+01-05 | D | Strike lands poorly. | +2H
+01-05 | E | Your attack is weak. | +3H
+06-10 | A | Good form, but it disappoints. | +1H
+06-10 | B | Hard strike with no edge. Foe steps clear before you sort it out. | +2H
+06-10 | C | Strike foe with more force than edge. | +3H
+06-10 | D | An opening appears and all you can do is smack foe lightly. | +4H
+06-10 | E | Unbalance foe. You receive initiative next round. | +5H
+11-15 | A | Blade misses foe's face by inches. You receive initiative next round. | +1H
+11-15 | B | Foe steps quickly out of your reach. You receive initiative next round. | +3H
+11-15 | C | Blow to foe's side yields the initiative to you next round. | +6H
+11-15 | D | You force your opponent back. He keeps you at bay with wild swings. | +3H – π
+11-15 | E | You push aside foe's weapon and force him back. | +4H – π
+16-20 | A | Strike passes under foe's arm. It fails to bite deep. He recoils. | +1H – π
+16-20 | B | Blow to foe's side. Foe defends energetically. | +2H – (π-10)
+16-20 | C | Your assault catches foe in side and forces him back 5 feet. | +4H – (π-20)
+16-20 | D | You lean in and slash foe's side. You receive initiative next round. | +2H – (-10)
+16-20 | E | Strong blow to foe's ribs. Foe drops his guard and almost drops his weapon. | ∑∏ – (+10)
+21-35 | A | Foe's evasion puts him out of an aggressive posture. | +2H – π – (+10)
+21-35 | B | Foe is shaken by your blow to his side. His defensive measures look clumsy. | +2H – (π-20)
+21-35 | C | You break foe's rib with a lightning strike to his chest. He recovers quickly. His shield side still faces you. | +3H – ∑
+21-35 | D | Arm and chest strike. Foe cannot defend himself for a moment. You step around his shielded side. | +3H – ∑∏
+21-35 | E | Foe avoids your main effort, but you nick him on your recovery. Foe receives minor side wound and stumbles back 10 feet. | +3H – ∫ – (-10)
+36-45 | A | Minor thigh wound. Cut foe with the smallest of slashes. | ∫
+36-45 | B | Strike foe in shin. If he doesn't have greaves, you slash open foe's shin. | +2H – π | with leg greaves
+36-45 | B | Strike foe in shin. If he doesn't have greaves, you slash open foe's shin. | +2H – ∫ | without leg greaves
+36-45 | C | The blow does nothing more than open a wide cut in foe. | +2H – 2∫
+36-45 | D | Foe blocks your attack on his chest. You slash foe's upper area. | +3H – 2∫
+36-45 | E | Blow to foe's upper leg. Leg armor helps block the blow. | +5H | with leg greaves
+36-45 | E | Blow to foe's upper leg. Leg armor helps block the blow. | +3H – 3∫ | without leg greaves
+46-50 | A | Blow to foe's back. Foe attempts to ward you off with a wild swing. | +2H – (π-30)
+46-50 | B | Foe twists oddly to avoid your attack. Blow strikes foe's back. | +4H – (π-30)
+46-50 | C | Blow to foe's back. Foe twists out of it and you turn your weapon to magnify the wound. Foe yells out. | +3H – ∑∏ – ∫
+46-50 | D | Reach long and catch foe in his lower back. He twists out of it, but is unbalanced. | +3H – ∑∏ – 2∫
+46-50 | E | Strike to foe's stomach. He doubles over in pain and you pull your sword clean with one more sweep. | +4H – ∑∏ – 3∫
+51-55 | A | Blow to foe's chest. Foe stumbles back and puts up a feeble guard. | +2H – (π-25) – ∫
+51-55 | B | Quality strike. Minor chest wound. If foe has armor, he only staggers. If not, the wound is effective. | +4H – π | with chest armor
+51-55 | B | Quality strike. Minor chest wound. If foe has armor, he only staggers. If not, the wound is effective. | +3H – 2π – ∫ – (-5) | without chest armor
+51-55 | C | Blow lands solidly upon foe's chest. You get some slashing action, but not a mortal wound. | +4H – π – 2∫ – (-10)
+51-55 | D | Heavy blow to upper torso. Wound falls open and foe is in pain. His guard is still up, amazingly enough. | +5H – π – 3∫ – (-15)
+51-55 | E | Cut foe open with little grace. You are unsure of your success until you see all the blood coming out of his chest. | +6H – 2∑ – 4∫ – (-10)
+56-60 | A | You recover from your initial swing and bring edge across foe's thigh. | +3H – π – 2∫
+56-60 | B | Edge makes contact well enough. Minor thigh wound. | +4H – 2π – 2∫
+56-60 | C | Strike to side slips down onto foe's thigh. The wound is effective. | +5H – ∑ – 2∫
+56-60 | D | Tip of your blade gets a hit on foe's thigh. You twist your weapon. | +6H – 2∑ – 2∫
+56-60 | E | Thigh wound. Your blow cuts deep and severs an important vein. | +8H – 2∑ – 5∫
+61-65 | A | You feign high and strike low. Slash foe in back of upper leg. | +3H – 2∫ – (-10)
+61-65 | B | Nick foe in his forearm. Wound bleeds surprisingly strongly. | +4H – ∑ – 2∫ – (-10)
+61-65 | C | Catch part of foe's forearm. You make a long slice in foe's arm. | +4H – ∑ – 3∫ – (-10)
+61-65 | D | You are lucky to strike foe's forearm while recovering from a lunge. | +4H – 2∑ – 3∫ – (-10)
+61-65 | E | Foe tries to disarm you and pays with a nasty cut to his forearm. | +6H – 2∑ – 3∫ – (-15)
+66    | A | Foe blocks your attack with his shield arm. Shoulder is broken and arm is useless. You have initiative. | +9H – 3∑ – (+10)
+66    | B | Your strike misses torso and breaks foe's elbow. Foe drops his weapon and his weapon arm is useless. | +8H – 4∑ – 2∏
+66    | C | Your swing falls short when foe leaps back. You shatter foe's knee. Foe is knocked down. | +6H – 3∏ – (-90)
+66    | D | You knock foe out for 6 hours with a strike to side of head. If foe has no helm, you kill him instantly. | +15H
+66    | E | Block foe's weapon arm away and then sever it. Foe drops immediately and expires in 12 rounds. Good shot! | +12H – (+10)
+67-70 | A | Strike lands close against foe's neck. Foe is horrified. | +6H – 3∑ – ∏
+67-70 | B | Your attempt to behead foe almost works. Neck strike. Foe is not happy. | +7H – 2∑ – 3∫ – (-5)
+67-70 | C | Slash foe's neck. Your weapon cuts neck garments (and armor) free. | +8H – 4∑ – 2∏ – (+10)
+67-70 | D | You strike foe's shoulder and slash muscles. | +5H – 3∑ – (-20) – (+10)
+67-70 | E | Slash tendons and crush the bones in foe's shield arm shoulder. Arm is useless. | 4∑ – 2∫
+71-75 | A | Blow falls on lower leg. Slash tendons. Poor sucker. | +4H – 2∑ – 2∫ – (-30)
+71-75 | B | Slash muscle in foe's calf. Foe is in too much pain to regain footing quickly. | +6H – 3∑ – ∏ – (-40)
+71-75 | C | Slash muscle and tendons in foe's lower leg. Foe stumbles forward into you with his guard down. | +7H – 2∑∏ – (-45)
+71-75 | D | Slash muscle and sever tendons in foe's lower leg. He can't stand much longer. His guard is feeble. | 3∑ – 2∏ – (-50)
+71-75 | E | Slash foe's lower leg and sever muscle and tendons. Foe will fall without something to lean against. | +8H – 6∑ – (-70)
+76-80 | A | Foe goes low, but you still catch his upper arm. It's a bleeder. | +5H – 2∑∏ – 3∫ – (-25)
+76-80 | B | Foe moves his shield arm too slowly. You gladly slash his arm. | +6H – 2∑∏ – 3∫ – (-30)
+76-80 | C | You come in high and fast. Slash muscle and tendons in foe's shield arm. Foe's arm is useless. | +9H – 6∑ – 4∫
+76-80 | D | Foe mistakenly brings his weapon arm across your blade. Sever tendons. Foe's arm is limp and useless. | +10H – 4∑ – 2∏
+76-80 | E | Foe reaches out to block your blow. You sever two fingers and break his shield arm making it useless. | +12H – 3∑∏
+81-85 | A | Foe steps right into your swing. You make a large wound. | +6H – 5∑ – 6∫ – (+20)
+81-85 | B | Your edge bites half its width into foe. Open up a terrible wound. Blood goes everywhere. | +7H – 2∑∏ – 6∫
+81-85 | C | You follow your training well. You extend on your slashing arc. Strike lands against foe's side. | +8H – 2∑∏ – 4∫ – (-20)
+81-85 | D | You plunge your weapon into foe's stomach. Major abdominal wound. Foe is instantly pale from blood loss. | +10H – 4∑ – 2∏ – 8∫ – (-10)
+81-85 | E | Sever opponent's hand. Sad. Foe is down and in shock for 12 rounds, then dies. | +5H – 12∑∏
+86-90 | A | Foe turns out and away from your swing. You still catch his side. | +8H – 2∑∏ – 2∫ – (-10)
+86-90 | B | Strike to back. Foe goes prone trying to avoid your strike. He gets up facing the wrong direction. | +10H – 3∑∏ – 3∫
+86-90 | C | Blast to back breaks bone. Foe stumbles forward before falling down. He is having trouble standing. | +9H – 4∑∏ – (-10)
+86-90 | D | Your attempt to disarm foe is even more effective. Sever opponent's hand. Foe is in shock for 6 rounds and then dies. | +6H – 6∑∏
+86-90 | E | Meat chopping strike severs foe's leg. Foe drops and lapses into unconsciousness. Foe dies in 9 rounds. | +15H – (+10)
+91-95 | A | Blow to foe's head. If no helmet, cut off foe's ear (all hearing ability is halved). | +3H – 2∑∏ | with helmet
+91-95 | A | Blow to foe's head. If no helmet, cut off foe's ear (all hearing ability is halved). | +3H – 3∑ – ∏ – 3∫ | without helmet
+91-95 | B | Strike to foe's hip. The blow has little edge, but much impact. Your blow staggers foe. His recovery is slow. | +7H – 3∑ – ∏ – (-20) – (+10)
+91-95 | C | Chop the top of foe's thigh. Sever foe's leg. Foe drops immediately and dies in 6 rounds due to shock and blood loss. | +20H
+91-95 | D | Sever foe's weapon arm and bury your sword into foe's side. Foe falls prone. Foe is in shock for 12 rounds, then dies. | +15H – 9∑∏
+91-95 | E | Sever foe's spine. Foe collapses, paralyzed from the neck down permanently. | +20H
+96-99 | A | The tip of your weapon slashes foe's nose. Minor wound and a permanent scar. | +2H – 6∑ – 2∫ – (-30)
+96-99 | B | Strike to foe's head breaks skull and causes massive brain damage. Foe drops and dies in 6 rounds. | +20H
+96-99 | C | You cleave shield and arm in half. Foe attempts to catch his falling arm. Foe is in shock for 12 rounds then dies. | +18H – 12∑∏
+96-99 | D | Slash foe's side. Foe dies in 3 rounds due to internal organ damage. Foe is down and unconscious immediately. | +20H
+96-99 | E | Strike to foe's head destroys brain and makes life difficult for the poor fool. Foe expires in a heap—immediately. | —
+100   | A | Strike severs carotid artery and jugular vein, breaking foe's neck. Foe dies in 6 rounds of agony. | —
+100   | B | Disembowel foe, killing him instantly. 25% chance your weapon is stuck in opponent for 1 round. | —
+100   | C | Strike up, in, and across foe's forehead. Destroy foe's eyes. Foe flips onto his back in pain. | +5H – 30∑∏
+100   | D | Impale foe in heart. Foe dies instantly. Heart is destroyed. 25% chance your weapon is stuck in for 2 rounds. | +12H
+100   | E | Very close! Strike to foe's groin area. All vital organs are destroyed immediately. Foe dies after 24 rounds of agony. | +10H – 12∑∏

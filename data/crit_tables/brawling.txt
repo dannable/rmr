@@ -1,0 +1,104 @@
+# Critical Strike Table 4.1 — Brawling
+# Transcribed from author-supplied PDF (X:\RMFRPSuite\brawling_crit.pdf).
+#
+@name:           Brawling
+@table_number:   4.1
+@crit_type_code:
+@notes:
+@column_axis:    severity
+#
+01-05 | A | Feeble. You're getting old. | +0H
+01-05 | B | Maybe next time.... | +0H
+01-05 | C | Barely made it. | +1H
+01-05 | D | Great move. | +2H
+01-05 | E | Light blow, but foe's thinks it's your best. | +2H
+06-10 | A | You hit foe's forehead. | +1H
+06-10 | B | A glancing blow. | +1H
+06-10 | C | You pull at foe's hair. | +2H
+06-10 | D | You gain the initiative next round. | +2H
+06-10 | E | Things just failed to connect right. | +3H – π
+11-15 | A | Push foe with the punch. You receive initiative next round. | +1H
+11-15 | B | Deflected blow, but you gain the initiative next round. | +2H
+11-15 | C | You move quickly after blocking punch. You gain the initiative next round. | +2H
+11-15 | D | Use your body like a broom. Foe is unbalanced. | +2H – π
+11-15 | E | You block foe's forearm. You gain the initiative next round. | +4H – π
+16-20 | A | Foe steps aside unbalanced. You gain the initiative next round. | +2H
+16-20 | B | Your backhand is powerful. Strike foe across his face. You unbalance him. | +2H – π
+16-20 | C | Step into foe to knock him down. Bash to side unbalances foe. | +3H – π
+16-20 | D | Elbow to foe's side sends him reeling. Your follow-up swing misses. | +4H – 2π
+16-20 | E | Duck in close and hammer foe's side. You gain the initiative next round. | +5H – ∑
+21-35 | A | Good placement. You gain the initiative for the next two rounds. | +3H
+21-35 | B | Push foe back and kick his leg. You gain the initiative next round. | +3H – π
+21-35 | C | You try to sweep your foe off his feet. | +4H – π – (+10)
+21-35 | D | You trip foe. He shuffles a full 15 feet before he gets his balance. | +5H – ∑ – π
+21-35 | E | Cheap shot to foe's side bruises ribs. Foe crashes into the nearest obstacle. | +8H – ∑ – 4(-20)
+36-45 | A | Slight abrasion. You gain the initiative for the next two rounds. | +4H
+36-45 | B | Leg strike unsteadies foe. You stomp foe's feet for an extra advantage. | +4H – π
+36-45 | C | Boot to calf hits hard. You have the initiative next round. | +5H – ∑ – (-20)
+36-45 | D | You go in low and strike foe in his calf. He stumbles back with a nasty bruise. | +6H – 2∑
+36-45 | E | Strike to the back of foe's leg gives you a back attack next round. | +10H – ∑
+46-50 | A | Glancing blow to foe's back. You gain the initiative for the next three rounds. | +5H
+46-50 | B | Foe lunges past you and you come down on his back. He realizes his pain. | +5H – ∑
+46-50 | C | You grab foe and bring your knee into foe's side. Strike lifts foe up and sends foe reeling. | +6H – ∑ – (+5)
+46-50 | D | Pull foe off balance and hammer him in the back with a solid fist. | +10H – ∑∏
+46-50 | E | You bash foe brutally. Your strike is solid. | +10H – ∑∏
+51-55 | A | Strike lands solid to the chest. Foe leaps back on the defensive. | +5H – π
+51-55 | B | You strike foe in his chest. Foe reels. | +6H – ∑
+51-55 | C | Classic grip to foe's collar garment. You punch him hard. He stumbles back 5 feet. | +8H – 2∑
+51-55 | D | Chest strike causes deep bruise. Foe looks very surprised. | +10H – ∑∏ – (-10)
+51-55 | E | Chest wound knocks foe down. Your attack puts you in the place he was just standing. | +10H – 2∑∏
+56-60 | A | Foe kicks out at you and you strike his leg in response. | +5H – ∑
+56-60 | B | You duck down and strike across at foe. Blow to thigh leaves a bad bruise. | +6H – 2∑
+56-60 | C | Strike to foe's thigh. Your fist hits hard. | +8H – 2∑∏
+56-60 | D | Bring your forearm down on foe's thigh, with most of your weight behind it. You have the initiative next round. | +10H – 2∑∏
+56-60 | E | You do not know what a sweep or a throw is, but this surely seems like one. You slam foe to the ground. | +10H – 3∑∏
+61-65 | A | Arm strike gives foe a bruised bicep. You are cruel. | +6H – (π-25)
+61-65 | B | You block foe's guard and punch him in the face. He just stands there. | +6H – ∑∏
+61-65 | C | Catch weapon arm and strike it across your own knee. Foe drops his weapon. | +8H – 2∑∏ – (+5)
+61-65 | D | Strike to nerve in foe's upper arm causes him to drop whatever he is carrying. | +10H – 2∑∏ – (+5)
+61-65 | E | Strong shoulder strike and a follow-up strike to the face. | +10H – 4∑∏
+66    | A | Grapple foe's weapon arm and jerk his weapon free. Foe goes twisting and spinning out of your grasp. | +8H – 6∑ – (-15)
+66    | B | Hammer foe in his kidneys. You know he is in pain. He grips his side and falls down. Finish him, the pain will not last. | +18H – 3∑ – 6(-60)
+66    | C | Nasty strike to foe's mouth knocks out 2 teeth and reduces foe's appearance, by 5, when he smiles. | +9H – 6∑∏ – (-45)
+66    | D | Drive your finger into foe's eye, causing blindness. There is a 10% chance that this affliction is permanent. | +15H – (-60)
+66    | E | Face strike is so hard foe's cheekbone is shattered. The shards mortally wound foe. He dies after 10 rounds of agony. | (+10)
+67-70 | A | Blow to abdomen. Foe bends over and throws up. | +4H – 2∑∏
+67-70 | B | Blow to foe's chest. You have mastered the common punch. | +8H – ∑∏
+67-70 | C | Strong blow to foe's forearm causes fracture. | +10H – 2∑∏
+67-70 | D | Smash foe's hip. You have the initiative next round. | +12H – 2∑∏ – (-10)
+67-70 | E | Throw foe into a solid object. He falls down. | +12H
+71-75 | A | Leg strike damages muscle and sends foe stumbling back. | +6H – 3∑
+71-75 | B | Calf strike delivers a deep bruise. Foe looks down at the damage, forgetting about you. | +10H – 2∑ – ∏
+71-75 | C | A light punch unbalances foe. A kick to foe's leg knocks him down. He falls forward under you. | +10H – 2∑∏ – (+5)
+71-75 | D | Leg strike causes foe to fall. You push him to hinder his landing and he sprains his ankle. | +12H – 3∑ – (-20)
+71-75 | E | Snap palm into place against foe's knee. Tendon and cartilage damage. Foe has difficulty standing. | +15H – 5∑ – (-50)
+76-80 | A | Blow to foe's shield arm. If foe has anything that resembles a shield, it is broken. | +8H – 2∑∏
+76-80 | B | You snap foe's arm around like a noodle. His wrist is strained with the impact. | +10H – 2∑∏ – (+5)
+76-80 | C | Grip foe's weapon arm and drive his fist against a hard surface. Hand is fractured. Foe is disarmed. | +10H – 3∑ – (-30)
+76-80 | D | Strong blow to foe's weapon arm fractures his wrist. The pain makes his hand useless. | +15H – 3∑ – (-30)
+76-80 | E | Fierce blow to foe's weapon arm breaks bone. Arm is useless. Use arm as leverage to flip foe onto his stomach. | +18H – ∫ – 2∑∏
+81-85 | A | Precision strike to foe's arm disarms him. Weapon hand is fractured. Foe is in pain. | +8H – 2∑∏ – (-25)
+81-85 | B | Hand strike jams foe's fingers into their sockets. Ouch! Foe drops everything in his hands. | +10H – 3∑ – (-15)
+81-85 | C | Strong blow to foe's arm fractures shoulder. You hit his shoulder one more time to make your point. | +10H – 3∑∏ – (-20)
+81-85 | D | Grab foe's weapon arm and pull him over. Your kick to the ribs finally drops him to the ground. | +15H – 3∑∏
+81-85 | E | Shoulder strike breaks foe's collar bone. Miscellaneous internal organ damage. | +18H – 6∑∏ – ∫ – (-30)
+86-90 | A | Two brutal punches to foe's face. This barrage leaves foe confused and swinging in the wrong direction. | +8H – 3∑∏ – (+20)
+86-90 | B | Grab foe's weapon arm and beat on it without concern for the rest of foe. Foe is disarmed as ligaments are torn and muscles are pulled. | +10H – 4∑ – (-25)
+86-90 | C | Accurate chest strike knocks wind out of foe. He falls over on you and you knock him off with an upper cut. He stand back up and stumbles 5 feet. | +12H – 3∑∏ – (-30)
+86-90 | D | Blow to front of foe's neck. His head snaps back, but it does not break his neck. Foe cannot speak for 2-20 hours. He yells in silence. | +18H – 6∑
+86-90 | E | Nasty blow ruptures stomach. Foe is knocked down. Internal bleeding is mortal. Foe will die in 20 rounds. He is still active. | +20H – ∑ – 10∫ – (-50)
+91-95 | A | Head strike breaks foe's nose. Appearance drops by 5 due to black eyes. | +10H – 3∑∏ – (-25)
+91-95 | B | Land a solid shot to foe's head. Foe is definitely impressed. He steps toward you to keep from falling. | +12H – 8∑∏ – (-40)
+91-95 | C | Precision strike to foe's head sends him to the ground. You can actually see the stars spinning around his head. | +15H – 9∑∏ – (-35)
+91-95 | D | Strong blow to face cracks jawbone. Ow! Jaw is stuck open and foe appears permanently surprised about something. | +20H – 9∑ – (-30) – (+10)
+91-95 | E | Blow to foe's side. Bruise ribs, a kidney and a lung. Foe manages to remain standing. Oh that hurts ya know! | +25H – 6∑∏ – (-75)
+96-99 | A | Blow to solar plexus causes foe to vomit. He falls to his knees. Foe is unable to do anything but retch. Do you have pity? | +10H
+96-99 | B | Groin strike is solid. You kick him again. Your strike leaves foe helpless. Really unkind. | +18H – 12∑∏
+96-99 | C | Strike foe in his head. If he has a helm, you pull it off and hit him with it. He is knocked out for 4 hours. If foe has no helm, you knock him out for 5 rounds. | +20H
+96-99 | D | Strong blow to the abdomen causes internal bleeding and organ damage. Foe makes it a habit of spitting blood. | +25H – ∫
+96-99 | E | Grip foe's neck. You shake him violently, while attempting to choke him. He passes out. You can finish him if you want. | +30 hits – ∫ – (+20)
+100   | A | Elbow foe's face and then punch him hard. He is paralyzed from the neck down for 2 days. He falls instantly to the ground. | +13H
+100   | B | Strike to foe's head. If he has no helm, he is in a coma for 10-100 days. If foe has a helm it leaves a bruise on his head. Foe drops and is unconscious. | +20H
+100   | C | Mighty strike crashes into foe's head. If he has a helmet, he is unconscious for 1-10 days. If he has no helmet, skull collapses and brain is dead. | +25H – ∫
+100   | D | Grip foe's arm and pound on foe's head. One shot hits hard. Crushing strike to foe's temple. Foe dies instantly. | —
+100   | E | Your strike is frightening. Foe's head snaps to one side. Foe cannot breathe. He looks upon the world one last time and then dies. You are horrified at his doom. | —

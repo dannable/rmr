@@ -1,0 +1,99 @@
+# Fumble Table 4.13 — Weapon Fumble Table
+# Transcribed from author-supplied PDF (X:\RMFRPSuite\weapon_fumble.pdf).
+# Each cell is narrative-only (no separate effect code).
+#
+@name:         Weapon Fumble Table
+@table_number: 4.13
+@column_1:    One-Handed Arms
+@column_2:    Two-Handed Arms
+@column_3:    Polearms and Spears
+@column_4:    Mounted Arms
+@column_5:    Thrown Arms
+@column_6:    Missile Weapons
+#
+# Format: <roll-band> | <col_index 1..6> | <narrative>
+#
+01-25 | 1 | Your palm is sweaty. Maybe you will improve.
+01-25 | 2 | My that weapon is heavy! You lose the opportunity to take a swing.
+01-25 | 3 | You snag your own clothes and lose the opportunity to take a swing.
+01-25 | 4 | Your mount's tack tangles your weapon. You lose the opportunity to take a strike.
+01-25 | 5 | Your grip is weak. You elect not to attack because of control.
+01-25 | 6 | Sweat trickles into your eye. You elect not to attack. Good choice.
+26-30 | 1 | Klutzy. Drop your weapon. Spend two rounds recovering it; or draw a new one next round.
+26-30 | 2 | Your weapon flies. Take four rounds to recover it; or draw a new one next round.
+26-30 | 3 | Fumble your delivery and your weapon is out of position. You lose the option to attack.
+26-30 | 4 | Can't find the right angle. You lose 2 rounds of attack (but can still parry).
+26-30 | 5 | You fumble your delivery but hang onto your weapon. You have -10 to your next attack.
+26-30 | 6 | Your ten thumbs just cannot handle loading. You must reload your weapon.
+31-40 | 1 | Your feet get tangled. You miss the opportunity to get in that vital blow.
+31-40 | 2 | Your mind is wandering. Spend the rest of the round clearing your head.
+31-40 | 3 | You just look clumsy. Your feet are sliding. You are stunned for one round.
+31-40 | 4 | You slip in the saddle. You lose 2 rounds of attack (but can still parry).
+31-40 | 5 | Your feet are really tangled up. You lose 2 rounds of attack, but can still parry.
+31-40 | 6 | Your ammunition slips away. You must reload.
+41-50 | 1 | You are over-extended and strain a muscle. Take 1d5 hits.
+41-50 | 2 | Stumble over an imaginary dead turtle. You lose 2 rounds of attack, but you can still parry.
+41-50 | 3 | Your weapon is spinning for two rounds. You can still parry at -10.
+41-50 | 4 | Your mount dodges an unseen foe. You are stunned for 2 rounds.
+41-50 | 5 | You begin juggling your weapon because of a bad grip. Your lack of control stuns you for 3 rounds.
+41-50 | 6 | You notice that your ammunition is faulty. After removing it you discover you were wrong. Reload it.
+51-60 | 1 | You try to impress your opponent with a spin maneuver. Too bad. Lose two rounds while you recover.
+51-60 | 2 | Your combination of acrobatics and attacks is unimpressive. Lose two rounds of attacks, but you can still parry.
+51-60 | 3 | You stagger into a nearby fixed object. You are stunned and unable to parry for two rounds.
+51-60 | 4 | You lose your grip on your weapon. Luckily, it is tangled in your mount's tack. Your lack of grace stuns you for three rounds.
+51-60 | 5 | Poor release. Weapon travels 2d10 feet to the left of the target.
+51-60 | 6 | Your ammunition keeps jumping off of your weapon! Try melee next time.
+61-65 | 1 | You snag your clothes with your weapon, causing it to slip from your hand. Spend two rounds juggling it.
+61-65 | 2 | Your weapon flies from your hands, but you are able to catch it before it flies totally away. Lose two rounds of attack.
+61-65 | 3 | Your shaft tangles in your legs. You almost fall down in an impressive feat of entangling. Your next attack is at -20.
+61-65 | 4 | Your poor mount stumbles. You are stunned for two rounds.
+61-65 | 5 | Very poor release sends your weapon straight up! You duck for cover while your weapon checks for breakage.
+61-65 | 6 | Your weapon slips from your hands. Spend two rounds recovering it; or draw a new weapon.
+66    | 1 | You execute a perfect attack—against closest ally (yourself if no one else is around). Ally takes 1d10 hits and a 'B' critical.
+66    | 2 | Acrobatic maneuver leaves you flat on your back. Take 2d10 hits and an 'E' Krush critical.
+66    | 3 | Your weapon must check for breakage as you slam it into the ground! You are stunned for six rounds because of the impact.
+66    | 4 | Your swing slices the tack of your mount. You and your saddle take your leave of the poor beast. Take an 'A' Krush critical.
+66    | 5 | Your ferocious scream is followed by silence as you hit yourself. Take a 'D' Krush critical.
+66    | 6 | Take an 'A' Krush critical from the sudden release. Your weapon snaps cleanly into two pieces.
+67-70 | 1 | You trip over that uneven surface. Spend two rounds staggering. You can still parry.
+67-70 | 2 | You gracefully drop your weapon to the ground. You are able to kick it back into your hand, but you lose two rounds while doing it.
+67-70 | 3 | Your weapon seems to have a mind of its own! Your next attack is at -50 as you try and get it under control.
+67-70 | 4 | Your tack has loosened! You suddenly slip sideways. You are stunned for two rounds.
+67-70 | 5 | You cannot control your aim—your weapon flies 2d10 feet to the right of the intended target.
+67-70 | 6 | Your grip fails you and your weapon flies from your hands. Spend two rounds recovering it; or draw a new weapon.
+71-80 | 1 | You are distracted by that pixie in the corner. You lose 2 rounds of attacks.
+71-80 | 2 | You strain your shoulders in a mighty swing (that misses). You are stunned for two rounds.
+71-80 | 3 | Your ineptitude is obvious to all. You lose 3 rounds of attacks and are stunned for 2 rounds.
+71-80 | 4 | Your weapon goes straight into the ground (check for breakage).
+71-80 | 5 | Just as you are about to release, you step into an imaginary hole in the ground. Lose 3 rounds getting up from the ground.
+71-80 | 6 | Your bowstring breaks! Draw a new weapon or put a new string on this one.
+81-85 | 1 | You are suddenly very winded. Take two rounds to relax.
+81-85 | 2 | You lose your grip as you begin your swing. Your weapon is trying to slip away. Spend three rounds gaining control. You can still parry.
+81-85 | 3 | Clumsy move narrowly misses your own head. You are stunned and unable to parry for three rounds (try a bow next time).
+81-85 | 4 | Your weapon flies out of your hand! Draw a new one.
+81-85 | 5 | Your weapon drops to the ground as you begin to aim. Take four rounds to recover this one; or draw a new one.
+81-85 | 6 | Your weapon bites back when you fire. Your shot misses everything, but you are stunned and unable to parry for three rounds.
+86-90 | 1 | Hopefully, you will learn that dancing is not appropriate in combat. You are stunned for two rounds by your lack of ability.
+86-90 | 2 | You pulled something on that last swing and now it begins to hurt! You are stunned for three rounds while you recover.
+86-90 | 3 | There it goes! Your weapon skitters away. Take six rounds to recover it; or draw a new one.
+86-90 | 4 | Your weapon must check for breakage as it hits the hardest part of your foe. You take 2d10 hits from the blast.
+86-90 | 5 | Your poor and weak release sends the weapon up two feet. It immediately comes down and hits you. You take no damage, but are stunned for six rounds.
+86-90 | 6 | You release too soon! Your arrow falls 3d10 feet short of the target. In addition, you spend two rounds trying to find more ammunition.
+91-95 | 1 | You fall down as your swing goes wide. You are stunned for three rounds.
+91-95 | 2 | You fall and narrowly miss gutting yourself! You are stunned for four rounds.
+91-95 | 3 | You fall and smack your head on the ground. You are down for four rounds and stunned for three.
+91-95 | 4 | Your mount bucks unexpectedly just as you were about to swing. You find yourself stunned and unable to parry for three rounds.
+91-95 | 5 | Your weapon flies behind you 4d10 feet!
+91-95 | 6 | Your shot goes astray as you slip and fall during your release. You are stunned for six rounds and unable to parry for two rounds.
+96-99 | 1 | The excitement is just too much! Your momentary frenzy leaves you stunned and unable to parry for three rounds.
+96-99 | 2 | You trip and fall. You are down for four rounds and unable to parry for three.
+96-99 | 3 | Your shoulder doesn't bend that way! You are stunned and unable to parry for three rounds. You now fight at -25.
+96-99 | 4 | Your mount jumps wildly. You take 4d10 hits from the impact and are stunned and unable to parry for six rounds.
+96-99 | 5 | You trip as you release. Your shot goes off wildly and you are stunned for twelve rounds.
+96-99 | 6 | Your weapon shatters (as you don't realize your own strength)! You are stunned for 4 rounds.
+100   | 1 | You attempt to maim yourself. Take a 'D' critical.
+100   | 2 | Worst move seen in ages! You are out for 2 days with a groin injury. There is a 50% chance your foes will be out for 3 rounds, laughing.
+100   | 3 | Your weapon breaks and one end hits you in the head. You are stunned and unable to parry for six rounds.
+100   | 4 | You can't stay on your mount! You fall and take a 'D' Krush critical.
+100   | 5 | You accidentally hit yourself in the delivery. Take a 'D' Krush critical.
+100   | 6 | Poor execution. You take 5 hits as the weapon hits you. You are permanently maimed and are bleeding 2 hits per round.
