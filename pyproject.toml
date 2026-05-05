@@ -12,6 +12,7 @@ license = { text = "Proprietary" }
 authors = [{ name = "David Annable" }]
 dependencies = [
     "discord.py>=2.4",
+    "python-dotenv>=1.0",
 ]
 
 [project.optional-dependencies]
@@ -19,8 +20,11 @@ dependencies = [
 dev = ["pdfplumber>=0.11"]
 
 [project.scripts]
-rmr-load = "load:main"
 rmr-bot  = "bot.__main__:main"
+
+[tool.setuptools]
+# Keep effects.py importable after `pip install .` (bot/ uses it).
+py-modules = ["effects"]
 
 [tool.setuptools.packages.find]
 where = ["."]

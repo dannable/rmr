@@ -55,12 +55,49 @@ Weapon and chart names use Discord autocomplete.
 
 ## Production deployment (Docker)
 
+### One-time, on the host (e.g. thematrix)
+
 ```sh
+cd /opt        # or wherever you keep deployments
+git clone https://github.com/dannable/rmr.git
+cd rmr
+cp .env.example .env
+nano .env      # fill in DISCORD_BOT_TOKEN and GUILD_IDS
 docker compose up -d --build
 docker compose logs -f rmr-bot
 ```
 
-The container runs `load.py --reset` on startup, then launches the bot. Edit data files locally → commit → `git pull` on the host → `docker compose restart rmr-bot` to pick up changes.
+The container runs `load.py --reset` on every start (rebuilding `rmfrp.db`
+from `data/`), then launches the bot. Healthy startup logs look like:
+
+```
+[entrypoint] building DB at /app/db/rmfrp.db from /app/data ...
+[entrypoint] DB built; starting: python -m bot
+... INFO bot.client: rmr-bot starting (DB_PATH=/app/db/rmfrp.db, guilds=[...])
+... INFO bot.client: Synced N commands to guild ...
+... INFO bot.client: Logged in as <bot> (id=...)
+```
+
+### Updates
+
+**Code or data change:**
+```sh
+cd /opt/rmr
+git pull
+docker compose up -d --build      # rebuild image with new code/data
+```
+
+**Just a quick data tweak (no code change):**
+```sh
+cd /opt/rmr
+git pull
+docker compose restart rmr-bot    # entrypoint rebuilds DB from mounted data/
+```
+
+### Volumes
+
+- `./data` (bind-mount, read-only inside container) — source-of-truth chart data, tracked in git.
+- `./db` (bind-mount, read/write) — the generated SQLite DB. Gitignored. Inspect from the host with `sqlite3 ./db/rmfrp.db`.
 
 ## Adding a new weapon or chart
 

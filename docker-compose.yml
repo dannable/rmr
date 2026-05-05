@@ -1,0 +1,18 @@
+services:
+  rmr-bot:
+    build: .
+    image: rmr-bot:latest
+    container_name: rmr-bot
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DB_PATH: /app/db/rmfrp.db
+    volumes:
+      # Bind-mount the data tree so edits on the host (followed by a
+      # `docker compose restart`) take effect without rebuilding the image.
+      - ./data:/app/data:ro
+      # Persist the generated SQLite DB outside the container so you can
+      # peek at it from the host with `sqlite3 ./db/rmfrp.db`.
+      - ./db:/app/db
+
+volumes: {}

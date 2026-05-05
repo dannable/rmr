@@ -1,4 +1,4 @@
-# Source PDFs — author's IP, kept local
+# Source PDFs — author's IP, never goes in the image
 *.pdf
 
 # Generated artifacts
@@ -6,13 +6,13 @@ rmfrp.db
 .scratch/
 *.bak
 
-# Docker compose mounts the SQLite DB into ./db/ on the host
-db/
-
-# Secrets / local config
+# Secrets
 .env
 .env.*
 !.env.example
+
+# Dev tools not needed at runtime
+extract_skeletons.py
 
 # Python
 __pycache__/
@@ -29,7 +29,10 @@ build/
 dist/
 *.egg-info/
 
-# Editors / OS
+# Git, editors, OS
+.git/
+.gitignore
+.dockerignore
 .vscode/
 .idea/
 .DS_Store
