@@ -1,0 +1,12 @@
+# Force LF line endings for all text files. The bot runs in a Linux container,
+# and CRLF in shell scripts breaks the shebang lookup.
+* text=auto eol=lf
+*.sh text eol=lf
+*.py text eol=lf
+Dockerfile text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Mark binaries explicitly so git doesn't try to normalize them.
+*.pdf binary
+*.db binary
