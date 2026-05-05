@@ -5,13 +5,19 @@ from __future__ import annotations
 import discord
 from discord import app_commands
 
+from core import connect, crit_lookup_by_name, search_crit_tables
+
+from .. import render
+
 
 async def crit_table_autocomplete(interaction: discord.Interaction, current: str
                                    ) -> list[app_commands.Choice[str]]:
     try:
-        from core import connect, search_crit_tables
-        with connect() as conn:
+        conn = connect()
+        try:
             names = search_crit_tables(conn, current, limit=25)
+        finally:
+            conn.close()
     except Exception:
         names = []
     return [app_commands.Choice(name=n, value=n) for n in names]
@@ -35,7 +41,16 @@ def register(tree: app_commands.CommandTree) -> None:
         severity: str,
         roll: app_commands.Range[int, 1, 100],
     ) -> None:
-        await interaction.response.send_message(
-            f"[stub] /crit chart={chart!r} severity={severity!r} roll={roll}",
-            ephemeral=True,
-        )
+        conn = connect()
+        try:
+            res = crit_lookup_by_name(conn, chart, severity, roll)
+        finally:
+            conn.close()
+        if res is None:
+            await interaction.response.send_message(
+                f"No entry: `{chart}` / `{severity}` / roll `{roll}` "
+                "(check chart name and severity column).",
+                ephemeral=True,
+            )
+            return
+        await interaction.response.send_message(embed=render.crit_embed(res, roll))

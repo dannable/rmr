@@ -1,0 +1,199 @@
+"""Convert core/ result dicts into discord.Embed objects.
+
+Pure rendering — no DB calls, no Discord client interaction. Each function
+takes plain Python data and returns an Embed ready to send.
+"""
+
+from __future__ import annotations
+
+import discord
+
+from core import CRIT_TYPE_NAMES, format_rolls
+from effects import pretty_effect
+
+
+# ---- color palette --------------------------------------------------------
+
+# Severity-graded colors (green → red).
+SEVERITY_COLORS = {
+    "A": 0x4CAF50,  # green
+    "B": 0x9CCC65,  # yellow-green
+    "C": 0xFFEB3B,  # yellow
+    "D": 0xFF9800,  # orange
+    "E": 0xF44336,  # red
+}
+COLOR_HIT    = 0x2196F3   # plain hits, no crit (blue)
+COLOR_MISS   = 0x9E9E9E   # gray
+COLOR_FUMBLE = 0x880E4F   # dark magenta
+COLOR_INFO   = 0x607D8B   # blue-gray (lists)
+
+
+# ---- helpers --------------------------------------------------------------
+
+def _band(row: dict) -> str:
+    return (str(row["roll_min"]) if row["roll_min"] == row["roll_max"]
+            else f"{row['roll_min']}-{row['roll_max']}")
+
+
+def _color_for_severity(sev: str | None) -> int:
+    if not sev:
+        return COLOR_HIT
+    return SEVERITY_COLORS.get(sev, COLOR_HIT)
+
+
+# ---- attack-result embed (used by /rmr and /attack) -----------------------
+
+def attack_embed(*,
+                 weapon_name: str,
+                 at: int,
+                 ob: int,
+                 rolls: list[int] | None,
+                 roll_value: int | None,
+                 direction: str | None,
+                 attack_total: int | None,
+                 res: dict | None,
+                 was_capped_chart: bool = False,
+                 size_cap_value: int | None = None,
+                 size_cap_label: str | None = None,
+                 ) -> discord.Embed:
+    """Render the attack-resolution step.
+
+    `rolls`/`roll_value`/`direction`/`attack_total` are all None for the
+    static /attack lookup (no dice). `res` is the attack_result row dict
+    (or None if no entry on the chart).
+    """
+    title = f"{weapon_name} vs AT{at}, OB +{ob}"
+
+    # Description: dice math (or static "roll N" line)
+    if rolls is not None:
+        oe_tag = f"  *(open-ended {direction})*" if direction else ""
+        description = (f"d100: [`{format_rolls(rolls, direction)}`] = "
+                       f"**{roll_value}**{oe_tag}, +OB {ob} → **{attack_total}**")
+    else:
+        description = f"Roll: **{attack_total}**"
+
+    # No chart entry at all (total below chart minimum)
+    if res is None:
+        embed = discord.Embed(title=title, description=description, color=COLOR_MISS)
+        embed.add_field(name="Result",
+                        value=f"miss — {attack_total} below chart minimum",
+                        inline=False)
+        return embed
+
+    band = _band(res)
+    cap_tag = "  *(capped to chart max)*" if was_capped_chart else ""
+    cell = f"**band {band}{cap_tag}: `{res['raw']}`**"
+
+    # Fumble cell (F on chart)
+    if res["is_fumble"]:
+        embed = discord.Embed(title=title, description=description, color=COLOR_FUMBLE)
+        embed.add_field(name="Result", value=f"{cell} — **FUMBLE**", inline=False)
+        return embed
+
+    # Plain miss
+    if res["raw"] == "-":
+        embed = discord.Embed(title=title, description=description, color=COLOR_MISS)
+        embed.add_field(name="Result", value=f"{cell} — miss (no damage)", inline=False)
+        return embed
+
+    # Hit, with optional crit
+    parts = [f"**{res['hits']} hits**"]
+    if res["crit_severity"]:
+        if res["crit_type"]:
+            ctype = CRIT_TYPE_NAMES.get(res["crit_type"], res["crit_type"])
+            parts.append(f"severity **{res['crit_severity']}** {ctype} crit")
+        else:
+            parts.append(f"severity **{res['crit_severity']}** crit")
+
+    color = _color_for_severity(res["crit_severity"])
+    embed = discord.Embed(title=title, description=description, color=color)
+    embed.add_field(name="Result", value=f"{cell} — {', '.join(parts)}", inline=False)
+
+    if size_cap_value is not None:
+        embed.set_footer(text=f"Size cap ({size_cap_label}) applied: total clamped to {size_cap_value}")
+    return embed
+
+
+# ---- UM-fumble preempt embed (used by /rmr only) --------------------------
+
+def um_fumble_embed(*,
+                    weapon_name: str,
+                    at: int,
+                    ob: int,
+                    rolls: list[int],
+                    raw_roll: int,
+                    fumble_min: int,
+                    fumble_max: int,
+                    ) -> discord.Embed:
+    title = f"{weapon_name} vs AT{at}, OB +{ob}"
+    description = (f"d100: [`{format_rolls(rolls, None)}`] — "
+                   f"unmodified **{raw_roll}** in fumble range "
+                   f"`{fumble_min:02d}-{fumble_max:02d}` UM")
+    embed = discord.Embed(title=title, description=description, color=COLOR_FUMBLE)
+    embed.add_field(name="Result", value="**FUMBLE**", inline=False)
+    return embed
+
+
+# ---- crit embed (used by all crit chains and direct /crit) ----------------
+
+def crit_embed(crit: dict, crit_die: int | None = None) -> discord.Embed:
+    """Render a critical_result cell.
+
+    `crit_die` is the d100 roll on the crit chart (shown in title). Pass
+    None for direct /crit lookups where the user already supplied the roll.
+    """
+    title = f"{crit['crit_table_name']} {crit['severity']} crit"
+    if crit_die is not None:
+        title += f", d100 = {crit_die}"
+
+    band = _band(crit)
+    narrative = crit["narrative"] or "*[narrative TODO — fill in from your copy]*"
+    color = _color_for_severity(crit["severity"])
+
+    embed = discord.Embed(title=title,
+                          description=f"**Band {band}**\n{narrative}",
+                          color=color)
+    if crit["effects"]:
+        lines = []
+        for eff in crit["effects"]:
+            cond = f"`[{eff['condition']}]` " if eff["condition"] else ""
+            lines.append(f"{cond}{pretty_effect(eff['raw_code'])}")
+        embed.add_field(name="Effect", value="\n".join(lines), inline=False)
+    return embed
+
+
+# ---- fumble embed (used by /rmr fumble chain and direct /fumble) ----------
+
+def fumble_embed(row: dict, fumble_die: int | None = None) -> discord.Embed:
+    title = f"{row['table_name']} / {row['col_name']}"
+    if fumble_die is not None:
+        title += f", d100 = {fumble_die}"
+
+    band = _band(row)
+    narrative = row["narrative"] or "*[narrative TODO]*"
+    return discord.Embed(title=title,
+                         description=f"**Band {band}**\n{narrative}",
+                         color=COLOR_FUMBLE)
+
+
+# ---- info / list embeds ---------------------------------------------------
+
+def weapons_embed(weapons: list[str]) -> discord.Embed:
+    embed = discord.Embed(title="Loaded weapons", color=COLOR_INFO)
+    embed.description = "\n".join(f"• {w}" for w in weapons) if weapons else "*none loaded*"
+    return embed
+
+
+def charts_embed(crit_charts: list[dict], fumble_tables: list[dict]) -> discord.Embed:
+    embed = discord.Embed(title="Loaded charts", color=COLOR_INFO)
+    if crit_charts:
+        lines = [f"`{c['table_number']}` — {c['name']}" for c in crit_charts]
+        embed.add_field(name="Critical Strike Tables",
+                        value="\n".join(lines), inline=False)
+    if fumble_tables:
+        lines = [f"`{f['table_number']}` — {f['name']}" for f in fumble_tables]
+        embed.add_field(name="Fumble Tables",
+                        value="\n".join(lines), inline=False)
+    if not crit_charts and not fumble_tables:
+        embed.description = "*none loaded*"
+    return embed
