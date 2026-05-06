@@ -1,13 +1,18 @@
 # Special Attack Table 3.9 — Martial Arts Sweeps
-# Source: Rolemaster Fantasy Roleplaying — Arms Law
+# Transcribed from author-supplied PDF (X:\RMFRPSuite\attack_martialartssweeps.pdf).
 #
 # Format differences from a standard weapon attack table:
-#   * All rows are roll bands (no single-roll rows).
-#   * Cells may be "F" = fumble (low rolls) in addition to "-", "N", "NX".
-#   * Cell-level crit codes are severity-only ("1A", "2B", ...) because
-#     all crits roll on a single critical strike table named below.
-#   * Size caps: a Small-degree (1) attacker treats any total > 105 as 105,
-#     Medium (2) as 120, Large (3) as 135, Huge (4) as 150.
+#   * All rows are roll bands (01-02 through 148-150).
+#   * Cells: F = fumble, - = miss, N = N hits, NX = N hits + severity X.
+#   * Crit codes are severity-only — all crits roll on the Martial Arts
+#     Sweeps critical table named below.
+#   * Rank caps: Rank 1 attacker treats any total > 105 as 105;
+#     Rank 2 → 120, Rank 3 → 135, Rank 4 → 150. Stored in the same
+#     @max_degree_N slots used by Strikes and Brawling.
+#   * Per the PDF: bare-handed attacks by non-martial artists are Rank 1.
+#   * Per the PDF: humanoids attempting to subdue (without major injury)
+#     other humanoids may use this table OR the Grapple Attack Table,
+#     both with a maximum result of 105.
 #
 @name:                  Martial Arts Sweeps
 @attack_table:          3.9
@@ -25,32 +30,34 @@
 @max_degree_2:          120
 @max_degree_3:          135
 @max_degree_4:          150
+@degree_term:           Rank
 #
 # --- chart ---
-01-02   | F  F  F  F  F  F  F  F  F  F  F  F  F  F  F  F  F  F  F  F
-03-30   | -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-31-33   | -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-34-36   | -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-37-39   | -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-40-42   | -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-43-45   | -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-46-48   | -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-49-51   | 1  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-52-54   | 1  1  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-55-57   | 1A 1  -  -  1  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-58-60   | 1A 1A 1  1  1  1  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-61-63   | 1A 1A 1A 1  1A 1  -  -  1  -  -  -  1  -  -  -  -  -  -  -
-64-66   | 1A 1A 1A 1A 1A 1A 1  -  1  1  -  -  1  -  -  -  -  -  -  -
-67-69   | 1A 1A 1A 1A 1A 1A 1  1  1A 1  -  -  1A 1  -  -  -  -  -  -
-70-72   | 1A 1A 1A 2A 2A 1A 1A 1  1A 1A 1  -  1A 1  -  -  -  -  -  -
-73-75   | 1A 2A 2A 2A 2A 2A 1A 1A 1A 1A 1  1  2A 1A 1  -  -  -  -  -
-76-78   | 1A 2A 2A 2A 2A 2A 2A 2A 1A 1A 1A 1  2A 2A 1  1  -  -  -  -
-79-81   | 1A 2A 2A 2A 2A 2A 2A 2A 1A 2A 2A 1A 2A 2A 1A 1  -  -  -  -
-82-84   | 2A 2A 2A 3A 3A 2A 2A 2A 1A 2A 2A 2A 3A 2A 2A 1A -  -  -  -
-85-87   | 2A 2A 3A 3A 3A 3A 3A 3A 2A 2A 2A 2A 3A 3A 2A 2A -  -  -  -
-88-90   | 2A 2A 3A 3A 3A 3A 3A 3A 2A 2A 3A 3A 3A 3A 3A 2A 1  -  1  -
-91-93   | 2B 3B 3B 3B 3B 3B 3A 3A 2B 2A 3A 3A 4B 3A 3A 3A 1  1  1A -
-94-96   | 2B 3B 3B 4B 3B 3B 3A 4A 2B 3A 3A 3A 4B 4A 3A 3A 1A 1  2A 1
+
+01-02   | F F F F F F F F F F F F F F F F F F F F
+03-30   | - - - - - - - - - - - - - - - - - - - -
+31-33   | - - - - - - - - - - - - - - - - - - - -
+34-36   | - - - - - - - - - - - - - - - - - - - -
+37-39   | - - - - - - - - - - - - - - - - - - - -
+40-42   | - - - - - - - - - - - - - - - - - - - -
+43-45   | - - - - - - - - - - - - - - - - - - - -
+46-48   | - - - - - - - - - - - - - - - - - - - -
+49-51   | 1 - - - - - - - - - - - - - - - - - - -
+52-54   | 1 1 - - - - - - - - - - - - - - - - - -
+55-57   | 1A 1 - - 1 - - - - - - - - - - - - - - -
+58-60   | 1A 1A 1 1 1 1 - - - - - - - - - - - - - -
+61-63   | 1A 1A 1A 1 1A 1 - - 1 - - - 1 - - - - - - -
+64-66   | 1A 1A 1A 1A 1A 1A 1 - 1 1 - - 1 - - - - - - -
+67-69   | 1A 1A 1A 1A 1A 1A 1 1 1A 1 - - 1A 1 - - - - - -
+70-72   | 1A 1A 1A 2A 2A 1A 1A 1 1A 1A 1 - 1A 1 - - - - - -
+73-75   | 1A 2A 2A 2A 2A 2A 1A 1A 1A 1A 1 1 2A 1A 1 - - - - -
+76-78   | 1A 2A 2A 2A 2A 2A 2A 2A 1A 1A 1A 1 2A 2A 1 1 - - - -
+79-81   | 1A 2A 2A 2A 2A 2A 2A 2A 1A 2A 2A 1A 2A 2A 1A 1 - - - -
+82-84   | 2A 2A 2A 3A 3A 2A 2A 2A 1A 2A 2A 2A 3A 2A 2A 1A - - - -
+85-87   | 2A 2A 3A 3A 3A 3A 3A 3A 2A 2A 2A 2A 3A 3A 2A 2A - - - -
+88-90   | 2A 2A 3A 3A 3A 3A 3A 3A 2A 2A 3A 3A 3A 3A 3A 2A 1 - 1 -
+91-93   | 2B 3B 3B 3B 3B 3B 3A 3A 2B 2A 3A 3A 4B 3A 3A 3A 1 1 1A -
+94-96   | 2B 3B 3B 4B 3B 3B 3A 4A 2B 3A 3A 3A 4B 4A 3A 3A 1A 1 2A 1
 97-99   | 2B 3B 4B 4B 4B 4B 4A 4A 2B 3A 4A 4A 4B 4A 4A 4A 2A 1A 2A 1
 100-102 | 2B 3B 4B 4B 4B 4B 4A 4A 2B 3A 4A 4A 5B 4A 4A 4A 2A 2A 3A 2A
 103-105 | 2B 3B 4B 5B 4B 4B 4B 5B 2B 3B 4B 5B 5B 5B 5B 5B 3A 2A 3A 2A
@@ -64,7 +71,7 @@
 127-129 | 3D 4D 6D 7D 6D 6D 7D 7D 4D 5D 7D 8D 7D 7D 8D 8D 6C 6C 8C 7C
 130-132 | 3D 5D 6D 7D 6D 6D 7D 8D 4D 5D 7D 8D 8D 8D 8D 9D 6C 7C 8C 8C
 133-135 | 3D 5D 6D 7D 6D 6D 7D 8D 4D 5D 8D 9D 8D 8D 9D 9D 7D 7D 9D 8D
-136-138 | 3E 5E 7E 7E 7E 7E 7D 8D 4E 6D 8D 9D 8E 8D 9D 10D 7D 8D 9D  9D
+136-138 | 3E 5E 7E 7E 7E 7E 7D 8D 4E 6D 8D 9D 8E 8D 9D 10D 7D 8D 9D 9D
 139-141 | 3E 5E 7E 8E 7E 7E 8E 9E 4E 6E 8E 9E 9E 9E 9E 10E 7D 8D 10D 10D
 142-144 | 3E 5E 7E 8E 7E 7E 8E 9E 4E 6E 9E 10E 9E 9E 10E 11E 8E 9E 10E 10E
 145-147 | 3E 5E 7E 8E 7E 7E 8E 9E 4E 6E 9E 10E 9E 9E 10E 11E 8E 9E 11E 11E
