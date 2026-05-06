@@ -9,6 +9,9 @@ from .roll import d100, open_ended_d100, format_rolls
 from .attack import (
     CRIT_TYPE_NAMES,
     SIZE_NAMES,
+    RANK_NAMES,
+    DEGREE_LABELS,
+    degree_label,
     get_weapon,
     list_weapons,
     search_weapons,
@@ -36,7 +39,8 @@ from .fumble import (
 __all__ = [
     "connect", "DB_PATH",
     "d100", "open_ended_d100", "format_rolls",
-    "CRIT_TYPE_NAMES", "SIZE_NAMES",
+    "CRIT_TYPE_NAMES", "SIZE_NAMES", "RANK_NAMES", "DEGREE_LABELS",
+    "degree_label",
     "get_weapon", "list_weapons", "search_weapons",
     "attack_lookup", "size_cap",
     "CRIT_TYPE_TO_TABLE",

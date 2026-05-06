@@ -122,7 +122,12 @@ CREATE TABLE IF NOT EXISTS weapon (
     --      Brawling   → ("Non-Weapon Fumble Table", 3 = Brawling);
     --      Sweeps     → ("Non-Weapon Fumble Table", 2 = MA Sweeps).
     fumble_table_name      TEXT,
-    fumble_column_index    INTEGER
+    fumble_column_index    INTEGER,
+    -- For weapons that use the degree-cap mechanism (Sweeps, Brawling, Martial
+    -- Arts Strikes), what to call the degree axis: "Size" (default — Small /
+    -- Medium / Large / Huge) or "Rank" (Rank 1..4). Plain TEXT so other
+    -- weapons can introduce new vocabularies without a schema change.
+    degree_term            TEXT
 );
 
 CREATE TABLE IF NOT EXISTS weapon_breakage_number (

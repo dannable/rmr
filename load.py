@@ -173,20 +173,24 @@ def insert_weapon(conn: sqlite3.Connection, data: dict) -> int:
                     f"not defined on {fumble_table_name!r}"
                 )
 
+    degree_term = (meta.get("degree_term") or "").strip() or None
+
     cur = conn.execute(
         """
         INSERT INTO weapon
             (name, attack_table, is_two_handed, length_min_ft, length_max_ft,
              weight_min_lb, weight_max_lb, fumble_min, fumble_max, fumble_unmodified,
              strength_min, strength_max, strength_flag, range_modifiers,
-             default_crit_table_id, fumble_table_name, fumble_column_index)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+             default_crit_table_id, fumble_table_name, fumble_column_index,
+             degree_term)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
         (meta["name"], meta["attack_table"], two_handed,
          length_min, length_max, weight_min, weight_max,
          fumble_min, fumble_max, fumble_unmodified,
          strength_min, strength_max, strength_flag, range_modifiers,
-         default_crit_table_id, fumble_table_name, fumble_column_index),
+         default_crit_table_id, fumble_table_name, fumble_column_index,
+         degree_term),
     )
     weapon_id = cur.lastrowid
 

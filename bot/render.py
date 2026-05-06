@@ -53,8 +53,9 @@ def attack_embed(*,
                  attack_total: int | None,
                  res: dict | None,
                  was_capped_chart: bool = False,
-                 size_cap_value: int | None = None,
-                 size_cap_label: str | None = None,
+                 cap_value: int | None = None,
+                 cap_label: str | None = None,
+                 cap_term: str | None = None,
                  ) -> discord.Embed:
     """Render the attack-resolution step.
 
@@ -109,8 +110,9 @@ def attack_embed(*,
     embed = discord.Embed(title=title, description=description, color=color)
     embed.add_field(name="Result", value=f"{cell} — {', '.join(parts)}", inline=False)
 
-    if size_cap_value is not None:
-        embed.set_footer(text=f"Size cap ({size_cap_label}) applied: total clamped to {size_cap_value}")
+    if cap_value is not None:
+        term = cap_term or "Size"
+        embed.set_footer(text=f"{term} cap ({cap_label}) applied: total clamped to {cap_value}")
     return embed
 
 

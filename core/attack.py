@@ -9,13 +9,27 @@ CRIT_TYPE_NAMES = {
     "S": "Slash",   "T": "Tiny",  "U": "Unbalance",
 }
 SIZE_NAMES = {1: "Small", 2: "Medium", 3: "Large", 4: "Huge"}
+RANK_NAMES = {1: "Rank 1", 2: "Rank 2", 3: "Rank 3", 4: "Rank 4"}
+
+# Per-term lookup. The key matches weapon.degree_term; default falls back
+# to SIZE_NAMES so legacy weapon files (no @degree_term) keep working.
+DEGREE_LABELS: dict[str, dict[int, str]] = {
+    "Size": SIZE_NAMES,
+    "Rank": RANK_NAMES,
+}
+
+
+def degree_label(term: str | None, degree: int) -> str:
+    """Format the user-facing label for a degree value (e.g. 1→'Small' or 'Rank 1')."""
+    return DEGREE_LABELS.get(term or "Size", SIZE_NAMES).get(degree, str(degree))
 
 
 def get_weapon(conn: sqlite3.Connection, name: str) -> dict | None:
     """Look up a weapon by exact name. Returns None if not found."""
     row = conn.execute(
         """SELECT weapon_id, name, fumble_min, fumble_max, fumble_unmodified,
-                  default_crit_table_id, fumble_table_name, fumble_column_index
+                  default_crit_table_id, fumble_table_name, fumble_column_index,
+                  degree_term
              FROM weapon WHERE name = ?""",
         (name,),
     ).fetchone()

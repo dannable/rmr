@@ -14,7 +14,7 @@ from core import (
     get_weapon, attack_lookup, size_cap, search_weapons,
     resolve_crit_table_id, crit_lookup, crit_lookup_by_name,
     fumble_lookup, parse_fumble_crit_chain,
-    SIZE_NAMES,
+    degree_label,
 )
 
 from .. import render
@@ -139,22 +139,24 @@ def register(tree: app_commands.CommandTree) -> None:
         weapon="Weapon name (autocomplete)",
         at="Defender's armor type (1-20)",
         ob="Attacker's offensive bonus",
-        attack_size="For sweeps-style charts: attacker size category",
+        degree=("Caps the attack roll for charts that scale by degree: "
+                "Sweeps/Brawling use Size (Small/Medium/Large/Huge), "
+                "Martial Arts Strikes uses Rank (1-4)."),
         no_open_ended="Disable open-ended d100 (default: enabled)",
     )
     @app_commands.autocomplete(weapon=weapon_autocomplete)
-    @app_commands.choices(attack_size=[
-        app_commands.Choice(name="Small (degree 1)",  value=1),
-        app_commands.Choice(name="Medium (degree 2)", value=2),
-        app_commands.Choice(name="Large (degree 3)",  value=3),
-        app_commands.Choice(name="Huge (degree 4)",   value=4),
+    @app_commands.choices(degree=[
+        app_commands.Choice(name="1 — Small / Rank 1",  value=1),
+        app_commands.Choice(name="2 — Medium / Rank 2", value=2),
+        app_commands.Choice(name="3 — Large / Rank 3",  value=3),
+        app_commands.Choice(name="4 — Huge / Rank 4",   value=4),
     ])
     async def rmr(
         interaction: discord.Interaction,
         weapon: str,
         at: app_commands.Range[int, 1, 20],
         ob: int,
-        attack_size: Optional[app_commands.Choice[int]] = None,
+        degree: Optional[app_commands.Choice[int]] = None,
         no_open_ended: bool = False,
     ) -> None:
         conn = connect()
@@ -182,14 +184,16 @@ def register(tree: app_commands.CommandTree) -> None:
 
             attack_total = roll_value + ob
 
-            # Apply attacker-size cap (Sweeps / Brawling).
-            size_cap_value = None
-            size_cap_label = None
-            if attack_size:
-                cap = size_cap(conn, weapon_dict["weapon_id"], attack_size.value)
+            # Apply attacker-degree cap (Sweeps / Brawling = Size, MA Strikes = Rank).
+            cap_value = None
+            cap_label = None
+            cap_term = None
+            if degree:
+                cap = size_cap(conn, weapon_dict["weapon_id"], degree.value)
                 if cap is not None and attack_total > cap:
-                    size_cap_value = cap
-                    size_cap_label = SIZE_NAMES[attack_size.value]
+                    cap_value = cap
+                    cap_term = weapon_dict.get("degree_term") or "Size"
+                    cap_label = degree_label(cap_term, degree.value)
                     attack_total = cap
 
             res, was_capped_chart = attack_lookup(
@@ -201,7 +205,7 @@ def register(tree: app_commands.CommandTree) -> None:
                 rolls=rolls, roll_value=roll_value, direction=direction,
                 attack_total=attack_total, res=res,
                 was_capped_chart=was_capped_chart,
-                size_cap_value=size_cap_value, size_cap_label=size_cap_label,
+                cap_value=cap_value, cap_label=cap_label, cap_term=cap_term,
             )
             await interaction.response.send_message(embed=attack_emb)
 
