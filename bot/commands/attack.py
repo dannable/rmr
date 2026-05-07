@@ -133,12 +133,13 @@ def register(tree: app_commands.CommandTree) -> None:
     # ============================================================
     @tree.command(
         name="rmr",
-        description="Roll a Rolemaster attack: d100 (open-ended) + OB → chart → crit chain.",
+        description="Roll a Rolemaster attack: d100 (open-ended) + OB − DB → chart → crit chain.",
     )
     @app_commands.describe(
         weapon="Weapon name (autocomplete)",
         at="Defender's armor type (1-20)",
         ob="Attacker's offensive bonus",
+        db="Defender's defensive bonus (subtracted from the attack total)",
         degree=("Caps the attack roll for charts that scale by degree: "
                 "Sweeps/Brawling use Size (Small/Medium/Large/Huge), "
                 "Martial Arts Strikes uses Rank (1-4)."),
@@ -156,6 +157,7 @@ def register(tree: app_commands.CommandTree) -> None:
         weapon: str,
         at: app_commands.Range[int, 1, 20],
         ob: int,
+        db: int = 0,
         degree: Optional[app_commands.Choice[int]] = None,
         no_open_ended: bool = False,
     ) -> None:
@@ -173,7 +175,7 @@ def register(tree: app_commands.CommandTree) -> None:
             # UM-fumble preempts everything else.
             if _is_um_fumble(weapon_dict, raw_roll):
                 emb = render.um_fumble_embed(
-                    weapon_name=weapon, at=at, ob=ob,
+                    weapon_name=weapon, at=at, ob=ob, db=db,
                     rolls=rolls, raw_roll=raw_roll,
                     fumble_min=weapon_dict["fumble_min"],
                     fumble_max=weapon_dict["fumble_max"],
@@ -182,7 +184,7 @@ def register(tree: app_commands.CommandTree) -> None:
                 await _send_fumble_chain(interaction, conn, weapon_dict)
                 return
 
-            attack_total = roll_value + ob
+            attack_total = roll_value + ob - db
 
             # Apply attacker-degree cap (Sweeps / Brawling = Size, MA Strikes = Rank).
             cap_value = None
@@ -201,7 +203,7 @@ def register(tree: app_commands.CommandTree) -> None:
             )
 
             attack_emb = render.attack_embed(
-                weapon_name=weapon, at=at, ob=ob,
+                weapon_name=weapon, at=at, ob=ob, db=db,
                 rolls=rolls, roll_value=roll_value, direction=direction,
                 attack_total=attack_total, res=res,
                 was_capped_chart=was_capped_chart,

@@ -47,6 +47,7 @@ def attack_embed(*,
                  weapon_name: str,
                  at: int,
                  ob: int,
+                 db: int = 0,
                  rolls: list[int] | None,
                  roll_value: int | None,
                  direction: str | None,
@@ -64,12 +65,17 @@ def attack_embed(*,
     (or None if no entry on the chart).
     """
     title = f"{weapon_name} vs AT{at}, OB +{ob}"
+    if db:
+        title += f", DB {db}"
 
     # Description: dice math (or static "roll N" line)
     if rolls is not None:
         oe_tag = f"  *(open-ended {direction})*" if direction else ""
+        math = f"**{roll_value}**{oe_tag}, +OB {ob}"
+        if db:
+            math += f", −DB {db}"
         description = (f"d100: [`{format_rolls(rolls, direction)}`] = "
-                       f"**{roll_value}**{oe_tag}, +OB {ob} → **{attack_total}**")
+                       f"{math} → **{attack_total}**")
     else:
         description = f"Roll: **{attack_total}**"
 
@@ -122,12 +128,15 @@ def um_fumble_embed(*,
                     weapon_name: str,
                     at: int,
                     ob: int,
+                    db: int = 0,
                     rolls: list[int],
                     raw_roll: int,
                     fumble_min: int,
                     fumble_max: int,
                     ) -> discord.Embed:
     title = f"{weapon_name} vs AT{at}, OB +{ob}"
+    if db:
+        title += f", DB {db}"
     description = (f"d100: [`{format_rolls(rolls, None)}`] — "
                    f"unmodified **{raw_roll}** in fumble range "
                    f"`{fumble_min:02d}-{fumble_max:02d}` UM")
