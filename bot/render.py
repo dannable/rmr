@@ -6,10 +6,75 @@ takes plain Python data and returns an Embed ready to send.
 
 from __future__ import annotations
 
+import json
+import logging
+from pathlib import Path
+
 import discord
 
-from core import CRIT_TYPE_NAMES, format_rolls
+from core import CRIT_TYPE_NAMES, percentile_faces
 from effects import pretty_effect
+
+log = logging.getLogger(__name__)
+
+
+# ---- d% (percentile-dice) emoji map --------------------------------------
+
+# Loaded once at module import. Format produced by
+# scripts/upload_dice_emoji.py:
+#     {"tens": {"0": "<:d10t00:NNN>", "10": "<:d10t10:NNN>", ...},
+#      "ones": {"0": "<:d10o0:NNN>",  "1":  "<:d10o1:NNN>",  ...}}
+# Missing file or malformed JSON falls back to text-only display.
+_DICE_EMOJI: dict[str, dict[str, str]] | None = None
+
+
+def _load_dice_emoji() -> dict[str, dict[str, str]] | None:
+    from . import config
+    p = Path(config.DICE_EMOJI_PATH)
+    if not p.is_file():
+        log.info("dice emoji map not found at %s — falling back to text d%%", p)
+        return None
+    try:
+        data = json.loads(p.read_text(encoding="utf-8"))
+        if not isinstance(data, dict) or "tens" not in data or "ones" not in data:
+            raise ValueError("expected keys 'tens' and 'ones'")
+        return data
+    except Exception as exc:  # noqa: BLE001
+        log.warning("failed to load dice emoji map %s: %s", p, exc)
+        return None
+
+
+_DICE_EMOJI = _load_dice_emoji()
+
+
+def _dice_pair(value: int) -> str:
+    """Render one d100 result as a tens-die + ones-die pair.
+
+    Uses Discord custom emoji when available; falls back to a compact text
+    form like ``70|8`` (in inline code, monospaced) otherwise.
+    """
+    tens, ones = percentile_faces(value)
+    em = _DICE_EMOJI
+    if em:
+        t = em.get("tens", {}).get(str(tens))
+        o = em.get("ones", {}).get(str(ones))
+        if t and o:
+            return f"{t}{o}"
+    return f"`{tens:02d}|{ones}`"
+
+
+def format_d100_visual(rolls: list[int], direction: str | None) -> str:
+    """Render a sequence of d100 rolls as d% pairs, joined by + or −.
+
+    Examples (with emoji loaded):
+        [78]           ->  '<:d10t70:..><:d10o8:..>'
+        [99, 47] high  ->  '<…> + <…>'
+        [3, 12]  low   ->  '<…> − <…>'
+    """
+    pairs = [_dice_pair(r) for r in rolls]
+    if direction == "low" and len(pairs) > 1:
+        return pairs[0] + "".join(f" − {p}" for p in pairs[1:])
+    return " + ".join(pairs)
 
 
 # ---- color palette --------------------------------------------------------
@@ -74,7 +139,7 @@ def attack_embed(*,
         math = f"**{roll_value}**{oe_tag}, +OB {ob}"
         if db:
             math += f", −DB {db}"
-        description = (f"d100: [`{format_rolls(rolls, direction)}`] = "
+        description = (f"d% {format_d100_visual(rolls, direction)} = "
                        f"{math} → **{attack_total}**")
     else:
         description = f"Roll: **{attack_total}**"
@@ -137,7 +202,7 @@ def um_fumble_embed(*,
     title = f"{weapon_name} vs AT{at}, OB +{ob}"
     if db:
         title += f", DB {db}"
-    description = (f"d100: [`{format_rolls(rolls, None)}`] — "
+    description = (f"d% {format_d100_visual(rolls, None)} — "
                    f"unmodified **{raw_roll}** in fumble range "
                    f"`{fumble_min:02d}-{fumble_max:02d}` UM")
     embed = discord.Embed(title=title, description=description, color=COLOR_FUMBLE)

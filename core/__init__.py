@@ -5,7 +5,7 @@ No I/O beyond SQLite reads; no printing, no Discord types, no argparse.
 """
 
 from .db import connect, DB_PATH
-from .roll import d100, open_ended_d100, format_rolls
+from .roll import d100, open_ended_d100, format_rolls, percentile_faces
 from .attack import (
     CRIT_TYPE_NAMES,
     SIZE_NAMES,
@@ -38,7 +38,7 @@ from .fumble import (
 
 __all__ = [
     "connect", "DB_PATH",
-    "d100", "open_ended_d100", "format_rolls",
+    "d100", "open_ended_d100", "format_rolls", "percentile_faces",
     "CRIT_TYPE_NAMES", "SIZE_NAMES", "RANK_NAMES", "DEGREE_LABELS",
     "degree_label",
     "get_weapon", "list_weapons", "search_weapons",

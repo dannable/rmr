@@ -11,8 +11,10 @@ rmfrp.db
 .env.*
 !.env.example
 
-# Dev tools not needed at runtime
+# Dev tools / assets not needed at runtime
 extract_skeletons.py
+scripts/
+d10s/
 
 # Python
 __pycache__/

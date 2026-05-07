@@ -40,3 +40,20 @@ def format_rolls(rolls: list[int], direction: str | None) -> str:
     if direction == "low":
         return f"{rolls[0]}" + "".join(f" - {r}" for r in rolls[1:])
     return " + ".join(str(r) for r in rolls)
+
+
+def percentile_faces(value: int) -> tuple[int, int]:
+    """Break a d100 result into its (tens, ones) faces on the 00-99 wheel.
+
+    Mirrors a physical percentile-dice tray: the tens-die shows
+    00, 10, 20, ..., 90 and the ones-die shows 0..9. A roll of 100 reads
+    as the (00, 0) pair — both zeros.
+
+        percentile_faces(78)  -> (70, 8)
+        percentile_faces(1)   -> (0, 1)
+        percentile_faces(50)  -> (50, 0)
+        percentile_faces(100) -> (0, 0)
+    """
+    if value == 100:
+        return 0, 0
+    return (value // 10) * 10, value % 10
