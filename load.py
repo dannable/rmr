@@ -15,7 +15,7 @@ WEAPONS_DIR = ROOT / "data" / "weapons"
 CRIT_TABLES_DIR = ROOT / "data" / "crit_tables"
 FUMBLE_TABLES_DIR = ROOT / "data" / "fumble_tables"
 
-CELL_RE = re.compile(r"^(\d{1,3})([A-E])([GKPSTU])?$")  # severity-only crit_type optional
+CELL_RE = re.compile(r"^(\d{1,3})([A-F])([GKPSTU])?$")  # severity-only crit_type optional; F is the special dual-crit code on table 3.10
 
 
 # ---------------------------------------------------------------------------

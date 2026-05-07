@@ -1,0 +1,77 @@
+# Special Attack Table 3.10 — Ram/Butt/Bash/Knockdown
+# Transcribed from author-supplied PDF (X:\RMFRPSuite\attack_rambuttbashknockdown.pdf).
+#
+# Format differences from a standard weapon attack table:
+#   * 42 roll bands (01-02 through 148-150).
+#   * Cells: F = fumble, - = miss, N = N hits, NX = N hits + severity,
+#     NXY = N hits + severity + crit type (per-cell).
+#   * Severity 'F' is a special dual-crit indicator unique to this chart:
+#     per the PDF note, an F result triggers BOTH an E-roll on the
+#     Unbalance critical strike table AND a C-roll on the Krush table.
+#     Handled in bot/commands/attack.py.
+#   * Size caps: Small (1) attacker treats any total > 105 as 105;
+#     Medium (2) → 120, Large (3) → 135, Huge (4) → 150. Stored in
+#     @max_degree_N slots; @degree_term defaults to "Size".
+#   * Per the PDF: a charging creature gets +20 to the attack roll on
+#     this table in addition to any other bonuses (apply manually as OB).
+#
+@name:                  Ram, Butt, Bash, Knockdown
+@attack_table:          3.10
+@two_handed:            no
+@length_ft:             -
+@weight_lb:             -
+@fumble_range:          01 - 02
+@breakage_nums:         -
+@strength:              -
+@range_modifiers:       -
+@fumble_table:          Non-Weapon Fumble Table
+@fumble_column:         4
+@max_degree_1:          105
+@max_degree_2:          120
+@max_degree_3:          135
+@max_degree_4:          150
+#
+# --- chart ---
+
+01-02   | F F F F F F F F F F F F F F F F F F F F
+03-30   | - - - - - - - - - - - - - - - - - - - -
+31-33   | - - - - - - - - - - - - - - - - - - - -
+34-36   | - - - - - - - - - - - - - - - - - - - -
+37-39   | - - - - - - - - - - - - - - - - - - - -
+40-42   | - - - - - - - - - - - - - - - - - - - -
+43-45   | - - - - - - - - - - - - - - - - - - - -
+46-48   | - - - - - - - - - - - - - - - - - - - 1
+49-51   | - - - - - - - - - - - 1 - - - 1 - - 1 1
+52-54   | - - - 1 - - - - - - - 1 - - - 1 - - 1 2
+55-57   | - - - 1 - - - 1 - - 1 2 - - 1 2 - 1 2 2
+58-60   | - - - 2 - - - 1 - - 1 2 - - 1 2 - 1 2 3
+61-63   | - - 1 2 - - 1 2 - - 1 3 1 1 2 3 1 1 3 3
+64-66   | - 1 1 3 1 1 1 2 - - 2 3 1 1 2 3 1 2 3 4
+67-69   | 1AU 1 1 3 1 1 2 3 - 1 2 4 1 1 3 4 1 2 4 4
+70-72   | 1AU 1AU 2 4 1AU 1 2 3 1 1 3 4 2 2 3 4 2 3 4 5
+73-75   | 1AU 2AU 2AU 4 2AU 2AU 3 4 1AU 1 3 5 2 2 4 5 2 3 5 6
+76-78   | 2AU 2AU 3AU 5AU 2AU 2AU 3 4 1AU 2AU 4 5 3AU 3 4 5 3 4 5 6
+79-81   | 2AU 2AU 3AU 5AU 3AU 3AU 4AU 5 2AU 2AU 4 6 3AU 3 5 6 3 4 6 7
+82-84   | 2AU 3AU 4AU 6AU 3AU 3AU 4AU 5AU 2AU 3AU 5AU 6 4AU 4AU 5 7 4 5 7 7
+85-87   | 3AU 3AU 4AU 6AU 4AU 4AU 5AU 6AU 2AU 3AU 5AU 7AU 4AU 4AU 6 7 4 5 7AK 8
+88-90   | 3AU 4AU 5AU 7AU 4AU 4AU 5AU 7AU 3AU 4AU 6AU 7AU 5AU 5AU 6AU 8 5AK 5 8AU 8
+91-93   | 3AU 4AU 5AU 7AK 5AU 5AU 6AU 7AK 3AU 4AU 6AU 8AU 5AU 5AU 7AU 8AK 5AK 6AK 8AK 9
+94-96   | 4AU 4AU 6AU 8AU 5AU 5AU 6AU 8AU 4AU 5AU 7AU 8AU 5AU 6AU 7AU 9AU 6AU 6AU 9AU 9AK
+97-99   | 4AU 5AU 6AU 8AK 6AU 6AU 7AU 8AK 4AU 5AU 7AU 9AK 6AU 6AU 8AK 9AK 6AK 7AK 9AK 10AK
+100-102 | 4AU 5AU 7AU 9BU 6AU 6AU 7AU 9AU 4AU 5AU 8AU 9AU 6AU 7AU 8AU 10AU 7AU 7AU 10AU 11AU
+103-105 | 5AU 6AU 7AK 9BK 7AU 7AU 8AK 9AK 5AU 6AU 8AU 10AK 7AK 7AU 9AK 10AK 7AK 8AK 10AK 11AK
+106-108 | 5BU 6BU 8BU 10BU 7AU 7AU 8AU 10BU 5BU 6BU 9AU 10AU 7BU 8AU 9AU 11AU 8AU 8AU 11AU 12AU
+109-111 | 5BU 6BU 8BK 10BK 7BU 7BU 9BK 10BK 6BU 7BU 9BK 11BK 8BK 8AK 10AK 11AK 8AK 9AK 11BK 12AK
+112-114 | 6BU 7BU 9BU 11CU 8BU 8BU 9BU 11BU 6BU 7BU 10BU 11BU 8BU 9BU 10BU 12BU 9BU 9BU 12BU 13AU
+115-117 | 6BU 7BK 9BK 11CK 8BK 8BK 10BK 11CK 6BU 8BU 10BK 12CK 9BK 9BK 11BK 13BK 9BK 10BK 13CK 13BK
+118-120 | 6BU 8BU 10BU 12CU 9BU 9BU 10BU 12CU 7BU 8BU 11CU 12CU 9CU 10BU 11BU 13CU 10BU 10BU 13CU 14BU
+121-123 | 7BU 8BK 10CK 12CK 9BK 9BK 11CK 13CK 7BU 9BK 11CK 13CK 9CK 10CK 12CK 14CK 10CK 10CK 14CK 14CK
+124-126 | 7BU 8CU 11CU 13DU 10BU 10CU 11CU 13CU 7CU 9CU 12CU 13CU 10CU 11CU 12CU 14CU 11CU 11CU 14DU 15CU
+127-129 | 7CU 9CK 11CK 13DK 10CK 10CK 12CK 14DK 8CU 9CK 12DK 14DK 10CK 11CK 13CK 15DK 11CK 11CK 15DK 16DK
+130-132 | 8CU 9CU 12CU 14DU 11CU 11CU 12CU 14DU 8CU 10CU 13DU 14DU 11DU 12CU 13DU 15DU 12DU 12DU 15DU 16DU
+133-135 | 8CK 10CK 12CK 14DK 11CK 11CK 13CK 15DK 9CK 10CK 13DK 15DK 11DK 12CK 14DK 16DK 12DK 12DK 16EK 17DK
+136-138 | 8CU 10CU 13CU 15EU 12CU 12CU 13CU 15DU 9CU 11CU 14DU 15DU 12DU 13DU 14DU 16EU 13DU 13DU 16EU 17EU
+139-141 | 9DK 10DK 13DK 15EK 12CK 12DK 14DK 16EK 9DK 11DK 14EK 16EK 12EK 13DK 15EK 17EK 13EK 13EK 17EK 18EK
+142-144 | 9DU 11DU 14DU 16EU 13DU 13DU 14DU 16EU 10DU 12DU 15EU 16EU 13EU 14EU 15EU 17EU 14EU 14EU 17EU 18EU
+145-147 | 9EK 11EK 14EK 16EK 13DK 13DK 15EK 17EK 10EK 12DK 15EK 17EK 13EK 14EK 16EK 18EK 14EK 14EK 18EK 19EK
+148-150 | 10EU 12EU 15EU 17FU 14EU 14EU 15EU 18FU 11EU 13EU 16EU 18FU 14FU 15FU 17FU 19FU 15FU 15FU 19FU 20EU

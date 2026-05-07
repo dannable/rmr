@@ -163,7 +163,11 @@ CREATE TABLE IF NOT EXISTS attack_result (
     armor_type     INTEGER NOT NULL CHECK (armor_type BETWEEN 1 AND 20),
     raw            TEXT    NOT NULL,
     hits           INTEGER NOT NULL DEFAULT 0,
-    crit_severity  TEXT CHECK (crit_severity IN ('A','B','C','D','E')),
+    -- Severity F is special-case: only used by Ram/Butt/Bash/Knockdown
+    -- (table 3.10), which calls out "F = E-roll on Unbalance + C-roll on
+    -- Krush" in a per-table note. F never appears on any standalone
+    -- critical_strike_table.
+    crit_severity  TEXT CHECK (crit_severity IN ('A','B','C','D','E','F')),
     crit_type      TEXT CHECK (crit_type     IN ('G','K','P','S','T','U')),
     is_fumble      INTEGER NOT NULL DEFAULT 0,
     PRIMARY KEY (weapon_id, roll_min, armor_type),

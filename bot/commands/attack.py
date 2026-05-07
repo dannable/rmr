@@ -223,6 +223,28 @@ def register(tree: app_commands.CommandTree) -> None:
             # Crit chain.
             if not res["crit_severity"]:
                 return
+
+            # F-severity is a dual-crit code unique to attack table 3.10
+            # (Ram/Butt/Bash/Knockdown): the per-chart note specifies that
+            # an F result triggers BOTH an E-roll on Unbalance AND a
+            # C-roll on Krush.
+            if res["crit_severity"] == "F":
+                for table_name, severity in [("Unbalancing", "E"), ("Krush", "C")]:
+                    crit_die = d100()
+                    crit = crit_lookup_by_name(conn, table_name, severity, crit_die)
+                    await asyncio.sleep(EMBED_GAP_SECONDS)
+                    if crit is None:
+                        await interaction.followup.send(
+                            f"F-crit chain: no entry on `{table_name}` "
+                            f"`{severity}` at `{crit_die}`.",
+                            ephemeral=True,
+                        )
+                        continue
+                    await interaction.followup.send(
+                        embed=render.crit_embed(crit, crit_die)
+                    )
+                return
+
             ct_id = resolve_crit_table_id(conn, res, weapon_dict["default_crit_table_id"])
             if ct_id is None:
                 await asyncio.sleep(EMBED_GAP_SECONDS)
@@ -290,6 +312,16 @@ def register(tree: app_commands.CommandTree) -> None:
             if crit_roll is None or res is None:
                 return
             if not res.get("crit_severity"):
+                return
+            # F-severity needs two d100 rolls; the static /attack form
+            # only takes one. Direct the user to /rmr instead.
+            if res["crit_severity"] == "F":
+                await asyncio.sleep(EMBED_GAP_SECONDS)
+                await interaction.followup.send(
+                    "F-severity result requires two crit rolls (E on Unbalance + "
+                    "C on Krush). Use `/rmr` instead — it'll roll both for you.",
+                    ephemeral=True,
+                )
                 return
             ct_id = resolve_crit_table_id(conn, res, weapon_dict["default_crit_table_id"])
             if ct_id is None:
