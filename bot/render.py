@@ -215,19 +215,23 @@ def um_fumble_embed(*,
 def crit_embed(crit: dict, crit_die: int | None = None) -> discord.Embed:
     """Render a critical_result cell.
 
-    `crit_die` is the d100 roll on the crit chart (shown in title). Pass
-    None for direct /crit lookups where the user already supplied the roll.
+    `crit_die` is the d100 roll on the crit chart. When supplied (chained
+    from /rmr or passed to /attack), the d% pair is rendered above the
+    band/narrative so the GM can see the dice. Pass None for direct
+    /crit lookups where the user already supplied the roll value.
     """
     title = f"{crit['crit_table_name']} {crit['severity']} crit"
-    if crit_die is not None:
-        title += f", d100 = {crit_die}"
-
     band = _band(crit)
     narrative = crit["narrative"] or "*[narrative TODO — fill in from your copy]*"
     color = _color_for_severity(crit["severity"])
 
+    if crit_die is not None:
+        header = f"d% {_dice_pair(crit_die)} = **{crit_die}**\n"
+    else:
+        header = ""
+
     embed = discord.Embed(title=title,
-                          description=f"**Band {band}**\n{narrative}",
+                          description=f"{header}**Band {band}**\n{narrative}",
                           color=color)
     if crit["effects"]:
         lines = []
@@ -242,13 +246,16 @@ def crit_embed(crit: dict, crit_die: int | None = None) -> discord.Embed:
 
 def fumble_embed(row: dict, fumble_die: int | None = None) -> discord.Embed:
     title = f"{row['table_name']} / {row['col_name']}"
-    if fumble_die is not None:
-        title += f", d100 = {fumble_die}"
-
     band = _band(row)
     narrative = row["narrative"] or "*[narrative TODO]*"
+
+    if fumble_die is not None:
+        header = f"d% {_dice_pair(fumble_die)} = **{fumble_die}**\n"
+    else:
+        header = ""
+
     return discord.Embed(title=title,
-                         description=f"**Band {band}**\n{narrative}",
+                         description=f"{header}**Band {band}**\n{narrative}",
                          color=COLOR_FUMBLE)
 
 
