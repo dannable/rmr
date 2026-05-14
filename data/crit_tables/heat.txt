@@ -1,0 +1,114 @@
+# Critical Strike Table 6.3 — Heat
+# Transcribed from author-supplied PDF (X:\RMFRPSuite\Spell Critical Hit Tables.pdf).
+#
+@name:           Heat
+@table_number:   6.3
+@crit_type_code:
+@notes:
+@column_axis:    severity
+#
+01-05 | A | The air around foe shimmers. Pfft. | +0H
+01-05 | B | Attack is wild and boils nearby water. | +0H
+01-05 | C | Hot smoke makes foe's eyes red. | +1H
+01-05 | D | Foe evades the embrace of the flames. | +2H
+01-05 | E | Foe avoids the blast but not the heat. | +3H
+06-10 | A | Hot wind makes foe uncomfortable. | +1H
+06-10 | B | Singe foe's exposed skin. The heat dies quick. Foe is not impressed. | +2H
+06-10 | C | Sparks and smoke dance all over foe. He waves them off with little effort. | +3H
+06-10 | D | Flames surround foe. He seems to step out of them unharmed. | +4H
+06-10 | E | Sweltering heat reachs out for foe. He evades. You have initiative. | +4H
+11-15 | A | Foe covers his face and leaps aside. You have initiative. | +2H
+11-15 | B | Foe simmers in his clothes. He is unfocused and you have initiative. | +2H
+11-15 | C | Foe suspects that he is on fire. He is wrong. You gain the initiative. | +3H
+11-15 | D | Foe is enshrouded by smoke. The heat harms him little. You have initiative. | +4H
+11-15 | E | Flash unbalances foe and sends him on the defensive. You have initiative. | +6H – ∑
+16-20 | A | Blast stings foe's hands and arms. You have the initiative. | +3H
+16-20 | B | Assault blinds foe for a moment. You have 2 rounds of initiative. | –
+16-20 | C | Hair and bowstrings are singed. You have 2 rounds of initiative. | +5H
+16-20 | D | Foe strikes out at the flames to protect himself. It seems to work well enough. | +6H – π
+16-20 | E | Foe fails to avoid some of the attack and almost falls down. | +7H – π
+21-35 | A | Foe's chest and side heat up and garments smolder from assault. He will be easily kindled if you strike again. | +4H – ∑
+21-35 | B | Fire laden blast forces foe back. Any containers of water boil and burst open. You have 2 rounds of initiative. | +6H
+21-35 | C | Disorient foe with a tricky shot. Garments smolder suspiciously. He checks them carefully; guard is still up. | +7H – π – ∫
+21-35 | D | With a burst of flame, you cover foe with heated air. Foe jumps back to avoid any additional wounds. | +8H – 2π – ∫
+21-35 | E | Blister foe's weapon arm. He gives ground to escape the heat. His footing is better than you had hoped. | +9H – 2π – 2∫
+36-45 | A | Hot winds dance around foe parching his exposed skin. He puts up a desperate defence. | +6H – π
+36-45 | B | Foe's shield side is swathed in fire. He may use a shield to avoid the attack, but it combust. Shield hand is burned. | +3H – 3π | with shield
+36-45 | B | Foe's shield side is swathed in fire. He may use a shield to avoid the attack, but it combust. Shield hand is burned. | +7H – π – ∫ | without shield
+36-45 | C | Heat catchs foe in lower leg. You gain initiative while foe regains his balance. The pain stays with him. | +8H – 2π – ∫
+36-45 | D | Cover foe with a flash fire. Exposed skin burns. The flames bite deep and the pain is great. | +9H – 2∫ | If not wet
+36-45 | D | Cover foe with a flash fire. Exposed skin burns. The flames bite deep and the pain is great. | +6H – 2π | If wet
+36-45 | E | Strike to side and back ignite foe's cloak and pack. Neck and shoulder are lightly burned. | +8H –∫ | with backpack
+36-45 | E | Strike to side and back ignite foe's cloak and pack. Neck and shoulder are lightly burned. | +10H – 3∫ | without backpack
+46-50 | A | Clothes smoke, then burn. Foe flails his arms trying to put them out. The pain edures longer than the flames. | +7H – π – ∫
+46-50 | B | Foe evades most of the damage with some grace. The remainder scorches his side lightly. | +8H – 2π – ∫
+46-50 | C | Flame spreads up foe's side and snaps at his arm and face. Exposed areas are lightly burned. | +9H – ∑ – 2∫
+46-50 | D | Assault lands on foe's weapon arm. He makes a supreme effort to pull his arm away. Foe is unable to protect himself. | +10H – ∑ – 3∫
+46-50 | E | Foe blocks flames with his weapon. A wooden weapon is destroyed. A metal weapon becomes too hot to hold. | +12H – 2∑ – 3∫
+51-55 | A | Spark sets a piece of foe's equipment on fire. Foe must remove the item. | +8H – 2π – ∫
+51-55 | B | Foe ducks; attack torches back and the ground behind him. He is shaken. | +8H – ∑ – 2∫
+51-55 | C | Hard strike to side, armor does not help. Blow leaves a blistering mark. | +9H – 2∑ – 3∫
+51-55 | D | Foe is aflame and takes damage for 3 rounds while he burns. | +10H – 2∑ – 3∫
+51-55 | E | Your flames reach out. Foe frantically leaps back . His chest is burned. | +13H – ∑∏ – 3∫
+56-60 | A | Assault ignites foe's back. Equipment crackles as it burns and falls clear. | +9H – ∑ – 2∫
+56-60 | B | Engulf foe in flame and smoke. The flames die down; foe escapes death. | +10H – 2∑ – 2∫
+56-60 | C | Strong blast hits foe in legs; they nearly give with pain. He recoils 5 ft. | +8H – 2π | with leg armor
+56-60 | C | Strong blast hits foe in legs; they nearly give with pain. He recoils 5 ft. | +10H – 2∑ – 2∫ | without leg armor
+56-60 | D | Flames dance around foe's head. He seeks to get clear and almost falls. | +3H – 2∑ – 2(-10) | With helmet
+56-60 | D | Flames dance around foe's head. He seeks to get clear and almost falls. | +12H – 2∫ | without helmet
+56-60 | E | Garments over foe's shoulders and head are set afire. He is frantic. | +8H – ∑∏ – ∫ – (-5) | with helm
+56-60 | E | Garments over foe's shoulders and head are set afire. He is frantic. | +15H – 2∑∏ – (-10) –3∫ | without helm
+61-65 | A | Well placed. Strike slams into foe's weapon arm. Garments are burned. Foe's evasion is comical. | +7H – ∫ | with arm greaves
+61-65 | A | Well placed. Strike slams into foe's weapon arm. Garments are burned. Foe's evasion is comical. | +10H – 3∫ | without arm greaves
+61-65 | B | Concentrated strike burns through foe's leg. The flames do not last but foe's skin is exposed. Skin blisters. | +9H – ∑∏ – (-5) – 2∫
+61-65 | C | Flames burst against foe's side. He stumbles but does not fall. He tries to smother the fire with his garments. | +10H – ∑∏ – (-10) – 3∫
+61-65 | D | Foe's shield arm and shield are on fire. Dropping the shield only helps a little. The flames cling to his garements. | +10H – 2∑ – ∏ – 4∫ | with shield
+61-65 | D | Foe's shield arm and shield are on fire. Dropping the shield only helps a little. The flames cling to his garements. | +13H – 2∑ – ∏ – 6∫ | without shield
+61-65 | E | Searing strike to foe's legs. Exposed skin and muscle is burned. Infection will follow. Foe struggles to stay up. | +15H – 2∑∏ – 4∫ – (-10)
+66 | A | Flame grapples foe's shield and chest. The wound is grave and infection will follow. | +9H – 2∑∏ – (-15)
+66 | B | Fire lands along side foe's face. His hair, cheek, and ear are engulfed. Foe throws himself to the ground. | +10 – 2∑ – 4∫
+66 | C | Blaze consumes garments on weapon arm. Any metal covering heats up. Foe falls from the blast. | +12H – 3∫
+66 | D | Foe's face and weapon hand are scalded. Foe is having trouble opening his eyes. | +10∑ – (-10) – 6∫
+66 | E | Foe's combustible garments turn him into a torch. He runs a short distance, drops and dies in 6 rounds. | +25H
+67-70 | A | Toast foe's side and send him stumbling back 5 feet away from you. He blocks his face against any renewed assault. | +8H – 2∑ – 2∫ – (-5)
+67-70 | B | Flames seek out foe with a predator's lust. He throws garments and equipment off franticly to satisfy the blaze. Foe is busy staying alive. | +7H – 2∑ – ∏ – (-10) – 2∫
+67-70 | C | Back blast. Foe drops to one knee and then rises again with some difficulty. Some of his garments still smoke from the assault. Skin is blistered badly. | 2∑ – ∏ – (-15) – 2∫
+67-70 | D | Foe leaps back from your deadly inferno. He escapes death but falls on his back. He is prone for 1 round. Minor arm burns. | +15H – ∑ – 3∫
+67-70 | E | Blast leaps onto foe's shield arm. Any shield foe has and his arm are on fire. The heat penetrates deep and foe's face shows it. | 5∫– (-15)
+71-75 | A | Fire consumes garments and hair. Blinding smoke keeps foe's defenses poorly aligned. | +12H – ∑∏
+71-75 | B | Chest and arm blast damages organic armor and engulfs any wood on foe. Metal armor heats up painfully. | +9H – 2∑ – ∏ – (-15) – (+10)
+71-75 | C | Chest blast. Organic armor is destroyed. Metal armor should be removed quickly. | 3∑ – (-15) – 6∫
+71-75 | D | Foe's weapon arm is a conflagration. Hand and arm are useless. Muscles and nerves are damaged. | 6∑ – (-50)
+71-75 | E | Strike center of foe's chest. Flame spills in all directions. Foe is knocked down. Chest armor is destroyed. | +15H – 6∫ – (-60)
+76-80 | A | Foe's shield side engulfed in flame. Foe's shield but it will be kindled if wooden. | +10H – 2∑ – ∏ – 2∫
+76-80 | B | Abdomen entangled in flames. The flames will spread upward next turn if not extinguished. Foe sees the danger. 20 – 2∫ | —
+76-80 | C | Strike engulfs foe's most exposed hand and burns it without mercy. Hand is useless. Arm clothing is destroyed. | 6∑ – (-40)
+76-80 | D | Foe's side is ignited by your strike and the wounds are deep. He smothers the fire but the damage is done. | 3∑∏ – 5∫
+76-80 | E | Blast lands on foe's side but spreads to arms and legs. A shield prevents arm damage but his hands are burned off. | +20H – 12∑
+81-85 | A | Foe exposes his back while evading the strike. Blast scorches a small wound in his shoulder blade. | +8H – 2∑ – 2∫ – (-20)
+81-85 | B | Strike knocks foe down on his back. The flames do not endure but much equipment is burned or crushed. | ∑ – 2∫
+81-85 | C | Violent inferno destroys organic armor and ruins metal armor on leg. Much of the blast tumbles clear after impact. | (-20) – 2∫
+81-85 | D | Foe's arms and chest embrace your infernal strike. Arms are useless and foe's skin is open to the air. | +15H – 9∑
+81-85 | E | Foe inhales flames scalding lungs and throat Foe is active for 12 rnds (while he burns), then dies. | +20H
+86-90 | A | Assault to foe's lower leg consumes covering. Foe falls down. One leg is on fire. | +10H – 2(-10)
+86-90 | B | Leg covering is set on fire by blast. It spreads quickly and foe is in trouble. The flames will grow if not put out. | +16H – 3∑
+86-90 | C | Foe's shield side is devoured by flames. Head, arm, side, and leg have critical burns. If foe has a shield, it is destroyed in place of his arm. | +15H – 6∑∏ – (-85) – 3∫
+86-90 | D | Blast engulfs lower half of foe's body. If foe has abdominal armor, he is knocked out. If not, he dies in 12 inactive rounds from organ damage. | 2∫ | with abdominal armor
+86-90 | E | Foe's lower body is badly burned. Nerves, organs and tissue destroyed. Foe is paralyzed and will die in 9 rounds from shock and dehydration. | +20H
+91-95 | A | Blow to foe's head. If he has helmet it heats up like a furnace and must be painfully removed. Foe ears and cheeks are burned. | +15H – 3∑ – (-10) | with helmet
+91-95 | A | Blow to foe's head. If he has helmet it heats up like a furnace and must be painfully removed. Foe ears and cheeks are burned. | +12H – 2∑∏ – (-30) | without helmet
+91-95 | B | Head strike. Force of blast removes any helmet worn. Hair, scalp and skin burn. Smoke and flame blind foe for 3 rnds. | +10H – 3π – 2∫ | with helmet
+91-95 | B | Head strike. Force of blast removes any helmet worn. Hair, scalp and skin burn. Smoke and flame blind foe for 3 rnds. | 8∫ | without helmet
+91-95 | C | Trapped in the furnace of your blast, foe is overcome and falls down. He is unconsious and still burning. | +18H – 6∑∏ – (–90) – 4∫
+91-95 | D | Flames assault upper body. If foe has a full helm, he is blinded and in a coma for 2 days. If not, he dies in 6 rounds due to shock and brain damage. | –
+91-95 | E | Foe is cremated before your very eyes. He remains standing for 6 rounds and then drops and dies. A small fire lingers over the remains. A horrible end. | +25H
+96-99 | A | Blast lands on the weapon arm and climbs up to foe's neck. It burns all it touches. If foe has any organic neck covering it is destroyed. | 4∑∏ –8∫
+96-99 | B | Flames burn into foe's throat. The damage is frightening. Foe's neck collapses in the flames. He drops and dies in 9 inactive rnds. He smells bad. | +20H – 12∫ – (+10)
+96-99 | C | Intense heat fuses metal, cloth and skin. Foe is unrecognizable. If no chest armor he is dead instantly. Otherwise he dies after 9 rounds of burning. | –
+96-99 | D | Foe is trapped in the furnace made by your attack. Organs are destroyed and foe's blood boils. He has no hope of survival and dies in 6 inactive rounds. | +20H
+96-99 | E | Your foe is devoured by a hellfire of which even you are frightened. All combustibles within 10 ft ignite. Little will remain when the fire dies. | (+10)
+100 | A | Brutally scar the side of foe's face. Foe is knocked out. He loses 50 from his Appearance and 25 from his Presence. | +20H – 5∫
+100 | B | Assault consumes clothing and tissue. Foe's arms and chest are without skin. Foe is paralyzed. Infection will follow. | +25H
+100 | C | Strike to foe's head. If he has a helmet, his head is broiled and he dies in 2 rnds. If no helmet he dies instantly. | (+10)
+100 | D | Every part of foe is ablaze. He dies in 2 rounds, making terrifying noises. He continues to burn for 12 rounds. | (+15)
+100 | E | Fire devours every part of foe in an instant. Bits of metal, teeth and a few bones shower to the ground. | (+20)

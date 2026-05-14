@@ -1,0 +1,115 @@
+# Critical Strike Table 6.4 — Impact
+# Transcribed from author-supplied PDF (X:\RMFRPSuite\Spell Critical Hit Tables.pdf).
+#
+@name:           Impact
+@table_number:   6.4
+@crit_type_code:
+@notes:
+@column_axis:    severity
+#
+01-05 | A | Foe rolls with the blow.. | +0H
+01-05 | B | Rattle foe a little. Bruise his elbow. | +0H
+01-05 | C | Strike glances off foe. He presses on. | +1H
+01-05 | D | Strike lands without force. Foe is up. | +2H
+01-05 | E | How foe evaded that blow is a mystery. | +3H
+06-10 | A | It looks solid, but foe is not hindered. | +1H
+06-10 | B | Bump foe in the chest. He loses a garment decoration. | +2H
+06-10 | C | Foe turns to evade and gets hit in the backside. Little damage is done. | +3H
+06-10 | D | Wild assault to shoulder fails to connect with foe. | +4H
+06-10 | E | Foe is unbalanced and gives ground to regain his footing. | +3H – 2(-15)
+11-15 | A | With great effort foe evades the damage. You have initiative. | +2H
+11-15 | B | Corrupt foe's sense of balance. He stumbles and loses the initiative. | +4H
+11-15 | C | Firm strike causes foe to step back and get his bearings. | +3H – π
+11-15 | D | Strike to chest is not hard but it is well placed. Foe steps back 5 feet. | +4H – π
+11-15 | E | Foe staggers back and trips, making things worse for him. | +6H – ∑
+16-20 | A | Spin foe sideways. He recovers quickly. You have the initiative. | +3H
+16-20 | B | Foe's response is quick enough to avoid serious damage. | +2H – π
+16-20 | C | Strong blow. Foe abandons any hope of the initiative and falls back. | +4H – π
+16-20 | D | Foe starts stepping away from the assault before it hits his legs. | +6H – π
+16-20 | E | Foe fails to avoid some of the attack and almost falls down. | +9H – ∑
+21-35 | A | Your strike has some effect. Foe loses his balance and cannot regain a good stance. You have 2 rounds of initiative. | +5H
+21-35 | B | Strike seeks foe's head. He blocks with his weapon and evades with shameless grace. He keeps his guard up. | +5H – π
+21-35 | C | Foe is unbalanced and can only manage some wild swings to protect himself for the moment. | +8H – π
+21-35 | D | Blow almost sends foe down. He strikes the ground with his weapon while trying to regain his balance. | +10H – π
+21-35 | E | Foe reels from this deadly strike. He avoids death but not damage. His side is badly bruised. | +15H – ∑
+36-45 | A | Foe must give ground or fall. He steps back 5 ft and goes low to avoid falling. He loses 2 rnds of initiative. | +8H
+36-45 | B | Violent blow to shield side. Any shield is destroyed. Foe's side is bruised. He is still on his feet. | +9H – π
+36-45 | C | Pitiless blow to foe's lower leg. Foe is desperate to defend himself while he regains his balance. | +10H – ∑
+36-45 | D | Boom! Foe is hammered by an effective strike to his back. He looks to be recovering. Minor bruises. | +12H – 2∑
+36-45 | E | Hammer foe in shoulder. He falls 10 feet and spuins around. He stumbles another 5 ft before regaining control. | +15H –2∑ – 2(-15)
+46-50 | A | A solid shot unnerves foe and knocks him to the side. His recovery is slow. You have 3 rounds of initiative. | +10H
+46-50 | B | Foe loses footing before being struck, but still avoids most of assault. A piece of equipment is knocked loose. | +10H – ∑
+46-50 | C | Foe's weapon arm is slammed into his chest. Foe almost falls. He steps back 5 feet and regains some footing. | +12H – 2π – (+5)
+46-50 | D | Foe is shaken and steps back 5 feet for the next 2 rounds. If he cannot step back he falls down. | +5H – 2π
+46-50 | E | Foe is lifted off the ground and thrown back five feet. Amazingly he does not fall. His guard is down. | +20H – ∑∏
+51-55 | A | Bash to foe's side damages equipment unbalancing him. He stumbles about. | +10H – ∑
+51-55 | B | Smash foe to side. Foe still fights but footing is unfirm and armor is loose. | +12H – ∑
+51-55 | C | Hard strike to side, armor does not help. The bruise is deep and effective. | +15H – 2π
+51-55 | D | Batter foe. He fumbles his weapon grip. He notices little else right now. | ∑∏ – (+5)
+51-55 | E | Foe tries to withstand blow, but goes down. He takes 2 rnds to stand. | +20H – 2(40)
+56-60 | A | Foe's shield arm is roughed up. Foe puts his guard up and steps back. It is clear he is dazed. | +10H – ∑
+56-60 | B | Foe's response is ungraceful. The strike slams his weapon arm into his side and pins it for the moment. | +10H – 2∑
+56-60 | C | Strong bash hits foe low. His legs almost give with the pain. Foe recoils 5 feet away from your assault. | +12H – 2∑
+56-60 | D | Concussion bruises skin and batters ribs. Foe is numb, unable to feel the damage. He thinks wound is mortal. | 2∑∏ – (-10)
+56-60 | E | Impact scatters unattached equipment. Shield, helmet, and any weapons go flying. Foe then falls down. | +20H – 2∑∏
+61-65 | A | Well placed. Strike slams into foe's weapon arm. Foe holds onto his weapon . | +8H – π | with arm greaves
+61-65 | A | Well placed. Strike slams into foe's weapon arm. Foe holds onto his weapon . | +12H – ∑ | without arm greaves
+61-65 | B | Blow crashes into foe's chest. If he has chest armor, it is damaged. If not, he has terrible bruises and cracked ribs. | +12H – 2π | with chest armor
+61-65 | B | Blow crashes into foe's chest. If he has chest armor, it is damaged. If not, he has terrible bruises and cracked ribs. | +10H – ∑∏ | without chest armor
+61-65 | C | Crashing blow to foe's shoulder sends him over. He uses weapon arm to stay standing and cannot defend himself. | +10H – ∑∏ – (+5)
+61-65 | D | Lay waste to foe's shield arm. Any shield in use takes some of the damage, but is destroyed by impact. | +5H – ∑ – 3(-10) | with shield
+61-65 | D | Lay waste to foe's shield arm. Any shield in use takes some of the damage, but is destroyed by impact. | +10H – 2∑ – ∏ | without shield
+61-65 | E | Your strike vandalizes foe's sense of balance and he crashes to the ground. His legs and pride are bruised. | +20H – 3∑∏
+66 | A | Foe braced poorly for the impact. His knee is pressed backwards damaging muscles and tendons. | +20H – π
+66 | B | Fingers are entangled in the impact and broken. Foe's shield hand is useless. The swelling might go away in a day. | +15H – ∑∏
+66 | C | Blast breaks shield arm. He falls on his weapon arm and breaks his wrist. Both arms are useless. Talk about bad luck. | 3∑ – (-90)
+66 | D | Snap foe's head back. Foe falls unconscious onto ground breaking a leg and hand. Without helm he dies . | –
+66 | E | Head strike. Foe's skull is crushed. Any helmet worn is driven into the side of foe's head. | –
+67-70 | A | Foe's evasion attempt exposes back and side. Impact causes foe to drop his guard and stumble to the side. | +7H – ∑∏
+67-70 | B | Blow to back flings foe to knees. He drops his weapon. He stands but his guard is down as he rearms himself. | +12H – ∑∏
+67-70 | C | A piece of solid equipment is jammed into foe's chest. The pain is sharp. It leaves a permanent bruise. | 2∑ – ∏
+67-70 | D | Foe is knocked down. He lands on his equipment, and drops his weapon. He cannot get up for 2 rounds. | +15H – (+5)
+67-70 | E | Strike impacts along thigh. Leg is twisted and muscles pulled. Foe jams a finger during the struggle. | +15H – ∑ – (-10)
+71-75 | A | Modest strike provides some excellent openings. If foe has a shield, it is out of position for 1 round. | +10H – 2∑
+71-75 | B | Solid strike to shoulder numbs foe's senses and bruises muscles. Foe's sense of direction is off. | +20H – 2∑ – ∏
+71-75 | C | Violent strike to foe's midsection. He falls, drops equipment, and is vulnerable while standing up. | +10H – 2∑∏ –2(+5)
+71-75 | D | Strike at foe's legs. Foe wisely leaps back from the strike. Both shins and knees are bruised his ankle is broken. | +8H – 2(-20) | with leg armor
+71-75 | D | Strike at foe's legs. Foe wisely leaps back from the strike. Both shins and knees are bruised his ankle is broken. | +10H – ∑ | without leg armor
+71-75 | E | Strike lands in center of foe's chest. Foe is knocked down. Chest armor is destroyed. Ribs are broken. | +20H – 5∑ – (-10) | with chest armor
+71-75 | E | Strike lands in center of foe's chest. Foe is knocked down. Chest armor is destroyed. Ribs are broken. | +15H – 6∑ – (-30) | without chest armor
+76-80 | A | Strke lands hard against foe's shield side. He almost loses his footing. Foe will fall against any nearby object. | +6H – ∑ | with shield
+76-80 | A | Strke lands hard against foe's shield side. He almost loses his footing. Foe will fall against any nearby object. | +15H – 2∑ – ∏ | without shield
+76-80 | B | Your irresistible blow sends foe onto his back. He drops his weapon. Foe has a variety of bruises. | +12H – 3π | with chest armor
+76-80 | B | Your irresistible blow sends foe onto his back. He drops his weapon. Foe has a variety of bruises. | +10H – 2∑∏ – (+5) | without chest armor
+76-80 | C | Sweep foe onto his back. Foe must roll over to get up. Leg armor will slow him down. Minor fracture on lower leg. | +5H – ∑ – 2(-60) | with leg armor
+76-80 | C | Sweep foe onto his back. Foe must roll over to get up. Leg armor will slow him down. Minor fracture on lower leg. | +15H – ∑ – (-25) | without leg armor
+76-80 | D | Fold up foe's weapon arm and snap it against his body like a twig. His arm is useless. Boy that must hurt! | +10H - ∑
+76-80 | E | Strike crashes into foe's side, breaking his shoulder and collar bone. One arm is useless; the other isn't much better. | +25H
+81-85 | A | Solid shot to foe's chest drives home a deep bruise. The wound is unforgiving. Ribs are cracked and cartilage is torn. | +10H – (-25)
+81-85 | B | Brutal strike lands between foe's shoulder blades. Tendons and muscles sprain. Little is not painful for foe. | +10H – 2∑ – (-25)
+81-85 | C | Strike looks harmless. However, foe's collarbone is broken. He is furious with his fortune. The pain is real. | +15H – ∑ – (-25)
+81-85 | D | Impact to face and chest knocks out teeth and breaks ribs. Foe is dazed and stands immobile for 3 rounds. | +20H
+81-85 | E | Violent onslaught ruptures organs and causes massive internal bleeding. Foe will die in 6 inactive rounds. | +30H
+86-90 | A | Assault to legs. Foe's balance is stolen. He falls to the ground. Foe's shin and knee are bashed against the ground. | +8H – 2∑ | with leg armor
+86-90 | A | Assault to legs. Foe's balance is stolen. He falls to the ground. Foe's shin and knee are bashed against the ground. | +10H – 3∑∏ | without leg armor
+86-90 | B | Strike flings its strength into foe's legs. Muscles are bruised and tendons are torn. Foe remains standing. One of foe's greaves comes off. | +20H – 3∑ – (-50) | with leg armor
+86-90 | B | Strike flings its strength into foe's legs. Muscles are bruised and tendons are torn. Foe remains standing. One of foe's greaves comes off. | +20H – ∑∏ – (-20) | without leg armor
+86-90 | C | Blow fractures foe's thigh. Foe does not fall down, but he cannot walk until the leg has a splint. This is a good opportunity to practice your first aid. | +20H – 2∑∏ – (-60)
+86-90 | D | Onslaught to foe's midsection. Organs are damaged and foe throws up blood. Foe's abdomen is seriously damaged. He falls and should not be moved. | 12∑ | with abdominal armor
+86-90 | D | Onslaught to foe's midsection. Organs are damaged and foe throws up blood. Foe's abdomen is seriously damaged. He falls and should not be moved. | dies in 6 rounds | without abdominal armor
+86-90 | E | Foe is thrown down. Two ribs protrude from his chest. Organs are destroyed. Foe's eyes glaze when death comes in 3 rnds. | +50H
+91-95 | A | Blow to foe's head. If he has a helmet, it is unseated and covers foe's eyes. If no helmet, foe is knocked out. | +20H – 3∑∏ – (-50)
+91-95 | B | Strike hammers side of head. With helmet, foe is in coma for 2 weeks. If no helm, foe diesin 1-10 rnds. | +25H
+91-95 | C | Force of attack breaks foe's knee and sends him down. He can't get up unassisted. He considers surrendering. | +20H – 9∑∏ – (-75)
+91-95 | D | Foe's face, jaw and neck shatter. He stumbles back a few steps. He falls and dies after 3 rounds of inactivity. Sad. | +50H
+91-95 | E | Foe's lower body is crushed. Massive blood loss and shock will cause foe to die after 6 rounds. He can still speak. | +30H
+96-99 | A | Blow lands hardest against foe's hip. The bone is fractured and foe falls down. Foe sprains wrist in the fall. When it rains, it pours. | +20H - 3∑∏ – (-50)
+96-99 | B | This sudden tempest breaks foe's neck. He cannot breath. He drops and dies after a futile 12 round struggle. Close his eyes. | +25H
+96-99 | C | Savage impact ruptures internal organs and breaks many bones. Foe falls and dies.. | +50H
+96-99 | D | Bash in foe's side. Bones are broken by the concussion. One of them is driven into a kidney. Foe goes into shock, drops, and dies in 8 rounds. | +25H
+96-99 | E | Strike brings foe down. His spine is broken with liitle effort. Foe is still. Blood pours from his mouth heralding his death. He dies in 3 rounds. | (+20)
+100 | A | Foe slams to ground from brutal strike. His rib cage is fractured. With armor, he is only knocked out; if no armor, foe dies in 3 rnds from internal bleeding. | +25H
+100 | B | Bash in foe's side and a shoulder. The shoulder blade violently contacts foe's spine. Foe is paralyzed from the shoulder down. Foe is unhappy. | +30H
+100 | C | Foe's head is in the middle of this tumult. Foe dies instantly. His skull is crushed and a few other bones are also broken in his fall. | (+10)
+100 | D | Crush foe's lungs and heart with an irresistible onslaught. The impact slams foe to the ground and he dies a moment later. | (+25)
+100 | E | Blast breaks close to thirty bones in foe's skeleton. He is dead a moment later. His body is difficult to gather up. Very little of his equipment in intact. | —

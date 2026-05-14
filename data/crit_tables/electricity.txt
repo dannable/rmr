@@ -1,0 +1,119 @@
+# Critical Strike Table 6.2 — Electricity
+# Transcribed from author-supplied PDF (X:\RMFRPSuite\Spell Critical Hit Tables.pdf).
+#
+@name:           Electricity
+@table_number:   6.2
+@crit_type_code:
+@notes:
+@column_axis:    severity
+#
+01-05 | A | Blast is frightful, but ineffective. | +0H
+01-05 | B | Your strike's energy is poorly aimed. | +0H
+01-05 | C | Strike's energy soaks into the ground. | +1H
+01-05 | D | Bright flash and little heat disturb foe. | +2H
+01-05 | E | Foe avoids blast but feels charged. | +3H
+06-10 | A | Sparks fly. Foe is illuminated by blast. | +1H
+06-10 | B | Foe's hair stands on end. Frightening! | +2H
+06-10 | C | Foe waves off sparks and smoke. | +3H
+06-10 | D | Static gathers on foe. Zap! | +4H
+06-10 | E | Foe sees spots. You have initiative. | +4H
+11-15 | A | Bolt reaches for foe but then grounds out. You have initiative. | +2H
+11-15 | B | Mild jolt to foe's shoulder causes him to hesitate. You have initiative. | +2H
+11-15 | C | The thunderous crack of your attack panics foe. You gain the initiative. | +3H
+11-15 | D | Bolt jumps to foe's weapons and then into the ground. You have initiative. | +4H
+11-15 | E | Flash unbalances foe and sends him on the defensive. You have initiative. | +5H – ∑
+16-20 | A | Foe flinches from the static in the air. You have the initiative. | +3H
+16-20 | B | The blast of light and heat daunts foe. He looks away; you have initiative. | +4H
+16-20 | C | Flying debris obstructs foe's vision. You have 2 rounds of initiative. | +3H
+16-20 | D | Foe strikes out at the blast to protect himself. It seems to work well enough. | +4H – π
+16-20 | E | Foe fails to avoid some of the attack and almost falls down. | +6H – ∑
+21-35 | A | Foe recoils from thundering sound of the blast. He loses 2 rounds initiative. | +4H
+21-35 | B | Flashes of light and sharp cracks. Foe's impressed.You have 2 rnds initiative. | +5H
+21-35 | C | Any coins on foe heat up smolder in foe's pockets. He steps back. | +6H – π
+21-35 | D | Your attack jolts foe into action. He steps back and swings in all directions. | +5H – 2π – ∫
+21-35 | E | Foe is magnetized foe a moment. It distracts him. He is dazed. | +10H – 2∑
+36-45 | A | Blast almost misses, but it grounds into foe's weapon arm. | +5H – π | without metal weapon
+36-45 | A | Blast almost misses, but it grounds into foe's weapon arm. | +7H – ∑π | with metal weapon
+36-45 | B | Foe's side and back are entangled by blast. Foe is shaken. | +2H – π – ∫
+36-45 | C | Foe heats up and goes on defensive until he cools. His footing is good. | +7H – 2π
+36-45 | D | Entangle foe in deadly blue light. Garments smolder and traces of energy inhabit his equipment. | +7H – ∑ – 2(-10)
+36-45 | E | Foe's equipment is infested by the blast. Garments are scorched; exposed skin is burned. Foe is a wreck. | +12H –2∑
+46-50 | A | Small bits of electrical energy chase around foe's body. Foe makes a futile effort to throw them off. | +2H – π – ∫
+46-50 | B | Strike hits foe's chest. Clothes smoke, then burn. Foe flails his arms trying to put them out. | +6H – 2π
+46-50 | C | Strike connects with foe's arm. It careens off each piece of metal foe is wearing. Exposed areas are blistered. | +7H – 2∑
+46-50 | D | Direct hit to foe's chest illuminates foe. Much of the strike grounds out. Some of the energy remains for an instant. | +7H – 2∑ – 2(-10)
+46-50 | E | Blast to foe's waist. He stumbles, dazzled by light, and twitches for the next hour. You have 6 rds of initiative. | +13H – 2∑ – ∏
+51-55 | A | Direct sizzling blast to foe's shoulder. It grounds out and leaves foe dazed. | +6H –∑
+51-55 | B | Back strike throws equipment about. Minor burns to exposed skin. | +7H – ∑ – 2∫
+51-55 | C | Hard strike to side, armor does not help. Blow leaves a permanent mark. | +7H – ∑∏ – ∫
+51-55 | D | Blast assaults foe's shield arm. If foe has metal armor he is knocked out. | +10H – 2∑ – π
+51-55 | E | Weapon arm endures a terrible onslaught. Foe drops all in his hand. | +13H – 2∑ – 2∫
+56-60 | A | Foe is jerked off balance by the strike and has trouble regaining footing. | +7H – 3π
+56-60 | B | Blast heats up metal on foe, causing painful burns to contacting flesh. | +8H – 2∑ | without metal
+56-60 | B | Blast heats up metal on foe, causing painful burns to contacting flesh. | +10H – 2∑∏ | with metal
+56-60 | C | Strong blast hits foe low. His legs almost give from the pain. Foe recoils. | +12H – ∑ | with leg armor
+56-60 | C | Strong blast hits foe low. His legs almost give from the pain. Foe recoils. | +9H – 2∑ | without leg armor
+56-60 | D | You hits hard; foe's abdomen is hammered. He steps back 5 feet. | +20H | with abdominal armor
+56-60 | D | You hits hard; foe's abdomen is hammered. He steps back 5 feet. | +15H – 6∑ | without abdominal armor
+56-60 | E | Bolt passes through foe's leg before grounding. Foe suffers . | +8H – ∑∏ | with leg armor
+56-60 | E | Bolt passes through foe's leg before grounding. Foe suffers . | 2∑ – 2∫ | without leg armor
+61-65 | A | Well placed. Strike slams into foe's weapon arm. Foe's evasion is comical. | +3H – 2∑ | with metal greaves
+61-65 | A | Well placed. Strike slams into foe's weapon arm. Foe's evasion is comical. | +7H – ∑ | without metal greaves
+61-65 | B | Foe's reflexes are numbed by blast. He is dazed and moving slowly. | +9H – ∑∏
+61-65 | C | Strike is low and pours into ground. A stray bolt arches into foe's leg. | +10H – 2∑ – π
+61-65 | D | Blast to foe's shield shoulder. Foe's shield arm and shield ignite. | 6∑ – 3∫ | with shield
+61-65 | D | Blast to foe's shield shoulder. Foe's shield arm and shield ignite. | 2∑ – 2∫ | without shield
+61-65 | E | Foe is overcome by the flash. He falls, entangled in his smoldering garments. | +14H – 2∑ – π
+66 | A | Disrupt the beating of foe's heart for a moment. Reflexes strain muscles. Foe is knocked down. | 3 ∑
+66 | B | Bright flash illumnates foe and jolts every muscle in his body. Foe's reflexes will flinch again in 10 rounds. | +15H – 3∑∏ – 2∫ – (-20)
+66 | C | Any metal armor on arm and chest becomes fused together in the blast. Foe's arm is then pinned and useless. | +9H – 12∑
+66 | D | Foe's neck absorbs the bulk of the attack. Nerves overload. Foe is knocked out and mute for a week. | +20H – 4∫
+66 | E | Boom! Foe's skeleton crackles with the impact. He drops and dies in 2 rounds. | (+10)
+67-70 | A | Blast climbs up foe's side and sends him stumbling back 5 feet. He blocks his face against a renewed assault. | +7H – ∑π
+67-70 | B | Strike lands on shoulder and streaks down back. Foe steps foward in failing attempt to duck. He is vulnerable. | +10H – 2∑ – ∏
+67-70 | C | Back blast. Foe drops to one knee and rises again with some difficulty. Skin is blistered badly. | +11H – 2∑∏ – (-10)
+67-70 | D | The shock of the assault inhabits foe's spine. Muscles and tendons are stretched. He has trouble standing. | +12H – 2∑ – (-20)
+67-70 | E | Blasted leaps onto foe's shield arm. His arm and any shield are on fire. Metal is fused. | 4∑ – 3∫ – (-40)
+71-75 | A | Your attack infects foe with electrical energy. It dances all over him. It takes some time for him to recover. | +8H – 3∑ – (-5)
+71-75 | B | Chest and arm blast damages organic armor. Metal armor will heat up painfully. Foe smells own hair burning. | 4∑ – 2∏
+71-75 | B | Chest and arm blast damages organic armor. Metal armor will heat up painfully. Foe smells own hair burning. | 3∫ | while metal armor worn
+71-75 | C | Chest blast. Organic armor is destroyed. Metal armor is scalding hot. | +12H – 8∑
+71-75 | C | Chest blast. Organic armor is destroyed. Metal armor is scalding hot. | 5∫ | until metal armor removed
+71-75 | D | Attack engulfs foe's weapon. Hand and arm are useless. Skin, muscles, and nerves are damaged. | +13H – 3∑
+71-75 | E | Strike savages center of foe's chest. Foe's convulsions resemble a dance. One arm is paralyzed. | +10H – 3∑∏ – ∫ | with armor
+71-75 | E | Strike savages center of foe's chest. Foe's convulsions resemble a dance. One arm is paralyzed. | 6∑ – 3∫ | without chest armor
+76-80 | A | Electrify foe's shield side. Foe finds little protection behind his shield. Hopefully, it contains no metal. | +6H – ∑∏ | without metal on shield
+76-80 | A | Electrify foe's shield side. Foe finds little protection behind his shield. Hopefully, it contains no metal. | +9H – 2∑∏ | with metal on shield
+76-80 | B | Abdomen entangled by a great electrical serpent. Foe is knocked down; the beast disappears. | +15H – 2∑ – ∏ | with abdom. armor
+76-80 | B | Abdomen entangled by a great electrical serpent. Foe is knocked down; the beast disappears. | +11H – 2∫ | without abdominal armor
+76-80 | C | Nerves in foe's elbow are damaged; shield arm is useless. He drops his weapon on his foot. He is embarassed. | 8 ∑ – (-5) – ∫
+76-80 | D | Blast reaches out with hateful resolve. Foe's neck and back are engulfed. Nerves are damaged and muscles torn. | +20H – 10∑∏
+76-80 | E | Metal on foe fuses to his body, damaging nerves. Dazed, he drops to the ground to look for his marbles. | +18H – 3∫
+81-85 | A | Blast goes right into foe's back and he vibrates. He is unaware of much around him for a moment. He flails his weapon around. | +12H – 2∑π
+81-85 | B | The shock turns foe's reflexes against his muscles. Tendons are torn during foe's violent convulsions. The poor fool. | +13H – 3∑∏
+81-85 | C | Violent shock to foe's abdomen. Armor deflects some of the damage. Foe is terribly unbalanced. Torn cartilage. | +10H – ∑ – (-20) | with armor
+81-85 | C | Violent shock to foe's abdomen. Armor deflects some of the damage. Foe is terribly unbalanced. Torn cartilage. | 4∑ – (-40) – 2∫ | without armor
+81-85 | D | Bolt grapples foe's weapon arm and snakes into his body. His arm is useless. He is dizzy and falls unconscious after 6 active rounds. | +15H – 6(-30)
+81-85 | E | Blast hits shoulder. Foe conducts your strike well. His nervous system is rearranged. He drops and dies of shock and nerve damage in 12 rounds. | –
+86-90 | A | Assault to foe's lower leg fuses metal and burns much. Foe falls. One leg is paralyzed if metal greaves are worn. | +15H – 2∑∏ | with metal armor
+86-90 | A | Assault to foe's lower leg fuses metal and burns much. Foe falls. One leg is paralyzed if metal greaves are worn. | +15H – 3∑∏ | without metal armor
+86-90 | B | Blast lands on leg with unusual force. Simple leg fracture if he wears armor; a compound fracture if not. | 6∑∏ – ∫ | with leg armor
+86-90 | B | Blast lands on leg with unusual force. Simple leg fracture if he wears armor; a compound fracture if not. | 6∑ – (-50) | without leg armor
+86-90 | C | Brunt of strike infests foe's knee. Muscles and nerves are burned. Foe drops in agony and grips his knee. | 2∑∏ – (-60)
+86-90 | D | Electrify foe's body. Muscles and tendons tear in convulsions. If no armor he dies in 12 rounds. | 9∑ – 6∫ | with chest armor
+86-90 | E | Strike seeks out the shoulder and then his spine. Foe drops, hip and backbone shattered, and dies in 12 rounds. | –
+91-95 | A | Strike arcs up into foe's hip. Garments catch fire. Shock and nerve damage inflicted. | 3∑ – (-50)
+91-95 | B | Jolt blinds foe for 2 days and sends him crashing to the ground. He is badly dazed and helpless while the blindness lasts (2 to 10 days). | 9∑
+91-95 | C | Trapped in a web of light, your foe falls to escape the heat. He is unconsious and, without immediate aid, will go into shock, dying in 12 rounds. | (–75) – 5∫
+91-95 | D | Strike to foe's head devastates nervous system. He falls into a coma. Foe is a living vegetable. Any metal is hot to the touch. | +30H
+91-95 | E | Blast rends foe's body, causing fatal damage to organs. His eyes pop out and he dies in 9 inactive rounds. So much for the Govenor's pardon. | +25H
+96-99 | A | Foe's loses consciousness from the blast. His convulsions keep him standing 1 round. | +10H – 12∑
+96-99 | B | Strike overloads foe's nervous system. His heart stops and restarts several times. He drops and dies in 9 rounds. | +15H
+96-99 | C | Sustained heat of the onslaught fuses metal, cloth, and skin. Foe's eyes pop out of his head. He dies in 3 rounds. | –
+96-99 | D | Foe reels back 10 feet. Nerve damage and shock combined with broken hip and arm spell death in 3 painful rnds. | +20H
+96-99 | E | Titanic blast virtually cuts foe in half. Bolts streak across ground threatening new victims. Foe is dead, of course. | (+20)
+100 | A | Foe's head is ablaze. Garments catch fire. Foe falls unconscious and dies in 6 rounds from nerve damage. | +20H
+100 | B | Foe's insides heat up and burn, destroying nerves and organs alike. Foe drops and dies instantly. | (+10)
+100 | C | Strike lands on foe's head. Muscles are fused, tendons torn. Foe's brain fries. He slips to ground and dies in 3 rnds. | 3(+10)
+100 | D | Havoc reigns around foe. Closest thing to him is also entangled in this deadly bolt. He dies 2 rnds later. | (+15)
+100 | E | Strike to foe's head. He is burned to a cinder. What is left blows away on the wind. All fear you. | (+20)

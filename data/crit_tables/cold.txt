@@ -1,0 +1,114 @@
+# Critical Strike Table 6.1 — Cold
+# Transcribed from author-supplied PDF (X:\RMFRPSuite\Spell Critical Hit Tables.pdf).
+#
+@name:           Cold
+@table_number:   6.1
+@crit_type_code:
+@notes:
+@column_axis:    severity
+#
+01-05 | A | Cold breeze yields little damage. | +0H
+01-05 | B | Attack yields a brief climate change. | +0H
+01-05 | C | You give foe's cheeks a rosy hue. | +1H
+01-05 | D | Your blast looks good, works poorly. | +2H
+01-05 | E | Sharp and cold air assaults foe's skin. | +3H
+06-10 | A | Feeble and poorly directed. Foe is not really concerned. | +1H
+06-10 | B | Burst of cold causes target mild discomfort. | +2H
+06-10 | C | Your attack conjures a bitter arctic wind. Foe is not impressed. | +3H
+06-10 | D | Foe shields himself. Your attack misses most of its mark. | +4H
+06-10 | E | Ice up the ground and foe's feet. He springs clear. You have initiative. | +4H
+11-15 | A | Foe dodges your attack with too much effort. You have initiative. | +2H
+11-15 | B | Foe evades frantically. He is still chilled. You have initiative next round. | +3H
+11-15 | C | Encrust foe with ice. He is unbalanced as he shakes it off. You gain initiative. | +4H
+11-15 | D | Light frosting leaves foe unsteady. You must hit him again. | +5H – π
+11-15 | E | Frigid strike to foe's torso and face. You have the initiative. | +6H – π
+16-20 | A | Foe is fearful of your assault. Your attack gives you the initiative. | +3H
+16-20 | B | Assault blinds foe for a moment. You have 2 rounds of initiative. | +4H
+16-20 | C | Numbing whirlwind encircles foe. You have 2 rounds of initiative. | +5H
+16-20 | D | Foe's attempts to evade and strikes himself. You try not to laugh. | +6H – π
+16-20 | E | Foe's failed efforts to avoid your attack puts him at a grave disadvantage. | +7H – π
+21-35 | A | Burst of cold to the face sends foe stumbling back. You have initiative for 2 rounds. | +4H
+21-35 | B | Frost laden blast forces foe back. Any containers of water freeze and burst open. You have 2 rounds of initiative. | +5H
+21-35 | C | Disorient foe with a tricky shot. His garments have failed to keep out the chill. Press him while you can. | +6H – π
+21-35 | D | With a burst of white, you shower foe with ice crystals. Foe closes his eyes to avoid the onslaught. | +7H – π – ∫ –(-20)
+21-35 | E | Freeze foe's hair and scalp. If foe has long hair, it breaks off! Foe struggles in vain to repair the damage. | +8H – (2π-15)
+36-45 | A | Your attack freezes one of foe's metal items. Foe takes a defensive stance. | +5H – π
+36-45 | B | Foe makes a futile attempt to parry the attack;. He loses 3 rounds of initiative. | +6H – π
+36-45 | C | Catch foe in lower leg. You gain initiative while foe regains footing. | +7H – 2π – ∫
+36-45 | D | Foe ices down; freezing any exposed skin. The pain is great. | +9H – ∑ – 2∫ – (-20)
+36-45 | E | Assault to foe's legs. Hypothermic, he struggles to remain standing. | ∑ – (-20)
+46-50 | A | Scatter your attack all over foe's chest. Foe is covered with frost. He looks ghoulish. | +6H – 2π
+46-50 | B | Cold penetrates foe's chest and gives him frostbite. The pain must be severe. He stumbles back. | +7H – 2π – 2∫
+46-50 | C | Blast hits foe's chest and scatters. The cold stings all exposed skin. Foe has a shocked look on his face. | +8H – ∑
+46-50 | D | Assault lands on foe's weapon arm. He makes a supreme effort to pull his arm away. Foe is unable to protect himself. | +9H – ∑ – 2∫ – (-10)
+46-50 | E | Glancing strike to lower back. Foe is spun about and slings his weapon away. You have him now. | +10H – ∑
+51-55 | A | Blow to foe's chest. Your attack has force and foe stumbles. | +7H – ∑
+51-55 | B | Strong off-center blast takes foe in his shield arm wrist and side. | +8H – ∑ – 3∫
+51-55 | C | Hard strike to chest, armor does not help. Blow leaves its frigid mark. | +5H – 2∑ – (-10)
+51-55 | D | Heavy blow to shield shoulder. Foe is knocked back 5 feet. Muscle damage. | +10H – 2∑ – 3∫
+51-55 | E | Blow to side. Foe seeks to regain his wind and survive your next onslaught. | +11H – ∑∏ – 4∫
+56-60 | A | Strike falls on an exposed area. Foe gives ground. He is shaken but his guard is still up. | +8H – 2∑
+56-60 | B | Foe turns to avoid your attack and exposes his back. All wood on his back | +9H – 2∑ – 2∫
+56-60 | C | Strong blast hits foe low. His legs almost give with the pain. Foe recoils 5 feet away from your assault. | +5H – 2π | with leg armor
+56-60 | C | Strong blast hits foe low. His legs almost give with the pain. Foe recoils 5 feet away from your assault. | +9H – ∑∏ | without leg armor
+56-60 | D | Miss foe's arm and strike his thigh. He loses his footing. Skin and nerve damage causes foe pain. | ∑∏ – 3∫ – (-15)
+56-60 | E | Your blast engulfs foe's weapon arm and climbs toward his torso. He steps away frantic to evade the pain. | +10H – ∑∏ – 4∫ – (-20)
+61-65 | A | Well placed. Strike slams into foe's weapon arm. Foe's evasion is comical. | +2H – π | with arm greaves
+61-65 | A | Well placed. Strike slams into foe's weapon arm. Foe's evasion is comical. | +9H – ∑∏ | without arm greaves
+61-65 | B | Solid strike to foe's forearm. Foe's hand frozen shut for 1 round. | +10H – ∑∏ – (-5) – 3∫
+61-65 | C | Blast freeze dries organic material on foe's back. | +11H – 4∑
+61-65 | D | Blast freezes foe's arm and shield. If no shield,arm useless from nerve damage. | +20H | with shield
+61-65 | D | Blast freezes foe's arm and shield. If no shield,arm useless from nerve damage. | 5∑ | without shield
+61-65 | E | Strike to foe's waist. All equipment on belt freezes and breaks if foe moves. | +13H – 3∑ – (- 30)
+66 | A | Steal the heat from foe's neck and chest area. Foe drops anything he is holding and blocks his throat. | +10H – 3∑∏
+66 | B | Foe is covered by the blast. All extremities are damaged. The pain grows until foe is warmed up. | 4∑∏ – 3∫
+66 | C | Foe's response to your burst of cold sends him to the ground hard. Foe jams his wrist into the ground. | 6∑ – (-15) – 4∫
+66 | D | Frigid onslaught fills foes eyes and mouth with ice. Foe is blinded for a moment until he can clear his eyes. | 4∑ – (-30) – 4∫
+66 | E | Your strike steals the heat out of foe's neck and upper chest. Nerves and muscles are damaged. | +15H – 8∑∏ – 4∫
+67-70 | A | Score a hit to foe's side. It produces mild frostbite. Any herbs on foe's belt are ruined. | +10H – ∑∏ – (-5)
+67-70 | B | Spray foe's face with a powerful chill. He tries without success to push your attack away . The damage endures. becomes frozen and brittle. | +11H – 2∑ – ∏ – (-10)
+67-70 | C | Freeze foe's weapon arm. It is useless until it is warmed up. Foe is in great pain and stuggles to stand. | +12H – 2∑ – ∏ – (-15)
+67-70 | D | Polar wind pierces deep into chest and leaves foe trembling. You are close to victory. Foe faces the wrong way. | +15H – ∑∏ – (-5) | with chest armor
+67-70 | D | Polar wind pierces deep into chest and leaves foe trembling. You are close to victory. Foe faces the wrong way. | +13H – 3∑ – ∏ – (-20) | without ch armor
+67-70 | E | Blow to foe's shield arm. He is knocked down. If foe has a shield, it is broken. If not, the arm is broken. | 2∑ | with shield
+67-70 | E | Blow to foe's shield arm. He is knocked down. If foe has a shield, it is broken. If not, the arm is broken. | 6∑ | without shield
+71-75 | A | Strong unbalancing blast. Foe's body temperature drops. | +11H – 2∑ – (-10)
+71-75 | B | Strike lands on foe's legs. The pain and shock cause him to falter. | +12H – 2∑∏ – 3∫
+71-75 | C | Side strike hits foe just right. Any leather or cloth freezes and shatters. | 2∑∏ – 3∫ – (-20)
+71-75 | D | Blast drains the heat from foe's weapon arm. Hand and arm are useless. The hand is frozen closed. | +13H – 2∑∏ – (-50)
+71-75 | E | Blast freezes weapon hand, shoulder and face. Foe is numb and needs time to warm up. Foe is still standing. | +15H – 3∑
+76-80 | A | Strike to foe's shield arm. If foe sees it he may block with a shield. Foe recoils 5 feet from the blast. | +2H – 2π | with shield
+76-80 | A | Strike to foe's shield arm. If foe sees it he may block with a shield. Foe recoils 5 feet from the blast. | +12H – 2∑ – ∏ | without shield
+76-80 | B | Chest strike freezes what it touches. Equipment is damaged. The pain persists. Chest armor is destroyed. w/ ch. armor: +13H – 4∑ – (+15) – 3∫ | +20H – 4π – (-5) | without chest armor
+76-80 | C | Blow to foe's arms. Any metal armguards freeze, immobilizing arms until the armor is removed or unfrozen. | 3∑ – 4∫ | with chest armor
+76-80 | C | Blow to foe's arms. Any metal armguards freeze, immobilizing arms until the armor is removed or unfrozen. | (-25) – 4∫ | without chest armor
+76-80 | D | Strike to foe's side downs him. Severe frostbite hampers movements. Any liquid among foe's equipment freezes. | +15H – 3∑∏ – (-25)
+76-80 | E | Solid chest strike. Foe flips onto his back , dropping all he holds. Foe is at your mercy. | 12∑ – (-30)
+81-85 | A | Back blast. Any glass on back is broken. Painful bruise. | +13H – 2∑∏
+81-85 | B | Clean hard strike pushes foe over, cracking ribs. His recovery lacks grace. | +12H – 2∑∏ – (-15) – 4∫
+81-85 | C | Arctic blast to foe's torso. Foe is badly frostbitten and falls to knees in pain. | 6∑ – 5∫ – (-40)
+81-85 | D | Freezes foe's hands. Arms are useless. Foe drops what he was carrying. | 9∑ – 6∫
+81-85 | E | Assault to throat and face is terminal. Foe is still active but dies in 12 rounds. | +17H
+86-90 | A | Assault to foe's lower leg freezes part of it. Foe falls down. Without leg armor, foot must be amputated. | 2∑ – 6(-10) | with leg armor
+86-90 | A | Assault to foe's lower leg freezes part of it. Foe falls down. Without leg armor, foot must be amputated. | (-70) | without leg armor
+86-90 | B | Strike lower leg and freeze it. With leg armor, he needs aid in 20 rnds to keep the foot. Without leg armor, it's gone. | 3∑ | with leg armor
+86-90 | B | Strike lower leg and freeze it. With leg armor, he needs aid in 20 rnds to keep the foot. Without leg armor, it's gone. | (-75) | without leg armor
+86-90 | C | Blow to foe's knees. They freeze up and foe falls. On impact, foe shatters a knee. His fall makes it twice as bad. | 9∑ – 6∫ – (-80)
+86-90 | D | Chest hit causes much pain. If foe is warmly clothed he is knocked out. If not he dies of shock in 12 rounds. | +25H – (-40)
+86-90 | E | Your ruthless tempest entangles foe and steals the warmth from his body. He drops and dies in 9 inactive rounds. | –
+91-95 | A | Blow lands on foe's face. It freezes his nose, ears and cheeks. Foe collapses. Without helm, foe loses both ears. | 3∑ | with helmet
+91-95 | A | Blow lands on foe's face. It freezes his nose, ears and cheeks. Foe collapses. Without helm, foe loses both ears. | 6∑ – (-50) | without helmet
+91-95 | B | Connect with foe's hip. Hip is fractured. Skin and muscles are frostbitten. Foe falls down. He is almost helpless. | +17H – 3∑∏ – (-75)
+91-95 | C | Freeze the blood in foe's thigh. As it warms the clots move to his heart killing him in 9 rounds. | +15H – 3∑∏ – (–30)
+91-95 | D | All warmth is driven from foe's lower body. Vital organs are destroyed. Foe is immobile, and dies in 9 rounds. | +18H
+91-95 | E | Push foe backwards and off balance. The blood in foe's extremeties is frozen. He dies in 6 rounds of agony. | +19H
+96-99 | A | Chest strike sends foe over hard. He is knocked out. His lips freeze and split open. He cannot speak for 2 weeks. | 9∑
+96-99 | B | Blast foe's neck and collarbone. Neck armor will block the attack, but foe is knocked out. If the neck is exposed it freezes solid and foe dies in 9 rounds. | –
+96-99 | C | Your onslaught freezes foe's torso and head. Foe remains standing for a moment. He goes into shock and dies 6 rounds later. | +18H
+96-99 | D | Foe's heart and lungs are suddenly frozen by your arctic blast. Foe is finished. He dies of shock and suffocation in 6 rounds. | +19H
+96-99 | E | Foe is a lifeless frozen statue. He is quite dead and well preserved. Store in a cool dry place. | +20H – (+10)
+100 | A | Foe is sent into a month long coma by the attack. He loses his nose to frostbite. | +21H
+100 | B | Assault drops foe's body temperature; his heart stops. He dies in 1 round; well preserved. You are respected by all. | (+5)
+100 | C | Blast freezes foe's eyes, mouth, and neck. Foe falls down in a coma for 2 weeks and paralyzed from neck down. | —
+100 | D | Massive assault freezes foe's body completely. He remains standing, but if knocked over he will shatter. | +20H
+100 | E | Foe freezes solid and shatters into a thousand pieces. Most land within 20 feet from where he was standing. | (+20)
