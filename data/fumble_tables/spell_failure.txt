@@ -1,0 +1,93 @@
+# Fumble Table 4.15 — Spell Failure (a.k.a. 6.6 in the spell PDF)
+# Transcribed from author-supplied PDF (X:\RMFRPSuite\Spell Critical Hit Tables.pdf).
+#
+# Rolled when a spell fails. Four columns:
+#   1 — Elemental    (attack spells / elemental)
+#   2 — Force        (attack spells / force)
+#   3 — Informational (non-attack spells / informational)
+#   4 — Other        (non-attack spells / other)
+#
+# Narrative-only; the descriptive text encodes all mechanics
+# (hits, stuns, lost power points, etc.).
+#
+@name:         Spell Failure Table
+@table_number: 4.15
+@column_1:     Elemental
+@column_2:     Force
+@column_3:     Informational
+@column_4:     Other
+#
+# Format: <roll-band> | <col_index 1..4> | <narrative>
+#
+01-20 | 1 | That gnat just landed in your ear. You must begin casting the spell again (but do not lose the power points).
+01-20 | 2 | Your target's grace distracts you. You lose the spell (and one power point).
+01-20 | 3 | Momentary lapse in concentration delays the casting of the spell for one round.
+01-20 | 4 | You stumble across the incantation and delay the casting of the spell for one round.
+21-30 | 1 | Your fingertips spark and surprise you. You lose the spell (and one power points). You operate at a -50 modification next round.
+21-30 | 2 | You remember a childhood incident that was traumatizing. You lose the spell (but not the power points). Operate at -10 for five rounds.
+21-30 | 3 | You only gain one small bit of information. Unfortunately, that information is outdated (or incorrect).
+21-30 | 4 | You cannot remember the final words for the spell. Lose the spell (but not the power points).
+31-40 | 1 | Minor power backlash. You lose the spell (and half the number of power points –rounded down). Stunned for 1 round.
+31-40 | 2 | The magic blurs your vision. You lose the spell (and half the number of power points –rounded down). Stunned for 1 round.
+31-40 | 3 | You gain half of the desired information; but it is incorrect.
+31-40 | 4 | Your head pounds. You have to stop casting (lose the spell, but not the power points).
+41-60 | 1 | You realize you are casting the wrong spell. You must start over. Lose the power points.
+41-60 | 2 | The planets are not aligned correctly! Your spell has absolutely no effect (and you lose the power points).
+41-60 | 3 | The information you gain is correct, but you have no idea what the topic was!
+41-60 | 4 | A momentary mental lapse cause you to forget your place in the spell (lose the spell, but not the power points).
+61-75 | 1 | You feel a spider crawling up your back! You lose the spell and the power points.
+61-75 | 2 | Your target must be blessed! Your spell has no effect and you lose double the normal number of power points.
+61-75 | 3 | You gain correct information about a similar topic to that which you were seeking. You are so surprised, you are stunned 1 round.
+61-75 | 4 | While casting, you notice that shadows are beginning to move. You immediately stop casting (lose the spell and 1 power point).
+76-90 | 1 | The spell fails! Flames rolls down your arm. You take 5 hits and are stunned for 3 rounds.
+76-90 | 2 | Power backlash! The spell fails entirely. You are stunned for 8 rounds.
+76-90 | 3 | You cannot make out the information due to extraneous feedback.
+76-90 | 4 | A muscle cramp in your jaw causes your spell to fail. Lose the spell, and half the normal points (rounded down). You are stunned for two rounds.
+91-95 | 1 | The elements refuse your call! You are knocked back 3 feet (taking 2d10 hits), and are stunned for six rounds.
+91-95 | 2 | The target's will is stronger than yours! You collapse on the ground (taking d10 hits). and are stunned for 9 rounds.
+91-95 | 3 | You gain a bit of ominous information about your own death! You are stunned for one round.
+91-95 | 4 | You are seeing stars. You must cancel the spell. Lose the spell, and half the normal power points (rounded down). You are stunned for one round.
+96-100 | 1 | Instead of launching, the elements engulf you. Take 20 hits and a 'B' crtical strike.
+96-100 | 2 | The spell internalizes. You take 4d10 hits and knocked unconscious for 12 hours.
+96-100 | 3 | You gain one piece of very specific, incorrect information. However, you experience power feedback (take d10 hits).
+96-100 | 4 | You internalize the spell. You take 2d10 hits and are stunned for 2d10 rounds.
+101-125 | 1 | The elemental attack strays to the right of the intended target. You are stunned for three rounds.
+101-125 | 2 | The spell affects a random target to the right of the intended target. You are stunned for one round and take d10 hits (from the mental strain).
+101-125 | 3 | Power feedback causes the information to be garbled. You are stunned for two rounds.
+101-125 | 4 | The spell strays to points unknown. You are stunned for three rounds.
+126-150 | 1 | An unforseen cosmic shift causes the spell to veer to the left of the target (striking the nearest target). This sudden change causes mental strain; take 5 hits and you are stunned for one round.
+126-150 | 2 | You lose control and the spell hits a target to the left of the intended target. Make another attack against a random target within range. You are stunned for one round and take d10 hits from the wild attack.
+126-150 | 3 | You gain useless information about an unknown target. In addition, there is so much information, that you are stunned for three rounds.
+126-150 | 4 | For some reason, the spell does not work! You are stunned for four rounds while you try and figure it out.
+151-175 | 1 | You get the polarity backwards! The elements travel 180˚ from the intended direction (hitting any available target). In the wake, you take 5d10 hits and a 'C' critical strike.
+151-175 | 2 | The spell targets a random victim that can be anywhere with 500'. The power backlash short circuits your brain. Take 25 hits and are unable to function for d10 hours.
+151-175 | 3 | You strain too hard to get the information. Your spell fails utterly and you take 3 hits (and are stunned for 5 rounds).
+151-175 | 4 | You have been working too hard. The spell misfires badly. You take d10 hits and are stunned for d10 rounds.
+176-185 | 1 | The elements cannot be controlled! Your brain is fried (lose all spell casting ability for 1 week). You operate at -50 for 3 months (or until brain is repaired).
+176-185 | 2 | The spell lodges in your head. You suffer brain damage; you operate at a -75 modification for d10 months (or until brain is repaired). You lose all spell casting ability for 1 week).
+176-185 | 3 | Something just is not right here. The massive overload in your head knocks you down (take five hits). Spend 5d10 minutes recovering (no other actions allowed).
+176-185 | 4 | The spell misfires in your head. Take 2d10 hits while you are knocked down. You are unable to function for one hour.
+186-191 | 1 | The spell explodes immediately as you cast it! Make a point blank attack on yourself. You are in a coma for 1 week (and lose spell casting ability for 2 weeks).
+186-191 | 2 | The spell misfires and internalizes inside your head. Take 35 hits. You lose spell casting ability for d10 weeks. There is a 40% chance of falling into a d10 day coma.
+186-191 | 3 | The utter nothingness that you discern takes you close to death. Take 2d10 hits and an 'A' Impact critical as you recover. You must spend one hour doing nothing.
+186-191 | 4 | Severe power feedback knocks you down. Take 1d10 hits and an 'A' Impact critical. You are unable to function for d10 hours.
+192-195 | 1 | The elements attack you. Take 10d10 hits and d10 'C' critical strikes. After the assault, you will fall into a coma for 5 weeks. After the coma, you will seem fine; but will die 6 hours later.
+192-195 | 2 | You suffer a massive stroke! Take 10d10 hits and fall into a month-long coma. At the end of the coma, you will seem fine; but will die d10 hours later.
+192-195 | 3 | You have seen your own death! You collpase to the ground (take 3d10 hits and you are unconscious for d10 hours). You now suffer from Paranoia.
+192-195 | 4 | You have just acquired a nervous disorder GM's discretion). You lose all spell casting ability for d10 weeks. You slam yourself into the nearest solid object (take 5d10 hits) and knock yourself out (for 12 hours).
+196-200 | 1 | The power is too much to control. The elements refuse to rise to your command. The spell internalizes and paralyzes your torso.
+196-200 | 2 | The spell completely short circuits your nervous system. You are paralyzed from the waist down.
+196-200 | 3 | You are the victim of a mild stroke. Take 4d10 hits and lose all spell casting ability for one week. In addition, you will have a -40 penalty for d10 days.
+196-200 | 4 | You suffer a mild stroke. Take 20 hits and lose all spell casting ability for two weeks. In addition, you will have a -50 penalty for d10 days.
+201-250 | 1 | The elements control you! Take 8d10 concussion hits and a d10 'E' critical strikes. After displaying your failure, you will fall into a coma for 3 weeks (and lose spell casting ability for d10 weeks).
+201-250 | 2 | The spell completely internalizes. You lose all spell casting ability for d10 weeks and will be in a coma for d10 weeks. Take 8d10 hits.
+201-250 | 3 | The spell short circuits. Take 20 hits and knock yourself out for 9 hours. You lose all spell casting ability for 4 weeks.
+201-250 | 4 | You internalize the spell. Take 4d10 hits and you are knocked out for 2d10 hours. You have lost all spell casting ability for d10 weeks.
+251-300 | 1 | You slip into the elemental planes for d10 rounds. When you return, you realize that you have lost all your spell casting ability for d10 months.
+251-300 | 2 | Severe nervous disorder causes you to lose all your spell casting ability for d10 months.
+251-300 | 3 | You now have a nervous tick. You are stunned for d10 rounds. Anytime you attempt to cast this spell in the future will result in deterioation of the nervous tick (eventually, you will become a quivvering blob).
+251-300 | 4 | You now suffer from a nervous disorder (GM's discretion). You are stunned for 2d10 rounds and can no longer cast this spell.
+301-999 | 1 | All of the elements visit you at once. All that is left is a charred mass of flesh.
+301-999 | 2 | Massive internalization of spell. Instant brain death.
+301-999 | 3 | You have seen Armageddon. This results in brain shut-down. You are in a coma for 3 months.
+301-999 | 4 | You suffer a severe stroke. You drop into a coma for d10 months.

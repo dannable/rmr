@@ -1,0 +1,55 @@
+# Critical Strike Table 6.5 — Large Creature (Spell)
+# Transcribed from author-supplied PDF (X:\RMFRPSuite\Spell Critical Hit Tables.pdf).
+#
+# This is the spell-attack version of the creature crit table (chapter 6),
+# distinct from the chapter-4 physical-attack tables. Two columns:
+#   normal  — standard spell hits a Large creature
+#   slaying — slaying-type spell hits a Large creature
+# The "251+" roll band is encoded as "251-999".
+#
+@name:           Large Creature (Spell)
+@table_number:   6.5
+@crit_type_code:
+@notes:
+@column_axis:    attack_type
+@column_1:       normal
+@column_2:       slaying
+#
+01-05 | normal | Your karma is not strong enough to damage such a beast. | +0H
+01-05 | slaying | Sparks fly. The enchantment fails. You had hoped for more damage. | +5H
+06-10 | normal | It looked powerful but your foe did not even stumble. | +1H
+06-10 | slaying | Foe throws off the magic that threatens his very existance. | +9H
+11-20 | normal | You are daunted by the beast's gaze and your aim fails. | +3H
+11-20 | slaying | Strike lands solid. Foe howls out in pain and anger! | +12H
+21-30 | normal | The strike is powerful, but poorly placed. Remember, Focus. | +5H
+21-30 | slaying | Chest strike leaves visible damage. Foe makes a futile attempt to brush it off. | +15H
+31-40 | normal | .The attack lands well but seems only to scuff your foe's skin. | +7H
+31-40 | slaying | Firm strike to foe's lower abdomen. Measurable damage has been done. | +18H
+41-50 | normal | Solid attack yields predictable damage. | +10H
+41-50 | slaying | Your assault entangles foe's arm for an instant. Arm is bruised. | +20H
+51-65 | normal | Weak attack to a vulnerable spot. Foe is enraged by the close call. | +13H
+51-65 | slaying | Blow to foe's back. Foe's hide is tough, but much damage is done. | +25H
+66 | normal | Blast drives into foe's mouth. The concussion knocks him down and puts him into a coma for a month. | +30H
+66 | slaying | Assaulting foe's very living essence, your strike lands upon his head. His life is stripped from him. He dies instantly. | (+10)
+67-70 | normal | Solid strike on foe's leg. Foe feels the assault. | +15H
+67-70 | slaying | Attack hammers foe in his shield side. He is in much pain . | +30H
+71-80 | normal | Solid strike to foe's head hurts him, but he is still coming. If foe has head gear it is knocked off. | +20H
+71-80 | slaying | Etch a nasty wound in foe's chest over his vitals. He is upset greatly. You have initiative for 6 rounds. | +12H – 3∑
+81-90 | normal | Strong blast staggers your terrible foe. He is as surprised as you are at this success. He loses 6 rounds of initiative. | +15H – 3∑
+81-90 | slaying | Blow to foe's arm joint lands poorly. Foe will have a bruise. You think you know what went wrong. | +25H – 3∑
+91-95 | normal | Hard and effective, your strike almost brings foe down. He stumbles, but does not fall. | +20H – 2∑∏
+91-95 | slaying | You concentrate the energy of the strike and fracture foe's leg bone. | 2∑π – (-30)
+96-98 | normal | Strike lands and tears down into foe's neck. This vicious blast crushes foe's neck and shatters his spine. He falls unmoving and dies in 3 rounds. | –
+96-98 | slaying | You are a mighty enchanter. Your strike hits foe's chest and neck. His neck is broken. Foe drops and dies. | (+15)
+99-100 | normal | You step into the right spot and rip open foe's side. Your blow shatters some ribs. Foe dies in 6 painful rounds. | –
+99-100 | slaying | Perfect aim. Foe's carotid artery and jugular vein are torn open. Foe drops and dies in 3 rounds. | –
+101-150 | normal | Glancing strike to foe's abdomen loses much of the impact on foe's hide. | +30H – 3∑∏
+101-150 | slaying | Side strike. Attack careens down foe's chest and leg. Skin is torn away. Foe roars his defiance. | +35H – 5∑∏
+151-175 | normal | Your weapon wounds deep and cuts muscles and tendons. | 5∑∏ – (-20)
+151-175 | slaying | Fracture a bone in foe's forearm. It twists in a painful direction. His guard is down. | +40H – 6∑∏ – (-25)
+176-200 | normal | Foe presents a weak spot and you strike. Blow lands at the base of the neck. Tendons are damaged. | +35H – (-35) – 10∫
+176-200 | slaying | He is knocked down and out. Ribs are shattered. The concussion causes internal bleeding. | 10∫ – (-50)
+201-250 | normal | When your strike lands on foe's back, bones crackle and pop. Foe is paralyzed and in a 3 month coma +50H. | –
+201-250 | slaying | Assault causes mortal damage. Foe's organs fail. He is inacitve and dies after 3 rounds. | +50H
+251-999 | normal | Foe lowers his eyes within your reach and you strike with great skill and fury. Foe dies instantly. | +20H
+251-999 | slaying | Impact of blast drives content of skull in all directions. Foe falls and flails around violently. He dies instantly. His blood pours out onto the floor. | —
