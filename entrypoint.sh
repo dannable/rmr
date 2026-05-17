@@ -1,11 +1,21 @@
 #!/bin/sh
-# Build the SQLite DB from /app/data, then exec the bot.
-# Idempotent: --reset wipes the existing DB first.
+# Safety-net entrypoint.
+#
+# - If the DB doesn't exist, build it from data/ (first-time bootstrap so the
+#   container can come up even if rmr-init wasn't run).
+# - If it does, leave it alone — user data lives here now, and deliberate
+#   ref-data refreshes are done by the rmr-init compose service.
+#
+# Then exec the CMD (bot or web).
 set -e
 
-echo "[entrypoint] building DB at $DB_PATH from /app/data ..."
-mkdir -p "$(dirname "$DB_PATH")"
-python load.py --reset
+if [ ! -f "$DB_PATH" ]; then
+    echo "[entrypoint] DB at $DB_PATH does not exist; initializing from data/"
+    mkdir -p "$(dirname "$DB_PATH")"
+    python load.py --reset
+else
+    echo "[entrypoint] DB exists at $DB_PATH; skipping init"
+fi
 
-echo "[entrypoint] DB built; starting: $*"
+echo "[entrypoint] starting: $*"
 exec "$@"
