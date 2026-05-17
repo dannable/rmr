@@ -6,6 +6,9 @@ rmfrp.db
 .scratch/
 *.bak
 
+# Raw PDF dumps for chargen ingest — author's IP, not redistributable.
+data/chargen/_raw/
+
 # Docker compose mounts the SQLite DB into ./db/ on the host
 db/
 
@@ -28,6 +31,12 @@ venv/
 build/
 dist/
 *.egg-info/
+
+# Node / Vite (client/)
+node_modules/
+client/dist/
+client/.vite/
+*.local
 
 # Editors / OS
 .vscode/

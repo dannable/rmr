@@ -177,6 +177,23 @@ CREATE TABLE IF NOT EXISTS attack_result (
 CREATE INDEX IF NOT EXISTS idx_attack_result_lookup
     ON attack_result(weapon_id, armor_type, roll_min, roll_max);
 
+-- =========================================================================
+-- App users (web layer) — ties a Discord identity to characters owned in
+-- the builder. The bot can look up app_user by discord_id to find which
+-- character a slash-command invoker has claimed.
+-- =========================================================================
+
+CREATE TABLE IF NOT EXISTS app_user (
+    user_id           INTEGER PRIMARY KEY AUTOINCREMENT,
+    discord_id        TEXT    NOT NULL UNIQUE,        -- Discord snowflake
+    discord_username  TEXT,                            -- last-seen username (cached)
+    discord_avatar    TEXT,                            -- avatar hash (cached)
+    created_at        TEXT    NOT NULL,                -- ISO-8601 UTC
+    last_login_at     TEXT    NOT NULL                 -- ISO-8601 UTC
+);
+
+CREATE INDEX IF NOT EXISTS idx_app_user_discord_id ON app_user(discord_id);
+
 CREATE VIEW IF NOT EXISTS v_attack_result_by_roll AS
 WITH RECURSIVE expand(weapon_id, roll, roll_min, armor_type) AS (
     SELECT weapon_id, roll_min, roll_min, armor_type FROM attack_result

@@ -16,6 +16,14 @@ extract_skeletons.py
 scripts/
 d10s/
 
+# Client node_modules / build output — Dockerfile stage 1 reinstalls/builds.
+client/node_modules/
+client/dist/
+client/.vite/
+
+# Tests run on host, not inside the image.
+tests/
+
 # Python
 __pycache__/
 *.py[cod]

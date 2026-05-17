@@ -494,7 +494,24 @@ def insert_fumble_table(conn: sqlite3.Connection, data: dict) -> tuple[int, int,
 # entry point
 # ---------------------------------------------------------------------------
 
+# Tables that hold REFERENCE data (loaded from data/). Safe to wipe-and-reload.
+# Order matters: child tables before parents for the DELETE pass.
+REF_TABLES_DELETE_ORDER: tuple[str, ...] = (
+    "critical_result_effect",
+    "critical_result",
+    "fumble_result",
+    "fumble_table_column",
+    "attack_result",
+    "attack_table_size_cap",
+    "weapon_breakage_number",
+    "weapon",
+    "fumble_table",
+    "critical_strike_table",
+)
+
+
 def init_db(reset: bool) -> sqlite3.Connection:
+    """Open DB, apply schema. Deletes the file first when `reset` is True."""
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     if reset and DB_PATH.exists():
         DB_PATH.unlink()
@@ -504,12 +521,52 @@ def init_db(reset: bool) -> sqlite3.Connection:
     return conn
 
 
+def reload_ref_data(conn: sqlite3.Connection) -> None:
+    """Wipe reference tables in dependency order, leaving user tables (app_user,
+    future character tables) untouched. Caller is expected to re-insert ref data.
+
+    Each name is whitelisted against sqlite_master so a typo can't accidentally
+    target a user table.
+    """
+    cur = conn.execute(
+        "SELECT name FROM sqlite_master WHERE type='table'"
+    )
+    existing = {row[0] for row in cur.fetchall()}
+    for table in REF_TABLES_DELETE_ORDER:
+        if table in existing:
+            conn.execute(f"DELETE FROM {table}")
+    # Reset AUTOINCREMENT counters so primary keys start fresh.
+    if "sqlite_sequence" in existing:
+        for table in REF_TABLES_DELETE_ORDER:
+            conn.execute("DELETE FROM sqlite_sequence WHERE name = ?", (table,))
+    conn.commit()
+
+
 def main() -> None:
     p = argparse.ArgumentParser()
-    p.add_argument("--reset", action="store_true", help="delete existing DB before loading")
+    mode = p.add_mutually_exclusive_group()
+    mode.add_argument(
+        "--reset", action="store_true",
+        help="delete the entire DB before loading (DESTRUCTIVE: wipes user data too)",
+    )
+    mode.add_argument(
+        "--reload-ref", action="store_true",
+        help="wipe and reload reference data only; preserves user tables (app_user, etc.)",
+    )
     args = p.parse_args()
 
-    conn = init_db(reset=args.reset)
+    if args.reset:
+        conn = init_db(reset=True)
+    elif args.reload_ref:
+        if not DB_PATH.exists():
+            # No DB yet — first run; --reload-ref degrades gracefully to a full init.
+            conn = init_db(reset=False)
+        else:
+            conn = init_db(reset=False)  # ensures schema is up to date (CREATE IF NOT EXISTS)
+            reload_ref_data(conn)
+    else:
+        # Default: same as --reset for backwards compatibility with `python load.py`.
+        conn = init_db(reset=True)
 
     crit_loaded: list[tuple[str, int, int]] = []
     if CRIT_TABLES_DIR.exists():

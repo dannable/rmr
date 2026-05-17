@@ -1,18 +1,66 @@
+# rmr on thematrix: one image, three services.
+#
+#   rmr-init  one-shot: refresh reference data (weapons/crits/fumbles) from
+#             /app/data. Idempotent — preserves user data (app_user, future
+#             character_* tables). Other services depend on this so the DB
+#             is guaranteed to be up-to-date before they start.
+#   rmr-bot   long-running: Discord gateway client. (Pre-existing.)
+#   rmr-web   long-running: FastAPI + built SPA. Exposes 8000 to host
+#             loopback only; nginx terminates TLS on the host and proxies
+#             https://<your-subdomain>/ -> http://127.0.0.1:8000.
+#
+# All three mount the same ./db volume so they share rmfrp.db.
+
+x-rmr-image: &rmr-image
+  image: rmr:latest
+  build: .
+  env_file: .env
+  environment:
+    DB_PATH: /app/db/rmfrp.db
+  volumes:
+    - ./data:/app/data:ro
+    - ./db:/app/db
+
 services:
+  rmr-init:
+    <<: *rmr-image
+    container_name: rmr-init
+    # Refresh ref data without touching user tables. On a fresh deployment
+    # (no DB yet) this degrades to a full schema init.
+    command: python load.py --reload-ref
+    restart: "no"
+
   rmr-bot:
-    build: .
-    image: rmr-bot:latest
+    <<: *rmr-image
     container_name: rmr-bot
     restart: unless-stopped
-    env_file: .env
+    depends_on:
+      rmr-init:
+        condition: service_completed_successfully
+    command: python -m bot
+
+  rmr-web:
+    <<: *rmr-image
+    container_name: rmr-web
+    restart: unless-stopped
+    depends_on:
+      rmr-init:
+        condition: service_completed_successfully
+    command: python -m web
     environment:
       DB_PATH: /app/db/rmfrp.db
-    volumes:
-      # Bind-mount the data tree so edits on the host (followed by a
-      # `docker compose restart`) take effect without rebuilding the image.
-      - ./data:/app/data:ro
-      # Persist the generated SQLite DB outside the container so you can
-      # peek at it from the host with `sqlite3 ./db/rmfrp.db`.
-      - ./db:/app/db
+      CLIENT_DIST: /app/client_dist
+      WEB_HOST: 0.0.0.0
+      WEB_PORT: "8000"
+      # IPs uvicorn trusts for X-Forwarded-* headers. Set to ravenloft's
+      # source IP (as seen from thematrix) in .env so the session cookie's
+      # `secure` flag and the request scheme are correct behind the proxy.
+      FORWARDED_ALLOW_IPS: ${FORWARDED_ALLOW_IPS:-127.0.0.1}
+    # Host-side bind address. ${WEB_BIND_ADDR} in .env controls this:
+    #   - 127.0.0.1     (default) — only reachable from this docker host
+    #   - 192.168.1.61  — thematrix's LAN IP; ravenloft (192.168.1.64) proxies here
+    #   - 0.0.0.0       — reachable from any interface (lock down via firewall!)
+    ports:
+      - "${WEB_BIND_ADDR:-127.0.0.1}:8000:8000"
 
 volumes: {}
