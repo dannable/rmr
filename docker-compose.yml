@@ -56,11 +56,15 @@ services:
       # source IP (as seen from thematrix) in .env so the session cookie's
       # `secure` flag and the request scheme are correct behind the proxy.
       FORWARDED_ALLOW_IPS: ${FORWARDED_ALLOW_IPS:-127.0.0.1}
-    # Host-side bind address. ${WEB_BIND_ADDR} in .env controls this:
-    #   - 127.0.0.1     (default) — only reachable from this docker host
-    #   - 192.168.1.61  — thematrix's LAN IP; ravenloft (192.168.1.64) proxies here
-    #   - 0.0.0.0       — reachable from any interface (lock down via firewall!)
+    # Host-side bind. Two knobs in .env:
+    #   WEB_BIND_ADDR  — interface to publish on
+    #     - 127.0.0.1     (default) — only reachable from this docker host
+    #     - 192.168.1.61  — thematrix's LAN IP; ravenloft (192.168.1.64) proxies here
+    #     - 0.0.0.0       — any interface (lock down via firewall!)
+    #   WEB_HOST_PORT  — host-side port number (default 8000). Change when 8000
+    #                    is already taken (e.g. another container, tunarr, etc.).
+    #                    The container itself always listens on 8000 internally.
     ports:
-      - "${WEB_BIND_ADDR:-127.0.0.1}:8000:8000"
+      - "${WEB_BIND_ADDR:-127.0.0.1}:${WEB_HOST_PORT:-8000}:8000"
 
 volumes: {}
