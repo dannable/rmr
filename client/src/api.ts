@@ -42,3 +42,29 @@ export interface Me {
 
 export const fetchMe = () => api<Me>("/api/v1/me");
 export const logout = () => api<void>("/auth/logout", { method: "POST" });
+
+// ---- characters --------------------------------------------------------
+
+export interface Character {
+  character_id: number;
+  owner_user_id: number;
+  name: string;
+  level: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export const fetchCharacters = () =>
+  api<Character[]>("/api/v1/characters");
+
+export const fetchCharacter = (id: number) =>
+  api<Character>(`/api/v1/characters/${id}`);
+
+export const createCharacter = (name: string) =>
+  api<Character>("/api/v1/characters", {
+    method: "POST",
+    body: JSON.stringify({ name }),
+  });
+
+export const deleteCharacter = (id: number) =>
+  api<void>(`/api/v1/characters/${id}`, { method: "DELETE" });
