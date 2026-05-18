@@ -16,6 +16,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
+from .api.characters import router as characters_router
 from .api.me import router as me_router
 from .auth.discord import router as auth_router
 from .config import get_settings
@@ -37,6 +38,7 @@ def create_app() -> FastAPI:
 
     app.include_router(auth_router)
     app.include_router(me_router)
+    app.include_router(characters_router)
 
     @app.get("/healthz")
     def healthz() -> dict:

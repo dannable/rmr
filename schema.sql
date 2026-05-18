@@ -194,6 +194,26 @@ CREATE TABLE IF NOT EXISTS app_user (
 
 CREATE INDEX IF NOT EXISTS idx_app_user_discord_id ON app_user(discord_id);
 
+-- =========================================================================
+-- Characters (web layer)
+-- =========================================================================
+-- A character is owned by exactly one app_user. As of this milestone the
+-- table only carries enough to list/view/create a placeholder ("blank")
+-- character — the wide set of fields from the RMSS plan (stats, race FK,
+-- profession FK, skill ranks, etc.) will be added in subsequent migrations
+-- as the chargen wizard fills out.
+
+CREATE TABLE IF NOT EXISTS character (
+    character_id   INTEGER PRIMARY KEY AUTOINCREMENT,
+    owner_user_id  INTEGER NOT NULL REFERENCES app_user(user_id) ON DELETE CASCADE,
+    name           TEXT    NOT NULL,
+    level          INTEGER NOT NULL DEFAULT 1,
+    created_at     TEXT    NOT NULL,           -- ISO-8601 UTC
+    updated_at     TEXT    NOT NULL            -- ISO-8601 UTC
+);
+
+CREATE INDEX IF NOT EXISTS idx_character_owner ON character(owner_user_id);
+
 CREATE VIEW IF NOT EXISTS v_attack_result_by_roll AS
 WITH RECURSIVE expand(weapon_id, roll, roll_min, armor_type) AS (
     SELECT weapon_id, roll_min, roll_min, armor_type FROM attack_result
