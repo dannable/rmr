@@ -214,6 +214,24 @@ CREATE TABLE IF NOT EXISTS character (
 
 CREATE INDEX IF NOT EXISTS idx_character_owner ON character(owner_user_id);
 
+-- One row per character per stat code. The 10 stat codes come from
+-- core.chargen.stats.STAT_CODES (Ag/Co/Me/Re/SD/Em/In/Pr/Qu/St); the FK
+-- to character is what enforces ownership, and ON DELETE CASCADE keeps
+-- the per-stat rows in sync with the parent.
+--
+-- `temp` and `potential` are the raw values the player rolled / bought
+-- (1..102 in practice). Derived bonuses (basic stat bonus, RR formulas)
+-- are computed on the fly by core.chargen.stats and NOT stored here —
+-- the table T-2.1 is the single source of truth.
+CREATE TABLE IF NOT EXISTS character_stat (
+    character_id  INTEGER NOT NULL REFERENCES character(character_id) ON DELETE CASCADE,
+    stat_code     TEXT    NOT NULL CHECK (stat_code IN
+                    ('Ag','Co','Me','Re','SD','Em','In','Pr','Qu','St')),
+    temp          INTEGER NOT NULL DEFAULT 50  CHECK (temp      BETWEEN 1 AND 102),
+    potential     INTEGER NOT NULL DEFAULT 50  CHECK (potential BETWEEN 1 AND 102),
+    PRIMARY KEY (character_id, stat_code)
+);
+
 CREATE VIEW IF NOT EXISTS v_attack_result_by_roll AS
 WITH RECURSIVE expand(weapon_id, roll, roll_min, armor_type) AS (
     SELECT weapon_id, roll_min, roll_min, armor_type FROM attack_result
