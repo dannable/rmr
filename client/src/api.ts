@@ -68,3 +68,48 @@ export const createCharacter = (name: string) =>
 
 export const deleteCharacter = (id: number) =>
   api<void>(`/api/v1/characters/${id}`, { method: "DELETE" });
+
+// ---- character stats ---------------------------------------------------
+
+export type StatCode = "Ag" | "Co" | "Me" | "Re" | "SD" | "Em" | "In" | "Pr" | "Qu" | "St";
+
+export const STAT_CODES: readonly StatCode[] = [
+  "Ag", "Co", "Me", "Re", "SD", "Em", "In", "Pr", "Qu", "St",
+] as const;
+
+export interface StatRow {
+  code: StatCode;
+  name: string;
+  temp: number;
+  potential: number;
+  basic_bonus: number;
+}
+
+export interface StatsRR {
+  channeling: number;
+  essence: number;
+  mentalism: number;
+  chan_ess: number;
+  chan_ment: number;
+  ess_ment: number;
+  arcane: number;
+  poison_disease: number;
+  fear: number;
+}
+
+export interface CharacterStats {
+  stats: StatRow[];
+  resistance_rolls: StatsRR;
+}
+
+export const fetchCharacterStats = (id: number) =>
+  api<CharacterStats>(`/api/v1/characters/${id}/stats`);
+
+export const updateCharacterStats = (
+  id: number,
+  stats: { code: StatCode; temp: number; potential: number }[],
+) =>
+  api<CharacterStats>(`/api/v1/characters/${id}/stats`, {
+    method: "PUT",
+    body: JSON.stringify({ stats }),
+  });

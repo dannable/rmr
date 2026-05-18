@@ -7,6 +7,7 @@ import {
   HttpError,
   type Character,
 } from "../api";
+import { StatsEditor } from "../components/StatsEditor";
 
 export function CharacterDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -79,9 +80,12 @@ function CharacterDetail({ characterId }: { characterId: number }) {
 
       <hr />
 
+      <StatsEditor characterId={c.character_id} />
+
+      <hr />
+
       <p style={{ color: "#888", fontSize: 13 }}>
-        Phase 1 placeholder. The chargen wizard (stats / race / culture / profession)
-        will land here next.
+        Next: race, culture, profession picker. Skill DP allocator after that.
       </p>
 
       <div style={{ marginTop: 24 }}>
