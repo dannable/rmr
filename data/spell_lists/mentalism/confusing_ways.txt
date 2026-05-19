@@ -1,0 +1,107 @@
+# Spell List 4.7.1 — Confusing Ways (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - mentalism.pdf.
+#
+@realm:    Mentalism
+@name:     Confusing Ways
+@number:   4.7.1
+@category: Base
+@class:    Mystic
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Distraction | 1 target | C | 100' | Fm
+ 2 | Confusion | 1 target | 1 rnd/5 fail | 100' | Fm
+ 3 | Blur Vision | 1 target | C | 100' | Fm
+ 4 | Fear | 1 target | 1 min/10 fail | 100' | Fm
+ 5 | Stumble | 1 target | — | 100' | Fm
+ 6 | Fumble | 1 target | — | 100' | Fm
+ 7 | Hallucination | 1 target | C | 100' | Fm
+ 8 | Spin | 1 target | — | 50' | Fm
+ 9 | Weapon Alteration | 1 target | 1 rnd/lvl | 100' | Fm
+10 | Mirages | 1 target | C | 100' | Fm
+11 | Blinding | 1 target | 1 rnd/10 fail | 100' | Fm
+12 | Shifting | 1 target | 1 rnd/10 fail | 100' | Fm
+13 | Mass Distraction | 1 target/lvl | C | 300' | Fm
+14 | Word of Fear * | 1 target | 1 min/5 fail | 100' | Fm
+15 | Amnesia | 1 target | 1 day/5 fail | 100' | Fm
+16 | Shout of Confusion * | 50'R | 1 rnd/5 fail | 100' | Fm
+17 | Long Bewilderment | 1 target | varies | 300' | Fm
+18 | Shout of Fear * | 50'R | 1 min/5 fail | 100' | Fm
+20 | Lord Bewilderment | 20 targets | varies | 100' | Fm
+25 | Amnesia True | 1 target | P | 100' | Fm
+30 | Parallel Reality | 1 target | 1 day/5 fail | 100' | Fm
+50 | Bewilderment True | 1 target/lvl | varies | 300' | Fm
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Distraction — Target suffers a -30 modification for all actions. M
+
+@@ 2
+Confusion — Target is incapable of making decisions or initiating action. He may continue to fight current foes or in selfdefense.
+
+@@ 3
+Blur Vision — Target suffers a -100 OB modification for missile attacks, and a -50 modification for all other actions.
+
+@@ 4
+Fear — Target fears caster and attempts to flee. Fleeing normally equates to moving at maximum pace away from the caster.
+
+@@ 5
+Stumble — Target becomes unbalanced. If he is moving, he trips and falls (0% action for 1-5 rnds). If he is performing a maneuver, the manuever fails.
+
+@@ 6
+Fumble — Target fumbles any weapon or item in his hands. Roll on the appropriate Arms Law Fumble Table.
+
+@@ 7
+Hallucination — Target sees a nonexistent foe and must fight him until the foe is “defeated” (i.e., takes damage that would drop the him). The foe has the same capabilities as target but does him no damage (i.e., always misses).
+
+@@ 8
+Spin — Target is spun about a few times, and stops facing 180˚ away from his original facing. He spends the round attempting to recover.
+
+@@ 9
+Weapon Alteration — Target’s weapon is altered to appear to him that it is some other similar weapon. When fighting with this weapon, he can only use the category bonus for his OB (i.e., the weapon is similar, but not the same).
+
+@@ 10
+Mirages — Target sees all moving things clearly, but the caster can control the fixed scene that the target “sees.”
+
+@@ 11
+Blinding — Target is blinded.
+
+@@ 12
+Shifting — Target sees moving things displaced between 6" and 18" from where they really are. Any attack he makes against a moving foe has a 50% chance of having no effect.
+
+@@ 13
+Mass Distraction — A number of targets equal to the caster’s level can be distracted as in Distraction (all targets must all be in the caster’s field of vision).
+
+@@ 14
+Word of Fear — As Fear, except the spell is instantaneous and the duration is 1 minute per 5 failure. distorted (e.g., a Dwarf might seem to be an Orc, a house might seem to be a cave, etc.). The caster has no control over this
+
+@@ 15
+Amnesia — Target has amnesia, but loses none of his skills reality. or abilities. He will forget his background and other memories
+
+@@ 16
+Shout of Confusion — As Confusion, except the spell is and affect up to 20 targets at once. instantaneous all beings within a 50'R are targets.
+
+@@ 17
+Long Bewilderment — As any single spell from this list of 10th level or lower, except the range is increased to 300'.
+
+@@ 18
+Shout of Fear — As Fear, except the spell is instantaneous and the duration is one round per 5 failure and all beings within a 50'R are targets.
+
+@@ 20
+Lord Bewilderment — As any single spell from this list of 10th level or lower, except affects up to 20 targets.
+
+@@ 25
+Amnesia True — As Amnesia, except duration is permanent (unless dispelled).
+
+@@ 30
+Parallel Reality — Target sees and hears a world in which everything real has an image, but the image is changed or
+
+@@ 50
+Bewilderment True — As any single spell from this list of (GM’s discretion). 20th level or lower, except the range is increased to 300' and will

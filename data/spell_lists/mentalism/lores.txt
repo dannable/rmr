@@ -1,0 +1,91 @@
+# Spell List 4.5.4 — Lores (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - mentalism.pdf.
+#
+@realm:    Mentalism
+@name:     Lores
+@number:   4.5.4
+@category: Base
+@class:    Bard
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Recall | caster | C | self | U
+ 2 | Learn Language II | caster | C | self | U
+ 3 | Language Lore | caster | — | self | I
+ 4 | Mind's Lore I | 1 target | 1 rnd/lvl(C) | 50' | Fm
+ 5 | Study II | caster | C | self | U
+ 7 | Learn Language III | caster | C | self | U
+ 8 | Mind's Lore III | 1 target | 1 rnd/lvl(C) | 50' | Fm
+10 | Study III | caster | C | self | U
+11 | Passage Origin | caster | C | self | I
+12 | Learn Language IV | caster | C | self | U
+13 | Mind's Lore V | 1 target | 1 rnd/lvl(C) | 50' | Fm
+15 | Study V | caster | C | self | U
+17 | Study X | caster | C | self | U
+18 | Mind's Lore VII | 1 target | 1 rnd/lvl(C) | 50' | Fm
+20 | Study True | caster | C | self | U
+25 | Learn Language V | caster | C | self | U
+30 | Mind's Lore True | 1 target | 1 rnd/lvl(C) | 50' | Fm
+50 | Learn Language True | caster | C | self | U
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Recall — Allows the caster to access his memory as if he had total recall. Any skill resolution involving Memory gets a bonus. If the skill uses Memory as one of the stats (many Influence skills), the bonus is +
+
+@@ 2
+Learn Language II — Doubles the rate at which the caster can learn a language. Every rank of language developed (i.e., DPs spent), results in two ranks being learned. It is assumed that this spell is cast and in effect while the language is being learned.
+
+@@ 3
+Language Lore — Caster learns what language a piece of text is written in, and the author if he was noteworthy or the caster has seen his work.
+
+@@ 4
+Mind’s Lore I — Caster can scan the target’s mind and receive some of the target’s knowledge (conscious and unconscious) concerning one very specific topic. For each bit of knowledge on the topic, there is a 10% chance that the caster will learn it (roll for each bit once per round).
+
+@@ 5
+Study II — Caster can also read at double the normal rate (resulting in 2 pages per minute while this spell is active).
+
+@@ 7
+Learn Language III — As Learn Language II, except rate is tripled (and three ranks are gained for every one).
+
+@@ 8
+Mind’s Lore III — As Mind’s Lore I, except chance is 30% for L each bit of knowledge.
+
+@@ 10
+If the skill uses Memory as two of the stats (most Lore skills), the bonus is +25, if the skill uses Memory as all three stats (i.e., a straight “memory” check), the bonus is +50.
+
+@@ 11
+Passage Origin — Caster can read a piece of text and tell if it is a translation; and if so, what the original language was and possibly the author if he was noteworthy or the caster has seen his work.
+
+@@ 12
+Learn Language IV — As Learn Language II, except rate is four times normal (with four ranks developed for every one).
+
+@@ 13
+Mind’s Lore V — As Mind’s Lore I, except chance is 50% for each bit of knowledge.
+
+@@ 15
+Study V — As Study II, except caster reads at five times normal rate (i.e., 5 pages per minute).
+
+@@ 17
+Study X — As Study II, except caster reads at ten times normal rate (i.e., 10 pages per minute).
+
+@@ 18
+Mind’s Lore VII — As Mind’s Lore I, except chance is 70% for each bit of knowledge.
+
+@@ 20
+Study True — As Study I, except caster can read as fast as he can glance at a page.
+
+@@ 25
+Learn Language V — As Learn Language II, except rate is five times normal (and five ranks for every one).
+
+@@ 30
+Mind’s Lore True — As Mind’s Lore I, except all knowledge is obtained.
+
+@@ 50
+Learn Language True — If the caster has access to a being that knows a certain language, he can learn the language as well as the given being knows it. He must touch the being and concentrate for 8 consecutive hours.

@@ -1,0 +1,102 @@
+# Spell List 4.1.1 — Anticipations (Open)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - mentalism.pdf.
+#
+@realm:    Mentalism
+@name:     Anticipations
+@number:   4.1.1
+@category: Open
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Anticipate Missile * | 1 missile | — | 100' | U
+ 2 | Anticipate Blow * | 1 attack | — | 10' | U
+ 3 | Guess * | caster | — | self | I
+ 4 | Anticipate Spell * | 1 spell | — | 10' | I
+ 5 | Intuitions I | caster | — | self | I
+ 6 | Anticipate Hostility | 10'R | — | 10' | I
+ 8 | Dream I | caster | sleep | self | I
+ 9 | Room Feel I | 1'R/lvl | varies | 100' | I
+10 | Anticipations * | caster | — | 100' | Pm
+11 | Intuitions II | caster | — | self | I
+12 | Room Feel II | caster | varies | 100' | I
+13 | Anticipate Hostility | Tr. 10'R/lvl | 1 min/lvl(C) | 10'/lvl | I
+14 | Dream II | caster | sleep | self | I
+15 | Spell Anticipation * | caster | — | 100' | Pm
+16 | Room Feel III | caster | varies | 100' | I
+17 | Dream III | caster | sleep | self | I
+19 | Room Feel True | caster | varies | 100' | I
+20 | Intuitions True | caster | — | self | Pm
+25 | Anticipations True * | caster | — | 100' | Pm
+30 | Dreams V | caster | sleep | self | I
+50 | Spell Anticipation True | *caster | — | 100' | I
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Anticipate Missile — Caster can attempt to avoid one missile O shot fired at him. The missile must be in his field of vision when the spell is cast. The caster gets a bonus of +50 to his DB against NTICIPATIONS this attack.
+
+@@ 2
+Anticipate Blow — As Anticipate Missile, except applies to one melee attack that the caster is aware of.
+
+@@ 3
+Guess — When faced with a choice about which he has little or no information (e.g., which corridor leads outside the quickest) the caster may cast this spell and the Gamemaster will determine which way he goes, biasing the choice favorable by 25% (e.g, roll 1-100: correct on 26-100, incorrect on 01-25).
+
+@@ 4
+Anticipate Spell — Caster can avoid one spell cast on him. The caster gets a bonus of +50 to his DB against a directed elemental attack; his normal DB against an area elemental attack; or the caster’s BAR suffers a -10 penalty (on all other spell attacks).
+
+@@ 5
+Intuitions I — Caster gains a vision of what will probably happen in the next minute if he takes a specified action.
+
+@@ 6
+Anticipate Hostility — Caster is aware of any being within the area of effect that has hostile intentions towards him. The hostility must be directed specifically at the caster or the spell reveals nothing. The being’s hostility must be active (i.e., driving the being to perform aggressive actions), not passive (i.e., hate exists, but no action is planned).
+
+@@ 8
+Dream I — Caster has a dream relating to a topic decided upon just before retiring. This spell can only be used once per night. The caster must sleep a minimum of one normal sleep cycle.
+
+@@ 9
+Room Feel I — Caster has a vision of what has occurred in a room or place; limited to up to 1 minute per level into the past. The size of the room is limited to the area of effect.
+
+@@ 10
+Anticipations — Predicts most probable actions of a being in the next round; specifics are not learned (e.g., attack in melee, cast a spell; but no detail on attack target or what spell). This results in the caster being able to declare his statement of intent for the round after hearing what the target has decided to do. Note that the target is free to change his declared action with the
+
+@@ 11
+Intuitions II — As Intuitions I, except caster gets to gaze 2
+
+@@ 12
+Room Feel II — As Room Feel I, except limit is 1 hr/lvl. different topics.
+
+@@ 13
+Anticipate Hostility True — As Anticipate Hostility, except
+
+@@ 14
+Dream II — As Dream I, except limit is 2 dreams/night on different topics. 1 min/lvl into the future.
+
+@@ 15
+Spell Anticipation — As Anticipations, except if action is to requisite penalties. cast a spell, the spell to be cast and target are learned.
+
+@@ 16
+Room Feel III — As Room Feel I, except limit is 1 day/lvl. minutes into the future.
+
+@@ 17
+Dream III — As Dream I, except limit is 3 dreams/night on
+
+@@ 19
+Room Feel True — As Room Feel I, except limit is 1 week/ for area of effect, duration and range. lvl.
+
+@@ 20
+Intuitions True — As Intuitions I, except time limit extends
+
+@@ 25
+Anticipations True — As Anticipations, except caster can predict actions of all beings within 100' of him.
+
+@@ 30
+Dream V — As Dream I, except limit is 5 dreams/night on any combination of topics the caster chooses.
+
+@@ 50
+Spell Anticipation True — As Anticipations True, except spell types and targets are learned. 1) When using Guess, the caster must have a limited number of options (i.e., finite and countable). After the spell is caster, the caster may not cast another Guess for the same information until his experience level has increased (See Section ). 2) When dealing with Dreams, the GM may should use lots of symbology. Do not reveal straight forward answers. For example, if the character would like to know if someone in the party is going to betray them; the dream could be about an apple farmer who gathered all his apples across the season, SPell Law only to discover that the barrel he was using to store them in 137 had rotted through the bottom and he would be unable to carry his crop to town. See Section .

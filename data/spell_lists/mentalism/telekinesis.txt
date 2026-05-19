@@ -1,0 +1,110 @@
+# Spell List 4.2.10 — Telekinesis (Closed)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - mentalism.pdf.
+#
+@realm:    Mentalism
+@name:     Telekinesis
+@number:   4.2.10
+@category: Closed
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Telekinesis I | 1 lb | 1 min/lvl (C) | 100' | F
+ 2 | Staying II | 5 lbs | 1 min/lvl | 100' | F
+ 3 | Telekinesis II | 5 lbs | 1 min/lvl (C) | 100' | F
+ 4 | Staying III | 25 lbs | 1 min/lvl | 100' | F
+ 5 | Greater Staying II | varies | 1 min/lvl | varies | F
+ 6 | Greater Telekinesis II | varies | 1 min/lvl (C)varies |  | F
+ 7 | Telekinesis III | 25 lbs | 1 min/lvl (C) | 100' | F
+ 8 | Staying IV | 50 lbs | 1 min/lvl | 100' | F
+ 9 | Telekinesis IV | 50 lbs | 1 min/lvl (C) | 100' | F
+10 | Hurling I | 1 lb | — | 10' | E
+11 | Staying V | 100 lbs | 1 min/lvl | 100' | F
+12 | Telekinesis V | 100 lbs | 1 min/lvl (C) | 100' | F
+13 | Hurling II | 5 lbs | — | 10' | E
+14 | Staying VI | 200 lbs | 1 min/lvl | 100' | F
+15 | Greater Staying III | varies | 1 min/lvl | varies | F
+16 | Greater Telekinesis III | varies | 1 min/lvl (C)varies |  | F
+17 | Telekinesis VI | 200 lbs | 1 min/lvl (C) | 100' | F
+18 | Hurling III | 25 lbs | — | 10' | E
+19 | Staying True | 20 lbs/lvl | 1 min/lvl | 300' | F
+20 | Telekinesis True | 20 lbs/lvl | 1 min/lvl (C) | 300' | F
+25 | Greater Hurling III | varies | — | varies | E
+30 | Hurling IV | 50 lbs | — | 10' | E
+50 | Telekinesis Mastery | varies | 1 rnd/lvl | 300' | U
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Telekinesis I — Caster can move one object, up to 1 pound in lower level spell on this list with a range of 300'. mass, up to 1' per second (with no acceleration). If the caster stops concentration before the duration is up, the object remains stationary as if it had a Staying spell with an equal weight limit cast upon it.
+
+@@ 2
+Staying II — Exerts 5 pounds of pressure on a person or object. Object cannot be moved by Staying alone and pressure can only be in one direction.
+
+@@ 3
+Telekinesis II — As Telekinesis I, except mass limit is 5 pounds.
+
+@@ 4
+Staying III — As Staying II, except pressure limit is 25 pounds.
+
+@@ 5
+Greater Staying II — As Staying II, except 2 objects may be affected with 5 pounds total pressure or Staying II can be used to 200'.
+
+@@ 6
+Greater Telekinesis II — As Telekinesis I, except 2 objects of 5 pounds total mass may be moved or Telekinesis I can be used at 200'.
+
+@@ 7
+Telekinesis III — As Telekinesis I, except mass limit is 25 pounds.
+
+@@ 8
+Staying IV — As Staying II, except pressure limit is 50 pounds.
+
+@@ 9
+Telekinesis IV — As Telekinesis I, except mass limit is 50 pounds.
+
+@@ 10
+Hurling I — Caster may “hurl” one object (that starts within 10' of him) of 1 pound or less with sufficient force to deliver an attack on the Sling Attack Table with a maximum range of 300' T (see Arms Law). The caster’s OB will equal his directed spell skill with this spell. If Arms Law is not available, use the Shock Bolt Attack Table (with a maximum range of 300') with Impact Critical results.
+
+@@ 11
+Staying V — As Staying II, except pressure limit is 100 pounds.
+
+@@ 12
+Telekinesis V — As Telekinesis I, except mass limit is 100 pounds.
+
+@@ 13
+Hurling II — As Hurling I, except mass limit is 5 pounds and it delivers double normal concussion hits.
+
+@@ 14
+Staying VI — As Staying II, except pressure limit is 200 pounds.
+
+@@ 15
+Greater Staying III — As Greater Staying II, except 3 objects may be affected with 25 pounds total pressure or Staying I can be used to 300'.
+
+@@ 16
+Greater Telekinesis III — As Telekinesis I, except 3 objects of 25 pounds total mass may be moved or Telekinesis I can be used to 300'.
+
+@@ 17
+Telekinesis VI — As Telekinesis I, except mass limit is 200 pounds.
+
+@@ 18
+Hurling III — As Hurling II, except limit is 25 pounds and delivers triple normal concussion hits.
+
+@@ 19
+Staying VI — As Staying II, except pressure limit is 20 pounds per level.
+
+@@ 20
+Telekinesis True — As Telekinesis I, except mass limit is 20 pounds per level.
+
+@@ 25
+Greater Hurling III — As Hurling I, except the object to be hurled may start up to 300' away or the caster may hurl 3 objects that start up to 100' away (at the same target).
+
+@@ 30
+Hurling IV — As Hurling II, except limit is 50 pounds and it delivers four times normal concussion hits and the OB has an T additional +50 bonus.
+
+@@ 50
+Telekinesis Mastery — Each round, the caster may use any

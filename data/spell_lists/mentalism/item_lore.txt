@@ -1,0 +1,99 @@
+# Spell List 4.5.3 — Item Lore (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - mentalism.pdf.
+#
+@realm:    Mentalism
+@name:     Item Lore
+@number:   4.5.3
+@category: Base
+@class:    Bard
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Jewel/Metal Assessment1 | object | — | touch | I
+ 2 | Item Assessment | 1 object | — | touch | I
+ 3 | Detect Power | 1 object | 1 rnd/lvl (C) | touch | I
+ 4 | Item Analysis I | 1 object | — | touch | I
+ 5 | Assessment True | 1 object | — | touch | I
+ 6 | Significance | 1 object | — | touch | I
+ 7 | Item Analysis II | 1 object | — | touch | I
+ 8 | Origins | 1 object | — | touch | I
+ 9 | Item Vision | 1 object | — | touch | I
+10 | Item Analysis III | 1 object | — | touch | I
+11 | Detect Curse | 1 object | — | touch | I
+13 | Significance True | 1 object | — | touch | I
+15 | Item Analysis IV | 1 object | — | touch | I
+16 | Death's Lore | 1 object | — | touch | I
+17 | Item Vision True | 1 object | — | touch | I
+18 | Item Analysis V | 1 object | — | touch | I
+20 | Item Analysis VI | 1 object | — | touch | I
+25 | Origins True | 1 object | — | touch | I
+30 | Item Analysis VII | 1 object | — | touch | I
+50 | Item Analysis True | 1 object | — | touch | I
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Jewel/Metal Assessment — B Caster can assess the value of jewels and metals to within TEM ORE 10% of their actual value. This spell allows the caster to calculate different values for the different cultures he is familiar with. This spell only assesses the value of the materials (not the craftsmanship).
+
+@@ 2
+Item Assessment — As Jewel and Metal Assessment, except will determine the value of the object including the craftsmanship of the object. Magic capabilities are not included.
+
+@@ 3
+Detect Power — Detects power in an item, but not the realm or how much. A diferent item can be examined each round by concentrating.
+
+@@ 4
+Item Analysis I — Caster has a 10% chance for each ability of determining what enchanted abilities the item has. Once an Item Analysis spell has been cast on an item, it may not be cast on that item again until the caster has reached a new level of experience. See Section .
+
+@@ 5
+Assessment True — As Item Assessment, except anything
+
+@@ 6
+Significance — Determines chance for each ability. if the item examined has any cultural or historical signifi
+
+@@ 7
+Item Analysis II — As Item Analysis I, except there is a
+
+@@ 8
+Origins — Gives the area of origin of the item, the race of the being who made it, and when it was made (within 100 years).
+
+@@ 9
+Item Vision — Gives a vision of the most significant event in the item’s past. The event cannot have occured more than 1 hour per level of the caster in the past.
+
+@@ 10
+Item Analysis III — As Item Analysis I, except there is a 30% chance for each ability.
+
+@@ 11
+Detect Curse — Determines if an item has a curse on it.
+
+@@ 13
+Significance True — As Significance, except it determines the exact cultural and historical significance.
+
+@@ 15
+Item Analysis IV — As Item Analysis I, except there is a 40% chance for each ability.
+
+@@ 16
+Death’s Lore — Gives a vision of how someone died and an image of their killer. When this spell is cast, the caster must be touching an object that had significance in the death (i.e., the murder weapon, the body, etc.).
+
+@@ 17
+Item Vision True — As Item Vision, except without a time limit. SPell Law
+
+@@ 18
+Item Analysis V — As Item Analysis I, except there is a 50% can be assessed (livestock, chance for each ability. houses, boats, etc. ).
+
+@@ 20
+Item Analysis VI — As Item Analysis I, except there is a 60%
+
+@@ 25
+Origins True — As Origins, except it gives the exact place of origin, the being who made it, and when it was made. cance, but not specifically what significance.
+
+@@ 30
+Item Analysis VII — As Item Analysis I, except there is a 70% chance for each ability.
+
+@@ 50
+Item Analysis True — As Item Analysis I, except all abilities 20% chance for each ability. are known automatically.

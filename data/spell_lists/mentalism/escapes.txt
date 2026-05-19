@@ -1,0 +1,107 @@
+# Spell List 4.6.3 — Escapes (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - mentalism.pdf.
+#
+@realm:    Mentalism
+@name:     Escapes
+@number:   4.6.3
+@category: Base
+@class:    Magent
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Locklore | 1 lock | — | touch | I
+ 2 | Unlock I | 1 lock | — | touch | U
+ 3 | Ungag | varies | — | touch | U
+ 4 | Leave Item I | 1 object | — | 50' | U
+ 5 | Unlock II | 1 lock | — | touch | U
+ 6 | Untie | varies | — | touch | U
+ 7 | Minor Long Door | caster | — | self | U
+ 8 | Unlock III | 1 lock | — | touch | U
+ 9 | Unbind | varies | — | touch | U
+10 | Leaving I | caster | — | self | U
+11 | Passing | caster | 1 min/lvl | self | U
+12 | Item Long Door | 1 object | — | 50' | U
+13 | Unlock IV | 1 lock | — | touch | U
+14 | Long Door I | caster | — | self | U
+15 | Unbind True | varies | — | touch | U
+16 | Leaving II | caster | — | self | U
+18 | Flattening | caster | 10 min/lvl | self | U
+19 | Long Door II | caster | — | self | U
+20 | Passing True | caster | 1 min/lvl | self | U
+25 | Portal | 3'x6'x3' | 1 rnd/lvl | touch | U
+30 | Unlock True | 5'R/lvl | — | self | U
+50 | Teleport I | caster | — | self | U
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Locklore — Gives the caster a +20 bonus for picking the lock M analyzed. If the caster describes the information gained from this spell, that person will get a +10 bonus to picking the lock SCAPES analyzed.
+
+@@ 2
+Unlock I — This spell has a 30% chance of opening any nonmagical lock. If the lock is not unlocked, there is a 10% chance that any traps associated with it are set off. Rolls are openended, and the sophistication of the lock may modify the roll (see Section ).
+
+@@ 3
+Ungag — Any minor covering on the head of the caster made of organic material is loosened. This includes any gags or blindfolds.
+
+@@ 4
+Leave Item — Caster “teleports” a single, inanimate object to a point up to 100' away from its current location. There can be no intervening barriers in a direct line between the target and the point (for these purposes, a barrier is anything the object could not physically go through). The object has a maximum weight limit of 1 pound per level of the caster.
+
+@@ 5
+Unlock II — As Unlock I, except has a 50% chance of opening the lock (and an 8% chance of setting off traps).
+
+@@ 6
+Untie — Any ropes (or similar bindings) that are binding the caster are untied. Note that this spell will suffer the standard penalty for the caster not having a free hand (if the caster’s hands have been tied).
+
+@@ 7
+Minor Long Door — Caster is teleported to a point up to 50' away. The caster can pass through objects by specifying the exact distance and direction to be travelled. If the arrival point coincides with solid or liquid material, the caster does not move. Instead, he is stunned for 1-10 rounds (the PPs are still spent for this spell).
+
+@@ 8
+Unlock III — As Unlock I, except has a 70% chance of opening the lock (and a 6% chance of setting off traps).
+
+@@ 9
+Unbind — Each lock/shackle binding the caster has a 75% chance of opening (modified by the sophistication of the lock).
+
+@@ 10
+Leaving I — The caster teleports to a location up to 100' away. move 200'. There can be no intervening barriers between the caster and the
+
+@@ 11
+Passing — Caster can pass through any inanimate material at he is forced back to his opint of entry. the rate of 5' per minute.
+
+@@ 12
+Long Door Item I — As Leave
+
+@@ 13
+Unlock IV — As Unlock I, exdestination’s locale. The followcept has a 90% chance of opening ing chances for failure exist: the lock (and a 4% chance of setting Never seen the place (but has had off traps). described) = 50%; been briefly (one hour or less) = 25%; Studied
+
+@@ 14
+Long Door I — As Minor Long (been in for 24 hours) = 10%; Door, except caster can move100'. Studied carefully (7 days) = 1%;
+
+@@ 15
+Unbind True — As Unbind, Lived in (for at least one year) = except will also work on fixed 0.01%. The amount of error is shackles (i.e., those that have been then determined by making a d100 rivetted shut). (open-ended) to determine the
+
+@@ 16
+Leaving II — As Leaving I, number of feet (determine the except caster can move 200'. direction of error randomly).
+
+@@ 18
+Flattening — Caster is flattened on his side until he has only two 177 dimensions. Thus, he can slide through cracks (and cannot be seen from the side).
+
+@@ 19
+Long Door II — As Minor Long Door, except caster can
+
+@@ 20
+Passing True — As Passing, except rate is 10' per minute. point. A barrier is defined as anything the caster could not physically go through (e.g., a closed door is a barrier, a pit is
+
+@@ 25
+Portal — Opens a 3' x 6' x 3' portal in any solid surface. At not). the end of the duration, the surface is returned to its previous state. If anyone is in the area of effect when the spell effect ends,
+
+@@ 30
+Unlock True — As Unlock III, Item, except the object can pass except affects all locks in the area through barriers by specifying exof effect. act direction and distance. If the
+
+@@ 50
+Teleport I — As Minor Long arrival point coincides with solid or Door, except movement range is liquid material, the object does not 10 miles per level. This can be move (though the caster loses the very risky depending on the PPs for the spell). caster’s familiarity with the

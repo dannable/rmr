@@ -1,0 +1,103 @@
+# Spell List 4.3.2 — Bone Mastery (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - mentalism.pdf.
+#
+@realm:    Mentalism
+@name:     Bone Mastery
+@number:   4.3.2
+@category: Base
+@class:    Lay Healer
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Bone Lore | 1 target | — | touch | I
+ 2 | Minor Fracture Repair | 1 target | P | touch | U
+ 3 | Cartilage Repair | 1 target | P | touch | U
+ 4 | Major Fract. Rep. | 1 target | P | touch | U
+ 5 | Limb Preservation | * 1 target | 1 day/lvl | touch | U
+ 6 | Skull Repair | 1 target | P | touch | U
+ 7 | Joint Repair | 1 target | P | touch | U
+ 8 | Minor Fract. Rep. Tr. | 1 target | P | touch | U
+ 9 | Joining * | 1 target | P | touch | U
+10 | Cartilage Repair True | 1 target | P | touch | U
+11 | Major Fract. Rep. Tr. | 1 target | P | touch | U
+12 | Skull Repair True | 1 target | P | touch | U
+13 | Bone Transplant | 1 target | P | touch | U
+14 | Shatter Repair | 1 target | P | touch | U
+15 | Joint Repair True | 1 target | P | touch | U
+17 | Rapid Bone Transplant | 1 target | P | touch | U
+18 | Rapid Shatter Repair | 1 target | P | touch | U
+20 | Joining True * | 1 target | P | touch | U
+25 | Cartilage Regeneration | 1 target | P | touch | U
+30 | Bone Regeneration | 1 target | P | touch | U
+50 | Skeletal Regeneration | 1 target | P | touch | U
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Bone Lore — Caster acquires complete understanding of any
+
+@@ 2
+Minor Fracture Repair — Allows caster to mend one simple depending on the severity of the damage. fracture (not compound fracture, shatters, joint damage, etc.). Recovery time is 1 day. Will not work on skull fractures.
+
+@@ 3
+Cartilage Repair — Allows caster to repair all the cartilage 1) See Section 7.2 for more on damage and healing. around one joint. Recovery time is one day.
+
+@@ 4
+Major Fracture Repair — As Minor Fracture Repair, except 2) Some spells on this list require an operation to be effective. caster can also repair compound fractures. These spells have the same name as other healing spells (from the Channeling realm) and the GM may decide that the
+
+@@ 5
+Limb Preservation — Allows caster to prevent the operation is not required. deteriorization of 1 limb (even while severed). Requires the use of Limb Preservation from the Muscle Mastery spell list as well.
+
+@@ 6
+Skull Repair — Allows caster to mend one fracture in a skull (but not a shattered areas). Recovery time is 1-10 days.
+
+@@ 7
+Joint Repair — Allows caster to repair one broken (but not shattered) joint. Recovery time is 1-10 days.
+
+@@ 8
+Minor Fracture Repair True — As Minor Fracture Repair, except recovery is instantaneous.
+
+@@ 9
+Joining — Allows caster to reattach 1 severed limb. Also requires the use of the other 3 Lay Healer Joining spells to make limb fully functional. Limb is fully functional after 10-100 days.
+
+@@ 10
+Cartilage Repair True — As Cartilage Repair, except recovery is instantaneous.
+
+@@ 11
+Major Fracture Repair True — As Major Fracture Repair, except recovery is instantaneous.
+
+@@ 12
+Skull Repair True — As Skull Repair, except recovery is instantaneous.
+
+@@ 13
+Bone Transplant — Allows caster to transplant a healthy bone. This requires a 1 hour operation. Recovery time is 1-10 days. There is a chance that the target’s body will reject the new bone: 10% if bone is from the same race as the target, 50% is the bone is from some other similiar race.
+
+@@ 14
+Shatter Repair — Allows caster to repair any 1 broken or shattered bone (even in the skull). This requires a 1 hour operation. Recovery time is 1-10 days.
+
+@@ 15
+Joint Repair True — As Joint Repair, except that recovery is instantaneous.
+
+@@ 17
+Rapid Bone Transplant — As Bone Transplant, except with a recovery time of 1-10 hours.
+
+@@ 18
+Rapid Shatter Repair — As Shatter Repair, except with a recovery time of 1-10 hours.
+
+@@ 20
+Joining True — As Joining, except caster must cast the other 3 Lay Healer Joining True spells and the limb is fully functional in 10 minutes.
+
+@@ 25
+Cartilage Regeneration — Allows caster to regenerate 1 section of cartilage in target’s body. Recovery time is 1-10 days.
+
+@@ 30
+Bone Regeneration — Allows caster to regenerate 1 lost bone. Recovery time is 1-10 days. bone damage, including the tools and methods required for healing. Caster does not receive the skill or power to perform the
+
+@@ 50
+Skeletal Regeneration — Allows caster to regenerate any cure. part (or all) of a skeleton (including cartilage) in 1-10 days,

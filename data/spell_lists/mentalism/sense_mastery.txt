@@ -1,0 +1,106 @@
+# Spell List 4.2.6 — Sense Mastery (Closed)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - mentalism.pdf.
+#
+@realm:    Mentalism
+@name:     Sense Mastery
+@number:   4.2.6
+@category: Closed
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Sly Ears | caster | 10 min/lvl | self | U
+ 2 | Nightvision | caster | 10 min/lvl | self | U
+ 3 | Sidevision | caster | 10 min/lvl | self | U
+ 4 | Detect Illusion | 5'R | — | 100' | U
+ 5 | Watervision | caster | 10 min/lvl | self | U
+ 6 | Scent | caster | 10 min/lvl | self | U
+ 7 | Fogvision | caster | 10 min/lvl | self | U
+ 8 | Touch | caster | 10 min/lvl | self | U
+ 9 | Darkvision | caster | 10 min/lvl | self | U
+10 | Mentalist Ear | caster | 1 min/lvl(C)100'/lvl |  | U
+11 | Mentalist Eye | caster | 1 min/lvl(C)100'/lvl |  | U
+12 | Disillusion | 100'R | 1 min/lvl | self | U
+13 | Detect Illusion True | 5'R | 1 min/lvl(C) | 100' | U
+14 | Vision | caster | 10 min/lvl | self | U
+15 | Nightvision True | caster | 10 min/lvl | self | U
+17 | Disillusion True | 100'R | 1 min/lvl | self | U
+18 | Watervision True | caster | 10 min/lvl | self | U
+19 | Fogvision True | caster | 10 min/lvl | self | U
+20 | Vision True | caster | 10 min/lvl | self | U
+25 | Mentalist Ear True | caster | 1 min/lvl(C)1 | mi/lvl | U
+30 | Mentalist Eye True | caster | 1 min/lvl(C)1 | mi/lvl | U
+50 | Sensory Merge | caster | C unlimited |  | Fm
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Sly Ears — Caster gains double normal hearing. This spell functioning at the same time. confers a +50 to Perception involving only hearing, +25 to Perception involving hearing and other senses.
+
+@@ 2
+Nightvision — Caster can see 100' on a clear night as if it were day. At least some small amount of residual light is required for
+
+@@ 3
+Sidevision — Caster has a 300˚ field of vision. The flank bonus of a subject whose exact location is known. Exact location can is reduced to +5 and the rear bonus is reduced to +15. be established through a prior arrangement. If target of spell is not at the specified location, the PPs for this spell are still
+
+@@ 4
+Detect Illusion — Caster can check one object or place (up to expended. a 5'R) and tell if it is an illusion or has an illusion on it. See Section for more on Illusions.
+
+@@ 5
+Watervision — As Nightvision, except affects vision underwater (and other liquids).
+
+@@ 6
+Scent — Caster gains extremely acute sense of smell. This spell confers +50 to Perception involving only smell, +25 to Percep4.2.6 tion involving smell and other senses.
+
+@@ 7
+Fogvision — As Nightvision, except works in any precipitation or gas.
+
+@@ 8
+Touch — Caster gains extreme tactile sensitivity. This results in a bonus to all actions that require a sense of touch. For example, caster might receive +25 to picking locks, disarming traps, opening secret doors, etc. In addition, this spell confers a +50 to Perception involving only touch, +25 to Perception involving touch and other senses.
+
+@@ 9
+Darkvision — As Nightvision, except no light is required and caster can see even in magically created darkness.
+
+@@ 10
+Mentalist Ear — Caster can pick a point up to 100' per level away and he will hear as if he were at that point (there can be intervening objects such as walls); he must have been at the location before or the location must be within his field of vision.
+
+@@ 11
+Mentalist Eye — As Mentalist Ear, except caster can see instead of listening.
+
+@@ 12
+Disillusion — For the duration of the spell, one illusion within the area of effect ceases to exist (for the caster only). Caster must know that something is an illusion before this spell is cast.
+
+@@ 13
+Detect Illusion True — As Detect Illusion, except caster can check one object or place per round.
+
+@@ 14
+Vision — As all lower level Vision spells functioning at the same time.
+
+@@ 15
+Nightvision True — As Nightvision, except range is the range of normal daylight vision.
+
+@@ 17
+Disillusion True — As Disillusion, except all illusions within range cease to exist for the caster. Caster need not be aware of any illusions within the range before casting this spell.
+
+@@ 18
+Watervision True — As Watervision, except range is the range of normal daylight vision.
+
+@@ 19
+Fogvision True — As Fogvision, except range is the range normal daylight vision.
+
+@@ 20
+Vision True — As all lower level Vision True spells
+
+@@ 25
+Mentalist Ear True — As Mentalist Ear, except range is 1 mile per level.
+
+@@ 30
+Mentalist Eye True — As Mentalist Eye, except range is 1 mile per level. this spell to work. See Section for more on the environment’s effect on vision.
+
+@@ 50
+Sensory Merge — Caster can “merge” his senses with those

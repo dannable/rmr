@@ -1,0 +1,99 @@
+# Spell List 4.4.2 — Mind Control (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - mentalism.pdf.
+#
+@realm:    Mentalism
+@name:     Mind Control
+@number:   4.4.2
+@category: Base
+@class:    Mentalist
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Question | 1 target | — | 10' | Fm
+ 2 | Sleep | 1 target | — | 50' | Fm
+ 3 | Charm Kind | 1 target | 10 min/lvl | 50' | Fm
+ 4 | Calm | 1 target | 1 min/lvl | 100' | Fm
+ 5 | Confusion | 1 target | 1 rnd/5 fail | 100' | Fm
+ 6 | Fear | 1 target | 1 min/10 fail | 100' | Fm
+ 7 | Suggestion | 1 target | varies | 10' | Fm
+ 8 | Hold Kind | 1 target | C | 50' | Fm
+ 9 | Emotions | 1 target | 1 min/lvl | 100' | Fm
+10 | Master of Kind | 1 target | 10 min/lvl | 10' | Fm
+11 | Coma | 1 target | 1 day/10 fail | 100' | Fm
+12 | True Charm | 1 target | 10 min/lvl | 50' | Fm
+14 | Hold True | 1 target | C | 50' | Fm
+15 | Geas | 1 target | varies | 10' | Fm
+16 | Hold Kind True | 1 target | C | 50' | Fm
+18 | Mind Break | 1 target | P | 50' | Fm
+20 | True Sleep | 1 target | 1 min/10 fail | 100' | Fm
+25 | True Geas | 1 target | varies | 10' | Fm
+30 | Mind Control True | 1 target | 1 min/lvl (C) | 300' | Fm
+50 | Mind Master | 1 target | P (C) | 300' | Fm
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Question — Target must answer a single-concept question truthfully (though he must be able to understand the question).
+
+@@ 2
+Sleep — Target falls into natural sleep. The first round is a magical sleep (the target cannot be awakened through normal means).
+
+@@ 3
+Charm Kind — Humanoid target believes caster is a good friend.
+
+@@ 4
+Calm — Target will take no offensive action, will fight only in self-defense.
+
+@@ 5
+Confusion — Target is incapable of making decisions or initiating action; may continue to fight current foes or in self-defense.
+
+@@ 6
+Fear — Target fears caster and attempts to flee. Fleeing usually equates to running at maximum pace away from the caster.
+
+@@ 7
+Suggestion — Target will follow a single suggested act that was not completely alien to him (e.g., no suicide suggestions, no blinding himself suggestions, etc.).
+
+@@ 8
+Hold Kind — Target is held to 25% of normal action.
+
+@@ 9
+Emotions — Causes any desired emotion. Possible emotions include hate, love, sadness, anger, etc.
+
+@@ 10
+Master of Kind — Target must obey the caster as specified in Suggestion.
+
+@@ 11
+Coma — [RR Mod: +20] Target falls into a coma.
+
+@@ 12
+True Charm — As Charm Kind, except works on any sentient creature.
+
+@@ 14
+Hold True — As Hold Kind, except any sentient being can be affected.
+
+@@ 15
+Geas — Target is given 1 task. Failure results in a penalty determined by GM (task must be within target’s capabilities). If the target ignores the task, he will suffer the same effects of failure.
+
+@@ 16
+Hold Kind True — [RR Mod: -20] Target is totally paralyzed (0% action).
+
+@@ 18
+Mind Break — Target is a blathering idiot. He may be led around but he can take no action.
+
+@@ 20
+True Sleep — [RR Mod: -20] Target is unconscious and unwakeable.
+
+@@ 25
+True Geas — As Geas, except failure is punished by the target suffering five 'E' criticals (choose which critical types randomly).
+
+@@ 30
+Mind Control True — When he concentrates, caster has total control of target’s mind. After the initial casting, the range for control is 1 mile per level of the caster.
+
+@@ 50
+Mind Master — As Mind Control True, except duration is permanent (until dispelled). The caster need only concentrate to give commands. Only one target can be controlled in this fashion at a time.
