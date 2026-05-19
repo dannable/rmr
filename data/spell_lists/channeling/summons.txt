@@ -30,3 +30,62 @@
 25 | Mass Summons | varies | varies | 100' | U
 30 | Summons True | 1 creature | 1 day/lvl | 100' | U
 50 | Gate | 1 being | — | varies | U
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Summons I — Caster magically summons a 1st-level, nonintelligent creature from the surrounding area. The caster can specify the type of creature, but the GM should determine the type of creature that answers the summons. If the creature can understand the caster (e.g., Animal Tongues), the creature can be controlled through normal communication. Otherwise, conPECIAL OTES trol is maintained only through concentration of the caster. If the 1) When allowed to choose more than one option on summoning creature summoned is used for a task that is not dangerous (in spells, the same option may be chosen more than once. For its own perception), the duration for this spell is 10 minutes per example, with a Summons III, two options are available. This level. However, if the creature is ever put into a dangerous means that if both options are used for the same thing: three situation, the duration immediately drops to 1 round per level. first-level creatures could be summoned, or one third-level
+
+@@ 2
+Summons II — As Summons I, except caster chooses one of creature could be summoned, or one first-level creature could the following options: a) the level of the summoned creature is be summoned for four times as long. increased by one, b) an extra 1st level creature can be sum2) Demons are assumed to be beings of another plane who are moned, or c) the duration can be doubled. brought into the caster’s plane through the use of an elemental
+
+@@ 3
+Summons III — As Summons II, except 2 options are chosen. force (one not of the Demon’s plane). Thus, the Demon and
+
+@@ 4
+Summons IV — As Summons II, except 3 options are chosen. caster do not make RRs during the summons. See Creatures
+
+@@ 5
+Summons V — As Summons II, except 4 options are chosen. & Monsters for a full description of Demons. If no type for a
+
+@@ 6
+Summons VI — As Summons II, except 5 options are chosen. Demon is given, use the following table to determine a Demon’s type. The GM may wish to this type system to
+
+@@ 7
+Summons VII — As Summons II, except 6 options are chosen. account for the types of Demons he wishes to use in his world.
+
+@@ 8
+Summons VIII — As Summons II, except 7 options are chosen. Level Type 1-2 I
+
+@@ 9
+Summons X — As Summons II, except 9 options are chosen. 3-5 II
+
+@@ 10
+Demonic Gate I — Caster summons a Type I Demon that 6-10 III appears over the course of 2 rounds. The caster can only control 11-15 IV it by concentrating. After the caster stops concentrating, the Spell Law 16-20 V 40 demon will fade out over the course of 2 rounds. However, 21-40 VI during this two rounds, it will attack the closest being. 41+ Beyond the Pale
+
+@@ 11
+Summons XV — As Summons II, except 14 options are chosen.
+
+@@ 13
+Lord Summons — As Summons II, except 19 options are chosen.
+
+@@ 15
+Demonic Gate II — As Demonic Gate I, except a Type II Demon is summoned.
+
+@@ 17
+Waiting Summons — As Summons X, except it can be S delayed for up to 1 day per level of the caster or until triggered by one of the following (decided by caster at the time of casting): specified movements, specified sounds, touch, or specified actions.
+
+@@ 20
+Demonic Gate III — As Demonic Gate I, except a Type III Demon can be summoned.
+
+@@ 25
+Mass Summons — As Summons II, except a number of options equal to the caster’s level are chosen.
+
+@@ 30
+Summons True — As Summons I, except for the duration and the level of the creature is random.
+
+@@ 50
+Gate — Caster can pull any being through a “gate” to the caster’s location. If the being is intelligent, he must be willing to come. An intelligent being will get a feeling of the general “alignment” of the caster and a vague idea of the reason and significance for the “gate.”

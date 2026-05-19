@@ -35,3 +35,77 @@
 25 | Cartilage Regen. True | caster | P | self | Us
 30 | Bone Regen. True | caster | P | self | Us
 50 | Skeletal Regen. True | caster | P | self | Us
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Minor Fracture Repair — Allows caster to mend on simple fracture (not compound fractures, shatters, joint damage, etc.). Recovery time is 1-10 hours.
+
+@@ 2
+Cartilage Repair — Allows caster to repair all cartilage damage around one joint. Recovery time is 1-2 hours.
+
+@@ 3
+Major Fracture Repair — As Minor Fracture Repair, except that caster can also repair compound fractures.
+
+@@ 4
+Skull Repair — Allows caster to mend one fracture in his skull (but not a shattered area). Recovery time is 1-10 hours.
+
+@@ 5
+Joint Repair — Allows caster to repair one broken (but not shattered) joint. Recovery time is 1-10 hours.
+
+@@ 6
+Minor Fracture Repair True — As Minor Fracture Repair, except recovery is instantaneous.
+
+@@ 7
+Joining — Allows caster to reattach severed limb. Also requires the use of Blood Ways, Muscle Ways, and Organ Ways Joining spells to restore limb to functional status. Limb will be fulling functional in 1-10 days.
+
+@@ 8
+Cartilage Repair True — As Cartilage Repair, except recovery is instantaneous.
+
+@@ 9
+Major Fracture Repair True — As Major Fracture Repair, except recovery is instantaneous.
+
+@@ 10
+Skull Repair True — As Skull Repair, except recovery is instantaneous.
+
+@@ 11
+Joint Repair True — As Joint Repair, except recovery is instantaneous.
+
+@@ 12
+Shatter Repair — Allows caster to repair any broken or shattered bone. Recovery time is 1-10 hours.
+
+@@ 13
+Cartilage Regeneration — Caster can regenerate any one area of cartilage. Recovery time is 1-10 hours.
+
+@@ 14
+Bone Regeneration — Caster can regenerate any one bone. Recovery time is 1-10 hours. This spell will not work on the skull.
+
+@@ 15
+Joining True — As Joining, except caster must cast the other 3 Healer Joining True spells and recovery is instantaneous.
+
+@@ 16
+Rapid Shatter Repair — As Shatter Repair, except recovery time is 5-50 minutes.
+
+@@ 17
+Rapid Cartilage Rengeration — As Cartilage Regeneration, except recovery time is 5-50 minutes.
+
+@@ 18
+Skull Regeneration — As Bone Regeneration, except will only work on the skull.
+
+@@ 19
+Rapid Bone Regeneration — As Bone Regeneration, except recovery time is 5-50 minutes.
+
+@@ 20
+Shatter Repair True — As Shatter Repair, except recovery is instantaneous.
+
+@@ 25
+Cartilage Regeneration True — As Cartilage Regeneration, except that caster can regenerate all of the lost cartilage in his body. Recovery time is 1-10 hours.
+
+@@ 30
+Bone Regeneration True — As Bone Regeneration, except that caster can regenerate all of the lost bones in his body (including his skull). Recovery time is 1-10 hours.
+
+@@ 50
+Skeletal Regeneration True — Caster can regenerate all of the lost bone and/or cartilage in his body. Recovery is instantaneous. See Section 7.2 for more on healing.

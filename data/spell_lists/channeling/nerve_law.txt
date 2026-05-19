@@ -26,3 +26,53 @@
 25 | Joining True * | 1 target | P | touch | U
 30 | Nerve Regeneration | 1 target | P | touch | U
 50 | Brain Regeneration | 1 target | P | touch | U
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Nerve Lore — Caster acquires complete understanding of any nerve damage, including the tools and methods required for healing: caster does not receive the skill or power to perform the cure.
+
+@@ 4
+Minor Nerve Repair — Allows caster to repair minor damage to 1 nerve; requires 1 day recovery period. Minor damage is defined as any nerve damage that results in penalties up to -20.
+
+@@ 5
+Limb Preservation — Allows caster to prevent the deterioration of 1 limb (even while severed); also requires use of same spells from Muscle Law, Bone Law, and Blood Law.
+
+@@ 9
+Major Nerve Repair — As Minor Nerve Repair, except will heal any nerve damage.
+
+@@ 10
+Unparalysis — Caster can cure any 1 paralysis problem.
+
+@@ 11
+Minor Nerve Repair True — As Minor Nerve Repair, except there is no recovery time.
+
+@@ 12
+Joining — Allows caster to reattach limb, but requires use of Bone Law, Muscle Law, and Blood Law Joining spells in order to restore functional status; limb is fully functional in 10-100 days.
+
+@@ 15
+Minor Brain Repair — Allows caster to repair minor brain damage (including recovery from coma); note that experience lost is not restored (% lost permanently dependent on severity of damage); requires a 1 hour operation; recovery time: 1-10 days.
+
+@@ 16
+Major Nerve Repair True — As Major Nerve Repair, except that there is no recovery period required.
+
+@@ 18
+Paralysis Cures — Allows caster to cure paralysis in 1 target (recovery time of 1-10 days); paralysis must have resulted from a spell or disease (not a poison).
+
+@@ 19
+Unpsychosis — Allows caster to repair a minor psychosis in 1 target (recovery time of 1-10 days). Minor psychoses include mild to moderate phobias (see GM Law for more on mind diseases).
+
+@@ 20
+Mass Nerve Repair True — As Nerve Repair True, except that each spell cast affects 1 nerve per level of caster.
+
+@@ 25
+Joining True — As Joining, except that limb is fully functional in only 10 minutes (provided caster also uses the other three Joining True spells).
+
+@@ 30
+Nerve Regeneration — Allows caster to regenerate lost nerve; regrowth takes 110 days, depending on extent of loss.
+
+@@ 50
+Brain Regeneration — Allows caster to regenerate lost brain material; regrowth takes 10-100 days, depending on extent of damage; target is in coma during recovery; note that experience lost is not restored (amount lost permanently is dependent on severity of damage). See Section 7.2 for more information on healing.

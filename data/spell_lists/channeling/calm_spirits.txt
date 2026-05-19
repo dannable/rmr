@@ -26,3 +26,53 @@
 25 | Long Calm | 1 target | 1 day/lvl | 300' | Fm
 30 | Mass Calm | varies | 1 min/lvl | 100' | Fm
 50 | Calm True | 1 target | P | 100' | Fm
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 2
+Calm I — Target will take no aggressive/offensive action, and will fight only if attacked.
+
+@@ 4
+Calm II — As Calm I, except 2 targets may be affected.
+
+@@ 5
+Hold Kind — Humanoid target is held to 25% of normal action.
+
+@@ 6
+Calm III — As Calm I, except 3 targets may be affected.
+
+@@ 8
+Calm IV — As Calm I, except 4 targets may affected.
+
+@@ 9
+Calm V — As Calm I, except 5 targets may be affected.
+
+@@ 10
+Mass Animal Calming I — Caster can calm a number of animals equal to his level.
+
+@@ 11
+True Hold — As Hold Kind, except it will affect any target.
+
+@@ 12
+Calm X — As Calm I, except that 10 targets may be affected.
+
+@@ 15
+Shout of Calming — All targets in radius must resist or they are calmed.
+
+@@ 18
+Mass Animal Calming II — As Mass Animal Calming I, except RRs are modified by -20 and the range is 10'/lvl.
+
+@@ 20
+Lord Calm — Allows Caster to calm up to 20 targets.
+
+@@ 25
+Long Calm — Caster can calm any 1 target.
+
+@@ 30
+Mass Calm — Caster can calm a number of targets equal to his level.
+
+@@ 50
+Calm True — Caster can calm any 1 target. An “aggressive” action is defined as any action with the intent to directly harm any individual(s). Actions that result in harm indirectly to individuals are not “aggressive.” Pulling the lever on the wall to drop an individual into a pit is an aggressive action (the action directly resulted in the harm on an individual). Running away to get help is not an aggressive action.

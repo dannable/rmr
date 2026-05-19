@@ -498,13 +498,53 @@ def insert_fumble_table(conn: sqlite3.Connection, data: dict) -> tuple[int, int,
 def parse_spell_list_file(path: Path) -> dict:
     """Parse a data/spell_lists/<realm>/<slug>.txt file.
 
-    Returns {"meta": {...}, "spells": [(level, name, area, dur, range, type, starred)]}.
+    Two sections:
+      - Top: @meta lines + pipe-separated chart rows (Phase 1 format).
+      - Optional `# Descriptions` block with `@@ <level>` markers
+        followed by free-form narrative text (Phase 2 format).
+
+    Returns {"meta", "spells": [(level,name,area,dur,range,type,starred)],
+             "descriptions": {level: text}}.
     """
     meta: dict[str, str] = {}
     spells: list[tuple[int, str, str, str, str, str, int]] = []
+    descs: dict[int, list[str]] = {}
+    current_desc_level: int | None = None
+
     for raw in path.read_text(encoding="utf-8").splitlines():
+        s_raw = raw  # preserve for description body
         s = raw.strip()
+        # Inside a description block, preserve raw lines (incl. blank lines)
+        # until the next `@@` marker or another structural break.
+        if current_desc_level is not None:
+            if s.startswith("@@ "):
+                try:
+                    current_desc_level = int(s[3:].strip())
+                    descs.setdefault(current_desc_level, [])
+                    continue
+                except ValueError:
+                    current_desc_level = None  # malformed marker → exit block
+            elif not s or s.startswith("#"):
+                # Blank line within a description block separates paragraphs.
+                # Two consecutive blanks end the block (treat as section break).
+                if not s:
+                    descs[current_desc_level].append("")
+                continue
+            else:
+                descs[current_desc_level].append(s_raw.rstrip())
+                continue
+
         if not s or s.startswith("#"):
+            continue
+        # Description-block opener must be checked BEFORE parse_meta_line,
+        # since "@@ N" also satisfies parse_meta_line's "starts with @" rule
+        # and would otherwise be misread as a meta entry with key "@ N".
+        if s.startswith("@@ "):
+            try:
+                current_desc_level = int(s[3:].strip())
+                descs.setdefault(current_desc_level, [])
+            except ValueError:
+                pass
             continue
         kv = parse_meta_line(s)
         if kv:
@@ -530,7 +570,18 @@ def parse_spell_list_file(path: Path) -> dict:
             parts[5] or None,
             starred,
         ))
-    return {"meta": meta, "spells": spells}
+
+    # Collapse description chunks into a single string per level (trim trailing
+    # blank lines).
+    descriptions: dict[int, str] = {}
+    for lvl, chunks in descs.items():
+        # Join with newline, collapse runs of blank lines, strip ends.
+        text = "\n".join(chunks).strip()
+        text = re.sub(r"\n{3,}", "\n\n", text)
+        if text:
+            descriptions[lvl] = text
+
+    return {"meta": meta, "spells": spells, "descriptions": descriptions}
 
 
 def parse_class_index_file(path: Path) -> dict:
@@ -600,12 +651,13 @@ def insert_spell_lists(conn: sqlite3.Connection) -> tuple[int, int, int, int]:
                 closed_ids.append(list_id)
 
             for level, name, area, dur, rng, typ, starred in data["spells"]:
+                desc = data["descriptions"].get(level)
                 conn.execute(
                     "INSERT INTO spell "
                     "(list_id, level, name, area_effect, duration, range_str, "
-                    " spell_type, starred) "
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                    (list_id, level, name, area, dur, rng, typ, starred),
+                    " spell_type, starred, description) "
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    (list_id, level, name, area, dur, rng, typ, starred, desc),
                 )
                 n_spells += 1
 

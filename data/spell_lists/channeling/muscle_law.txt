@@ -28,3 +28,59 @@
 25 | Joining True * | 1 target | P | touch | U
 30 | Tendon Regeneration | 1 target | P | touch | U
 50 | Mass Repair True | varies | P | 100'R | U
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Muscle Lore — Caster acquires a complete understanding of ❑ any muscle damage, including the tools and methods required ❑ for healing; caster does not receive the skill or power to perform the cure. ❑
+
+@@ 2
+Tendon Lore — As Muscle Lore, except the knowledge ❑ obtained concerns the healing of tendon damage. ❑
+
+@@ 3
+Sprain Repair — Allows caster to repair (not replace) 1 sprain; recovery time: 1 hour.
+
+@@ 4
+Muscle Repair I — Allows caster to repair (not replace) 1 damaged muscle; recovery time: 1 hour.
+
+@@ 5
+Limb Preservation — Allows caster to prevent the deteriora
+
+@@ 6
+Tendon Repair I — Allows caster to repair one damaged combination of muscles and tendons may be healed, the range tendon; recovery time: 1 hour. is 100', and recovery is instantaneous.
+
+@@ 9
+Muscle Repair III — As Muscle Repair I, except caster can repair 3 damaged muscles.
+
+@@ 10
+Tendon Repair III — As Tendon Repair I, except caster can See Section 7.2 for more information on healing. repair 3 damaged tendons.
+
+@@ 12
+Joining — Allows caster to reattach limb, but requires use of Bone Law, Blood Law, and Nerve Law Joining spells in order to restore functional status; limb is fully functional in 1-10 days.
+
+@@ 13
+Muscle Repair True — As Muscle Repair I, except recovery is instantaneous and requires 1 minute “operation” (concentration by caster).
+
+@@ 15
+Tendon Repair True — As Tendon Repair I, except recovery is instantaneous and requires 1 minute “operation” (concentration by caster).
+
+@@ 17
+Mass Muscle Repair — Allows repair of 1 muscle per level of the caster (e.g., a 17th level caster can repair 17 muscles); spell can be used as long as caster concentrates (i.e., caster can move from target to target until he has healed a number of muscles equal to his level); recovery time: 1 hour.
+
+@@ 19
+Mass Tendon Repair — As Mass Muscle Repair, except caster heals tendons.
+
+@@ 20
+Muscle Regeneration — Allows caster to regenerate 1 muscle; regrowth takes 1-10 hrs, depending on extent of loss.
+
+@@ 25
+Joining True — As Joining, except limb is fully functional SPell Law in 10 minutes (provided caster also uses the other three Joining 25 True spells).
+
+@@ 30
+Tendon Regeneration — Allows caster to regenerate 1 tion of 1 limb (even while severed); also requires use of same tendon; regrowth takes 1-10 hrs, depending on extent of loss. spells from Nerve Law, Bone Law, and Blood Law.
+
+@@ 50
+Mass Repair True — As Mass Muscle Repair, except any

@@ -30,3 +30,65 @@
 25 | Gr. Disease Purification | varies | P | 100' | U
 30 | Gr. Poison Purification | varies | P | 100' | U
 50 | Purification True | varies | P | 100'/lvl | U
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Disease Purification — Stops infection and/or spread of a disease in 1 target after he has acquired the disease. No further damage will occur in uninfected areas of the body.
+
+@@ 2
+Food Preservation — This spell perfectly preserves one day’s worth of food for 1 week, after which it will spoil normally.
+
+@@ 3
+Poison Purification — Neutralizes any 1 poison in the system ❑ 16) of 1 target. Note: Damage already sustained is not cured. ❑ 17)
+
+@@ 4
+Disease Resistance I — For the duration of the spell, target gets ❑ 18) Mass Undisease varies P 100' U an additional RR versus any disease(s). ❑ 19) Mass Unpoison varies P 100' U
+
+@@ 5
+Poison Resistance I — For the duration of the spell, target gets ❑ 20) Mind Disease Cures Tr. 1 target P 10' U an additional RR versus any poison(s). ., ., ., ., ., .,
+
+@@ 6
+Sustenance Purification — This spell neutralizes abnormal ❑ 25) Gr. Disease Purification varies P 100' U diseases, poison, and other similar substances in one day’s ❑ 30) Gr. Poison Purification varies P 100' U worth of food and/or water. It will not neutralize a poison or ❑ 50) Purification True varies P 100'/lvl U similar substance that is a natural part of the food (e.g., it will not neutralize the natural poison in poisoned mushrooms).
+
+@@ 8
+Disease Resistance II — As Disease Resistance I, except target gets 2 additional RRs.
+
+@@ 9
+Poison Resistance II — As Poison Resistance I, except target gets 2 additional RRs.
+
+@@ 10
+Mind Disease Cures — Target is cured of any 1 mind disease, recovery 1-50 days.
+
+@@ 11
+Disease Resistance III — As Disease Resistance I, except target gets 3 additional RRs.
+
+@@ 12
+Poison Resistance III — As Poison Resistance I, except target gets 3 additional RRs.
+
+@@ 14
+Undisease — Caster can remove any 1 disease from a target.
+
+@@ 15
+Unpoison — Caster can remove any 1 poison from a target.
+
+@@ 18
+Mass Undisease — Caster can remove any 1 disease from a number of targets equal to his level (e.g., an 18th level caster could remove leprosy from 18 targets).
+
+@@ 19
+Mass Unpoison — Caster can remove any 1 poison from the systems of a number of targets equal to his level.
+
+@@ 20
+Mind Disease Cures True — As Mind Disease Cures, except recovery is instantaneous.
+
+@@ 25
+Greater Disease Purification — All disease in the area is eliminated.
+
+@@ 30
+Greater Poison Purification — All poison in the area is neutralized.
+
+@@ 50
+Purification True — Eliminates all poisons and/or diseases in the area.

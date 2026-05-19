@@ -32,3 +32,68 @@
 25 | Purge Curse | 1 target | P | touch | U
 30 | Purge Poison | 1 target | P | touch | U
 50 | Inner Wall | caster | 1 min/lvl | self | U
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Heat Resistance — Target is protected from natural heat up to 170˚F (treat as if target were in 70˚F temperature). For temperatures above 170˚F, subtract 100˚F to determine the effective temperature for the target. Target also receives +20 to all RRs versus heat spells and heat attacks (+20 DB versus elemental fire and heat attacks). The duration of this spell is 10 minutes per level if cast on a non-mobile target. If cast on a mobile target, the spell will last as long as the caster concentrates. If cast on a nonmobile target that is subsequently moved, the spell is dispelled.
+
+@@ 2
+Cold Resistance — Target is protected from natural cold down to 20˚F (treat as if target were in 70˚F temperature). For temperatures below 20˚F, add 50˚F to determine the effective
+
+@@ 3
+Resistance I — Caster gets a +5 bonus to his RRs and DB. may only be cast once per target per curse until the caster gains
+
+@@ 4
+Bless I — Caster gets a +5 bonus to his manuever rolls and DB. another level (See Section ).
+
+@@ 5
+Prayer I — Caster gets a +5 bonus to his RRs and manuever
+
+@@ 7
+Sterilization — Caster can sterilize 1 cubic foot per level of modification. This spell may only be cast once per target per any solid or liquid. This will not affect inert poisons or harm poison until the caster gains another level (See Section ). creatures larger than 0.25" in length.
+
+@@ 8
+Resistance II — As Resistance I, except bonus is +10. rolls.
+
+@@ 9
+Bless II — As Bless I , except bonus is +10.
+
+@@ 10
+Prayer II — As Prayer I , except bonus is +10.
+
+@@ 11
+Protection From Elements — Caster is protected from any 1) See Section for more on curses. natural heat and natural cold down (treat as if target were in 70˚F temperature). Caster also receives +40 to all RRs versus 2) See Section for information on repeating attempts at heat spells and heat attacks (+40 DB versus elemental fire and removing poisons, diseases, and curses. heat attacks); as well as +40 to all RRs versus cold spells and ice 3) Resistance, Prayer, and Bless are not cumulative with each attacks (+40 DB versus elemental cold and ice attacks). The other. duration of this spell is 10 minutes per level if the caster does not move. If the caster moves, the spell will last as long as the caster concentrates.
+
+@@ 13
+Resistance III — As Resistance I, except bonus is +15.
+
+@@ 14
+Bless III — As Bless I, except bonus is +15.
+
+@@ 15
+Prayer III — As Prayer II, except bonus is +15.
+
+@@ 17
+Resistance IV — As Resistance I, except bonus is +20.
+
+@@ 18
+Bless IV — As Bless I, except bonus is +20.
+
+@@ 19
+Prayer IV — As Prayer II, except bonus is +20.
+
+@@ 20
+Purge Disease — Allows target to attempt to throw off any temperature for the target. Target also receives +20 to all RRs 1 disease by making another RR with a special +50 modificaversus cold spells and cold attacks (+20 DB versus elemental tion. This spell may only be cast once per target per disease until cold and ice attacks). The duration of this spell is 10 minutes per the caster gains another level See Section ). level if cast on a non-mobile target. If cast on a mobile target, the
+
+@@ 25
+Purge Curse — An RR is make for the curse (the caster’s spell will last as long as the caster concentrates. If cast on a nonlevel is the attack level, the original attack level of the curse is mobile target that is subsequently moved, the spell is dispelled. the target level). If the RR fails, the curse is removed. This spell
+
+@@ 30
+Purge Poison — Allows target to attempt to throw off the rolls effects of any poison by making a RR with a special +50
+
+@@ 50
+Inner Wall — Caster gets +25 to his DB, RRs, and maneuver

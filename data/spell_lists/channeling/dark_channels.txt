@@ -29,3 +29,59 @@
 25 | Black Channel III * | 1 target | — | varies | F
 30 | Dark Absolution * | 1 target | — | 50' | F
 50 | Unholy Gate | — | 1 rnd | varies | U
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 2
+Dark Stunning — [RR Mod: -10] Caster points his arm (elbow locked and fist clenched) at the target and channels raw power source (usually a deity). The target is stunned.
+
+@@ 3
+Channels I — When this spell is cast, the first level spell that the caster begins to cast the next round will be “channeled” to
+
+@@ 5
+Dark Sleep — [RR Mod: -10] Caster points his arm (elbow locked and fist clenched) at the target and channels raw power source (usually a deity). The target falls into a deep, magical sleep. 1) GMs should examine Section for more information on
+
+@@ 6
+Channels III — As Channels I, except up to a third level spell Black Channels. may be transmitted. 2) See Section 7.2 for more information on the effects of soul
+
+@@ 7
+Channel Opening I — Caster can make contact with any 1 destruction. known target he is acquainted with. This spell will enable the caster to learn the specific location (direction and distance only) 3) See Section for more information on vision and the 60 of the other being. This spell is often used with Channels spell. effects of blindness.
+
+@@ 8
+Dark Blinding — [RR Mod: -10] Caster points his arm (elbow 4) See Section 7.3 for more information on using Evil spell lists. locked and fist clenched) at the target and channels raw power source (usually a deity). The target is blinded.
+
+@@ 10
+Black Channel I — Caster may cast one of the Black Channel I spells (see Section ).
+
+@@ 11
+Channels V — As Channels I, except up to a fifth level spell may be transmitted.
+
+@@ 13
+Absolution — [RR Mod: -20] Target’s “soul” is torn from his body. The soul remains in whatever place “souls” go for the duration. The soul can be returned early only through Lifegiving. Target is unconscious until soul is restored. Even subconscious activity (healing, etc.) is performed with a -75 penalty.
+
+@@ 15
+Black Channel II — As Black Channel I, except a Black Channel II spell can be cast (see Section ).
+
+@@ 16
+Channeling Opening II — As Channeling Opening I, except for range.
+
+@@ 17
+Channel VII — As Channels I, except up to a seventh level another spell user of the Channeling realm. The “channeled” spell may be transmitted. spell is transmitted to the other spell user when it would
+
+@@ 19
+Channel X — As Channels I, except up to a tenth level spell normally take effect, and must be used by the receiving spell may be transmitted. user immediately (i.e., the receiving spell user is now treated as
+
+@@ 20
+Absolution Pure — As Absolution, except “soul” can only be the caster of the spell). All normal restrictions apply to the brought back through Lifegiving. transmitted spell. The caster of the Channels spell must be able
+
+@@ 25
+Black Channel III — As Black Channel I, except a Black to see the receiver of the spell or know exactly where he is Channel III spell can be cast (see Section ). (direction and distance, or specific location). The receiver must
+
+@@ 30
+Dark Absolution — As Absolution Pure, except the “soul” know exactly when the spell is coming (though he need not is utterly destroyed. know exactly what spell is coming). For example, if a Cleric was at a certain altar at midnight of a full moon ready to receive a
+
+@@ 50
+Unholy Gate — Opens a direct channel to the evil cleric’s spell; then another spell user who knew this could use Channels deity; results depend on the deity’s personality, motives and powers. Any spell the deity can cast can be transmitted through to send him a spell. the gate.

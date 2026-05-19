@@ -33,3 +33,71 @@
 25 | Control Undead True | * varies | C | varies | E
 30 | Ritual of Black Eternity | caster | P | self | U
 50 | Create Undead True | 1 corpse | P | 10' | U
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Animate Dead I — Caster can cause any dead body (within E 50% of his own mass), to rise up and move. The caster must concentrate for the body to perform action; if he stops concenECROMANCY tration, the body will stand motionless. The body can be maneuvered with a -25 modifier, and can melee with a -20 OB. Body cannot have been dead more than 1 day. Use Created Undead stats from Creatures & Monsters except the Undead with have a Move Rate of 25 and an OB of -20.
+
+@@ 2
+Control Undead I — Caster can control one Class I Undead. When this spell is cast, there is a flat 2% per Class of the Undead that the Undead will resist the spell.
+
+@@ 3
+Undead Mastery — [RR Mod: -25] Caster may master 1 level of Undead per level of the caster. This spell must be caster seperately on each Undead. A mastered Undead allows the caster to control this specific undead without concentration. If the Undead is ever more than 10' per level from the master, this spell is dispelled. When this spell is cast, there is a flat 5% chance per Class of Undead that the Undead will resist the spell.
+
+@@ 4
+Animate Dead II — As Animate Dead I, except caster can control 2 bodies (within the restrictions above) or one body with -15 modifier to maneuvers and an OB of -10.
+
+@@ 5
+Create Undead I — Given a body that has been dead less than 1 week, the caster can turn the body into a Class I Undead. The Undead will attempt to attack the closest living being (if uncontrolled), but can take no other activity other than moving to the being and attacking. If controlled, the Undead will do anything (within its capabilities) that the caster commands. The Undead can be Dispelled, Repelled, or just smashed into little pieces.
+
+@@ 6
+Control Undead II — As Control Undead I, except 1 Class II Undead or 2 Class I’s can be controlled.
+
+@@ 7
+Animate Dead III — As Animate Dead I, except 3 bodies can be controlled or one body with -5 to maneuvers and a +0 melee
+
+@@ 8
+Create Undead II — As Create Undead I, except 1 Class II
+
+@@ 9
+Control Undead III — As Control Undead I, except 1 Class lower) without concentration or all Class III or lower Undead within a 100’R. Range for controlling a single Undead is III Undead or 3 Class I’s or 1 Class II and 1 Class I can be extended to 300'. controlled.
+
+@@ 10
+Animate Undead IV — As Animate Dead I, except 4 bodies can be controlled at the basic penalties or 1 body with +5 to of the most evil of all magics. Using it, the caster transforms himself into a Lich, one of the most evil of the Undead. During maneuvers and a +10 melee OB. the ritual, the caster’s vital organs are “transferred” into a ready
+
+@@ 11
+Create Undead III — As Create Undead I, except can create container (jar, box, item, etc.). If the spell succeeds (failure 1 Class III Undead or 3 Class I or 1 Class II and 1 Class I. results in final death), the caster will be totally sustained by
+
+@@ 12
+Animate Dead V — As Animate Dead I, except 5 bodies can magic and will have slipped between the realms of life and be controlled at the basic penalties or 1 body with +10 to unlife. He can only be irrevocably destroyed by the destruction maneuvers and a +20 melee OB. of the container and his organs. See Creatures & Monsters for
+
+@@ 13
+Control Undead IV — As Control Undead I, except caster typical statistics of a Lich. can control 1 Class IV Undead or 4 Class I’s or 2 Class II’s or
+
+@@ 14
+Animate Dead VI — As Animate Dead I, except 6 bodies can (e.g., Ring Wraiths, Vampires, etc.). be controlled at the basic penalties or 1 body with +15 to maneuvers and a +30 melee OB.
+
+@@ 15
+Create Undead IV — As Create Undead I, except caster can create 1 Class IV Undead or 4 Class I’s or 2 Class II’s or 1 Class 1) For the purposes of the above spells, Undead are divided into III and 1 Class I or 1 Class II and 2 Class I’s. 6 classes: I, II, III, IV, V, and above V. must place each
+
+@@ 17
+Order Undead — Any undead that is currently mastered of the Undead types in his world systems into one of these (with the Undead Mastery spell), will follow simple, straight classes for the purposes of these spells. For example, Skelforward orders. This cancels the Undead Mastery spell. After etons would obviously be Class I Undead, Mummies might be completing the orders (which it will attempt to do for up to 1 day Class IV or V, Vampires would be above Class V, etc. See per level of the caster), the Undead returns to a normal Undead Creatures & Monsters for a complete classification of various status (i.e., it attacks closest living being). Undead. Animated Dead are normally treated as Class I Undead. Also note that Undead do not normally get RRs
+
+@@ 19
+Control Undead V — As Control Undead I, except caster can versus spells from the Necromancy list. control 1 Class V Undead or 5 Class I or etc.
+
+@@ 20
+Create Undead V — As Create Undead I, except caster can 2) See Section for notes on Undead. create 1 Class V Undead or 5 Class I’s or 1 Class IV and 1 Class 3) See Section 7.3 for more information on using Evil spell lists. I or etc.
+
+@@ 25
+Control Undead True — As Control Undead I, except caster Undead or 2 Class I Undead can be created. can control any one Undead or any one Undead (Class V or
+
+@@ 30
+Ritual of Black Eternity — This ritual is considered to be one
+
+@@ 50
+Create Undead True — As Create Undead I, except caster 1 Class III and 1 Class I or 1 Class II and 2 Class I’s. can create any Undead that exists in the world system in use

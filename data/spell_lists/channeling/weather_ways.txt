@@ -27,3 +27,59 @@
 25 | Weather Call | 1 mi | 1 min/lvl | self | E
 30 | Storm Call | 1 mi R | 1 min/lvl | self | E
 50 | Weather Mastery | 1 mi R/lvl | 1 min/lvl | self | E
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Living Gauge — Caster can ascertain information from the addition, missile attacks surrounding atmosphere. Information that may be gained inwill suffer penalties. cludes: temperature, humidity, barometric pressure, and wind Short-ranged attacks speed. The caster can gain a different piece of information each suffer a -
+
+@@ 2
+Rain Prediction — Gives caster a 95% chance of predicting
+
+@@ 4
+Storm Prediction — As Rain Prediction, except it allows a Caster may use any of 95% chance of predicting the time and type of a storm, ±15 the lower level spells on minutes over the next 24 hour period. this list, but with an increased area of effect (1
+
+@@ 5
+Weather Prediction I — As Rain Prediction except it allows mile radius). 95% chance of predicting time, type, and severity of weather (±15 minutes) over the next 24 hour period.
+
+@@ 7
+Breeze Call — Caster causes a breeze to come forth that will any type with maximum drive out any gaseous matter (cloud, etc.) and subtracts from all wind speeds equal to twice his level, and an intensity according missile attacks (-10). Once set, the direction of the breeze will to his desires. Effects will vary according to circumstance (and not change. the GM’s discretion). For example, a 30th level caster could
+
+@@ 8
+Fog Call — Caster causes fog to arise that obscures all vision summon a lightning storm with intense rain and constant wind in and through the radius. All missile attacks into or out of the speeds of up to 60 m.p.h.: the GM may wish to have random rolls fog are modified by -10 to -50 (GM’s discretion). to determine possible lightning strikes versus exposed targets.
+
+@@ 10
+Weather Prediction III — As Weather Prediction I, except
+
+@@ 11
+Precipitation Call — Caster causes rain or snow (depending Caster may call for shifts in the patterns as he concentrates, but Spell Law on temperature) to fall. The precipitation obscures vision into the change will take at least 1 minute. 18 the radius by 25% and modifies all missile attacks passing through any part of the area by -25.
+
+@@ 13
+Weather Prediction V — As Weather Prediction I, except All weather generating spells cause weather to gradually form that caster has a 95% chance of predicting weather over a 5 day over a period of one minute. In addition, weather generating period. spells have no effect in areas where there are not normally occurring weather patterns (i.e., inside buildings, etc.).
+
+@@ 15
+Wind Mastery — Caster can control the speed and direction of the wind. Caster can increase or decrease wind speed by 1 mph x his level (e.g., if the wind speed is normally 20 mph, a 15th level caster could reset the wind speed to any speed between 5 and 35 mph). By directing the wind against missile attacks he can cause a -1 modification for each mph of wind speed. Note that caster can also control the direction of the flow of gases and/or clouds.
+
+@@ 18
+Clear Skies — Caster can make the skies clear of haze, precipitation, clouds, etc. This spell will not affect the wind.
+
+@@ 19
+Weather Prediction True — As Weather Prediction I, except that caster has a 95% chance of predicting weather over a 30 day period.
+
+@@ 20
+Rain Call — Caster can summon rain of moderate intensity. The rain will obscure short range vision by up to 25% and long range vision by up to 75%. In
+
+@@ 25
+Weather Call —
+
+@@ 30
+Storm Call — Caster may call forth a storm of
+
+@@ 50
+Weather Mastery — Caster may indicate the weather that caster has a 95% chance of predicting weather over a 3 day conditions in the area, modifying wind speeds by ±1 m.p.h. per period. level, and setting the level of intensity, fog, cloud cover etc.
+
+@@ 75
+Long-ranged attacks the time and type of precipitation (±15 minutes) over the next 24 are not possible. hour period.

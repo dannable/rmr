@@ -35,3 +35,77 @@
 25 | Weather Prediction True | caster | — 1 | mi/lvl | I
 30 | Nature's Eye III | 500'R | C | 100 mi | I
 50 | Animist's Eye | 100'R | C | varies | I
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Trap Detection — Caster has a 75% chance of detecting a trap in the area of effect. The caster can concentrate on a different area each round. There must be living plants or animals in the area of effect or no information will be gained.
+
+@@ 2
+Nature’s Awareness I — Caster can monitor animate activity in the area of effect (e.g., he will be aware of subtle movements). For the duration of this spell, the caster cannot move.
+
+@@ 3
+Pathfinding — Caster learns the location(s) of any “path(s)” within 100'. The spell gives the nearest point on the path, but not the path’s course.
+
+@@ 4
+Detect Magic — Caster has a 75% chance of detecting active magic in the area of effect. The caster can concentrate on a
+
+@@ 5
+Weather Prediction I — Give a 95% chance of predicting with any elemental force within range. The elemental force time, type, and severity of weather over the next 24 hour period. must be able to communicate with the caster (i.e., this spell does
+
+@@ 6
+Nature’s Awareness II — As Nature’s Awareness I, except not confer communication abilities upon the force). Elemental for the area of effect. forces include all magically created elementals, water spirits, forest spirits, etc.
+
+@@ 7
+Weather Prediction III — As Weather Prediction I, except
+
+@@ 8
+Locate Landmark I — For the duration of this spell, the caster duration of the spell). The caster may designate a topic and a will know the direction and distance to any unique natural vision will appear in the pool that relates to the topic. The vision feature that the caster is familiar with. The feature must be takes 1-50 rounds. within range or no information is gained.
+
+@@ 9
+Waiting Awareness I — Allows caster to set up a natural for the range. “alarm system” in the area of effect. Any disturbing activity will cause caster to be alerted.
+
+@@ 10
+Nature’s Awareness III — As Nature’s Awareness I, except
+
+@@ 11
+Weather Prediction V — As Weather Prediction I, except
+
+@@ 12
+Memory’s Path — Caster can remember an exact route he travelled; whether or not he was without one or more of his
+
+@@ 13
+Waiting Awareness II — As Waiting Awareness I, except for A path is defined as either a trodden path/way or a road/way/ SPell Law area of effect. track made for a particular purpose. See Section for more 31
+
+@@ 14
+Locate Landmark II — As Locate Landmark I, except for on Paths. the range.
+
+@@ 15
+Nature’s Eye I — Allows caster to visualize and sense activity in a known area (100'R).
+
+@@ 16
+Nature’s Awareness V — As Nature’s Awareness I, except different area each round. There must be living plants or animals for the area of effect. in the area of effect or no information will be gained.
+
+@@ 17
+Elemental Communication — The caster can communicate
+
+@@ 18
+Water Visions — The target of this spell is a small pool of period is 3 days. water. The water must be calm (and remain calm for the
+
+@@ 19
+Locate Landmark True — As Locate Landmark I, except
+
+@@ 20
+Nature’s Eye II — As Nature’s Eye I, except for the range and area of effect.
+
+@@ 25
+Weather Prediction True — As Weather Prediction I, for the area of effect. except period is 1 day/lvl.
+
+@@ 30
+Nature’s Eye III — As Nature’s Eye I, except for the range period is 5 days. and area of effect.
+
+@@ 50
+Animist’s Eye — Allows caster to monitor an area of 100'R that he has both been to and become acquainted with (i.e., spent senses when he made his original journey (e.g., a 12th level at least 1 day meditating in or 30 days living in). caster could remember the course of 12 hours of a trip, even is he had been blindfolded). To be effective, this spell must be cast within one month per level of the journey.

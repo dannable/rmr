@@ -29,3 +29,62 @@
 25 | Life Lore True | 1 target | — | 10' | P
 30 | Black Lore | 1 target | — | 100' | P
 50 | White Lore Mastery | varies | — | 100' | P
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Afterthoughts — Allows caster virtual total recall of any conversation or writing he encountered within a period of days ORE equal to his level.
+
+@@ 2
+Detect Evil — Detects “true evil” in an animate or inanimate target; caster can concentrate on a 5'R area each round.
+
+@@ 3
+Detect Curse — As Detect Evil, except caster can detect curses.
+
+@@ 4
+Detect Emotion — As Detect Evil, except caster can detect extremes of emotion (e.g., hatred, love, sadness, etc.). In addition, the caster learns which emotions the target is feeling in extreme. If there are no extremes of emotion (i.e., only normal feelings), this spell detects nothing.
+
+@@ 5
+Light Lore I — Caster can ascertain the origin point and nature of any 1 “holy item” that is not “of darkness” or “of evil;” will not give specific capabilities.
+
+@@ 6
+Poison Lore — Caster can ascertain exact nature and type of poison; he can determine what cure may be used, but does not receive the required tools or skills.
+
+@@ 8
+Life Lore — Caster can determine the nature and type of any 1 living target. He will not be able to ascertain the target’s personal traits or capabilities, but will know the normal abilities associated with the target’s species.
+
+@@ 10
+Curse Tales — Caster can determine nature and origin of any 1 curse, including the name of the one who bequeathed it.
+
+@@ 11
+Dark Lore I — As Light Lore I, except caster can ascertain the origin point and nature of any 1 item “of darkness” or “of evil.”
+
+@@ 12
+Light Lore II — As Light Lore I, except that caster can ascertain the origin point and nature of any 2 “holy items” or caster can determine the nature, origin point, and the exact significance of any 1 “holy item.”
+
+@@ 15
+Emotion Analysis — Caster can determine the nature and origin of extreme emotion(s) found within any 1 target (inanimate or animate); the degree and other details of the emotion(s) can also be acquired.
+
+@@ 17
+Light Lore III — As Light Lore I, except that caster can ascertain the origin point and nature of any 3 “holy items” or 1) A “curse” is usually something that is detrimental and magical caster can determine the age, origin point, name of the creator, in nature (e.g., delivered from the Curses spell list). The GM and nature of any 1 “holy item.” Caster also learns item’s may decide that the “curses” spells on this list only apply to specific capabilities. “magical” curses. Normally, curses may not be Dispelled;
+
+@@ 18
+Dark Lore II — As Light Lore II, except that it can only be they may only be affected by Remove Curse spells. used on items “of darkness” or “of evil.” 2) “Evil,” “Good,” “Holy,” “Of Darkness,” and “Of Light” are
+
+@@ 19
+White Lore — Caster can ascertain exact nature, origin, defined and discussed in Section . purpose, and history of any 1 “holy item;” it allows caster to visualize all who have possessed the item.
+
+@@ 20
+Dark Lore III — As Light Lore III, except that it can be used only on items of evil or “darkness.”
+
+@@ 25
+Life Lore True — As Life Lore, except caster can determine specific traits and capabilities of any 1 target.
+
+@@ 30
+Black Lore — As White Lore, except it can only be used on an item “of darkness” or “of evil.”
+
+@@ 50
+White Lore Mastery — As White Lore, except caster can acquire the information on all “holy items” within

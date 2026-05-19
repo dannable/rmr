@@ -33,3 +33,77 @@
 25 | Holy Attack True * | self | — | self | U
 30 | Holy Focus True * | self | — | self | U
 50 | Holy Martyr | 1'R/lvl | — | self | E
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Holy Attack I — Adds +15 to the caster’s melee or missile attack for the current OLY RMS round.
+
+@@ 2
+Righteous Blow I — After casting this spell, there is a chance that the caster’s next attack (melee or missile) will be treated as “Magic” for the purposes of resolving criticals (usually only applicable against Large and Super Large creatures). The chance is equal to 10% plus 5% for each round that the caster concentrates (i.e., prays) immediately prior to preparing and casting this spell. The attack affected by this spell must occur within 1 minute per level after this spell was cast.
+
+@@ 3
+Holy Strength I — Caster gains a +5 to his strength stat bonus for the purposes of o n e manuever. In combat, this results in a +10 to melee attacks and +5 to missile attacks.
+
+@@ 4
+Holy Attack II — As Holy Attack I, except bonus is +20.
+
+@@ 5
+Righteous Blow II — As Righteous Blow I, except attack is treated as “Mithril.” is cast).
+
+@@ 6
+Holy Focus — As Righ
+
+@@ 7
+Holy Attack III — As Holy Attack I, except bonus is +25.
+
+@@ 8
+Righteous Blow III — As Righteous Blow I, except attack is treated as “Holy.”
+
+@@ 9
+Holy Aura I — A bright, shimmering aura surrounds the
+
+@@ 10
+Holy Attack IV — As Holy Attack I, except bonus is +30. the center-point for the blast and is not immune to any of the
+
+@@ 11
+Righteous Blow IV — As Righteous Blow I, except attack is damage. For the caster, no objects, spells, etc. will protect him treated as “Slaying” (creature type must be chosen when spell from the blast.
+
+@@ 12
+Holy Strength II — As Holy Strength I, except strength stat teous Blow I, except the criti bonus is +10 for a manuever (+20 to melee attacks; +10 to cal is treated as “Holy” and missile attacks). the chance is equal to 20% plus 2% for every extra
+
+@@ 13
+Holy Attack V — As Holy Attack I, except bonus is +
+
+@@ 15
+Holy Aura II — As Holy Aura I, except delivers a 'B' critical. spell. A maximum number
+
+@@ 16
+Holy Attack VI — As Holy Attack I, except bonus is +40. of PPs equal to the caster's
+
+@@ 17
+Holy Strength III — As Holy Strength I, except strength stat level may be used to cast this bonus is +15 for a manuever (+30 to melee attacks; +15 to spell. For example, a 6th missile attacks). level Paladin has a maximum chance of 20%; a 10th level
+
+@@ 19
+Holy Attack VII — As Holy Attack I, except bonus is +
+
+@@ 20
+Holy Aura True — As Holy Aura I, except delivers a 'C' casting of the spell). critical.
+
+@@ 25
+Holy Attack True — As Holy Attack I, except bonus is +50.
+
+@@ 30
+Holy Focus True — As Holy Focus, except attack is automatically Holy.
+
+@@ 35
+Power Point used to cast this
+
+@@ 45
+Paladin could attain a 28% chance (by investing 10 PPs in the
+
+@@ 50
+Holy Martyr — The caster exposes all within the area of caster. All creatures “of darkness” who are in the area of effect effect to the raw power of his deity. All in the area of effect suffer must make an RR each round or receive an 'A' severity critical (type to be determined by the GM; based upon the nature of the a +100 Fireball attack (centered on the caster). All concussion damage is doubled and an extra Slaying Critical (on the Large creature). Creature Critical Strike Table) is delivered. The caster acts as
