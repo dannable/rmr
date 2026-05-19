@@ -303,6 +303,12 @@ CREATE TABLE IF NOT EXISTS spell (
     spell_type   TEXT,                       -- E/F/U/P single-letter type code (with optional 's' modifier)
     description  TEXT,                       -- left NULL for Phase 1; filled by Phase 2
     starred      INTEGER NOT NULL DEFAULT 0, -- 1 if the chart printed an asterisk after the name
+    -- Edit-audit columns populated by the web explorer's PUT endpoint.
+    -- Reference-data reload (load.py --reload-ref) drops these along with
+    -- the rest of the spell row, but the canonical data is in the .txt
+    -- files anyway — the write-back keeps the two in sync.
+    updated_at         TEXT,
+    updated_by_user_id INTEGER REFERENCES app_user(user_id) ON DELETE SET NULL,
     UNIQUE (list_id, level)
 );
 
