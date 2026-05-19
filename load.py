@@ -725,6 +725,30 @@ REF_TABLES_DELETE_ORDER: tuple[str, ...] = (
     "weapon",
     "fumble_table",
     "critical_strike_table",
+    # Spell tables. The web explorer's PUT handler stamps spell.updated_at +
+    # updated_by_user_id, but those are derived metadata — the canonical data
+    # lives in data/spell_lists/<realm>/*.txt and re-inserting from there
+    # restores the truth (audit metadata is regenerated on the next edit).
+    "class_spell_list",
+    "spell",
+    "spell_list",
+    "spell_class",
+    "spell_realm",
+)
+
+# Columns that newer deployments need but pre-existing DBs may lack. Applied
+# idempotently by reload_ref_data so an in-place upgrade doesn't require
+# --reset. (CREATE TABLE IF NOT EXISTS won't add columns to a pre-existing
+# table — that's an ALTER TABLE.)
+_REQUIRED_COLUMNS: tuple[tuple[str, str, str], ...] = (
+    # (table, column, "ADD COLUMN ..." clause)
+    ("spell", "updated_at", "ADD COLUMN updated_at TEXT"),
+    (
+        "spell",
+        "updated_by_user_id",
+        "ADD COLUMN updated_by_user_id INTEGER REFERENCES app_user(user_id) "
+        "ON DELETE SET NULL",
+    ),
 )
 
 
@@ -739,13 +763,33 @@ def init_db(reset: bool) -> sqlite3.Connection:
     return conn
 
 
+def _apply_missing_columns(conn: sqlite3.Connection) -> None:
+    """Run ALTER TABLE for any column in _REQUIRED_COLUMNS that's missing.
+
+    sqlite3 has no `ALTER TABLE ... ADD COLUMN IF NOT EXISTS`, so we check
+    PRAGMA table_info first. This lets `load.py --reload-ref` migrate an
+    older deployment in place without dropping user data.
+    """
+    for table, column, clause in _REQUIRED_COLUMNS:
+        cols = {r[1] for r in conn.execute(f"PRAGMA table_info({table})").fetchall()}
+        if column not in cols:
+            conn.execute(f"ALTER TABLE {table} {clause}")
+    conn.commit()
+
+
 def reload_ref_data(conn: sqlite3.Connection) -> None:
     """Wipe reference tables in dependency order, leaving user tables (app_user,
     future character tables) untouched. Caller is expected to re-insert ref data.
 
+    Also applies any in-place column additions for tables whose schema has
+    drifted forward since this DB was first built — this is the upgrade
+    path for existing deployments after a schema change.
+
     Each name is whitelisted against sqlite_master so a typo can't accidentally
     target a user table.
     """
+    _apply_missing_columns(conn)
+
     cur = conn.execute(
         "SELECT name FROM sqlite_master WHERE type='table'"
     )
