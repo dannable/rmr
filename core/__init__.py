@@ -46,6 +46,10 @@ from .spell import (
     classes_for_list,
     get_spell,
     search_spells,
+    update_spell,
+    get_spell_by_list_id,
+    write_spell_list_file,
+    EDITABLE_SPELL_FIELDS,
 )
 
 __all__ = [
@@ -65,4 +69,6 @@ __all__ = [
     "list_spell_lists", "search_spell_lists", "get_spell_list",
     "spells_on_list", "classes_for_list",
     "get_spell", "search_spells",
+    "update_spell", "get_spell_by_list_id", "write_spell_list_file",
+    "EDITABLE_SPELL_FIELDS",
 ]
