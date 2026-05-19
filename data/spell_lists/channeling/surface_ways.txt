@@ -1,0 +1,99 @@
+# Spell List 2.7.6 — Surface Ways (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Surface Ways
+@number:   2.7.6
+@category: Base
+@class:    Healer
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Heal I | caster | P | self | Us
+ 2 | Frost/Burn Relief I | caster | P | self | Us
+ 3 | Stun Relief I * | caster | P | self | Us
+ 4 | Regenerate I * | caster | C | self | Us
+ 5 | Frost/Burn Relief II | caster | P | self | Us
+ 6 | Awake | caster | P | self | Us
+ 7 | Heal V | caster | P | self | Us
+ 8 | Frost/Burn Relief III | caster | P | self | Us
+ 9 | Stun Relief III * | caster | P | self | Us
+10 | Regenerate II * | caster | C | self | Us
+11 | Frost/Burn Relief | caster | P | self | Us
+12 | Heal X | caster | P | self | Us
+13 | Stun Relief V * | caster | P | self | Us
+15 | Regenerate III * | caster | C | self | Us
+17 | Heal XV | caster | P | self | Us
+19 | Stun Relief X * | caster | P | self | Us
+20 | Heal XX | caster | P | self | Us
+25 | Heal True | caster | P | self | Us
+30 | Frost/Burn Relief True | caster | P | self | Us
+50 | Stun Relief True * | caster | P | self | Us
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Heal I — Caster is healed of d10 concussion hits.
+
+@@ 2
+Frost/Burn Relief I — Will heal one area of mild frostbite or sion hits. a 1st degree burn.
+
+@@ 3
+Stun Relief I — Caster is relieved of 1 round’s worth of concussion hits. accumulated stun effects (see Section ).
+
+@@ 4
+Regenerate I — Reduces damage by 1 hit every round as long or frostbite. as caster concentrates. If caster is unconscious, this spell will
+
+@@ 5
+Frost/Burn Relief II — As Frost/Burn Relief I, except 2 areas of mild damage or 1 area of moderate damage (e.g., 2nd degree burn) are healed. See Section 7.2 for more on healing.
+
+@@ 6
+Awake — Caster is instantly awake from any unnatural sleep (e.g., Sleep spell, sleeping drug, etc.). Caster takes one round to awaken.
+
+@@ 7
+Heal V — As Heal I, except caster can heal 5d10 concussion hits.
+
+@@ 8
+Frost/Burn Relief III — As Frost/Burn Relief I, except 3 areas of mild damage or 1 area of severe damage (e.g., 3rd degree burn) or a combination of 1 mild and 1 moderate area can be healed.
+
+@@ 9
+Stun Relief III — As Stun Relief I, except caster is relieved of 3 rounds accumulated stun effects.
+
+@@ 10
+Regenerate II — As Regenerate I, except 2 hits are healed every round.
+
+@@ 11
+Frost/Burn Relief V — As Frost/Burn Relief I, except the area(s) of damage that can be healed are: 5 mild and 1 severe or ❑ 18) 1 mild and 2 moderate or 1 moderate and 1 severe or etc. ❑ 19) Stun Relief X * caster P self Us
+
+@@ 12
+Heal X — As Heal I, except caster can heal 10d10 concussion ❑ 20) Heal XX caster P self Us hits. ., ., ., ., .,
+
+@@ 13
+Stun Relief V — As Stun Relief I, except caster is relieved of ❑ 25) Heal True caster P self Us 5 rounds accumulated stun effects. ❑ 30) Frost/Burn Relief True caster P self Us
+
+@@ 15
+Regenerate III — As Regenerate I, except 3 hits are healed ❑ 50) Stun Relief True * caster P self Us every round.
+
+@@ 17
+Heal XV — As Heal I, except caster can heal 15d10 concussion hits.
+
+@@ 19
+Stun Relief X — As Stun Relief I, except caster is relieved of 10 rounds accumulated stun effects.
+
+@@ 20
+Heal XX — As Heal I, except caster can heal 20d10 concus
+
+@@ 25
+Heal True — As Heal I, except caster is healed of all
+
+@@ 30
+Frost/Burn Relief True — Caster is relieved of all burns and/
+
+@@ 50
+Stun Relief True — Caster is relieved of all accumulated stun operate without concentration (see Section ). effects.

@@ -1,0 +1,111 @@
+# Spell List 2.5.2 — Exorcisms (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Exorcisms
+@number:   2.5.2
+@category: Base
+@class:    Paladin
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Repel Undead I | varies | 1 min/lvl | 100' | F
+ 2 | Detect Undead | 10'R 1 | min/lvl(C) | 10'/lvl | P
+ 3 | Repel Undead III | varies. | 1 min/lvl | 100' | F
+ 4 | Repel Demon I | 5'R/lvl | C | 10' | F
+ 5 | Repel Undead V | varies | 1 min/lvl | 100' | F
+ 6 | Repel Demon II | 5'R/lvl | C | 10' | F
+ 7 | Banish Demon I | 1 Demon | 1 mo/lvl | 10' | F
+ 8 | Neutralize Curse I | 1 target | 1 min/lvl | touch | F
+ 9 | Repel Demon III | 5'R/lvl | C | 10' | F
+10 | Repel Undead X | varies | 1 min/lvl | 100' | F
+11 | Banish Demon II | 1 Demon | 1 mo/lvl | 10' | F
+12 | Repel Undead XII | varies | 1 min/lvl | 100' | F
+13 | Repel Demon IV | 5'R/lvl | C | 10' | F
+14 | Neutralize Curse II | 1 target | 1 hr/lvl | touch | F
+15 | Repel Undead XV | varies | 1 min/lvl | 100' | F
+16 | Repel Demon V | 5'R/lvl | C | 10' | F
+17 | Banish Demon III | 1 Demon | 1 mo/lvl | 10' | F
+18 | Neutralize Curse III | 1 target | 1 day/lvl | touch | F
+19 | Repel Demon VI | 5'R/lvl | C | 10' | F
+20 | Repel Undead True | varies | 1 min/lvl | 100' | F
+25 | Repel Demon True | 10'R/lvl | C | 10' | F
+30 | Uncurse True | 1 target | P | touch | F
+50 | Banish Demon True | 1 Demon | 1 mo/lvl | 10' | F
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Repel Undead I — Causes Undead to flee or disintegrate. All Undead of type V or less is disintegrated. Type VI Undead are Undead have a class assigned to them. This spell will affect 1 sent fleeing. point of Undead (Class I Undead count as 1 point, Class II
+
+@@ 2
+Detect Undead — Detects the presence of Undead in the area Level Type Level Type of affect. Caster can move the area of effect 5' each round. 1-2 I 16-20 V
+
+@@ 3
+Repel Undead III — As Repel Undead I, except affects 3 3-5 II 21-40 VI points of Undead. 6-10 III 41+ Beyond the Pale 11-15 IV
+
+@@ 4
+Repel Demon I — For as long as the caster concentrates, Type I Demons that are in the area of effect may not leave, and Type I Demons that are outside the area of effect may not enter. E
+
+@@ 5
+Thus, force (one not of the Demon’s plane). Thus, the Demon and Repel Undead V could affect five Class I Undead with no RR caster do not make RRs during the summons. See Creatures modifier or one Class I Undead with an RR modifier of -20 to & Monsters for a full description of Demons. If no type for a each or one Class II Undead with an RR modifier of -5 and two Demon is given, use the following table to determine a Class I Undead with no RR modifier or any combination of Demon’s type. The GM may wish to this type system to targets providing no more than 5 points were allocated. account for the types of Demons he wishes to use in his world. 42
+
+@@ 6
+Repel Demon II — As Repel Demon I, except affects up to Type II Demons.
+
+@@ 7
+Banish Demon I — Banishes the target Type I Demon from this plane of existance for the duration of the spell.
+
+@@ 8
+Neutralize Curse — [RR Mod: -20] Nullifies a curse for the duration of this spell. The curse is not dispelled and takes effect after the duration of this spell.
+
+@@ 9
+Repel Demon III — As Repel Demon I, except affects up to Type III Demons.
+
+@@ 10
+Repel Undead X — As Repel Undead I, except affects 10 points of Undead.
+
+@@ 11
+Banish Demon II — As Banish Demon I, except affects up to a Type II Demon.
+
+@@ 12
+Repel Undead XII — As Repel Undead I, except affects 12 points of Undead.
+
+@@ 13
+Repel Demon IV — As Repel Demon I, except affects up to Type IV Demons.
+
+@@ 14
+Neutralize Curse II — As Neutralize Curse I, except for duration.
+
+@@ 15
+Repel Undead XV — As Repel Undead I, except affects 15 points of Undead.
+
+@@ 16
+Repel Demon V — As Repel Demon I, except affects up to Type V Demons.
+
+@@ 17
+Banish Demon III — As Banish Demon I, except affects up to a Type III Demon.
+
+@@ 18
+Neutralize Curse III — As Neutralize Curse I, except for duration.
+
+@@ 19
+Repel Demon VI — As Repel Demon I, except affects up to E Type VI Demons.
+
+@@ 20
+Repel Undead True — As Repel Undead I, except one
+
+@@ 25
+Repel Demon True — As Repel Demon VI, except for area Undead count as 2 points, etc.). Animated Dead (see the Evil of effect. Channeling List, Necromancy) are treated as Class I Undead
+
+@@ 30
+Uncurse True — [RR Mod: -50] Dispels a curse if the curse and are not entitled to an RR (i.e., they automatically disintefails an RR. The curse’s level is the level of the caster of the grate if the spell does not fail). Creatures & Monsters provides original curse. If the curse is not dispelled, the caster cannot try complete descriptions of the different types of Undead. again until he has gone up another level of experience. Each target is entitled to an RR. If the target fails the RR by
+
+@@ 50
+Banish Demon True — As Banish Demon I, except affects 50 or less, it will flee (if the target cannot flee, it will remain up to a Type IV Demon. motionless). If the target fails by more than 50, it disintegrates. One Base Attack Roll is applied to all targets. For the purposes of RRs, if no class is given for an Undead, use the following table to determine its class. 1) For all spells that affect Undead, GMs may want to give Level Class Level Class modifications to certain very powerful undead. See Creatures 1-2 I 9-12 IV & Monsters for a complete listing of Undead. A caster can 3-5 II 13-15 V only attempt to repel a given Undead once per level. 6-8 III 16+ VI 2) See Section for more on curses and removing them. The RR of any single Undead can be modified by concentrating the effects of the spell on that target. For each additional 3) Demons are assumed to be beings of another plane who are point of the spell allocated to a target (beyond those normally brought into the caster’s plane through the use of an elemental needed to affect it), that target’s RR is modified by -

@@ -1,0 +1,98 @@
+# Spell List 2.1.2 — Concussion's Ways (Open)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Concussion's Ways
+@number:   2.1.2
+@category: Open
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Healing I | 1 target | P | touch | U
+ 2 | Frost/Burn Relief I | 1 target | P | touch | U
+ 3 | Min. Irritation Relief | 1 target | P | touch | U
+ 4 | Healing III | 1 target | P | touch | U
+ 5 | Stun Relief * | 1 target | P | touch | Us
+ 6 | Frost/Burn Relief II | 1 target | P | touch | U
+ 7 | Regeneration I * | 1 target | C | touch | Us
+ 8 | Healing V | 1 target | P | touch | U
+ 9 | Frost/Burn Relief III | 1 target | P | touch | U
+10 | Awakening | 1 target | — | 100' | U
+11 | Healing VII | 1 target | P | touch | U
+12 | Regeneration II * | 1 target | C | touch | U
+13 | Frost/Burn Relief IV | 1 target | P | touch | U
+15 | Healing X | 1 target | P | touch | U
+17 | Long Stun Relief * | 1 target | P | 100' | Us
+18 | Regeneration III * | 1 target | C | touch | U
+20 | Healing XV | 1 target | P | touch | U
+25 | Regeneration V * | 1 target | C | touch | U
+30 | True Healing | 1 target | P | touch | U
+50 | Mass True Healing | varies | P | 100' | U
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Healing I — Target is healed of d10 concussion hits.
+
+@@ 2
+Frost/Burn Relief I — Target is healed of one area of up to mild frostbite or 1st degree burn.
+
+@@ 3
+Minor Irritation Relief — Target is healed of one minor irritation (e.g., headache, toothache, bee-sting, hangover, etc.).
+
+@@ 4
+Healing III — As Healing I, except that target is healed of 3d10 concussion hits.
+
+@@ 5
+Stun Relief — Target is relieved of 1 round’s worth of accumulated stun effects. See Section for more information.
+
+@@ 6
+Frost/Burn Relief II — As Frost/Burn Relief I, except caster can heal 2 areas of mild damage or 1 area of moderate damage (e.g., 2nd degree burn).
+
+@@ 7
+Regeneration I — Will reduce damage target has by 1 hit every minute as long as caster concentrates. If the caster is unconscious this spell will operate on him without concentration. See Appendix for more on subconscious spells.
+
+@@ 8
+Healing V — As Healing I except that target is healed of 5d10 concussion hits.
+
+@@ 9
+Frost/Burn Relief III — As Frost/Burn Relief I, except caster can heal 3 areas of mild damage or 1 area of severe damage (e.g., 3rd degree burn) or a combination of 1 mild and 1 moderate area of damage.
+
+@@ 10
+Awakening — Target is instantly awake.
+
+@@ 11
+Healing VII — As Healing I, except that target is healed of 7d10 concussion hits.
+
+@@ 12
+Regeneration II — As Regeneration I, except target’s damage is reduced by 2 hits per minute of concentration.
+
+@@ 13
+Frost/Burn Relief IV — As Frost/Burn Relief I, except caster can heal 4 mild or 2 moderate or 1 mild and 1 severe or 2 mild and 1 moderate area(s) of damage.
+
+@@ 15
+Healing X — As Healing I, except that target is healed of 10d10 concussion hits.
+
+@@ 17
+Long Stun Relief — As Stun Relief, except that the caster’s range is 100'.
+
+@@ 18
+Regeneration III — As Regeneration I, except target’s damage is reduced by 3 hits per minute.
+
+@@ 20
+Healing XV — As Healing I, except that target is healed of 15d10 concussion hits.
+
+@@ 25
+Regeneration V — As Regeneration I, except target’s damage is reduced by 5 hits per minute.
+
+@@ 30
+True Healing — As Healing I, except that target is healed of all concussion hits.
+
+@@ 50
+Mass True Healing — Allows caster to heal all concussion hits in a number of targets equal to level of caster. See Section 7.2 for more on healing.

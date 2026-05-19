@@ -1,0 +1,94 @@
+# Spell List 2.1.4 — Light's Way (Open)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Light's Way
+@number:   2.1.4
+@category: Open
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Projected Light | 50' beam 10 | min/lvl | self | E
+ 2 | Light I | 10'R 10 | min/lvl | touch | E
+ 3 | Aura | 1 target 10 | min/lvl | 10' | U
+ 4 | Light II | 20'R 10 | min/lvl | touch | E
+ 5 | Sudden Light | 10'R | — | 100' | F
+ 6 | True Aura | 1 target 10 | min/lvl | 10' | U
+ 7 | Shock Bolt | 1 target | — | 100' | DE
+ 8 | Light III | 30'R 10 | min/lvl | touch | E
+ 9 | Utterlight I | 10'R | 1 min/lvl | touch | E
+10 | Waiting Light | 10'R 10 | min/lvl | touch | E
+11 | Flare | varies | 1 rnd/lvl | 20'/lvl | DE
+13 | Light V | 50'R 10 | min/lvl | touch | E
+15 | Light X | 100'R 10 | min/lvl | touch | E
+17 | Utterlight V | 50'R | 1 min/lvl | touch | E
+18 | Mass Light | 10'R/lvl 10 | min/lvl | touch | E
+20 | Mass Aura | varies 10 | min/lvl | 10' | U
+25 | Lightning Call | 1 target | — | 100' | DE
+30 | Alkar | 1 target 10 | min/lvl | 10' | U
+50 | Mass Utterlight | 10'R/lvl | 1 min/lvl | touch | E
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Projected Light — Beam of light (like a flashlight) springs
+
+@@ 2
+Light I — Lights a 10'R area about the point touched; if the a target within his range. Results are determined on the Lightpoint is on a mobile object or being, it will move with the object/ ning Bolt Attack Table. There must be a storm within 1 mile that being. See Section . is severe enough to cause precipitation or lightning or very
+
+@@ 3
+Aura — Creates a bright aura about the target, making him heavy winds. The caster must be outdoors to cast this spell. appear more powerful and subtracting 10 from all attacks
+
+@@ 4
+Light II — As Light I, except 1 or 2 areas can be created with
+
+@@ 5
+Sudden Light — Causes a 10'R burst of intense light, all within are stunned for 1 round per 10 failure.
+
+@@ 6
+True Aura — As Aura, except it makes him appear very None of the Aura spells (Aura, True Aura, Mass Aura, and powerful; subtracting 15 from all attacks against the target. Alkar) are cumulative with each other or with the Blur spell.
+
+@@ 7
+Shock Bolt — A bolt of intense, charged light is shot form the palm of the caster; results are determined on the Shock Bolt Attack Table.
+
+@@ 8
+Light III — As Light II, up to 3 areas can be created with a total radius of 30'.
+
+@@ 9
+Utterlight I — As Light I, except it is the equivalent of full daylight; it also nullifies all magically created darkness for the duration.
+
+@@ 10
+Waiting Light — As Light I, except caster can delay the spell Spell Law up to 24 hours; it can be triggered by one of the following 12 (decided by caster): elapsed time, specific movements, specific sounds, or touch.
+
+@@ 11
+Flare — A 6" radius ball of light is shot from the palm of the caster. It will travel to the limit of the range, explode (as a flare), burn with a bright light (as a flare), drift slowly to earth, and go out. An area equal to the range is lit if the flare can raise to its full range. If used against a target, use the Shock Bolt Attack Table but deliver Heat criticals.
+
+@@ 13
+Light V — As Light III, except up to 5 areas can be created with a total radius of 50'.
+
+@@ 15
+Light X — As Light III, except up to 10 areas can be created with a total radius of 100'.
+
+@@ 17
+Utterlight V — As Utterlight I, except up to 5 areas can be created with a total radius of 50'.
+
+@@ 18
+Mass Light — As Light III, except total radius is 10' per level. from the caster’s palm; 50' effective range. If the caster closes
+
+@@ 20
+Mass Aura — As Aura, except as many targets as the caster’s his fist, the light will “turn off;” when the fist is opened, the light level can be affected. will come back on (so long as the spell duration has not expired).
+
+@@ 25
+Lightning Call — Caster can cause a lightning bolt to strike
+
+@@ 30
+Alkar — As Aura, except target seems like a minor god and against the target. the subtraction is
+
+@@ 50
+Mass Utterlight — As Utterlight I, except as many areas as a total radius of 20' (e.g., one area of 20' or two areas of 10'). the caster levels can be created with a total radius of 10' per level.

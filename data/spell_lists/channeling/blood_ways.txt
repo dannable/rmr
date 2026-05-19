@@ -1,0 +1,91 @@
+# Spell List 2.7.1 — Blood Ways (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Blood Ways
+@number:   2.7.1
+@category: Base
+@class:    Healer
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Clotting I | caster | — | self | Us
+ 2 | Cut Repair I | caster | P | self | Us
+ 3 | Minor Vessel Repair | caster | P | self | Us
+ 4 | Clotting V | caster | — | self | Us
+ 5 | Cut Repair III | caster | P | self | Us
+ 6 | Major Vessel Repair | I caster | P | self | Us
+ 7 | Joining * | caster | P | self | Us
+ 9 | Mass Clotting | caster | — | self | Us
+10 | Mass Cut Repair | caster | P | self | Us
+11 | Unclotting | caster | — | self | Us
+13 | Major Vessel Repair | III caster | P | self | Us
+15 | Joining True * | caster | P | self | Us
+17 | Major Vessel Repair | V caster | P | self | Us
+19 | Unclotting True | caster | — | self | Us
+20 | Regulations * | caster | varies | self | Us
+25 | New Blood | caster | P | self | Us
+30 | Blood Disease Cures | caster | P | self | Us
+50 | Blood Repairs True | caster | 1 rnd/lvl | self | Us
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Clotting I — Allows caster to stop bleeding on a wound that is bleeding 1 hit per round. For 1 hour, the caster may not be moved or bleeding will resume at prior rate.
+
+@@ 2
+Cut Repair I — Allows caster to stop bleeding from one wound that is bleeding at a rate of 1 hit per round.
+
+@@ 3
+Minor Vessel Repair — Allows caster to completely mend a damaged minor blood vessel (a vessel that bleeds at up to 3 hits per round, not major arteries or veins).
+
+@@ 4
+Clotting V — As Clotting I, except caster can stop bleeding in a wound that is bleeding up to 5 hits per round.
+
+@@ 5
+Cut Repair III — As Cut Repair I, except that caster can repair wound(s) that bleed(s) for up to 3 hits per round (total); three 1
+
+@@ 6
+Major Vessel Repair I — Allows caster to repair 1 damaged bleeding for twenty-seven hits per round lies down and casts blood vessel of any size, including severed veins and arteries. this spell. As long as he doesn’t move, he will not bleed and he Recovery time is 1-10 days (depending on severity of wound). may still cast other spells from this list (i.e., Cut Repair, etc.).
+
+@@ 7
+Joining — Allows caster to reattach severed limb. Also
+
+@@ 9
+Mass Clotting — As Clotting V, except caster can stop a bleeding in a wound that is bleeding a number of hits per round
+
+@@ 10
+Mass Cut Repair — As Cut Repair III, except that caster can stop a number of hits per round equal to his level. For example, See Section 7.2 for more on healing. a 12th level Healer could stop bleeding wounds that were bleeding a total of 12 hits per round.
+
+@@ 11
+Unclotting — Allows caster to remove any one blood clot. This will counter Clotting Curse (on the Evil Cleric list, Curses). This spell has no effect on bleeding wounds that have clotted (i.e., “clots” in this sense apply only to internal blood clotting).
+
+@@ 13
+Major Vessel Repair III — As Major Vessel Repair I, except caster can repair up to 3 veins and/or arteries.
+
+@@ 15
+Joining True — As Joining, except caster must cast the other 3 Healer Joining True spells and recovery is instantaneous.
+
+@@ 17
+Major Vessel Repair V — As Major Vessel Repair I, except caster can repair up to 5 veins and/or arteries. 53
+
+@@ 19
+Unclotting True — As Unclotting, except all blood clots are removed.
+
+@@ 20
+Regulations — Caster can regulate his own blood flow and hit per round wounds or one 3 hits per round wound or one 2 hits completely eliminate any blood loss without fear of harm. The per round and one 1 hit per round wound can be healed. duration of this spell is for as long as the caster is immobile. If the caster moves, the spell ends. For example, a Healer is
+
+@@ 25
+New Blood — Caster can restore all of the blood lost from his requires the use of Bone Ways, Muscle Ways, and Organ Ways body. Recovery time is 1-10 hours. Joining spells to restore limb to functional status. Limb will be fulling functional in 1-10 days.
+
+@@ 30
+Blood Disease Cures — Caster can eliminate any blood disease from his body. Recovery time is 1-10 hours.
+
+@@ 50
+Blood Repairs True — Caster can use any one of the lower equal to his level. For example, a 9th lvl Healer could stop the spells on this list once per round. bleeding in a wound that is bleeding 9 hits per round.

@@ -21,11 +21,12 @@ class RMRClient(discord.Client):
 
     async def setup_hook(self) -> None:
         # Import command modules and register their commands on the tree.
-        from .commands import attack, crit, fumble, info
+        from .commands import attack, crit, fumble, info, spells
         attack.register(self.tree)
         crit.register(self.tree)
         fumble.register(self.tree)
         info.register(self.tree)
+        spells.register(self.tree)
 
         if config.GUILD_IDS:
             for gid in config.GUILD_IDS:

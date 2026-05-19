@@ -1,0 +1,94 @@
+# Spell List 2.2.5 — Locating Ways (Closed)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Locating Ways
+@number:   2.2.5
+@category: Closed
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 2 | Guess | caster | — | self | I
+ 3 | Pathfinding I | caster | — | 100' | I
+ 4 | Guidance | caster 10 | min/lvl(C)100'/lvl |  | E
+ 5 | Location I | 1 target | — | 100' | P
+ 6 | Pathfinding III | caster | — | 300' | I
+ 8 | Location III | 1 target | — | 300' | P
+ 9 | Pathfinding V | caster | — | 500' | I
+10 | Location V | 1 target | — | 500' | P
+11 | Memory's Path | caster | 1 hr/lvl | self | U
+12 | Pathfinding X | caster | — | 1 mile | I
+13 | Divine Guidance | caster | 1 hr/lvl 1 | mi/lvl | E
+15 | Finding I | 1 object | — | 100' | P
+16 | Location X | 1 target | — | 1 mile | P
+17 | Pathfinding True | caster | — | 10 mi | 
+18 | Finding III | 1 object | — | 300' | P
+20 | Lord Location | 1 target | — 20 | miles | P
+25 | Paths True | 1 mi R/lvl | — 1 | mi/lvl | I
+30 | Location True | 1 target | — 1 | mi/lvl | P
+50 | Finding True | 1 object | — | 100'/lvl | P
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 2
+Guess — When faced with a choice about which he has little or no information (e.g., which corridor leads outside the quickest) the caster may cast this spell and the Gamemaster will determine which way he goes, biasing the choice favorable by 25% (e.g, roll 1-100: correct on 26-100, incorrect on 01-25).
+
+@@ 3
+Pathfinding I — Caster learns the location(s) of any “path(s)” within 100'; gives the nearest point on path, but not the path’s course.
+
+@@ 4
+Guidance — The caster is subtly directed (hints and clues) towards a specific destination (within 100'/lvl) by guidance from his deity. The exact form of the guidance may vary from deity to deity (e.g., a deity of water might leave hints in the rocks of a stream, etc.). For the duration of the spell, the caster must concentrate on following the guidance.
+
+@@ 5
+Location I — Gives the direction and distance to any specific object or place that the caster is familiar with or has had described in detail.
+
+@@ 6
+Pathfinding III — As Pathfinding I, except range is 300'.
+
+@@ 8
+Location III — As Location I, except range is 300'.
+
+@@ 9
+Pathfinding V — As Pathfinding I, except range is 500'.
+
+@@ 10
+Location V — As Location I, except range is 500'.
+
+@@ 11
+Memory’s Path — Caster can remember an exact route he traveled; whether or not he was without one or more of his senses when he made his original journey (e.g., a 12th level PECIAL OTES caster could remember the course of 12 hours of a trip even if he 1) When using Guess, the caster must have a limited number of had been blindfolded). To be effective, this spell must be cast options (i.e., finite and countable). After the spell is cast, the within 1 month of the journey. caster may not cast another Guess for the same information
+
+@@ 12
+Pathfinding X — As Pathfinding I, except range is 1 mile. until his experience level has increased (see Section ).
+
+@@ 13
+Divine Guidance — As Guidance, except the form of the 2) A path is defined as either: a trodden path/way or a road/way/ guidance is that of an animal companion sent by the deity. The track made for a particular purpose. (See also Section ). caster can follow the animal to a specific destination. If more than 24 hours pass without the caster making progress towards 3) When using any Location spell, the caster must provide an the destination, the animal will leave. unambiguous description of the object being sought. This
+
+@@ 15
+Finding I — Caster can locate any 1 object he describes, if includes a minimum of: the item’s dimensions (within 10% of indeed it exists and is in range (e.g., caster could describe a type actual size) and at least two other identifying attributes (e.g., of mace he had never seen or heard of). color, weight, shape, texture, etc.). Often, it will take more
+
+@@ 16
+Location X — As Location I, except range is 1 mile. than two other attributes to make the description “unique”
+
+@@ 17
+Pathfinding True — As Pathfinding I, except range is 10 (i.e., no other item within range can possibly match the miles. description).
+
+@@ 18
+Finding III — As Finding I, except range is 300'.
+
+@@ 20
+Lord Location — As Location I, except range is 20 miles.
+
+@@ 25
+Paths True — As Pathfinding I, except range is 1 mile per level and exact route(s) within the range are ascertained. Page updated
+
+@@ 30
+Location True — As Location I, except range is 1 mi per 3rd printing (3rd) level.
+
+@@ 50
+Finding True — As Finding, except range is 100' per level. Page updated 2nd printing (2nd)

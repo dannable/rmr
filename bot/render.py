@@ -280,3 +280,127 @@ def charts_embed(crit_charts: list[dict], fumble_tables: list[dict]) -> discord.
     if not crit_charts and not fumble_tables:
         embed.description = "*none loaded*"
     return embed
+
+
+# ---- spell-list embeds ----------------------------------------------------
+
+COLOR_SPELL_BASE   = 0x7E57C2   # purple — class-specific Base lists
+COLOR_SPELL_OPEN   = 0x42A5F5   # blue   — Open Channeling
+COLOR_SPELL_CLOSED = 0x26A69A   # teal   — Closed Channeling
+
+
+def _spell_list_color(category: str) -> int:
+    return {
+        "Base":   COLOR_SPELL_BASE,
+        "Open":   COLOR_SPELL_OPEN,
+        "Closed": COLOR_SPELL_CLOSED,
+    }.get(category, COLOR_INFO)
+
+
+def class_lists_embed(class_name: str, lists: list[dict]) -> discord.Embed:
+    """Render all spell lists accessible to one class, grouped by category."""
+    by_cat: dict[str, list[dict]] = {"Base": [], "Open": [], "Closed": []}
+    for li in lists:
+        by_cat.setdefault(li["category"], []).append(li)
+    embed = discord.Embed(
+        title=f"{class_name} — spell lists",
+        color=COLOR_SPELL_BASE,
+    )
+    for cat, items in by_cat.items():
+        if not items:
+            continue
+        label = f"{cat} Lists" if cat == "Base" else f"{cat} Channeling"
+        lines = [f"`{i['list_number']}` — {i['name']}" for i in items]
+        embed.add_field(name=label, value="\n".join(lines), inline=False)
+    if not any(by_cat.values()):
+        embed.description = f"*No lists found for class `{class_name}`*"
+    return embed
+
+
+def spell_list_embed(meta: dict, spells: list[dict],
+                     also_known_to: list[str] | None = None) -> discord.Embed:
+    """Render the summary chart of one spell list."""
+    color = _spell_list_color(meta["category"])
+    title = f"{meta['name']} ({meta['category']} — {meta['list_number']})"
+    embed = discord.Embed(title=title, color=color)
+
+    # Build the chart-style summary. Discord embed field values cap at 1024
+    # chars; for ~23-row lists that's tight but typically fits.
+    lines = []
+    for s in spells:
+        star = " *" if s.get("starred") else ""
+        # Compact one-liner: "Lvl. Name — params"
+        params = " · ".join(
+            p for p in (s.get("area_effect"), s.get("duration"),
+                        s.get("range_str"), s.get("spell_type"))
+            if p
+        )
+        lines.append(f"**{s['level']}.** {s['name']}{star} — `{params}`"
+                     if params else f"**{s['level']}.** {s['name']}{star}")
+    embed.description = "\n".join(lines) if lines else "*list is empty*"
+
+    if also_known_to:
+        embed.set_footer(
+            text="Accessible to: " + ", ".join(also_known_to)
+        )
+    return embed
+
+
+def spell_detail_embed(spell: dict) -> discord.Embed:
+    """Render full detail for one spell (with description)."""
+    color = _spell_list_color(spell["category"])
+    star = " *" if spell.get("starred") else ""
+    title = (f"{spell['list_name']} — {spell['level']}. {spell['name']}{star}")
+    embed = discord.Embed(title=title, color=color)
+
+    # Params row.
+    params = []
+    if spell.get("area_effect"):
+        params.append(f"**Area**: {spell['area_effect']}")
+    if spell.get("duration"):
+        params.append(f"**Duration**: {spell['duration']}")
+    if spell.get("range_str"):
+        params.append(f"**Range**: {spell['range_str']}")
+    if spell.get("spell_type"):
+        params.append(f"**Type**: {spell['spell_type']}")
+    if params:
+        embed.add_field(name="​", value=" · ".join(params), inline=False)
+
+    desc = spell.get("description") or "*[description not yet transcribed]*"
+    # Discord embed field values cap at 1024 chars; chunk if needed.
+    if len(desc) <= 1024:
+        embed.add_field(name="Description", value=desc, inline=False)
+    else:
+        for i in range(0, len(desc), 1024):
+            chunk = desc[i:i + 1024]
+            embed.add_field(
+                name="Description" if i == 0 else "​",
+                value=chunk, inline=False,
+            )
+
+    embed.set_footer(
+        text=f"{spell['category']} · {spell['list_number']} · {spell['realm_name']}"
+    )
+    return embed
+
+
+def spell_search_embed(query: str, hits: list[dict]) -> discord.Embed:
+    """Render a search-results listing."""
+    embed = discord.Embed(
+        title=f"Spell search: `{query}`",
+        color=COLOR_INFO,
+    )
+    if not hits:
+        embed.description = "*No matching spells*"
+        return embed
+    lines = []
+    for h in hits:
+        kind = f"{h.get('spell_type') or '·'}"
+        lines.append(
+            f"**{h['name']}** ({kind}) — `{h['list_number']}` "
+            f"{h['list_name']} lvl **{h['level']}**"
+        )
+    embed.description = "\n".join(lines)
+    if len(hits) >= 25:
+        embed.set_footer(text="Showing first 25 matches; refine the query for fewer.")
+    return embed

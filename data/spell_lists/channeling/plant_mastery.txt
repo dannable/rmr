@@ -1,0 +1,107 @@
+# Spell List 2.3.6 — Plant Mastery (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Plant Mastery
+@number:   2.3.6
+@category: Base
+@class:    Animist
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Plant Lore | 1 plant | — | touch | I
+ 2 | Speed Growth I | 10'R | 1 day | 10' | U
+ 3 | Plant Tongues | caster | 1 min/lvl | touch | I
+ 4 | Plant Restore | 1 plant | P | touch | U
+ 5 | Speed Growth II | 10'R | 1 day | 10' | U
+ 6 | Plant Location | 1 mi R | — | self | I
+ 7 | Plant Growth II | 1 plant | P | touch | U
+ 8 | Plant Control I | 1 plant | 1 min/lvl | 100' | Fm
+ 9 | Speed Growth III | 100'R | 1 day | 100' | U
+10 | Plant Growth III | 1 plant | P | touch | U
+11 | Plant Control III | 3 plants | 1 min/lvl | touch | Fm
+12 | Tree Restore | 1 tree | P | touch | U
+13 | Plant Growth V | 1 plant | P | touch | U
+14 | Speed Growth IV | 100'R | 1 day | 100' | U
+15 | Plant Control V | 5 plants | 1 min/lvl | touch | Fm
+16 | Wall of Thorns | 10'x10'x5' | 10 min/lvl | 100' | E
+17 | Firestop | 10'R/lvl | 10 min/lvl | 100' | U
+18 | Plant Growth X | 1 plant | P | touch | U
+20 | Plant Growth True | 100'R | P | 100' | U
+25 | Speed Growth True | 10'R/lvl | 1 day | 10'/lvl | U
+30 | Plant Control True | 100'R | 1 min/lvl | 100' | Fm
+50 | Plant Animation | 1 plant | 1 min/lvl | 100' | U
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Plant Lore — Caster learns nature and history of any 1 plant.
+
+@@ 2
+Speed Growth I — Allows caster to increase speed of growth control any 5 plants. for any 1 species of plant within the area of effect by 10 times.
+
+@@ 3
+Plant Tongues — Allows caster to understand and “speak” the pliable) thorns. The wall is up to 10' x 10' x 5'. Anyone moving language of any 1 plant species. through the wall receives d10 dagger attacks (use a +50 dagger
+
+@@ 4
+Plant Restore — Heals damage to one plant that is less attack on the Dagger Attack Table from Arms Law, if available) complex than a tree (especially severe damage may get a RR to per foot of wall moved through. The wall must rest on a solid avoid the effects of this spell, GM discretion). surface.
+
+@@ 5
+Speed Growth II — As Speed Growth I, except growth rate is
+
+@@ 6
+Plant Location — Caster can locate members of any 1 species
+
+@@ 7
+Plant Growth II — Allows caster to double the size of any 1
+
+@@ 8
+Plant Control I — Caster can control the automatic and/or
+
+@@ 9
+Speed Growth III — As Speed Growth I, except the area of
+
+@@ 10
+Plant Growth III — As Plant Growth I, except size increase along. is 3 times. See Section for more information about walls.
+
+@@ 11
+Plant Control III — As Plant Control I, except caster can control any 3 plants.
+
+@@ 12
+Tree Restore — As Plant Restore, except it can affect any plant (including trees).
+
+@@ 13
+Plant Growth V — As Plant Growth I, except size increase is 5 times.
+
+@@ 14
+Speed Growth IV — As Speed Growth II, except the area of effect is 100'R and the range is 100'.
+
+@@ 15
+Plant Control V — As Plant Control I, except caster can
+
+@@ 16
+Wall of Thorns — Summons a wall of very tough (but
+
+@@ 17
+Firestop — This spell will put out any fires upon living 100 times normal. materials that are in the area of effect.
+
+@@ 18
+Plant Growth X — As Plant Growth I, except size increase of plant or he can find out what species are in the area of effect. is 10 times.
+
+@@ 20
+Plant Growth True — As Plant Growth I, except affects all plant. The growth takes place over the course of 1 day. plants in the area of effect.
+
+@@ 25
+Speed Growth True — As Speed Growth I, except for the mental processes of any 1 plant. The caster can also control the range and area of effect. plant’s movements, though this spell doesn’t allow movement
+
+@@ 30
+Plant Control True — As Plant Control I, except caster can beyond normal allowances. control all plants within the area of effect.
+
+@@ 50
+Plant Animation — Caster can animate any 1 plant. The plant effect is 100'R, and the range is 100'. can then move slowly, carrying any root system it may possess

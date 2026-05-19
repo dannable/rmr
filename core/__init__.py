@@ -35,6 +35,18 @@ from .fumble import (
     fumble_lookup,
     parse_fumble_crit_chain,
 )
+from .spell import (
+    list_classes,
+    search_classes,
+    lists_for_class,
+    list_spell_lists,
+    search_spell_lists,
+    get_spell_list,
+    spells_on_list,
+    classes_for_list,
+    get_spell,
+    search_spells,
+)
 
 __all__ = [
     "connect", "DB_PATH",
@@ -49,4 +61,8 @@ __all__ = [
     "CRIT_WORD_TO_TABLE", "FUMBLE_CRIT_RE",
     "list_fumble_tables", "search_fumble_tables", "fumble_columns",
     "fumble_lookup", "parse_fumble_crit_chain",
+    "list_classes", "search_classes", "lists_for_class",
+    "list_spell_lists", "search_spell_lists", "get_spell_list",
+    "spells_on_list", "classes_for_list",
+    "get_spell", "search_spells",
 ]

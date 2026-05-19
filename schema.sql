@@ -248,3 +248,65 @@ SELECT e.weapon_id, e.roll, e.armor_type,
     ON ar.weapon_id = e.weapon_id
    AND ar.roll_min  = e.roll_min
    AND ar.armor_type = e.armor_type;
+
+
+-- =========================================================================
+-- Spell lists (Phase 1: index + summary chart only; descriptions come later)
+-- =========================================================================
+-- Three Rolemaster spell realms (Channeling / Essence / Mentalism), each
+-- with its own set of caster classes and shared open/closed list pools.
+-- Schema is realm-agnostic so adding Essence/Mentalism later is just data.
+
+CREATE TABLE IF NOT EXISTS spell_realm (
+    realm_id  INTEGER PRIMARY KEY AUTOINCREMENT,
+    name      TEXT    NOT NULL UNIQUE       -- "Channeling", "Essence", "Mentalism"
+);
+
+CREATE TABLE IF NOT EXISTS spell_class (
+    class_id  INTEGER PRIMARY KEY AUTOINCREMENT,
+    name      TEXT    NOT NULL UNIQUE,      -- "Animist", "Cleric", "Paladin", ...
+    realm_id  INTEGER NOT NULL REFERENCES spell_realm(realm_id) ON DELETE CASCADE
+);
+
+-- One row per spell list (e.g., "Barrier Law", "Holy Healing").
+-- category is one of: 'Open', 'Closed', 'Base'.
+-- list_number is the source-PDF section number (e.g., "2.1.1", "2.4.3").
+CREATE TABLE IF NOT EXISTS spell_list (
+    list_id      INTEGER PRIMARY KEY AUTOINCREMENT,
+    realm_id     INTEGER NOT NULL REFERENCES spell_realm(realm_id) ON DELETE CASCADE,
+    name         TEXT    NOT NULL,
+    list_number  TEXT,                       -- "2.1.1" etc.
+    category     TEXT    NOT NULL CHECK (category IN ('Open', 'Closed', 'Base')),
+    UNIQUE (realm_id, name)
+);
+
+-- Many-to-many: which classes have access to which lists.
+-- For Open / Closed lists, every channeler class is associated with them.
+-- For Base lists, exactly one class owns each list.
+CREATE TABLE IF NOT EXISTS class_spell_list (
+    class_id  INTEGER NOT NULL REFERENCES spell_class(class_id)   ON DELETE CASCADE,
+    list_id   INTEGER NOT NULL REFERENCES spell_list(list_id)     ON DELETE CASCADE,
+    PRIMARY KEY (class_id, list_id)
+);
+
+-- One row per spell on a list. `level` is the slot on the list (1..50 in RM,
+-- with gaps; extension levels 25/30/50 are common). Descriptions come in
+-- a later phase; this Phase-1 table just carries the summary-chart fields.
+CREATE TABLE IF NOT EXISTS spell (
+    spell_id     INTEGER PRIMARY KEY AUTOINCREMENT,
+    list_id      INTEGER NOT NULL REFERENCES spell_list(list_id) ON DELETE CASCADE,
+    level        INTEGER NOT NULL,
+    name         TEXT    NOT NULL,
+    area_effect  TEXT,                       -- e.g. "20' x 20' x 1\""
+    duration     TEXT,                       -- "C" (concentration), "P" (permanent), "1 min/lvl"
+    range_str    TEXT,                       -- "50'", "touch", "self"
+    spell_type   TEXT,                       -- E/F/U/P single-letter type code (with optional 's' modifier)
+    description  TEXT,                       -- left NULL for Phase 1; filled by Phase 2
+    starred      INTEGER NOT NULL DEFAULT 0, -- 1 if the chart printed an asterisk after the name
+    UNIQUE (list_id, level)
+);
+
+CREATE INDEX IF NOT EXISTS idx_spell_lookup_name
+    ON spell(name COLLATE NOCASE);
+CREATE INDEX IF NOT EXISTS idx_spell_by_list
+    ON spell(list_id, level);

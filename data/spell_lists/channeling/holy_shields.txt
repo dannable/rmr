@@ -1,0 +1,111 @@
+# Spell List 2.5.5 — Holy Shields (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Holy Shields
+@number:   2.5.5
+@category: Base
+@class:    Paladin
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Protection Prayer I | 10'R | 1 min/lvl | self | U
+ 2 | Aura | caster | 10 min/lvl | self | U
+ 3 | Shield * | caster | 1 min/lvl | self | U
+ 4 | Blur * | caster | 1 min/lvl | self | U
+ 5 | Unpain I * | caster | 1 min/lvl | self | Us
+ 6 | Protection Prayer II | 10'R | 1 min/lvl | self | U
+ 7 | Deflections I * | 1 missile | — | 10' | U
+ 8 | True Aura | caster | 10 min/lvl | self | U
+ 9 | Bladeturn I * | 1 attack | — | 10' | U
+10 | Unpain II * | caster | 1 min/lvl | self | Us
+11 | Protection Prayer III | 10'R | 1 min/lvl | self | U
+12 | Deflections II * | 2 missiles | — | 10' | U
+13 | Aim Untrue I * | 1 missile | — | 100' | U
+14 | Bladeturn II * | 2 attacks | — | 10' | U
+15 | Unpain III * | caster | 1 min/lvl | self | Us
+16 | Protection Prayer IV | 10'R | 1 min/lvl | self | U
+17 | Deflections III * | 3 missiles | — | 10' | U
+18 | Aim Untrue II * | 2 missiles | — | 100' | U
+19 | Bladeturn III * | 3 attacks | — | 10' | U
+20 | Unpain IV | caster | 1 min/lvl | self | Us
+25 | Protection Prayer True | 10'R | 1 min/lvl | self | U
+30 | Mass Deflections | 1 missile/lvl | — | 10' | U
+50 | Holy Shields True | varies | 1 rnd/lvl | varies | U
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Protection Prayer I— Everyone in the area of effect who is aligned with the caster (GM’s discretion) subtracts 5 from all elemental attacks against them. They may also add 5 to all RRs OLY HIELDS versus spells. These bonuses are not conferred to the caster.
+
+@@ 2
+Aura — Creates a bright aura about the caster, making him appear more powerful and subtracting 10 from all attacks against him.
+
+@@ 3
+Shield — Creates an invisible force shield in front of the caster. This functions as a normal shield (subtracting 25 from appropriate attacks, etc.), except it does not occupy a hand. This spell cannot be combined with a “real” shield.
+
+@@ 4
+Blur — Causes target to appear blurred to attackers. This aubtracts 10 from all attacks.
+
+@@ 5
+Unpain I — Caster is able to sustain an additional 25% of his total concussion hits before passing out. Hits are still taken and remain when the spell lapses.
+
+@@ 6
+Protection Prayer II — As Protection Prayer I, except bonuses are
+
+@@ 7
+Deflections I — Caster can deflect any one missile that passes within 10' of him (caster must be able to see the missile). This cause 100 to be subtracted from the missile’s attack.
+
+@@ 8
+True Aura — As Aura, except it makes the caster appear very powerful; subtracting 15 from all attacks against him.
+
+@@ 9
+Bladeturn I — Caster can deflect any one melee attack that he can see (and is within range). This causes 50 to be subtracted from the attack.
+
+@@ 10
+Unpain II — As Unpain I, except an additional 50% can be sustained.
+
+@@ 11
+Protection Prayer III — As Protection Prayer I, except bonuses are
+
+@@ 12
+Deflections II — As Deflections I, except will deflect up to two missiles.
+
+@@ 13
+Aim Untrue I — Caster can deflect any one missile that passes within 100' of him (caster must be able to see the missile). PECIAL OTES This causes the missile to automatically miss. 1) The Aura and True Aura spells are not cumulative with each
+
+@@ 14
+Bladeturn II — As Bladeturn I, except affects 2 attacks. other or with the Blur spell.
+
+@@ 15
+Unpain III — As Unpain I, except an additional 75% can be 2) For more information on multiple target spells (e.g., Deflecsustained. tions II, etc.), see Section .
+
+@@ 16
+Protection Prayer IV — As Protection Prayer I, except bonuses are
+
+@@ 17
+Deflections III — As Deflections I, except will deflect up to three missiles.
+
+@@ 18
+Aim Untrue III — As Aim Untrue I, except affects up to three missiles.
+
+@@ 19
+Bladeturn III — As Bladeturn I, except affects 3 attacks.
+
+@@ 20
+Unpain IV — As Unpain I, except an additional 100% can be sustained.
+
+@@ 25
+Protection Prayer True — As Protection Prayer I, except bonuses are
+
+@@ 30
+Mass Deflections — As Deflections I, except will deflect one missile per level of the caster.
+
+@@ 50
+Holy Shields True — Caster may use any lower level spell on this list once per round.

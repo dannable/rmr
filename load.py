@@ -14,6 +14,7 @@ DB_PATH = Path(os.environ.get("DB_PATH", ROOT / "rmfrp.db"))
 WEAPONS_DIR = ROOT / "data" / "weapons"
 CRIT_TABLES_DIR = ROOT / "data" / "crit_tables"
 FUMBLE_TABLES_DIR = ROOT / "data" / "fumble_tables"
+SPELL_LISTS_DIR = ROOT / "data" / "spell_lists"
 
 CELL_RE = re.compile(r"^(\d{1,3})([A-F])([GKPSTU])?$")  # severity-only crit_type optional; F is the special dual-crit code on table 3.10
 
@@ -491,6 +492,223 @@ def insert_fumble_table(conn: sqlite3.Connection, data: dict) -> tuple[int, int,
 
 
 # ---------------------------------------------------------------------------
+# spell-list loader (Phase 1: summary chart + class index)
+# ---------------------------------------------------------------------------
+
+def parse_spell_list_file(path: Path) -> dict:
+    """Parse a data/spell_lists/<realm>/<slug>.txt file.
+
+    Two sections:
+      - Top: @meta lines + pipe-separated chart rows (Phase 1 format).
+      - Optional `# Descriptions` block with `@@ <level>` markers
+        followed by free-form narrative text (Phase 2 format).
+
+    Returns {"meta", "spells": [(level,name,area,dur,range,type,starred)],
+             "descriptions": {level: text}}.
+    """
+    meta: dict[str, str] = {}
+    spells: list[tuple[int, str, str, str, str, str, int]] = []
+    descs: dict[int, list[str]] = {}
+    current_desc_level: int | None = None
+
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        s_raw = raw  # preserve for description body
+        s = raw.strip()
+        # Inside a description block, preserve raw lines (incl. blank lines)
+        # until the next `@@` marker or another structural break.
+        if current_desc_level is not None:
+            if s.startswith("@@ "):
+                try:
+                    current_desc_level = int(s[3:].strip())
+                    descs.setdefault(current_desc_level, [])
+                    continue
+                except ValueError:
+                    current_desc_level = None  # malformed marker → exit block
+            elif not s or s.startswith("#"):
+                # Blank line within a description block separates paragraphs.
+                # Two consecutive blanks end the block (treat as section break).
+                if not s:
+                    descs[current_desc_level].append("")
+                continue
+            else:
+                descs[current_desc_level].append(s_raw.rstrip())
+                continue
+
+        if not s or s.startswith("#"):
+            continue
+        # Description-block opener must be checked BEFORE parse_meta_line,
+        # since "@@ N" also satisfies parse_meta_line's "starts with @" rule
+        # and would otherwise be misread as a meta entry with key "@ N".
+        if s.startswith("@@ "):
+            try:
+                current_desc_level = int(s[3:].strip())
+                descs.setdefault(current_desc_level, [])
+            except ValueError:
+                pass
+            continue
+        kv = parse_meta_line(s)
+        if kv:
+            meta[kv[0]] = kv[1]
+            continue
+        if "|" not in s:
+            continue
+        parts = [p.strip() for p in s.split("|")]
+        if len(parts) < 6:
+            raise ValueError(f"{path.name}: bad spell row {s!r}")
+        try:
+            level = int(parts[0])
+        except ValueError:
+            continue
+        raw_name = parts[1]
+        starred = 1 if raw_name.endswith("*") else 0
+        name = raw_name.rstrip("* ").rstrip() if starred else raw_name
+        spells.append((
+            level, name,
+            parts[2] or None,
+            parts[3] or None,
+            parts[4] or None,
+            parts[5] or None,
+            starred,
+        ))
+
+    # Collapse description chunks into a single string per level (trim trailing
+    # blank lines).
+    descriptions: dict[int, str] = {}
+    for lvl, chunks in descs.items():
+        # Join with newline, collapse runs of blank lines, strip ends.
+        text = "\n".join(chunks).strip()
+        text = re.sub(r"\n{3,}", "\n\n", text)
+        if text:
+            descriptions[lvl] = text
+
+    return {"meta": meta, "spells": spells, "descriptions": descriptions}
+
+
+def parse_class_index_file(path: Path) -> dict:
+    """Parse a data/spell_lists/<realm>_classes.txt file."""
+    meta: dict[str, str] = {}
+    pairs: list[tuple[str, str]] = []  # (class_name, list_name)
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        s = raw.strip()
+        if not s or s.startswith("#"):
+            continue
+        kv = parse_meta_line(s)
+        if kv:
+            meta[kv[0]] = kv[1]
+            continue
+        if "|" in s:
+            cls, lst = [p.strip() for p in s.split("|", 1)]
+            if cls and lst:
+                pairs.append((cls, lst))
+    return {"meta": meta, "pairs": pairs}
+
+
+def insert_spell_lists(conn: sqlite3.Connection) -> tuple[int, int, int, int]:
+    """Walk data/spell_lists/<realm>/, load all spell lists + class index files.
+
+    Auto-grants every Channeling class access to every Open and Closed list
+    declared in that realm (the source PDF's convention).
+    Returns (realms_loaded, lists_loaded, spells_loaded, memberships).
+    """
+    if not SPELL_LISTS_DIR.exists():
+        return (0, 0, 0, 0)
+
+    n_realms = n_lists = n_spells = n_memberships = 0
+
+    # A directory under spell_lists/ is one realm. The sibling file
+    # <realm>_classes.txt is its class-to-list index.
+    for realm_dir in sorted(SPELL_LISTS_DIR.iterdir()):
+        if not realm_dir.is_dir():
+            continue
+        realm_name = realm_dir.name.replace("_", " ").title()
+        # Insert (or reuse) realm row.
+        cur = conn.execute(
+            "INSERT OR IGNORE INTO spell_realm (name) VALUES (?)", (realm_name,)
+        )
+        realm_id = conn.execute(
+            "SELECT realm_id FROM spell_realm WHERE name = ?", (realm_name,)
+        ).fetchone()[0]
+        n_realms += 1
+
+        # Pass 1: insert all spell lists (so the class index can reference them).
+        list_id_by_name: dict[str, int] = {}
+        open_ids: list[int] = []
+        closed_ids: list[int] = []
+        for f in sorted(realm_dir.glob("*.txt")):
+            data = parse_spell_list_file(f)
+            m = data["meta"]
+            cur = conn.execute(
+                "INSERT INTO spell_list (realm_id, name, list_number, category) "
+                "VALUES (?, ?, ?, ?)",
+                (realm_id, m["name"], m.get("number"), m["category"]),
+            )
+            list_id = cur.lastrowid
+            list_id_by_name[m["name"]] = list_id
+            n_lists += 1
+            if m["category"] == "Open":
+                open_ids.append(list_id)
+            elif m["category"] == "Closed":
+                closed_ids.append(list_id)
+
+            for level, name, area, dur, rng, typ, starred in data["spells"]:
+                desc = data["descriptions"].get(level)
+                conn.execute(
+                    "INSERT INTO spell "
+                    "(list_id, level, name, area_effect, duration, range_str, "
+                    " spell_type, starred, description) "
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    (list_id, level, name, area, dur, rng, typ, starred, desc),
+                )
+                n_spells += 1
+
+        # Pass 2: class index — populates spell_class + class_spell_list. Every
+        # declared class also gets Open + Closed list memberships.
+        class_index = SPELL_LISTS_DIR / f"{realm_dir.name}_classes.txt"
+        declared_classes: set[str] = set()
+        if class_index.is_file():
+            idx = parse_class_index_file(class_index)
+            for class_name, list_name in idx["pairs"]:
+                cur = conn.execute(
+                    "INSERT OR IGNORE INTO spell_class (name, realm_id) "
+                    "VALUES (?, ?)",
+                    (class_name, realm_id),
+                )
+                class_id = conn.execute(
+                    "SELECT class_id FROM spell_class WHERE name = ?",
+                    (class_name,),
+                ).fetchone()[0]
+                declared_classes.add(class_name)
+                if list_name not in list_id_by_name:
+                    raise ValueError(
+                        f"{class_index.name}: class {class_name!r} references "
+                        f"unknown list {list_name!r}"
+                    )
+                conn.execute(
+                    "INSERT OR IGNORE INTO class_spell_list (class_id, list_id) "
+                    "VALUES (?, ?)",
+                    (class_id, list_id_by_name[list_name]),
+                )
+                n_memberships += 1
+
+            # Auto-grant Open + Closed to every declared class in this realm.
+            for class_name in declared_classes:
+                class_id = conn.execute(
+                    "SELECT class_id FROM spell_class WHERE name = ?",
+                    (class_name,),
+                ).fetchone()[0]
+                for lid in open_ids + closed_ids:
+                    cur = conn.execute(
+                        "INSERT OR IGNORE INTO class_spell_list (class_id, list_id) "
+                        "VALUES (?, ?)",
+                        (class_id, lid),
+                    )
+                    if cur.rowcount:
+                        n_memberships += 1
+
+    return (n_realms, n_lists, n_spells, n_memberships)
+
+
+# ---------------------------------------------------------------------------
 # entry point
 # ---------------------------------------------------------------------------
 
@@ -590,6 +808,8 @@ def main() -> None:
             n = insert_chart(conn, weapon_id, data["rows"])
             weapons_loaded.append((data["meta"]["name"], len(data["rows"]), n))
 
+    spell_stats = insert_spell_lists(conn)
+
     conn.commit()
     conn.close()
 
@@ -606,6 +826,10 @@ def main() -> None:
         print("Weapons:")
         for name, rows, cells in weapons_loaded:
             print(f"  {name}: {rows} chart rows, {cells} cells")
+    if spell_stats[1]:
+        nr, nl, nsp, nm = spell_stats
+        print(f"Spell lists: {nl} lists across {nr} realm(s), "
+              f"{nsp} spells, {nm} class memberships")
 
 
 if __name__ == "__main__":

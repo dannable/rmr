@@ -1,0 +1,107 @@
+# Spell List 2.5.6 — Inspiring Ways (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Inspiring Ways
+@number:   2.5.6
+@category: Base
+@class:    Paladin
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Courage | 10'R | 1 rnd/lvl | self | U
+ 2 | Inspirations I * | 20'R | 1 rnd/lvl | 100' | U
+ 3 | Voice of Friendship | * 1 target | varies | 50' | Fm
+ 4 | Inspirations II * | 20'R | 1 rnd/lvl | 100' | U
+ 5 | Voice of Reason * | 1 target | varies | 50' | Fm
+ 6 | Inspirations III * | 20'R | 1 rnd/lvl | 100' | U
+ 7 | Voice of Caution * | 1 target | varies | 50' | Fm
+ 8 | Command I * | 1 target | C | 10'/lvl | Fm
+ 9 | Inspirations IV * | 20'R | 1 rnd/lvl | 100' | U
+10 | Words of Friendship | * varies | varies | 100' | Fm
+11 | Inspirations V * | 20'R | 1 rnd/lvl | 100' | U
+13 | Command II * | 2 targets | C | 10'/lvl | Fm
+14 | Words of Reason * | varies | varies | 100' | Fm
+15 | Inspirations VI * | 20'R | 1 rnd/lvl | 100' | U
+16 | Courage True | 10'R | 1 rnd/lvl | self | U
+17 | Inspirations VII * | 20'R | 1 rnd/lvl | 100' | U
+18 | Words of Caution * | varies | varies | 100' | Fm
+19 | Inspirations VIII * | 20'R | 1 rnd/lvl | 100' | U
+20 | Voice of Conviction | 1 target | varies | 10' | Fm
+25 | Inspirations True * | 20'R | 1 rnd/lvl | 100' | U
+30 | Words of Conviction | varies | varies | 100' | Fm
+50 | Inspirations Mastery | varies | 1 rnd/lvl | varies | U
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Courage — For the duration of this spell, all within the area of effect (including the caster) may make a second RR versus any fear or panic effect. This second RR is made with an additional +10 modifier.
+
+@@ 2
+Inspirations I — Caster inspires all allies who are within the area of effect (they must be aware of the caster). All allies gain +5 to melee attacks and moving manuevers for the duration of the spell. This spell will only work during combat or highly religious moments (e.g., an oratory presentation prior to a large battle). These bonuses do not apply to the caster.
+
+@@ 3
+Voice of Friendship — For as long as they speak together, the target of this spell will believe that the caster is a good friend and is acting in the target’s best interest.
+
+@@ 4
+Inspirations II — As Inspirations I, except bonuses are +10.
+
+@@ 5
+Voice of Reason — For as long as the caster speaks, the target will beleve that the reasoning and ideas that the caster expresses are correct and valid.
+
+@@ 6
+Inspirations III — As Inspirations I, except bonuses are +15.
+
+@@ 7
+Voice of Caution — For as long as the caster speaks, the target will become more cautious (less rash) and will tend to obey the caster's warnings without hesitation or doubt.
+
+@@ 8
+Command I — Target must obey the caster. However, he will not perform any act that is completely alien to him (e.g., no suicide suggestions, no blinding himself suggestions, etc.).
+
+@@ 9
+Inspirations IV — As Inspirations I, except bonuses are +20.
+
+@@ 10
+Words of Friendship — As Voice of Friendship, except will affect all who can hear the caster.
+
+@@ 11
+Inspirations V — As Inspirations I, except bonuses are +25.
+
+@@ 13
+Command II — As Command I, except affects two targets.
+
+@@ 14
+Words of Reason — As Voice of Reason, except will affect all who can hear the caster.
+
+@@ 15
+Inspirations VI — As Inspirations I, except bonuses are +30.
+
+@@ 16
+Courage True — As Courage, except the second RR automatically succeeds. 1) Voice and Words spells will only work on non-enemies (i.e.,
+
+@@ 17
+Inspiriations VII — As Inspirations I, except bonuses are those that are not actively hostile to the caster). +35. 2) Voice and Words spells increase favorable reactions. This
+
+@@ 18
+Words of Cautions — As Voice of Caution, except will affect effect lasts 1 hour per level of the caster after the caster stops all who can hear the caster. speaking. After this duration, the target's natural tendancies
+
+@@ 19
+Inspirations VIII — As Inspirations I, except bonuses are and reactions will take over. Note that most targets will +40. continue to believe the caster even after the spell has lapsed.
+
+@@ 20
+Voice of Conviction — [RR Mod: -50] After casting this 3) Any target who resists a Voice or Words spell by more than 50 spell, the caster must tell the truth (as he knows it). All targets will realize that the caster was using magical influence. who fail their RR will believe the caster is speaking the absolute truth.
+
+@@ 25
+Inspirations True — As Inspirations I, except bonuses are +50.
+
+@@ 30
+Words of Conviction — As Voice of Conviction, except will affect all who can hear the caster.
+
+@@ 50
+Inspirations Mastery — Caster can use any lower level spell from this list once per round.
