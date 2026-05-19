@@ -1,0 +1,34 @@
+# Spell List 2.7.5 — Organ Ways (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Organ Ways
+@number:   2.7.5
+@category: Base
+@class:    Healer
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Nasal Repair | caster | P | self | Us
+ 2 | Minor Nerve Repair | caster | P | self | Us
+ 3 | Minor Ear Repair | caster | P | self | Us
+ 4 | Minor Eye Repair | caster | P | self | Us
+ 5 | Major Nerve Repair | caster | P | self | Us
+ 6 | Major Ear Repair | caster | P | self | Us
+ 7 | Joining * | caster | P | self | Us
+ 8 | Major Eye Repair | caster | P | self | Us
+ 9 | Minor Nerve Repair | Tr. caster | P | self | Us
+10 | Organ Repair | caster | P | self | Us
+12 | Paralysis Cures | caster | P | self | Us
+13 | Mass Nerve Regen. | caster | P | self | Us
+14 | Major Nerve Rep. True | caster | P | self | Us
+15 | Joining True * | caster | P | self | Us
+17 | Rapid Paralysis Cures | caster | P | self | Us
+18 | Rpd. Mass Nerve Regen.caster |  | P | self | Us
+20 | Brain Repair | caster | P | self | Us
+25 | Organ Regeneration | caster | P | self | Us
+30 | Paralysis Cures True | caster | P | self | Us
+50 | Reuniting | caster | P | self | Us

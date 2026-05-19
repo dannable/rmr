@@ -1,0 +1,37 @@
+# Spell List 2.5.4 — Holy Healing (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Holy Healing
+@number:   2.5.4
+@category: Base
+@class:    Paladin
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Healing I | 1 target | P | touch | U
+ 2 | Flowstop I | 1 target | P | touch | U
+ 3 | Frost/Burn Relief I | 1 target | P | touch | U
+ 4 | Minor Fracture Repair | 1 target | P | touch | U
+ 5 | Healing III | 1 target | P | touch | U
+ 6 | Stun Relief * | 1 target | P | touch | Us
+ 7 | Major Fracture Repair | 1 target | P | touch | U
+ 8 | Disease Resistance I | 1 target | 10 min/lvl | touch | U
+ 9 | Poison Resistance I | 1 target | 10 min/lvl | touch | U
+10 | Minior Vessel Repair | 1 target | P | touch | U
+11 | Healing V | 1 target | P | touch | U
+12 | Muscle/Tendon Repair | 1 target | P | touch | U
+13 | Frost/Burn Relief III | 1 target | P | touch | U
+14 | Stun Relief II * | 1 target | P | touch | Us
+15 | Unparalysis | 1 target | P | touch | U
+16 | Healing X | 1 target | P | touch | U
+17 | Frost/Burn Relief IV | 1 target | P | touch | U
+18 | Undisease | 1 target | P | touch | U
+19 | Unpoison | 1 target | P | touch | U
+20 | Stun Relief True * | 1 target | P | touch | Us
+25 | Healing XV | 1 target | P | touch | U
+30 | Healing True | 1 target | P | touch | U
+50 | Laying on Hands True | 1 target | P | touch | U

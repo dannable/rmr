@@ -1,0 +1,31 @@
+# Spell List 2.8.2 — Dark Channels (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Dark Channels
+@number:   2.8.2
+@category: Base
+@class:    Evil Channeler
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 2 | Dark Stunning * | 1 target | 1 rnd/5 fail | 100' | F
+ 3 | Channels I * | 1 spell | — | varies | U
+ 5 | Dark Sleep * | 1 target | 1 rnd/5 fail | 100' | F
+ 6 | Channels III * | 1 spell | — | varies | U
+ 7 | Channel Opening I | 1 being | C 1 | mile/lvl | U
+ 8 | Dark Blinding * | 1 target | 1 hr/10 fail | 100' | F
+10 | Black Channel I * | 1 target | — | varies | F
+11 | Channels V * | 1 spell | — | varies | U
+13 | Absolution * | 1 target 1 | week/10 fail | 50' | F
+15 | Black Channel II * | 1 target | — | varies | F
+16 | Channel Opening II | 1 being | C 10 | mile/lvl | U
+17 | Channel VII * | 1 spell | — | varies | U
+19 | Channel X * | 1 spell | — | varies | U
+20 | Absolution Pure * | 1 target | — | 50' | F
+25 | Black Channel III * | 1 target | — | varies | F
+30 | Dark Absolution * | 1 target | — | 50' | F
+50 | Unholy Gate | — | 1 rnd | varies | U

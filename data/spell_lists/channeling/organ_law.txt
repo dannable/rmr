@@ -1,0 +1,28 @@
+# Spell List 2.2.9 — Organ Law (Closed)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Organ Law
+@number:   2.2.9
+@category: Closed
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Organ Lore | 1 target | — | touch | I
+ 3 | Nasal Repair | 1 target | P | touch | U
+ 5 | Minor Ear Repair | 1 target | P | touch | U
+ 6 | Minor Eye Repair | 1 target | P | touch | U
+ 9 | Major Ear Repair | 1 target | P | touch | U
+11 | Major Eye Repair | 1 target | P | touch | U
+14 | Heart Repair | 1 target | P | touch | U
+15 | Lung Repair | 1 target | P | touch | U
+16 | Organ Repair | 1 target | P | touch | U
+17 | Nose Regeneration | 1 target | P | touch | U
+18 | Organ Transplant | 1 target | P | touch | U
+20 | Eye & Ear Regen. | 1 target | P | touch | U
+25 | Organ Repair True | 1 target | P | touch | U
+30 | Heart Regeneration | 1 target | P | touch | U
+50 | Organ Regeneration | 1 target | P | touch | U

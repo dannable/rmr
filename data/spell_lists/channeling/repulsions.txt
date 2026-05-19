@@ -1,0 +1,35 @@
+# Spell List 2.4.5 — Repulsions (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Repulsions
+@number:   2.4.5
+@category: Base
+@class:    Cleric
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Repel Undead V | varies | 1 min/lvl | 100' | F
+ 2 | Cancel Channeling | caster | C | self | F
+ 3 | Anti-Channels I | 1 spell | — | 100' | E
+ 4 | Neutralize Curse I | 1 curse | 1 min/lvl | 100' | F
+ 5 | Anti-Channels III | 1 spell | — | 100' | E
+ 6 | Repel Undead IX | varies | 1 min/lvl | 100' | F
+ 7 | Remove Curse | 1 target | P | touch | F
+ 8 | Dispel Channeling I | 1 target | — | 10' | F
+ 9 | Neutralize Curse II | 1 curse | 1 hr/lvl | 100' | F
+10 | Anti-Channels V | 1 spell | — | 100' | E
+11 | Repel Undead XII | varies | 1 min/lvl | 100' | F
+12 | Anti-Channels VIII | 1 spell | — | 100' | E
+14 | Dispel Channeling V | 5 targets | — | 10' | F
+15 | Anti-Channels X | 1 spell | — | 100' | E
+16 | Repel Undead XV | varies | 1 min/lvl | 100' | F
+18 | Neutralize Curse III | 1 curse | 1 day/lvl | 100' | F
+19 | Dispel Channeling X | 10 targets | — | 10' | F
+20 | Repel Undead True | 1 undead | 1 min/lvl | 100' | E
+25 | Uncurse True | 1 curse | P | touch | F
+30 | Anti-Channels True | 1 spell | — | 100' | E
+50 | Rechanneling | 1 spell | 1 rnd/lvl | 300' | F

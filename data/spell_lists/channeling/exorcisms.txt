@@ -1,0 +1,37 @@
+# Spell List 2.5.2 — Exorcisms (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Exorcisms
+@number:   2.5.2
+@category: Base
+@class:    Paladin
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Repel Undead I | varies | 1 min/lvl | 100' | F
+ 2 | Detect Undead | 10'R 1 | min/lvl(C) | 10'/lvl | P
+ 3 | Repel Undead III | varies. | 1 min/lvl | 100' | F
+ 4 | Repel Demon I | 5'R/lvl | C | 10' | F
+ 5 | Repel Undead V | varies | 1 min/lvl | 100' | F
+ 6 | Repel Demon II | 5'R/lvl | C | 10' | F
+ 7 | Banish Demon I | 1 Demon | 1 mo/lvl | 10' | F
+ 8 | Neutralize Curse I | 1 target | 1 min/lvl | touch | F
+ 9 | Repel Demon III | 5'R/lvl | C | 10' | F
+10 | Repel Undead X | varies | 1 min/lvl | 100' | F
+11 | Banish Demon II | 1 Demon | 1 mo/lvl | 10' | F
+12 | Repel Undead XII | varies | 1 min/lvl | 100' | F
+13 | Repel Demon IV | 5'R/lvl | C | 10' | F
+14 | Neutralize Curse II | 1 target | 1 hr/lvl | touch | F
+15 | Repel Undead XV | varies | 1 min/lvl | 100' | F
+16 | Repel Demon V | 5'R/lvl | C | 10' | F
+17 | Banish Demon III | 1 Demon | 1 mo/lvl | 10' | F
+18 | Neutralize Curse III | 1 target | 1 day/lvl | touch | F
+19 | Repel Demon VI | 5'R/lvl | C | 10' | F
+20 | Repel Undead True | varies | 1 min/lvl | 100' | F
+25 | Repel Demon True | 10'R/lvl | C | 10' | F
+30 | Uncurse True | 1 target | P | touch | F
+50 | Banish Demon True | 1 Demon | 1 mo/lvl | 10' | F

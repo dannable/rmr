@@ -1,0 +1,32 @@
+# Spell List 2.2.1 — Blood Law (Closed)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Blood Law
+@number:   2.2.1
+@category: Closed
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Flowstop I | 1 target | — | touch | U
+ 2 | Flowstop III | 1 target | — | touch | U
+ 3 | Clotting I | 1 target | — | touch | U
+ 4 | Flowstop V | 1 target | — | touch | U
+ 5 | Limb Preservation | * 1 limb | 1 day/lvl | touch | U
+ 6 | Cut Repair I | 1 target | P | touch | U
+ 7 | Clotting III | 1 target | — | touch | U
+ 8 | Minor Vessel Repair | 1 target | P | touch | U
+ 9 | Cut Repair III | 1 target | P | touch | U
+10 | Major Vessel Repair | 1 target | P | touch | U
+12 | Joining * | 1 target | P | touch | U
+13 | Flowstop True | 1 target | — | touch | U
+14 | Clotting True | 1 target | — | touch | U
+16 | Unclotting | 1 target | P | touch | U
+18 | Cut Repair True | 1 target | — | touch | U
+20 | Mass Flowstop | varies | — | touch | U
+25 | Joining True * | 1 target | P | touch | U
+30 | Mass Clotting | varies | — | touch | U
+50 | Mass Blood Repair | varies | P | 100' | U

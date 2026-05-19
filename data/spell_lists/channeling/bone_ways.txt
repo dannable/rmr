@@ -1,0 +1,37 @@
+# Spell List 2.7.2 — Bone Ways (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Bone Ways
+@number:   2.7.2
+@category: Base
+@class:    Healer
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Minor Fracture Repair | caster | P | self | Us
+ 2 | Cartilage Repair | caster | P | self | Us
+ 3 | Major Fracture Repair | caster | P | self | Us
+ 4 | Skull Repair | caster | P | self | Us
+ 5 | Joint Repair | caster | P | self | Us
+ 6 | Minor Fract. Rep. True | caster | P | self | Us
+ 7 | Joining * | caster | P | self | Us
+ 8 | Cartilage Repair True | caster | P | self | Us
+ 9 | Major Frac. Rep. True | caster | P | self | Us
+10 | Skull Repair True | caster | P | self | Us
+11 | Joint Repair True | caster | P | self | Us
+12 | Shatter Repair | caster | P | self | Us
+13 | Cartilage Regeneration | caster | P | self | Us
+14 | Bone Regeneration | caster | P | self | Us
+15 | Joining True * | caster | P | self | Us
+16 | Rapid Shatter Repair | caster | P | self | Us
+17 | Rapid Cartilage Regen. | caster | P | self | Us
+18 | Skull Regen. | caster | P | self | Us
+19 | Rapid Bone Regen. | caster | P | self | Us
+20 | Shatter Repair True | caster | P | self | Us
+25 | Cartilage Regen. True | caster | P | self | Us
+30 | Bone Regen. True | caster | P | self | Us
+50 | Skeletal Regen. True | caster | P | self | Us

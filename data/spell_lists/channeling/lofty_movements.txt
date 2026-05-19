@@ -1,0 +1,32 @@
+# Spell List 2.1.5 — Lofty Movements (Open)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Lofty Movements
+@number:   2.1.5
+@category: Open
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 2 | Edgewalking | 1 target | 1 min/lvl | 10' | U
+ 4 | Limbwalking | 1 target | 1 min/lvl | 10' | U
+ 5 | Stonewalking | 1 target | 1 min/lvl | 10' | U
+ 6 | Waterwalking | 1 target | 1 min/lvl | 10' | U
+ 7 | Merging Organic | 1 target | 1 min/lvl | 10' | U
+ 8 | Store Sanctuary | caster | P | self | U
+ 9 | Limbrunning | 1 target | 1 min/lvl | 10' | U
+10 | Stonerunning | 1 target | 1 min/lvl | 10' | U
+11 | Waterrunning | 1 target | 1 min/lvl | 10' | U
+12 | Windwalking | 1 target | 1 min/lvl | 10' | U
+13 | Returning I | caster | — | self | U
+15 | Gr. Merging Organic | 1 target | 1 min/lvl | 10' | U
+16 | Returning V | caster | — | self | U
+18 | Windrunning | 1 target | 1 min/lvl | 10' | U
+19 | Returning X | caster | — | self | U
+20 | Merging Tr. Organic | 1 target | 1 min/lvl | 10' | U
+25 | Windrunning True |  |  |  | 
+30 | Word of Return * | caster | — | self | U
+50 | Rereturning * | caster | — | self | U

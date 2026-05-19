@@ -1,0 +1,31 @@
+# Spell List 2.2.6 — Lore (Closed)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Lore
+@number:   2.2.6
+@category: Closed
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Afterthoughts | caster | — | self | I
+ 2 | Detect Evil | 5'R | 1 min/lvl | 100' | P
+ 3 | Detect Curse | 5'R | 1 min/lvl | 100' | P
+ 4 | Detect Emotion | 5'R | 1 min/lvl | 100' | Pm
+ 5 | Light Lore I | 1 item | — | 10' | P
+ 6 | Poison Lore | 1 poison | — | 10' | P
+ 8 | Life Lore | 1 target | — | 100' | P
+10 | Curse Tales | 1 curse | — | 10' | P
+11 | Dark Lore I | 1 item | — | 10' | P
+12 | Light Lore II | varies | — | 10' | P
+15 | Emotion Analysis | 1 target | — | 10' | Pm
+17 | Light Lore III | varies | — | 10' | P
+18 | Dark Lore II | varies | — | 10' | P
+19 | White Lore | 1 item | — | 100' | P
+20 | Dark Lore III | varies | — | 10' | P
+25 | Life Lore True | 1 target | — | 10' | P
+30 | Black Lore | 1 target | — | 100' | P
+50 | White Lore Mastery | varies | — | 100' | P

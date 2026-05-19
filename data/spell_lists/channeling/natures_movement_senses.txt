@@ -1,0 +1,37 @@
+# Spell List 2.3.4 — Nature's Movement/Senses (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Nature's Movement/Senses
+@number:   2.3.4
+@category: Base
+@class:    Animist
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Cat Step | caster | 1 min/lvl | self | U
+ 2 | Chameleon Skin | caster | 1 min/lvl | self | U
+ 3 | Wolf Sense | caster | 1 min/lvl | self | U
+ 4 | Deer Speed I | caster | 10 min/lvl | self | U
+ 5 | Bat Sense | caster | 1 min/lvl | self | U
+ 6 | Otterlungs | caster | 1 min/lvl | self | U
+ 7 | Glide I | caster | 1 min/lvl | self | U
+ 8 | Hawk Sense | caster | 1 min/lvl | self | U
+ 9 | Tiger Skin | caster | 1 min/lvl | self | U
+10 | Boar Strength | caster | 1 min/lvl | self | U
+11 | Lion Claws | caster | 1 min/lvl | self | U
+12 | Insect Sense | 10'R/lvl | 1 min/lvl | self | U
+13 | Deer Speed II | caster | 10 min/lvl | self | U
+14 | Bear Skin | caster | 1 min/lvl | self | U
+15 | Bear Arms | caster | 1 min/lvl | self | U
+16 | Glide III | caster | 1 min/lvl | self | U
+17 | Viperfang | caster | 1 min/lvl | self | U
+18 | Wyvern Skin | caster | 1 min/lvl | self | U
+19 | Deer Speed III | caster | 10 min/lvl | self | U
+20 | Ox Strength | caster | 1 min/lvl | self | U
+25 | Glide True | caster | 1 min/lvl | self | U
+30 | Deer Speed True | caster | 10 min/lvl | self | U
+50 | Dragon Skin | caster | 1 min/lvl | self | U

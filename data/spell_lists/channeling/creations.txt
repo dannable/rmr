@@ -1,0 +1,32 @@
+# Spell List 2.2.4 — Creations (Closed)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Creations
+@number:   2.2.4
+@category: Closed
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 2 | Sustain Self | caster | 1 day | self | U
+ 3 | Water Production I | — | P | 10' | E
+ 4 | Food Production I | — | P | 10' | E
+ 5 | Fire Starting | 1'R | — | 1' | E
+ 6 | Nutrient Conjures I | — | P | 10' | E
+ 7 | Water Production III | — | P | 10' | E
+ 8 | Food Production III | — | P | 10' | E
+ 9 | Herb Enhancement | 1 herb | P | touch | U
+10 | Water Production V | — | P | 10' | E
+11 | Food Production V | — | P | 10' | E
+12 | Nutrient Conjures III | — | P | 10' | E
+13 | Herb Mastery | 1 herb | P | touch | U
+15 | Lesser Plant Production | 1 plant | P | 10' | E
+16 | Mass Water Production | — | P | 10' | E
+17 | Food Production True | — | P | 10' | E
+20 | Lesser Animal Prod. | 1 animal | P | 10' | E
+25 | Nutrient Conjures True | — | P | 10' | E
+30 | Greater Plant Prod. | 1 plant | P | 10' | E
+50 | Greater Animal Prod. | 1 animal | P | 10' | E

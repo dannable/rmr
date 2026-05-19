@@ -1,0 +1,35 @@
+# Spell List 2.7.3 — Cleansing (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Cleansing
+@number:   2.7.3
+@category: Base
+@class:    Healer
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Transfer | 1 target | P | touch | U
+ 2 | Disease Purification | caster | P | self | Us
+ 3 | Poison Purification | caster | P | self | Us
+ 4 | Self Preservation | caster | 1 min/lvl | self | Us
+ 5 | Ease Addiction I | caster | P | self | Us
+ 6 | Heal Addiction I | caster | P | self | Us
+ 7 | Ease Addiction II | caster | P | self | Us
+ 8 | Heal Addiction II | caster | P | self | Us
+10 | Mind Disease Cures | caster | P | self | Us
+11 | Heal Addiction III | caster | P | self | Us
+12 | Long Transfer | 1 target | P | 1'/lvl | U
+13 | Cure Disease | caster | P | self | Us
+14 | Heal Addiction IV | caster | P | self | Us
+15 | Cure Poison | caster | P | self | Us
+16 | Unpsychosis | caster | P | self | Us
+17 | Heal Addiction V | caster | P | self | Us
+19 | Mind Disease Cures | Tr. caster | P | self | Us
+20 | Heal Addiction X | caster | P | self | Us
+25 | Lord Heal Addiction | caster | P | self | Us
+30 | Heal Addiction True | caster | P | self | Us
+50 | Addiction Mastery | caster | P | self | Us

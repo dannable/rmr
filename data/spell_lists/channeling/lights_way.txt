@@ -1,0 +1,32 @@
+# Spell List 2.1.4 — Light's Way (Open)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Light's Way
+@number:   2.1.4
+@category: Open
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Projected Light | 50' beam 10 | min/lvl | self | E
+ 2 | Light I | 10'R 10 | min/lvl | touch | E
+ 3 | Aura | 1 target 10 | min/lvl | 10' | U
+ 4 | Light II | 20'R 10 | min/lvl | touch | E
+ 5 | Sudden Light | 10'R | — | 100' | F
+ 6 | True Aura | 1 target 10 | min/lvl | 10' | U
+ 7 | Shock Bolt | 1 target | — | 100' | DE
+ 8 | Light III | 30'R 10 | min/lvl | touch | E
+ 9 | Utterlight I | 10'R | 1 min/lvl | touch | E
+10 | Waiting Light | 10'R 10 | min/lvl | touch | E
+11 | Flare | varies | 1 rnd/lvl | 20'/lvl | DE
+13 | Light V | 50'R 10 | min/lvl | touch | E
+15 | Light X | 100'R 10 | min/lvl | touch | E
+17 | Utterlight V | 50'R | 1 min/lvl | touch | E
+18 | Mass Light | 10'R/lvl 10 | min/lvl | touch | E
+20 | Mass Aura | varies 10 | min/lvl | 10' | U
+25 | Lightning Call | 1 target | — | 100' | DE
+30 | Alkar | 1 target 10 | min/lvl | 10' | U
+50 | Mass Utterlight | 10'R/lvl | 1 min/lvl | touch | E

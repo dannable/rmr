@@ -1,0 +1,28 @@
+# Spell List 2.1.8 — Sound's Way (Open)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Sound's Way
+@number:   2.1.8
+@category: Open
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Speech I | 1 target | C | 10' | U
+ 3 | Quiet I | 1 target | 1 min/lvl | 100' | E
+ 5 | Soundwall I | 20'x20' | 10 min/lvl | 100' | E
+ 6 | Speech II | 1 target | C | 10' | U
+ 7 | Silence I | 10'R | 1 min/lvl | 100' | E
+ 8 | Quiet III | 3 targets | 1 min/lvl | 100' | E
+10 | Soundwall V | (20'x20')x5 | 10 min/lvl | 100' | E
+11 | Quiet V | 5 targets | 1 min/lvl | 100' | E
+13 | Silence V | 50'R | 1 min/lvl | 100' | E
+15 | Speech III | 1 target | C | 10' | U
+17 | Sounding | 1 target | 1 min/lvl | 10' | E
+20 | Silence X | 100'R | 1 min/lvl | 100' | E
+25 | Mass Soundwalls | varies | 10 min/lvl | 100' | E
+30 | Mass Quiet | varies | 1 min/lvl | 100' | E
+50 | Speech True | 1 target | 1 min/lvl | 100' | U

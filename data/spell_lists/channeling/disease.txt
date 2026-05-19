@@ -1,0 +1,36 @@
+# Spell List 2.8.4 — Disease (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Disease
+@number:   2.8.4
+@category: Base
+@class:    Evil Channeler
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Chills | 1 target | P | 100' | F
+ 2 | Grey Vision | 1 target | P | 100' | F
+ 3 | Smelling Loss | 1 target | P | 100' | F
+ 4 | Hearing Loss | 1 target | P | 100' | F
+ 5 | Tongue Rot | 1 target | P | 100' | F
+ 6 | Asthma | 1 target | P | 100' | F
+ 7 | Leprosy | 1 target | P | 100' | F
+ 8 | Minor Allergy | 1 target | P | 100' | F
+ 9 | Root Rot | 1 plant | P | touch | F
+10 | Hemophilia | 1 target | P | 100' | F
+11 | Malaria | 1 target | P | 100' | F
+12 | Withering Hand | 1 target | P | touch | F
+13 | Epilepsy | 1 target | P | 100' | F
+14 | Pneumonia | 1 target | P | 100' | F
+15 | Major Allergy | 1 target | P | 100' | F
+16 | Carrier I | 1 target | P | 100' | F
+17 | Elephantiasis | 1 target | P | 100' | F
+19 | Carrier II | 1 target | P | 100' | F
+20 | Leukemia | 1 target | P | 100' | F
+25 | Carrier III | 1 target | P | 100' | F
+30 | Rabies | 1 target | P | 100' | F
+50 | Plague | 1 target | P | 100' | F

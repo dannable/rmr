@@ -1,0 +1,32 @@
+# Spell List 2.2.5 — Locating Ways (Closed)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Locating Ways
+@number:   2.2.5
+@category: Closed
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 2 | Guess | caster | — | self | I
+ 3 | Pathfinding I | caster | — | 100' | I
+ 4 | Guidance | caster 10 | min/lvl(C)100'/lvl |  | E
+ 5 | Location I | 1 target | — | 100' | P
+ 6 | Pathfinding III | caster | — | 300' | I
+ 8 | Location III | 1 target | — | 300' | P
+ 9 | Pathfinding V | caster | — | 500' | I
+10 | Location V | 1 target | — | 500' | P
+11 | Memory's Path | caster | 1 hr/lvl | self | U
+12 | Pathfinding X | caster | — | 1 mile | I
+13 | Divine Guidance | caster | 1 hr/lvl 1 | mi/lvl | E
+15 | Finding I | 1 object | — | 100' | P
+16 | Location X | 1 target | — | 1 mile | P
+17 | Pathfinding True | caster | — | 10 mi | 
+18 | Finding III | 1 object | — | 300' | P
+20 | Lord Location | 1 target | — 20 | miles | P
+25 | Paths True | 1 mi R/lvl | — 1 | mi/lvl | I
+30 | Location True | 1 target | — 1 | mi/lvl | P
+50 | Finding True | 1 object | — | 100'/lvl | P

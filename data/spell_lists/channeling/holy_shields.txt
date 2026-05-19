@@ -1,0 +1,37 @@
+# Spell List 2.5.5 — Holy Shields (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Holy Shields
+@number:   2.5.5
+@category: Base
+@class:    Paladin
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Protection Prayer I | 10'R | 1 min/lvl | self | U
+ 2 | Aura | caster | 10 min/lvl | self | U
+ 3 | Shield * | caster | 1 min/lvl | self | U
+ 4 | Blur * | caster | 1 min/lvl | self | U
+ 5 | Unpain I * | caster | 1 min/lvl | self | Us
+ 6 | Protection Prayer II | 10'R | 1 min/lvl | self | U
+ 7 | Deflections I * | 1 missile | — | 10' | U
+ 8 | True Aura | caster | 10 min/lvl | self | U
+ 9 | Bladeturn I * | 1 attack | — | 10' | U
+10 | Unpain II * | caster | 1 min/lvl | self | Us
+11 | Protection Prayer III | 10'R | 1 min/lvl | self | U
+12 | Deflections II * | 2 missiles | — | 10' | U
+13 | Aim Untrue I * | 1 missile | — | 100' | U
+14 | Bladeturn II * | 2 attacks | — | 10' | U
+15 | Unpain III * | caster | 1 min/lvl | self | Us
+16 | Protection Prayer IV | 10'R | 1 min/lvl | self | U
+17 | Deflections III * | 3 missiles | — | 10' | U
+18 | Aim Untrue II * | 2 missiles | — | 100' | U
+19 | Bladeturn III * | 3 attacks | — | 10' | U
+20 | Unpain IV | caster | 1 min/lvl | self | Us
+25 | Protection Prayer True | 10'R | 1 min/lvl | self | U
+30 | Mass Deflections | 1 missile/lvl | — | 10' | U
+50 | Holy Shields True | varies | 1 rnd/lvl | varies | U

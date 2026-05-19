@@ -1,0 +1,36 @@
+# Spell List 2.3.6 — Plant Mastery (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Plant Mastery
+@number:   2.3.6
+@category: Base
+@class:    Animist
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Plant Lore | 1 plant | — | touch | I
+ 2 | Speed Growth I | 10'R | 1 day | 10' | U
+ 3 | Plant Tongues | caster | 1 min/lvl | touch | I
+ 4 | Plant Restore | 1 plant | P | touch | U
+ 5 | Speed Growth II | 10'R | 1 day | 10' | U
+ 6 | Plant Location | 1 mi R | — | self | I
+ 7 | Plant Growth II | 1 plant | P | touch | U
+ 8 | Plant Control I | 1 plant | 1 min/lvl | 100' | Fm
+ 9 | Speed Growth III | 100'R | 1 day | 100' | U
+10 | Plant Growth III | 1 plant | P | touch | U
+11 | Plant Control III | 3 plants | 1 min/lvl | touch | Fm
+12 | Tree Restore | 1 tree | P | touch | U
+13 | Plant Growth V | 1 plant | P | touch | U
+14 | Speed Growth IV | 100'R | 1 day | 100' | U
+15 | Plant Control V | 5 plants | 1 min/lvl | touch | Fm
+16 | Wall of Thorns | 10'x10'x5' | 10 min/lvl | 100' | E
+17 | Firestop | 10'R/lvl | 10 min/lvl | 100' | U
+18 | Plant Growth X | 1 plant | P | touch | U
+20 | Plant Growth True | 100'R | P | 100' | U
+25 | Speed Growth True | 10'R/lvl | 1 day | 10'/lvl | U
+30 | Plant Control True | 100'R | 1 min/lvl | 100' | Fm
+50 | Plant Animation | 1 plant | 1 min/lvl | 100' | U

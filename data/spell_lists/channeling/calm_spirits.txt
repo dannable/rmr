@@ -1,0 +1,28 @@
+# Spell List 2.2.3 — Calm Spirits (Closed)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Calm Spirits
+@number:   2.2.3
+@category: Closed
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 2 | Calm I | 1 target | 1 min/lvl | 100' | Fm
+ 4 | Calm II | 2 targets | 1 min/lvl | 100' | Fm
+ 5 | Hold Kind | 1 target | C | 100' | Fm
+ 6 | Calm III | 3 targets | 1 min/lvl | 100' | Fm
+ 8 | Calm IV | 4 targets | 1 min/lvl | 100' | Fm
+ 9 | Calm V | 5 targets | 1 min/lvl | 100' | Fm
+10 | Mass Animal Calm. | I varies | 2 min/lvl | 100' | Fm
+11 | True Hold | 1 target | C | 100' | Fm
+12 | Calm X | 10 targets | 1 min/lvl | 100' | Fm
+15 | Shout of Calming * | varies | 1 min/lvl | 50' | Fm
+18 | Mass Animal Calm. | II varies | 1 min/lvl | 10'/lvl | Fm
+20 | Lord Calm | varies | 1 min/lvl | 10'/lvl | Fm
+25 | Long Calm | 1 target | 1 day/lvl | 300' | Fm
+30 | Mass Calm | varies | 1 min/lvl | 100' | Fm
+50 | Calm True | 1 target | P | 100' | Fm

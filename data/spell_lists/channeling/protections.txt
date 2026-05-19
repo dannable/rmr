@@ -1,0 +1,31 @@
+# Spell List 2.4.4 — Protections (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Protections
+@number:   2.4.4
+@category: Base
+@class:    Cleric
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Prayer I | 1 target | varies | 100' | U
+ 2 | Bless I | 1 target | varies | 100' | U
+ 3 | Resistance I | 1 target | varies | 100' | U
+ 4 | Heat Resistance * | 1 target | varies | 100' | U
+ 5 | Cold Resistance * | 1 target | varies | 100' | U
+ 8 | Temperature Sphere | I 10'R | varies | 10' | U
+10 | Protections Sphere I | 10'R | varies | 10' | U
+11 | Prayer III | varies | varies | 100' | U
+12 | Bless III | varies | varies | 100' | U
+13 | Resistance III | varies | varies | 100' | U
+15 | Temperature Sphere | II 20'R | varies | 10' | U
+17 | Protections Sphere III | 10'R | varies | 10' | U
+18 | Prayer V | 1-5 tgts | varies | 100' | U
+20 | Bless V | 1-5 tgts | varies | 100' | U
+25 | Resistance V | 1-5 tgts | varies | 100' | U
+30 | Protections Sphere V | 10'R | varies | 10' | U
+50 | Protections True | 1 target | 1 min/lvl | 100' | U

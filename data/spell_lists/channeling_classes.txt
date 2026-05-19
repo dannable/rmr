@@ -1,0 +1,49 @@
+# Channeling Realm — class-to-list index
+# Transcribed from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm: Channeling
+#
+# Each Channeling class has access to its own Base lists PLUS all
+# Open and Closed Channeling lists. Loader auto-grants Open+Closed
+# memberships to every class declared here, so this file only lists
+# the class-specific Base lists below.
+#
+# Format: <class_name> | <list_name>
+#
+Animist | Animal Mastery
+Animist | Herb Mastery
+Animist | Nature's Lore
+Animist | Nature's Movement/Senses
+Animist | Nature's Protection
+Animist | Plant Mastery
+Cleric | Channels
+Cleric | Communal Ways
+Cleric | Life Mastery
+Cleric | Protections
+Cleric | Repulsions
+Cleric | Summons
+Paladin | Communion
+Paladin | Exorcisms
+Paladin | Holy Arms
+Paladin | Holy Healing
+Paladin | Holy Shields
+Paladin | Inspiring Ways
+Ranger | Inner Walls
+Ranger | Moving Ways
+Ranger | Nature's Guises
+Ranger | Nature's Summons
+Ranger | Nature's Way
+Ranger | Path Mastery
+Healer | Blood Ways
+Healer | Bone Ways
+Healer | Cleansing
+Healer | Muscle Ways
+Healer | Organ Ways
+Healer | Surface Ways
+Evil Channeler | Curses
+Evil Channeler | Dark Channels
+Evil Channeler | Dark Lore
+Evil Channeler | Disease
+Evil Channeler | Necromancy
+Evil Channeler | Wounding

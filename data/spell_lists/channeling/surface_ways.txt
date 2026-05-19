@@ -1,0 +1,34 @@
+# Spell List 2.7.6 — Surface Ways (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Surface Ways
+@number:   2.7.6
+@category: Base
+@class:    Healer
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Heal I | caster | P | self | Us
+ 2 | Frost/Burn Relief I | caster | P | self | Us
+ 3 | Stun Relief I * | caster | P | self | Us
+ 4 | Regenerate I * | caster | C | self | Us
+ 5 | Frost/Burn Relief II | caster | P | self | Us
+ 6 | Awake | caster | P | self | Us
+ 7 | Heal V | caster | P | self | Us
+ 8 | Frost/Burn Relief III | caster | P | self | Us
+ 9 | Stun Relief III * | caster | P | self | Us
+10 | Regenerate II * | caster | C | self | Us
+11 | Frost/Burn Relief | caster | P | self | Us
+12 | Heal X | caster | P | self | Us
+13 | Stun Relief V * | caster | P | self | Us
+15 | Regenerate III * | caster | C | self | Us
+17 | Heal XV | caster | P | self | Us
+19 | Stun Relief X * | caster | P | self | Us
+20 | Heal XX | caster | P | self | Us
+25 | Heal True | caster | P | self | Us
+30 | Frost/Burn Relief True | caster | P | self | Us
+50 | Stun Relief True * | caster | P | self | Us

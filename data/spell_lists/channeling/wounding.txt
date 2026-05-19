@@ -1,0 +1,35 @@
+# Spell List 2.8.6 — Wounding (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Wounding
+@number:   2.8.6
+@category: Base
+@class:    Evil Channeler
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Wounding I * | 1 target | P | 2' | F
+ 2 | Cramp * | 1 target | P | 2' | F
+ 3 | Bleeding I * | 1 target | P | 2' | F
+ 4 | Wounding III * | 1 target | P | 2' | F
+ 5 | Sensory Damage I * | 1 target | P | 2' | F
+ 6 | Fracture * | 1 target | P | 2' | F
+ 7 | Bleeding III * | 1 target | P | 2' | F
+ 8 | Wounding V * | 1 target | P | 2' | F
+ 9 | Sensory Damage II * | 1 target | P | 2' | F
+10 | Paralysis * | 1 target | P | 2' | F
+11 | Wounding VII * | 1 target | P | 2' | F
+12 | Drain Soul I * | 1 target | P | 2' | F
+13 | Energy Drain I * | 1 target | C | 2' | F
+14 | Bleeding V * | 1 target | P | 2' | F
+15 | Wounding X * | 1 target | P | 2' | F
+16 | Energy Drain II * | 1 target | P | 2' | F
+18 | Drain Soul II * | 1 target | P | 2' | F
+20 | Wounding XV * | 1 target | P | 2' | F
+25 | Drain Soul True * | 1 target | P | 2' | F
+30 | Bleeding True * | 1 target | P | 2' | F
+50 | Wounding True * | 1 target | P | 2' | F

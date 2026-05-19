@@ -1,0 +1,36 @@
+# Spell List 2.6.5 — Nature's Way (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Nature's Way
+@number:   2.6.5
+@category: Base
+@class:    Ranger
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Trap Detection | 5'R | 1 min/lvl | 50' | P
+ 2 | Water Finding I | 1 mile R | — | self | I
+ 3 | Fire Starting | 1'R | — | 1' | E
+ 5 | Food Finding I | 1 mile R | — | self | I
+ 6 | Water Purification | varies | P | touch | E
+ 7 | Shelter Finding I | 1 mile R | — | self | I
+ 8 | Lesser Traps | 1-10'R | P | touch | E
+ 9 | Weather Prediction I | caster | — 1 | mi/lvl | I
+10 | Nature's Awareness | I 100'R | C | self | I
+11 | Water Finding II | 10 mile R | — | self | I
+12 | Waiting Awareness I | 10'R | 1 hr/lvl | self | I
+13 | Food Finding II | 10 mile R | — | self | I
+14 | Major Traps | 10'R | P | touch | E
+15 | Shelter Finding II | 10 mile R | — | self | I
+16 | Nature's Awareness | III 300'R | C | self | I
+17 | Water Finding True | varies | — | self | I
+18 | Food Finding True | varies | — | self | I
+19 | Shelter Finding True | varies | — | self | I
+20 | Nature's Awareness | V 500'R | C | 500'R | I
+25 | Weather Prediction V | caster | — 1 | mi/lvl | I
+30 | Waiting Awareness II | 50'R | 1 hr/lvl | self | I
+50 | Nature's Aware. True | 100'R/lvl | C | self | I

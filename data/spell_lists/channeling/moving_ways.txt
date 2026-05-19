@@ -1,0 +1,37 @@
+# Spell List 2.6.2 — Moving Ways (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Moving Ways
+@number:   2.6.2
+@category: Base
+@class:    Ranger
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Rockrunning | caster | 1 min/lvl | self | U
+ 2 | Limbwalking | caster | 1 min/lvl | self | U
+ 3 | Swimming | 1 target | 1 min/lvl | 100' | U
+ 4 | Waterwalking | caster | 1 min/lvl | self | U
+ 5 | Sandrunning | caster | 1 min/lvl | self | U
+ 6 | Limbrunning | caster | 1 min/lvl | self | U
+ 7 | Traceless Passing | caster | C | self | U
+ 8 | Hide Tracks I | tracks of 1 | C | 50' | U
+ 9 | Waterrunning | caster | 1 min/lvl | self | U
+10 | Hide Tracks II | tracks of 2 | C | 50' | U
+11 | Swimming True | 1 target | 1 min/lvl | self | U
+12 | Hide Tracks V | tracks of 5 | C | 50' | U
+13 | Running True | caster | 1 min/lvl | self | U
+14 | Traceless Passing True | caster | 10 min/lvl | self | U
+15 | Merging Organic | caster | 1 min/lvl | self | U
+16 | Hide Tracks X | tracks of 10 | C | self | U
+17 | Traceless Running | caster | C | self | U
+18 | Hide Tracks XV | tracks of 15 | C | self | U
+19 | Traceless Running True | caster | C | self | U
+20 | Great Merging Organic | caster | 1 min/lvl | self | U
+25 | Hide Tracks XX | tracks of 20 | C | 50' | U
+30 | Merging True Organic | caster | 1 min/lvl | self | U
+50 | Hide Tracks True | varies | C | 50' | U

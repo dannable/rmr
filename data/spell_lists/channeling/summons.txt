@@ -1,0 +1,32 @@
+# Spell List 2.4.6 — Summons (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Summons
+@number:   2.4.6
+@category: Base
+@class:    Cleric
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Summons I | 1 creature | varies | 100' | U
+ 2 | Summons II | 1-2 creatures | varies | 100' | U
+ 3 | Summons III | 1-3 creatures | varies | 100' | U
+ 4 | Summons IV | 1-4 creatures | varies | 100' | U
+ 5 | Summons V | 1-5 creatures | varies | 100 | U
+ 6 | Summons VI | 1-6 creatures | varies | 100' | U
+ 7 | Summons VII | 1-7 creatures | varies | 100' | U
+ 8 | Summons VIII | 1-8 creatures | varies | 100' | U
+ 9 | Summons X | 1-9 creatures | varies | 100' | U
+10 | Demonic Gate I | 1 demon | C | 10' | U
+11 | Summons XV | 1-15 creatures | varies | 100' | U
+13 | Lord Summons | 1-20 creatures | varies | 100' | U
+15 | Demonic Gate II | 1 demon | C | 10' | U
+17 | Waiting Summons | 1-10 creatures | varies | 100' | U
+20 | Demonic Gate III | 1 demon | C | 10' | U
+25 | Mass Summons | varies | varies | 100' | U
+30 | Summons True | 1 creature | 1 day/lvl | 100' | U
+50 | Gate | 1 being | — | varies | U

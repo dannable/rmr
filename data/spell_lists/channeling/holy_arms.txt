@@ -1,0 +1,35 @@
+# Spell List 2.5.3 — Holy Arms (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Holy Arms
+@number:   2.5.3
+@category: Base
+@class:    Paladin
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Holy Attack I * | self | — | self | U
+ 2 | Righteous Blow I | self | — | self | U
+ 3 | Holy Strength I | self | 1 rnd/lvl | self | U
+ 4 | Holy Attack II * | self | — | self | U
+ 5 | Righteous Blow II | self | — | self | U
+ 6 | Holy Focus * | self | — | self | U
+ 7 | Holy Attack III * | self | — | self | U
+ 8 | Righteous Blow III | self | — | self | U
+ 9 | Holy Aura I | 10'R | 1 min/lvl | self | F
+10 | Holy Attack IV * | self | — | self | U
+11 | Righteous Blow IV | self | — | self | U
+12 | Holy Strength II | self | 1 rnd/lvl | self | U
+13 | Holy Attack V * | self | — | self | U
+15 | Holy Aura II | 10'R | 1 min/lvl | self | F
+16 | Holy Attack VI * | self | — | self | U
+17 | Holy Strength III | self | 1 rnd/lvl | self | U
+19 | Holy Attack VII * | self | — | self | U
+20 | Holy Aura True | 10'R | 1 min/lvl | self | F
+25 | Holy Attack True * | self | — | self | U
+30 | Holy Focus True * | self | — | self | U
+50 | Holy Martyr | 1'R/lvl | — | self | E

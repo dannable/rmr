@@ -1,0 +1,37 @@
+# Spell List 2.3.3 — Nature's Lore (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Nature's Lore
+@number:   2.3.3
+@category: Base
+@class:    Animist
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Trap Detection | 5'R | 1 min/lvl | 50' | P
+ 2 | Nature's Awareness | I 100'R | C | self | I
+ 3 | Pathfinding | 100'R | — | 100' | I
+ 4 | Detect Magic | 10'R | 1 min/lvl | 50' | P
+ 5 | Weather Prediction I | caster | — 1 | mi/lvl | I
+ 6 | Nature's Awareness | II 200'R | C | self | I
+ 7 | Weather Prediction III | caster | — 1 | mi/lvl | I
+ 8 | Locate Landmark I | caster | 1 min/lvl | 100'/lvl | I
+ 9 | Waiting Awareness I | 10'R | 1 hr/lvl | self | I
+10 | Nature's Awareness | III 300'R | C | self | I
+11 | Weather Prediction V | caster | — 1 | mi/lvl | I
+12 | Memory's Path | caster | 1 hr/lvl | self | U
+13 | Waiting Awareness II | 50'R | 1 hr/lvl | self | I
+14 | Locate Landmark II | caster | 1 min/lvl | 300'/lvl | I
+15 | Nature's Eye I | 100'R | — | 1 mi | I
+16 | Nature's Awareness | V 500'R | C | self | I
+17 | Elem. Communication | caster | C | 100' | I
+18 | Water Visions | 1 pool | C | 10' | I
+19 | Locate Landmark True | caster | 1 min/lvl 1000'/lvl |  | I
+20 | Nature's Eye II | 500'R | C | 10 mi | I
+25 | Weather Prediction True | caster | — 1 | mi/lvl | I
+30 | Nature's Eye III | 500'R | C | 100 mi | I
+50 | Animist's Eye | 100'R | C | varies | I

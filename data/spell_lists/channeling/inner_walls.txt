@@ -1,0 +1,34 @@
+# Spell List 2.6.1 — Inner Walls (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Inner Walls
+@number:   2.6.1
+@category: Base
+@class:    Ranger
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Heat Resistance * | 1 target | 1 min/lvl | touch | U
+ 2 | Cold Resistance * | 1 target | 1 min/lvl | touch | U
+ 3 | Resistance I | caster | 1 min/lvl | self | U
+ 4 | Bless I | caster | 1 min/lvl | self | U
+ 5 | Prayer I | caster | 1 min/lvl | self | U
+ 7 | Sterilization | 1 cu'/lvl | — | touch | U
+ 8 | Resistance II | caster | 1 min/lvl | self | U
+ 9 | Bless II | caster | 1 min/lvl | self | U
+10 | Prayer II | caster | 1 min/lvl | self | U
+11 | Prot. from Elements | caster | varies | self | U
+13 | Resistance III | caster | 1 min/lvl | self | U
+14 | Bless III | caster | 1 min/lvl | self | U
+15 | Prayer III | caster | 1 min/lvl | self | U
+17 | Resistance IV | caster | 1 min/lvl | self | U
+18 | Bless IV | caster | 1 min/lvl | self | U
+19 | Prayer IV | caster | 1 min/lvl | self | U
+20 | Purge Disease | 1 target | P | touch | U
+25 | Purge Curse | 1 target | P | touch | U
+30 | Purge Poison | 1 target | P | touch | U
+50 | Inner Wall | caster | 1 min/lvl | self | U

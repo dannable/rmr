@@ -1,0 +1,35 @@
+# Spell List 2.8.1 — Curses (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Curses
+@number:   2.8.1
+@category: Base
+@class:    Evil Channeler
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Detect Curse | 1 target | 1 min/lvl | 10' | P
+ 2 | Nightvision Curse | 1 target | special | 100' | F
+ 4 | Ulcer Curse | 1 target | special | 100' | F
+ 5 | Curse of Dake | 1 target | special | 100' | F
+ 6 | Green Tongue | 1 target | special | 100' | F
+ 7 | Sea Curse | 1 target | special | 100' | F
+ 8 | Curse of Furd | 1 target | special | 100' | F
+ 9 | Excommunication | 1 target 1 | day/10 fail | 100' | F
+10 | Learning of Mins | 1 target | special | 100' | F
+11 | Curse of Shar Bu | 1 target | special | 100' | F
+12 | Power Leech | 1 target | special | 100' | F
+13 | Beauty of Arraer | 1 target | special | 100' | F
+14 | Clotting Curse | 1 target | special | 100' | F
+15 | Ugliness of Orn | 1 target | special | 100' | F
+16 | Curse of Oli | 1 target | special | 100' | F
+18 | Curse of Penth | 1 target | special | 100' | F
+19 | Rewounding | 1 target | special | 100' | F
+20 | Running Death | 1 target | special | 100' | F
+25 | Friendslayer | 1 target | special | 100' | F
+30 | Excommunication True | 1 target | special | 100' | F
+50 | Dark Thoughts | 1 target | special | 100' | F

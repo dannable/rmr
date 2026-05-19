@@ -1,0 +1,32 @@
+# Spell List 2.2.2 — Bone Law (Closed)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Bone Law
+@number:   2.2.2
+@category: Closed
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Bone Lore | 1 target | — | touch | I
+ 3 | Minor Fracture Repair | 1 target | P | touch | U
+ 4 | Cartilage Repair | 1 target | P | touch | U
+ 5 | Limb Preservation | * 1 target | 1 day/lvl | touch | U
+ 6 | Major Fracture Repair | 1 target | P | touch | U
+ 8 | Skull Repair | 1 target | P | touch | U
+10 | Joint Repair | 1 target | P | touch | U
+11 | Min. Fracture Rep. Tr. | 1 target | P | touch | U
+12 | Joining * | 1 target | P | touch | U
+13 | Cartilage Repair True | 1 target | P | touch | U
+14 | Maj. Fracture Rep. Tr. | 1 target | P | touch | U
+15 | Skull Repair True | 1 target | P | touch | U
+16 | Joint Repair True | 1 target | P | touch | U
+17 | Shatter Repair | 1 target | P | touch | U
+18 | Mass Min. Fract. Rep. | varies | P | touch | U
+20 | Mass Cartilage Repair | varies | P | touch | U
+25 | Joining True * | 1 target | P | touch | U
+30 | Mass Maj. Fract. Rep. | varies | P | 100' | U
+50 | Mass Shatter Repair | varies | P | 100' | U

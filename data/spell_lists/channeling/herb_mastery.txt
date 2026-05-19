@@ -1,0 +1,33 @@
+# Spell List 2.3.2 — Herb Mastery (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Herb Mastery
+@number:   2.3.2
+@category: Base
+@class:    Animist
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Herb Lore | 1 herb | — | touch | I
+ 2 | Enhancement | 1 herb | P | touch | U
+ 3 | Herb Finding I | varies | 1 rnd/lvl | 100' | I
+ 4 | Instant Herbal Cures | 1 herb | 1 day/lvl | touch | U
+ 5 | Herb Mastery II | 1 herb | P | touch | U
+ 6 | Herb Finding III | varies | 1 rnd/lvl | 300' | I
+ 7 | Herb Production | 1 seed | P | touch | U
+ 8 | Herb Mastery III | 1 herb | P | touch | U
+ 9 | Herb Finding V | varies | 1 rnd/lvl | 500' | I
+10 | Herb Cleansing | varies | P | 10' | U
+11 | Herb Mastery V | 1 herb | P | touch | U
+13 | Herb Finding X | varies | 1 rnd/lvl | 1 mile | I
+15 | Herb Mastery X | 1 herb | P | touch | U
+17 | P. Instant Herbal Cures | 1 herb | 1 week/lvl | touch | U
+18 | Herb Finding XX | 1 herb | P | touch | I
+20 | Lord Herb Finding | varies | 1 rnd/lvl 20 | miles | I
+25 | Enhancement True | 1 herb | P | touch | U
+30 | Herb Mastery True | 1 herb | P | touch | U
+50 | Herb Finding True | varies | 1 rnd/lvl 1 | mi/lvl | I

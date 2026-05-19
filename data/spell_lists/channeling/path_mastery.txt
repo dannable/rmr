@@ -1,0 +1,36 @@
+# Spell List 2.6.6 — Path Mastery (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Path Mastery
+@number:   2.6.6
+@category: Base
+@class:    Ranger
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Pathlore | 10'R | — | self | I
+ 2 | Nightvision | caster | 10 min/lvl | self | U
+ 3 | Tracking I | caster | C | self | U
+ 4 | Path Tale | caster | C | self | I
+ 5 | Pathfinding I | caster | C | 1 mile | I
+ 6 | Tracks Lore | caster | — | touch | I
+ 7 | Detect Ambush I | 50'R 10 | min/lvl(C) | self | I
+ 8 | Passing Lore | 1 object | — | touch | I
+ 9 | Pathfinding V | caster | C | 5 miles | I
+10 | Animal Tongues | caster | 1 min/lvl | self | I
+11 | Tracks Analysis | 100'R | C | self | I
+12 | Plant Tongues | caster | 1 min/lvl | self | I
+13 | Pathfinding XX | caster | C 20 | miles | I
+14 | Detect Ambush II | caster 10 | min/lvl(C) | self | I
+15 | Stonespeech | caster | 1 min/lvl | self | I
+16 | Tracking II | caster | C | self | U
+17 | Detect Ambush III | 150'R | 10 min/lvl | self | I
+19 | Paths True | caster | — 1 | mi/lvl | I
+20 | Detect Ambush True | 10'R/lvl 10 | min/lvl(C) | self | I
+25 | Know Path | caster | C | self | I
+30 | Tracking True | caster | C | self | U
+50 | Tracks Ahead | 1 mi/lvl | C | 100' | I

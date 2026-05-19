@@ -1,0 +1,29 @@
+# Spell List 2.1.10 — Weather Ways (Open)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Weather Ways
+@number:   2.1.10
+@category: Open
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Living Gauge | caster | C | self | I
+ 2 | Rain Prediction | caster | — | self | I
+ 4 | Storm Prediction | caster | — | self | I
+ 5 | Weather Prediction I | caster | — | self | I
+ 7 | Breeze Call | 10'R | 1 rnd/lvl | self | E
+ 8 | Fog Call | 10'R/lvl | 1 min/lvl | self | E
+10 | Weather Prediction III | caster | — | self | I
+11 | Precipitation Call | 10'R/lvl | 1 min/lvl | self | E
+13 | Weather Prediction V | caster | — | self | I
+15 | Wind Mastery | 50'/lvl | 1 min/lvl | self | E
+18 | Clear Skies | 1 mi R | 1 min/lvl | self | E
+19 | Weather Prediction True | caster | — | self | I
+20 | Rain Call | 1 mi | 1 min/lvl | self | E
+25 | Weather Call | 1 mi | 1 min/lvl | self | E
+30 | Storm Call | 1 mi R | 1 min/lvl | self | E
+50 | Weather Mastery | 1 mi R/lvl | 1 min/lvl | self | E

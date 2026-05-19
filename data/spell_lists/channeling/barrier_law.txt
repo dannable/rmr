@@ -1,0 +1,31 @@
+# Spell List 2.1.1 — Barrier Law (Open)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Barrier Law
+@number:   2.1.1
+@category: Open
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Light Wall | 20' x 20' x 1" | C | 50' | E
+ 2 | Airwall | 10'x10'x3' | C | 50' | E
+ 3 | Light Wall II | 20' x 20' x 1" | 1 min/lvl | 50' | E
+ 4 | Waterwall | 10'x10'x1' | C | 50' | E
+ 5 | Woodwall | 10'x20'x2" | 1 min/lvl | 50' | E
+ 7 | Earthwall | 10'x10'x3' | 1 min/lvl | 50' | E
+ 8 | Icewall I | 10'x10'x2' | P | 50' | E
+10 | Barrier Pit | varies | P | 50' | E
+11 | Airwall True | 10'x10'x3' | 1 min/lvl | 50' | E
+12 | Stonewall | 10'x10'x1' | 1 min/lvl | 50' | E
+13 | Waterwall True | 10'x10'x1' | 1 min/lvl | 50' | E
+15 | Woodwall True | 10'x20'x2" | P | 50' | E
+17 | Earthwall True | 10'x10'x3' | P | 50' | E
+18 | Icewall II | 20'x20'x4' | P | 50' | E
+20 | Stonewall True | 10'x10'x1' | P | 50' | E
+25 | Meld Walls | varies | P | touch | E
+30 | Curved Wall | varies | varies | 50' | E
+50 | Wall of Force | 10'x20'x1" | 1 rnd/lvl | 100' | E

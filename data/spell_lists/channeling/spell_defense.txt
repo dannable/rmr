@@ -1,0 +1,35 @@
+# Spell List 2.1.9 — Spell Defense (Open)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Spell Defense
+@number:   2.1.9
+@category: Open
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Protection I | 1 target | 1 min/lvl | 10' | U
+ 2 | Cancel Channeling | caster | C | self | F
+ 3 | Protection Sphere I | varies | C | 10' | U
+ 4 | Cancel Essence | caster | C | self | F
+ 5 | Protection II | 1 target | 1 min/lvl | 10' | U
+ 6 | Cancel Mentalism | caster | C | self | F
+ 7 | Protection Sphere II | varies | C | 10' | U
+ 8 | Dispel Channeling I | 1 target | C | 10' | F
+ 9 | Channeling Shield | caster | 1 min/lvl | self | U
+10 | Protection III | 1 target | 1 min/lvl | 10' | U
+11 | Essence Shield | caster | 1 min/lvl | self | U
+12 | Dispel Essence I | 1 target | C | 10' | F
+13 | Mind Shield | caster | 1 min/lvl | self | U
+14 | Protection IV | 1 target | 1 min/lvl | 10' | U
+15 | Spell Shield II | caster | 1 min/lvl | self | U
+16 | Dispel Mentalism I | 1 target | C | 10' | F
+17 | Protection V | 1 target | 1 min/lvl | 10' | U
+19 | Spell Shield True | caster | 1 min/lvl | self | U
+20 | Channeling Resistance | 1 target | C | 100' | U
+25 | Essence Resistance | 1 target | C | 100' | U
+30 | Mentalism Resistance | 1 target | C | 100' | U
+50 | Resistance True | 1 target | C | 100' | U

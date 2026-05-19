@@ -1,0 +1,35 @@
+# Spell List 2.8.5 — Necromancy (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Necromancy
+@number:   2.8.5
+@category: Base
+@class:    Evil Channeler
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Animate Dead I | 1 corpse 1 | min/lvl(C) | 100' | U
+ 2 | Control Undead I * | 1 undead | C | 100' | E
+ 3 | Undead Mastery | 1 undead | P | 10' | F
+ 4 | Animate Dead II | varies 1 | min/lvl(C) | 100' | U
+ 5 | Create Undead I | 1 corpse | P | 10' | U
+ 6 | Control Undead II * | varies | C | 100' | E
+ 7 | Animate Dead III | varies 1 | min/lvl(C) | 100' | U
+ 8 | Create Undead II | varies | P | 10' | U
+ 9 | Control Undead III * | varies | C | 100' | E
+10 | Animate Dead IV | varies 1 | min/lvl(C) | 100' | U
+11 | Create Undead III | varies | P | 10' | U
+12 | Animate Dead V | varies 1 | min/lvl(C) | 100' | U
+13 | Control Undead IV * | varies | C | 100' | E
+14 | Animate Dead VI | varies 1 | min/lvl(C) | 100' | U
+15 | Create Undead IV | varies | P | 10' | U
+17 | Order Undead | 1 undead | varies | 10' | U
+19 | Control Undead V * | varies | C | 100' | E
+20 | Create Undead V | varies | P | 10' | U
+25 | Control Undead True | * varies | C | varies | E
+30 | Ritual of Black Eternity | caster | P | self | U
+50 | Create Undead True | 1 corpse | P | 10' | U

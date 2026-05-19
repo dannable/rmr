@@ -1,0 +1,37 @@
+# Spell List 2.3.1 — Animal Mastery (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Animal Mastery
+@number:   2.3.1
+@category: Base
+@class:    Animist
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Animal Sleep I | 1 animal | 1 min/lvl | 100' | F
+ 2 | Animal Restoration | I 1 animal | P | touch | U
+ 3 | Animal Tongues | caster | 1 min/lvl | self | I
+ 4 | Animal Sleep III | 3 animals | 1 min/lvl | 100' | F
+ 5 | Animal Mastery I | 1 animal | C | 100' | Fm
+ 6 | Animal Location | caster | — 1 | mile R | I
+ 7 | Befriending | all animals | C | 10' | F
+ 8 | Animal Restoration | II 1 animal | P | touch | U
+ 9 | Animal Empathy | 1 animal | C | 100' | I
+10 | Animal Summons I | 1 animal | varies | 100' | E
+11 | Animal Mastery III | 3 animals | C | 100' | Fm
+12 | Animal Summons III | varies | varies | 100' | E
+13 | Animal Call | 1 animal | — 1 | mile/lvl | U
+14 | Animal Reviving I | 1 animal | P | touch | U
+15 | Call of the Wild | 1 animal | P | touch | U
+16 | Animal Mastery V | 5 animals | C | 100' | Fm
+17 | Animal Restoration | III 1 animal | P | touch | U
+18 | Animal Summons V | varies | varies | 100' | E
+19 | Animal Reviving II | 1 animal | P | touch | U
+20 | Animal Summons X | varies | varies | 100' | E
+25 | Animal Master True | varies | C | 10'/lvl | Fm
+30 | Animal Reviving III | 1 animal | varies | 100' | U
+50 | Animal Summons True | varies | varies | 100' | E

@@ -1,0 +1,33 @@
+# Spell List 2.4.1 — Channels (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Channels
+@number:   2.4.1
+@category: Base
+@class:    Cleric
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Create Holy Water | 4 oz. water | P | touch | E
+ 2 | Calming * | 1 target 1 | rnd/10 fail | 50' | F
+ 3 | Channels I * | 1 spell | — | varies | U
+ 5 | Stunning * | 1 target 1 | rnd/10 fail | 50' | F
+ 6 | Channels III * | 1 spell | — | varies | U
+ 8 | Golden Slumbers * | 1 target 1 | rnd/10 fail | 10' | F
+10 | Channels V * | 1 spell | — | varies | U
+11 | Blinding * | 1 target 10 | min/10 fail | 10' | F
+13 | Channels VIII * | 1 spell | — | varies | U
+14 | Absolution * | 1 target 1 | week/10 fail | 50' | F
+15 | Holy Shout | 20'R | — | 20' | F
+16 | Item Returning | 1 object | varies | touch | U
+17 | Channels X * | 1 spell | — | varies | U
+18 | Sanctuary * | caster | — | self | U
+19 | Item Rereturning | 1 object | varies | touch | U
+20 | Absolution Pure * | 1 target | P | 50' | F
+25 | Sanctuary True * | caster | — | self | U
+30 | Lord Channels * | 1 spell | — | varies | U
+50 | Holy Bridge | deity | 1 rnd | varies | U

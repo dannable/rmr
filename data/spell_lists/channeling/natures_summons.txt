@@ -1,0 +1,34 @@
+# Spell List 2.6.4 — Nature's Summons (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Nature's Summons
+@number:   2.6.4
+@category: Base
+@class:    Ranger
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Summon Nourishment | 1 creature | — | varies | U
+ 2 | Summon Warmth | 1 creature | 8 hours | varies | U
+ 3 | Summon Guide | 1 creature 24 | hours (C) | varies | U
+ 4 | Summon Guardian | 1 creature | 8 hours | varies | U
+ 5 | Summon Mount | 1 creature | 24 hours | varies | U
+ 6 | Summon Hunter | 1 creature | — | varies | U
+ 7 | Summon Sense | 1 creature 24 | hours (C) | varies | U
+ 9 | Summon Group | 1 group | 24 hours | varies | U
+10 | Mass Summons | 1 creature/lvl | varies | varies | U
+12 | Spread Plants | 20'R | P | 10' | U
+13 | Fog Prayer | 500'R/lvl | varies | 10' | E
+14 | Rain Prayer | 500'R/lvl | varies | 10' | E
+15 | Spread Plants II | 20'R | P | 10' | U
+16 | Storm Prayer | 500'R/lvl | varies | 10' | E
+17 | Hail Prayer | 500'R/lvl | varies | 10' | E
+19 | Lightning Prayer | 500'R/lvl | varies | 10' | E
+20 | Tornado Prayer | 500'R/lvl | varies | 10' | E
+25 | Clear Weather Prayer | 500'R/lvl | varies | 10' | E
+30 | Weather Prayer True | 500'R/lvl | varies | 10' | E
+50 | Prayer Mastery | 500'R/lvl | varies | 10' | E

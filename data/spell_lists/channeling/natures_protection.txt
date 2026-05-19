@@ -1,0 +1,37 @@
+# Spell List 2.3.5 — Nature's Protection (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Nature's Protection
+@number:   2.3.5
+@category: Base
+@class:    Animist
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Study Form | 1 target | P | 300' | I
+ 2 | Resist Elements | caster | 1 min/lvl | self | U
+ 3 | Hues | caster | 1 min/lvl | self | U
+ 4 | Plant Facade | caster | 1 min/lvl | self | E
+ 5 | Silent Moves | caster | 1 min/lvl | self | U
+ 6 | Underwater Breathing | caster | 1 min/lvl | self | U
+ 7 | Animal Facade | caster | 1 min/lvl | self | E
+ 8 | Shadow | caster | 10 min/lvl | self | U
+ 9 | Shielding Organic I | * 1 attack | — | self | E
+10 | Plant Form I | caster | 1 min/lvl | self | F
+11 | Prot. From Elements | caster | varies | self | U
+12 | Animal Thoughts | caster | C | self | U
+13 | Shielding Organic II | * 1 attack | — | self | U
+14 | Animal Form I | caster | 1 min/lvl | self | U
+15 | Animal Thoughts True | caster | C | self | U
+16 | Animal Form II | caster | 1 min/lvl | self | U
+17 | Plant Form II | caster | 1 min/lvl | self | U
+18 | Shielding Organic III | * 1 attack | — | self | E
+19 | Animal Form III | caster | 1 min/lvl | self | U
+20 | Plant Form True | caster | 1 min/lvl | self | F
+25 | Animal Form True | caster | 1 min/lvl | self | F
+30 | Nature's Form True | caster | 1 min/lvl | self | F
+50 | Shielding Org. True | * caster | 1 rnd/lvl | self | E

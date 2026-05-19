@@ -1,0 +1,33 @@
+# Spell List 2.8.3 — Dark Lore (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Dark Lore
+@number:   2.8.3
+@category: Base
+@class:    Evil Channeler
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Afterthoughts | caster | — | self | I
+ 2 | Detect Good | 5'R | 1 min/lvl | 100' | P
+ 3 | Detect Blessing | 5'R | 1 min/lvl | 100' | P
+ 4 | Detect Emotion | 5'R | 1 min/lvl | 100' | P
+ 5 | Dark Lore I | 1 item | — | 10' | P
+ 6 | Detections Holy | 10'R | 1 min/lvl | 100' | P
+ 8 | Dream I | caster | sleep | self | I
+10 | Bless Tales | 1 blessing | — | self | P
+11 | Dark Lore II | varies | — | 10' | P
+12 | Dreams II | caster | sleep | self | I
+13 | Emotion Analysis | 1 target | — | 10' | Pm
+14 | Dark Lore III | varies | — | 10' | P
+15 | Dreams III | caster | sleep | self | I
+16 | Light Lore I | 1 item | — | 10' | P
+19 | Light Lore II | varies | — | 10' | P
+20 | Black Lore | 1 item | — | 100' | P
+25 | Light Lore III | varies | — | 10' | P
+30 | White Lore | 1 item | — | 100' | P
+50 | Black Lore Mastery | varies | — | 100' | P

@@ -1,0 +1,36 @@
+# Spell List 2.4.3 — Life Mastery (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Life Mastery
+@number:   2.4.3
+@category: Base
+@class:    Cleric
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Preservation I | 1 body | 1 min/lvl | 10' | U
+ 2 | Lifekeeping I | 1 body | 1 min/lvl | 10' | U
+ 3 | Preservation II | 1 body | 1 hr/lvl | 10' | U
+ 4 | Heal Life Essence I | 1 target | P | 10' | U
+ 5 | Lifekeeping II | 1 body | 1 hr/lvl | touch | U
+ 6 | Heal Life Essence II | 1 target | P | 10' | U
+ 7 | Preservation III | 1 body | 1 day/lvl | touch | U
+ 9 | Heal Life Essence III | 1 target | P | 10' | U
+10 | Preservation IV | 1 body | 1 week/lvl | 10' | U
+11 | Lifekeeping III | 1 body | 1 day/lvl | 10' | U
+12 | Lifegiving I | 1 body | P | 10' | U
+13 | Heal Life Essence True | 1 target | P | 10' | U
+14 | Preservation V | 1 body 1 | month/lvl | 10' | U
+15 | Lifegiving II | 1 body | P | 10' | U
+16 | Lifekeeping IV | 1 body | 1 week/lvl | 10' | U
+17 | Lifegiving III | 1 body | P | 10' | U
+18 | Preservation True | 1 body | 1 year/lvl | 10' | U
+19 | Restoration | 1 target | P | 10' | U
+20 | Lifegiving IV | 1 body | P | 10' | U
+25 | Lifegiving V | 1 body | P | 10' | U
+30 | Restoration True | 1 target | P | 10' | U
+50 | Lifegiving True | 1 body | P | 10' | U

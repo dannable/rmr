@@ -1,0 +1,32 @@
+# Spell List 2.7.1 — Blood Ways (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Blood Ways
+@number:   2.7.1
+@category: Base
+@class:    Healer
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Clotting I | caster | — | self | Us
+ 2 | Cut Repair I | caster | P | self | Us
+ 3 | Minor Vessel Repair | caster | P | self | Us
+ 4 | Clotting V | caster | — | self | Us
+ 5 | Cut Repair III | caster | P | self | Us
+ 6 | Major Vessel Repair | I caster | P | self | Us
+ 7 | Joining * | caster | P | self | Us
+ 9 | Mass Clotting | caster | — | self | Us
+10 | Mass Cut Repair | caster | P | self | Us
+11 | Unclotting | caster | — | self | Us
+13 | Major Vessel Repair | III caster | P | self | Us
+15 | Joining True * | caster | P | self | Us
+17 | Major Vessel Repair | V caster | P | self | Us
+19 | Unclotting True | caster | — | self | Us
+20 | Regulations * | caster | varies | self | Us
+25 | New Blood | caster | P | self | Us
+30 | Blood Disease Cures | caster | P | self | Us
+50 | Blood Repairs True | caster | 1 rnd/lvl | self | Us

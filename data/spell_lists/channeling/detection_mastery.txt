@@ -1,0 +1,32 @@
+# Spell List 2.1.3 — Detection Mastery (Open)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Detection Mastery
+@number:   2.1.3
+@category: Open
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Detect Channeling | 5'R 1 min/lvl | (C) | 50' | P
+ 2 | Detect Essence | 5'R 1 min/lvl | (C) | 50' | P
+ 3 | Detect Mentalism | 5'R 1 min/lvl | (C) | 50' | P
+ 4 | Detect Life | 5'R 1 min/lvl | (C) | 50' | P
+ 5 | Detect Curse | 5'R 1 min/lvl | (C) | 50' | P
+ 6 | Detect Undead | 5'R 1 min/lvl | (C) | 50' | P
+ 7 | Detect Traps | 5'R 1 min/lvl | (C) | 50' | P
+ 8 | Life Typing | 1 target | — | 50' | P
+ 9 | Detect Invisible | 5'R 1 min/lvl | (C) | 50' | P
+10 | Perceive Power I | 5'R 1 min/lvl | (C) | 50' | P
+11 | Poison Analysis | 1 target | — | 50' | P
+13 | Power Typing | 5'R 1 min/lvl | (C) | 50' | P
+15 | Detect Spell | 5'R 1 min/lvl | (C) | 50' | P
+17 | Perceive Power II | 50'R 1 min/lvl | (C) | 500' | P
+18 | Location | caster | — | 300' | P
+20 | Curse Analysis | 5'R 1 min/lvl | (C) | 50' | P
+25 | Life Analysis | 1 target | — | 50' | P
+30 | Detect True | varies 1 min/lvl | (C) | 50' | P
+50 | Location True | caster | — 1 | mi/lvl | P

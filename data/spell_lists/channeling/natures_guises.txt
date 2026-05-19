@@ -1,0 +1,34 @@
+# Spell List 2.6.3 — Nature's Guises (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Nature's Guises
+@number:   2.6.3
+@category: Base
+@class:    Ranger
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Hues | caster | 1 min/lvl | self | U
+ 2 | Shade | 100'R | 10 min/lvl | touch | E
+ 3 | Freeze Liquid | 1 cu'/lvl | C | 10' | F
+ 4 | Silent Moves | caster | 1 min/lvl | self | U
+ 5 | Self Cloaking | caster | C | self | U
+ 6 | Light | 10'R | 10 min/lvl | touch | E
+ 7 | Darkness I | 10'R | 10 min/lvl | touch | E
+ 8 | Shadow | caster | 1 hr/lvl | self | U
+ 9 | Study Form | caster | P | self | I
+10 | Plant Facade | caster | 1 min/lvl | self | E
+11 | Animal Thoughts | caster | C | self | U
+12 | Study Form True | caster | P | self | I
+13 | Animal Facade | caster | 1 min/lvl | self | E
+15 | Animal Thoughts True | caster | C | self | U
+16 | Plant Form I | caster | 1 min/lvl | self | U
+18 | Animal Form I | caster | 1 min/lvl | self | U
+20 | Plant Form II | caster | 1 min/lvl | self | U
+25 | Animal Form II | caster | 1 min/lvl | self | U
+30 | Plant Form True | caster | 1 min/lvl | self | U
+50 | Animal Form True | caster | 1 min/lvl | self | U

@@ -1,0 +1,33 @@
+# Spell List 2.2.10 — Symbolic Ways (Closed)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Symbolic Ways
+@number:   2.2.10
+@category: Closed
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Analyze Symbol | 1 symbol | — | 50' | I
+ 2 | Spell Prime | caster | varies | self | U
+ 3 | Unsymbol I | 1 symbol | P | 10' | F
+ 5 | Symbol I | varies | P | 10' | U
+ 7 | Symbol II | varies | P | 10' | U
+ 8 | Unsymbol II | 1 symbol | P | 10' | F
+ 9 | Symbol III | varies | P | 10' | U
+10 | Analyze Symbol True | varies | — | 50' | I
+11 | Symbol V | varies | P | 10' | U
+12 | Unsymbol III | 1 symbol | P | 10' | F
+13 | Symbol VI | varies | P | 10' | U
+15 | Symbol VII | varies | P | 10' | U
+16 | Unsymbol V | 1 symbol | P | 10' | F
+17 | Symbol VIII | varies | P | 10' | U
+18 | Unsymbol X | 1 symbol | P | 10' | F
+19 | Symbol IX | varies | P | 10' | U
+20 | Symbol X | varies | P | 10' | U
+25 | Lord Research | special | special | special | E
+30 | Lord Symbol | varies | P | 10' | U
+50 | Unsymbol True | 1 symbol | P | 10' | F

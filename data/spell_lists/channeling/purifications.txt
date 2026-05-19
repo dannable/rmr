@@ -1,0 +1,32 @@
+# Spell List 2.1.7 — Purifications (Open)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Purifications
+@number:   2.1.7
+@category: Open
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Disease Purification | 1 target | P | touch | U
+ 2 | Food Preservation | varies | 1 week | touch | U
+ 3 | Poison Purification | 1 target | P | touch | U
+ 4 | Disease Resistance I | 1 target | 10 min/lvl | touch | U
+ 5 | Poison Resistance I | 1 target | 10 min/lvl | touch | U
+ 6 | Sustenance Purification | varies | P | touch | U
+ 8 | Disease Resistance II | 1 target | 10 min/lvl | touch | U
+ 9 | Poison Resistance II | 1 target | 10 min/lvl | touch | U
+10 | Mind Disease Cures | 1 target | P | touch | U
+11 | Disease Resistance III | 1 target | 10 min/lvl | touch | U
+12 | Poison Resistance III | 1 target | 10 min/lvl | touch | U
+14 | Undisease | 1 target | P | touch | U
+15 | Unpoison | 1 target | P | touch | U
+18 | Mass Undisease | varies | P | 100' | U
+19 | Mass Unpoison | varies | P | 100' | U
+20 | Mind Disease Cures | Tr. 1 target | P | 10' | U
+25 | Gr. Disease Purification | varies | P | 100' | U
+30 | Gr. Poison Purification | varies | P | 100' | U
+50 | Purification True | varies | P | 100'/lvl | U

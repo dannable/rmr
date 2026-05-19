@@ -1,0 +1,32 @@
+# Spell List 2.4.2 — Communal Ways (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - channeling.pdf.
+#
+@realm:    Channeling
+@name:     Communal Ways
+@number:   2.4.2
+@category: Base
+@class:    Cleric
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Guess | caster | — | self | I
+ 3 | Intuitions I | caster | — | self | I
+ 4 | Dream I | caster | sleep | self | I
+ 5 | Intuitions III | caster | — | self | I
+ 6 | Death's Tale | caster | — | self | I
+ 7 | Channel Opening I | 1 being | C 1 | mile/lvl | U
+ 8 | Intuitions V | caster | — | self | I
+10 | Dreams III | caster | sleep | self | I
+11 | Intuitions X | caster | — | self | I
+12 | Commune I | caster | C | self | I
+13 | Magic Basin I | 1 pool | 1 min/lvl | 10' | I
+15 | Channel Opening II | 1 being | C 10 | mile/lvl | U
+18 | Magic Basin II | 1 pool | 1 min/lvl | 10' | I
+19 | Death's Tale True | caster | — | self | I
+20 | Commune True | caster | C | self | I
+25 | Intuitions True | caster | — | self | I
+30 | Channel Opening True | 1 being | C 1 | mile/lvl | U
+50 | High Prayer | caster | C | self | I
