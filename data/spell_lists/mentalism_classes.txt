@@ -1,0 +1,49 @@
+# Mentalism Realm — class-to-list index
+# Transcribed from author-supplied PDF
+# X:\RMFRPSuite\spell law - mentalism.pdf.
+#
+@realm: Mentalism
+#
+# Each Mentalism class has access to its own Base lists PLUS all
+# Open and Closed Mentalism lists. Loader auto-grants Open+Closed
+# memberships to every class declared here, so this file only lists
+# the class-specific Base lists below.
+#
+# Format: <class_name> | <list_name>
+#
+Lay Healer | Blood Mastery
+Lay Healer | Bone Mastery
+Lay Healer | Concussion Mastery
+Lay Healer | Muscle Mastery
+Lay Healer | Nerve and Organ Mastery
+Lay Healer | Prosthetics
+Mentalist | Mind Attack
+Mentalist | Mind Control
+Mentalist | Mind Merge
+Mentalist | Mind Speech
+Mentalist | Presence
+Mentalist | Sense Control
+Bard | Controlling Songs
+Bard | Entertaining Ways
+Bard | Item Lore
+Bard | Lores
+Bard | Sound Control
+Bard | Sound Projection
+Magent | Assassination Mastery
+Magent | Disguise Mastery
+Magent | Escapes
+Magent | Gathering Secrets
+Magent | Misdirections
+Magent | Poison Mastery
+Mystic | Confusing Ways
+Mystic | Gas Alteration
+Mystic | Hiding
+Mystic | Liquid Alteration
+Mystic | Mystical Change
+Mystic | Solid Alteration
+Evil Mentalist | Mind Death
+Evil Mentalist | Mind Disease
+Evil Mentalist | Mind Domination
+Evil Mentalist | Mind Erosion
+Evil Mentalist | Mind Illusions
+Evil Mentalist | Mind Subversion

@@ -1,0 +1,102 @@
+# Spell List 4.2.8 — Solid Manipulation (Closed)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - mentalism.pdf.
+#
+@realm:    Mentalism
+@name:     Solid Manipulation
+@number:   4.2.8
+@category: Closed
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Warm Stone | 1 cu'/lvl | 24 hr | touch | F
+ 2 | Warm Metal | 6 cu"/lvl | 24 hr | touch | F
+ 3 | Warm Solid | 1 cu'/lvl | 24 hr | touch | F
+ 4 | Heat Stone | 1 cu'/lvl | 1 min/lvl | touch | F
+ 5 | Heat Metal | 6 cu"/lvl | 1 min/lvl | touch | F
+ 6 | Heat Solid | 1cu'/lvl | 1 min/lvl | touch | F
+ 7 | Cool Solid | 1 cu'/lvl | 24 hours | touch | F
+ 9 | Chill Solid | 1 cu'/lvl | 1 min/lvl | touch | F
+10 | Cracks Call | 10'x10'x10' | — | 100' | F
+11 | Melt Solid | 1 cu'/lvl | 1 min/lvl | touch | F
+13 | Crumble | 10'x10'x10' | — | 100' | F
+14 | Bowbreak | 1' dia wood | — | 100' | F
+15 | Stone Door | 3'x6'x1' | P | touch | F
+16 | Metal Door | 3'x6'x1' | P | touch | F
+17 | Bladebreak | 3" dia metal | — | 100' | F
+18 | Lockbreak | 1 lock | P | touch | F
+19 | Solid Door | varies | P | touch | F
+20 | Mold Stone | 1 cu' | P | touch | F
+25 | Mold Metal | 1 cu' | P | touch | F
+30 | Mold Solid | 1 cu' | P | touch | F
+50 | Solid Transmutation | 1 oz | P | touch | F
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Warm Stone — Warms 1 cubic foot of stone per level up to bic foot of stone as if it 100˚F at a rate of 1 cu' per round of concentration (without were putty or clay. At concentration, the material will remain at its current temperathe end of the spell’s ture for the remainder of the duration). duration, the stone will
+
+@@ 2
+Warm Metal — As Warm Stone, except 6 cubic inches of harden to normal conmetal per level can be warmed each round. sistency.
+
+@@ 3
+Warm Solid — As Warm Stone, except can affect any solid,
+
+@@ 4
+Heat Stone — As Warm Stone except temperature limit is caster may mold metal. 500˚F. In addition, caster must concentrate for 1 round to raise
+
+@@ 5
+Heat Metal — As Heat Stone, except 6 cubic inches of metal animate, solid material. per level can be heated.
+
+@@ 6
+Heat Solid — As Heat Stone, except affects any solid, — May transmute 1 oz. inanimate, non-metal material. of solid material into another non-magical ma
+
+@@ 7
+Cool Solid — As Warm Stone, except chills any solid, terial (the caster must inanimate material down to 0˚F. have a sample of the
+
+@@ 9
+Chill Solid — As Heat Stone, except temperature can be lower material available). This to -200˚F at a rate of 100˚F per round. spell takes 8 hours of
+
+@@ 10
+Cracks Call — Any previous cracks or flaws in material up continous, uninterto 10'x10'x10' section will extend to their limit. rupted concentration.
+
+@@ 11
+Melt Solid — As Heat Solid, except the only limit to the temperature is the melting point of the solid (i.e., until the solid melts). Will affect 6 cubic inches of metal or 1 cubic foot of any Spell Law other material. See Section for some sample melting See Section for notes on construction and destruction 154 points. of solid materials, including sample melting points.
+
+@@ 13
+Crumble — As Cracks Call, except material with cracks will crumble to dust.
+
+@@ 14
+Bowbreak — Will break a piece of wood up to 1' in diameter.
+
+@@ 15
+Stone Door — Creates 3'x6'x1' doorway through stone.
+
+@@ 16
+Metal Door — As Stone Door, except doorway can be through metal.
+
+@@ 17
+Bladebreak — As Bowbreak, except a piece of metal can be broken. Will affect metals up to 3" in diameter.
+
+@@ 18
+Lockbreak — Causes a lock to break. The lock can be broken in a locked or unlocked state (regardless of its state at the time the spell is cast).
+
+@@ 19
+Solid Door — As Stone Door, except doorway can be in any inanimate, solid material and it can be 3'x6' with a depth of 1' per level (for stone) or 3" per level (for all other materials).
+
+@@ 20
+Mold Stone — By molding with his hands, caster may shape 1 cu
+
+@@ 25
+Mold Metal — As inanimate, non-metal material. Mold Stone, except
+
+@@ 30
+Mold Solid — As the temperature 50˚F (up to the maximum). Caster need only Mold Stone, except touch the target when the spell is cast. caster may mold any in
+
+@@ 50
+Solid Transmutation

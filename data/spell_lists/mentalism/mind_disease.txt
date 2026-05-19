@@ -1,0 +1,103 @@
+# Spell List 4.8.2 — Mind Disease (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - mentalism.pdf.
+#
+@realm:    Mentalism
+@name:     Mind Disease
+@number:   4.8.2
+@category: Base
+@class:    Evil Mentalist
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Insomnia | 1 target | P | 100' | Fm
+ 2 | Neurosis | 1 target | P | 100' | Fm
+ 3 | Guilt | 1 target | P | 100' | Fm
+ 4 | Paranoia | 1 target | P | 100' | Fm
+ 5 | Panic | 1 target | P | 100' | Fm
+ 6 | Phobia | 1 target | P | 100' | Fm
+ 7 | Hallucinate | 1 target | P | 100' | Fm
+ 8 | Schizophrenia | 1 target | P | 100' | Fm
+ 9 | Psychosis | 1 target | P | 100' | Fm
+10 | Catatonia | 1 target | P | 100' | Fm
+11 | Insomnia True | 1 target | P | 100' | Fm
+12 | Neurosis True | 1 target | P | 100' | Fm
+13 | Guilt True | 1 target | P | 100' | Fm
+15 | Greater Paranoia | 1 target | P | 100' | Fm
+17 | Paranoia True | 1 target | P | 100' | Fm
+18 | Hallucinate True | 1 target | P | 100' | Fm
+19 | Psychosis True | 1 target | P | 100' | Fm
+20 | Schizophrenia True | 1 target | P | 100' | Fm
+25 | MPD | 1 target | P | 100' | Fm
+30 | Catatonia True | 1 target | P | 100' | Fm
+50 | Mind Disease True | 1 target | P | 100' | Fm
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Insomnia — Target has trouble sleeping. He is has a -25 to all
+
+@@ 2
+Neurosis — Target has a dislike for a specific type of thing the
+
+@@ 3
+Guilt — Target becomes guilty over some incident in his past. results in the target fleeing from the subject (moving at maxiHe will not perform such an action again, and must take steps to mum pace to get away from it). overcome the guilt (rectifying the past wrong).
+
+@@ 4
+Paranoia — Target believes everyone except his close associpersonality is active 50% of the time. ates are out to get him.
+
+@@ 5
+Panic — As Insomnia, except target will panic and flee in any d10+1 extra personalities (i.e., Multiple Personality Disorder). personally dangerous situation. There is a 10% chance per day that a non-active personality will
+
+@@ 6
+Phobia — Target has a fear of a specific type of thing the caster become active. chooses. The target has a 25% (modified by the three times the
+
+@@ 7
+Hallucinate — The target has a tendancy to hallucinate and see things as they aren’t. For each major event in a day, the target 2) See Rolemaster Standard System for a discussion of role traits. has a 10% chance of hallucinating and seeing major threats as 3) When selecting a subject for the target’s Neurosis, Phobia, nothing major and minor things as major threats (similar to the Psychosis, etc., the caster cannot choose something the target syndrome that Don Quixote suffered from). is in constant contact with (e.g., air, dirt, etc.).
+
+@@ 8
+Schizophrenia — Target develops a second personality of another “alignment.” There is a 10% chance per day that the second personalty will become active (at a random time during the day). The GM should randomly select d10 role traits that must be extremely different from the target’s.
+
+@@ 9
+Psychosis — Target has a psychosis about a specific type of thing the caster chooses. The target has a 10% (modified by the three times the target’s Self Discipline bonus) chance of maintain control around the subject. If the the target fails to control himself around the subject, roll d100 (not open-ended) to determine how the target must react to the subject. A result of 1-5 results in the target blindly attacking the subject (attempting to destroy it at all costs). A result of 6-55 results in the target fleeing from the subject (moving at maximum pace to get away from it). A result of 56 or more results in the target avoiding the subject at all costs.
+
+@@ 10
+Catatonia — Target drifts in and out of a catatonic state. Every hour there is a 25% chance he will become catatonic for one hour.
+
+@@ 11
+Insomnia True — As Insomnia, except target can only sleep if he uses drugs or spells (e.g., a sleep spell). He adds +100 to his RRs against all sleep spells. If he gets no sleep, he will slowly go mad (GM’s discretion on the specifics).
+
+@@ 12
+Neurosis True — Target has an extreme dislike for a specific type of thing the caster chooses. The target has a 25% (modified by the three times the target’s Self Discipline bonus) chance of maintain control around the subject. If the the target fails to control himself around the subject, roll d100 (not open-ended) to determine how the target must react to the subject. A result of 1-10 results in the target blindly attacking the subject (attempting to destroy it at all costs). A result of 11-60 results in the target fleeing from the subject (moving at maximum pace to get away from it). A result of 61 or more results in the target avoiding the subject at all costs.
+
+@@ 13
+Guilt True — As Guilt, except every day that he fails a normal RR, the target must take actions to atone for his guilt incident (or sink into a deep depression).
+
+@@ 15
+Greater Paranoia — As Paranoia, except target believes actions after suffering this for 2 days (until cured). that everyone is out to get him (even his close associates).
+
+@@ 17
+Paranoia True — As Greater Paranoia, except target will caster chooses. The target has a 50% (modified by the three not associate with anyone for longer than one hour per day. times the target’s Self Discipline bonus) chance of maintain
+
+@@ 18
+Hallucinate True — As Hallucinate, except chance is 20%. control around the subject. If the the target fails to control
+
+@@ 19
+Psychosis True — Target has an extreme psychosis for a himself around the subject, roll d100 (not open-ended) to specific type of thing the caster chooses. The target has a 0% determine how the target must react to the subject. A result of (modified by the three times the target’s Self Discipline bonus) 1 results in the target blindly attacking the subject (attempting chance of maintain control around the subject. If the the target to destroy it at all costs). A result of 2-11 results in the target fails to control himself around the subject, roll d100 (not openfleeing from the subject (moving at maximum pace to get away ended) to determine how the target must react to the subject. A from it). A result of 12 or more results in the target avoiding the result of 1-20 results in the target blindly attacking the subject subject at all costs. (attempting to destroy it at all costs). A result of 21 or more
+
+@@ 20
+Schizophrenia True — As Schizophrenia, except the second
+
+@@ 25
+MPD — As Schizophrenia, except the target developes
+
+@@ 30
+Catatonia True — As Catatonia, except every hour there is target’s Self Discipline bonus) chance of maintain control a 95% chance target will be catatonic. around the subject. If the the target fails to control himself
+
+@@ 50
+Mind Disease True — Target may be given any mental around the subject, roll d100 (not open-ended) to determine disease that the caster chooses. how the target must react to the subject. A result of 1-25 results in the target fleeing from the subject (moving at maximum pace Spell Law to get away from it). A result of 26 or more results in the target 188 avoiding the subject at all costs. 1) See GM Law for a full discussion of Mental Disorders.

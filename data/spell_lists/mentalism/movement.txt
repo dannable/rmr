@@ -1,0 +1,94 @@
+# Spell List 4.2.5 — Movement (Closed)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - mentalism.pdf.
+#
+@realm:    Mentalism
+@name:     Movement
+@number:   4.2.5
+@category: Closed
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Leaping * | caster | 1 rnd | self | U
+ 2 | Landing * | caster | varies | self | U
+ 3 | Levitation I | caster | 1 min/lvl | self | U
+ 4 | Wind Drift | caster | 1 min/lvl | self | U
+ 5 | Underwater Movement | caster | 10 min/lvl | self | U
+ 6 | Fly I | caster | 1 min/lvl | self | U
+ 7 | Levitation V | caster | 1 min/lvl | self | U
+ 8 | Long Dive * | caster | — | self | U
+10 | Merging | caster | 10 min/lvl | self | U
+11 | Fly II | caster | 1 min/lvl | self | U
+12 | Landing True * | caster | — | self | U
+13 | Levitation XX | caster | 1 min/lvl | self | U
+14 | Passing | caster | 1 min/lvl | self | U
+15 | Fly III | caster | 1 min/lvl | self | U
+17 | Great Merge | caster | 10 min/lvl | self | U
+20 | Merge True | caster | 10 min/lvl | self | U
+25 | Fly IV | caster | 1 min/lvl | self | U
+30 | Passing True | caster | 1 min/lvl | self | U
+50 | Master of Movement | caster | 1 min/lvl | self | U
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Leaping — Allows caster to LOSED ENTALISM leap 50' laterally or 20' vertiM cally.
+
+@@ 2
+Landing — Allows caster to land safely in a fall up to 20' per level, and to take that distance off the severity of any longer fall.
+
+@@ 3
+Levitation I — Allows caster to move up and down vertically 10' per round. The spell does not provide a means for horizontal movement.
+
+@@ 4
+Wind Drift — Caster becomes weightless, but has no magical movement control. Weight gradually returns at the end of the duration.
+
+@@ 5
+Underwater Movement — Caster can take actions underwater as if on land.
+
+@@ 6
+Fly I — As Levitation I, except caster can fly at a rate of 15' per round (i.e., 1 mph).
+
+@@ 7
+Levitation V — As Levitation I, except rate is 50' per round.
+
+@@ 8
+Long Dive — Caster can safely dive through the air up to 50' per level. At the end of the dive, the caster must land is water that is deep enough for the dive (at least 2' of water per 50' dived).
+
+@@ 10
+Merging — Caster can the material and can see outside if within 6" of the surface. merge into any solid, inani
+
+@@ 11
+Fly II — As Fly I, except rate is 75' per round. for the limitations on how much a caster can move with these
+
+@@ 12
+Landing True — As Landing, except caster can land safely spells. from any fall 99% of the time.
+
+@@ 13
+Levitation XX — As Levitation I, except rate is 200' per round.
+
+@@ 14
+Passing — Caster can pass through any inanimate material up to 1' per level of the caster; it takes 1 round to pass through 2'.
+
+@@ 15
+Fly III — As Fly I, except rate is 300'/rnd.
+
+@@ 17
+Great Merge — As Merging, except caster can turn within
+
+@@ 20
+Merge True — As Great Merge, except caster can cast spells mate material. While merged, on himself while merged. the cster cannot move or per
+
+@@ 25
+Fly IV — As above, except rate is 400' per round. ceive. When the caster emerges from the material,
+
+@@ 30
+Passing True — As Passing, except caster can pass through as much material as the duration allows at a rate of 10' per round. he can emerge from any side or face of the material. The
+
+@@ 50
+Master of Movement — Caster may use the abilities of any caster cannot move “through” one of the spells on this list each round. material greater in width than his own body size plus 2 feet. The caster can exit at any Unless otherwise stated, the amount of weight a caster can time up to 10 min/lvl. move is limited by both his level and his size. See Section

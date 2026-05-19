@@ -1,0 +1,78 @@
+# Spell List 4.2.7 — Shifting (Closed)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - mentalism.pdf.
+#
+@realm:    Mentalism
+@name:     Shifting
+@number:   4.2.7
+@category: Closed
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Balance * | caster | varies | self | U
+ 2 | Contraction | caster | C | self | U
+ 3 | Face Shifting | caster | 10 min/lvl | self | U
+ 5 | Waterlungs | caster | 1 min/lvl | self | U
+ 7 | Change to Kind | caster | 10 min/lvl | self | U
+ 8 | Gaslungs | caster | 1 min/lvl | self | U
+10 | Greater Face Shifting | caster | 1 hr/lvl | self | U
+11 | Changing Lungs | caster | 1 min/lvl | self | U
+13 | Change | caster | 10 min/lvl | self | U
+15 | Solid Form | caster | 1 min/lvl | self | U
+18 | Shapechanging | caster | 10 min/lvl | self | U
+20 | Waterform | caster | 1 min/lvl | self | U
+25 | Mistform | caster | 1 min/lvl | self | U
+30 | Form Master | caster | 1 min/lvl | self | U
+50 | Change Master | caster | 1 min/lvl | self | U
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Balance — Adds +50 to any rolls for one slow moving C maneuver (e.g., walking a 3" beam, etc.).
+
+@@ 2
+Contraction — Allows caster to disjoint limbs, contract muscles, etc. to escape manacles/ropes and to slip through small places (+25 to +50 to Contortion maneuvers).
+
+@@ 3
+Face Shifting — Allows caster to alter the form of his face. The caster may specify a specific person, but the change will not be exact.
+
+@@ 5
+Waterlungs — For the duration, the caster can breathe water but not air.
+
+@@ 7
+Change to Kind — Caster can alter his form to the form of any desired humanoid race. The form cannot be a specific form. For example, a human caster could take on the form of a Dwarf, but the Dwarven king. Only physical form is gained (e.g., the target who becomes a Dwarf would not receive the Dwarves’ ability to see in the dark). The caster can only alter his size by up to 25%. See Section .
+
+@@ 8
+Gaslungs — As Waterlungs, except caster can breathe any gas as normal air.
+
+@@ 10
+Greater Face Shifting — As Face Shifting, except lasts 1 hour per level.
+
+@@ 11
+Changing Lungs — As Waterlungs, except caster can breathe any air, water, and/or gas, at will.
+
+@@ 13
+Change — As Change to Kind, except alteration can be to any organic form within 50% to 200% of the caster’s current mass; does not confer any special abilities.
+
+@@ 15
+Solid Form — Caster becomes as if made of very dense stone (cannot move or cast spells).
+
+@@ 18
+Shapechanging — As Change, except caster may assume a different form anytime during the spell. The change takes one round of concentration.
+
+@@ 20
+Waterform — Caster takes the form of a liquid mass, able to seep through cracks as well as water. As a fluid, he can move through water at a rate of 10 mph. The caster may not cast spells PECIAL OTES while in this form. See Section for more on the abilities gained/retained
+
+@@ 25
+Mistform — Caster takes the form of a mist, able to fly at a when changing forms. rate of 20 mph. The caster may seep through cracks, extend himself to become virtually invisible, etc. The caster may not cast spells in this form.
+
+@@ 30
+Form Master — As Waterform and Mistform, except the two forms are interchangeable at will. Changin from one form to another takes one round of concentration.
+
+@@ 50
+Change Master — As Changing and Form Master, except all forms are interchangeable at will. Each change takes one round of concentration. The caster may vary his mass between 10% and 1000% of his own mass.

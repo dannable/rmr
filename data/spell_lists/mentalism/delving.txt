@@ -1,0 +1,86 @@
+# Spell List 4.1.6 — Delving (Open)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - mentalism.pdf.
+#
+@realm:    Mentalism
+@name:     Delving
+@number:   4.1.6
+@category: Open
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Item Feel | 1 object | — | touch | I
+ 2 | Detect Power | varies | 1 min/lvl (C) | touch | I
+ 3 | Origins | 1 object | — | touch | I
+ 5 | Detect Curse | 1 object | — | touch | I
+ 6 | Power Lore | 1 object | — | touch | I
+ 7 | Rock Lore | 1 rock | — | touch | I
+ 8 | Item Vision | 1 object | varies | touch | I
+10 | Delving | 1 object | — | touch | I
+11 | Past Vision I | varies | varies | touch | I
+13 | Item Lore | 1 object | — | touch | I
+15 | Death's Memory | varies | varies | touch | I
+17 | Past Hold | 1 spell | varies | self | I
+19 | Item Analysis | 1 object | — | 6" | I
+20 | Past Vision II | varies | varies | touch | I
+25 | Past Vision III | varies | varies | touch | I
+30 | Past Vision IV | varies | varies | touch | I
+50 | Past Vision True | caster | varies | touch | I
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Item Feel — Caster receives basic idea of item’s purpose, if minutes real time). any.
+
+@@ 2
+Detect Power — Detects power in an object, but not what realm or how much; caster may concentrate on a different object PECIAL OTES each round. A “curse” is usually something that is detrimental and magical
+
+@@ 3
+Origins — Gives a general idea of the place of origin of an item. in nature (e.g., delivered from the Curses spell list). The GM may decide that the “curses” spells on this spell list apply only to
+
+@@ 5
+Detect Curse — Detects if a curse is on an item. magical curses. See Section .
+
+@@ 6
+Power Lore — Gives the origins of an item’s power.
+
+@@ 7
+Rock Lore — Gives details of where, when, and how the examined piece of rock was worked.
+
+@@ 8
+Item Vision — Gives a vision of a significant event in the item’s past.
+
+@@ 10
+Delving — Gives significant details about an item’s construction and purpose (not specific powers).
+
+@@ 11
+Past Vision I — Caster gets a vision up to 1 hour per level into the past. The desired time can be set within ±30 min. The vision must be associated with an item or place. The vision can last up to 1 minute per level if the caster concentrates and remains inactive.
+
+@@ 13
+Item Lore — Gives major abilities and powers of an item.
+
+@@ 15
+Death’s Memory — Gives a vision of how someone died and an image of their killer. This spell must be cast within 24 hours of the death. In addition, this spell must be cast at the place of death or in the presence of the dead body.
+
+@@ 17
+Past Hold — When cast just before a Past Vision spell, it Spell Law allows caster to lock onto a specific event in an item’s past, and then examine that event with a Past Vision.
+
+@@ 19
+Item Analysis — Gives a complete rundown on an item’s construction, powers, and purpose (may be modified if an item is extremely powerful).
+
+@@ 20
+Past Vision II — As Past Vision I, except time range is 1 day per level (with an error of ±1 hour) and the vision can last up to 10 minutes per level.
+
+@@ 25
+Past Vision III — As Past Vision I, except time range is 1 month/lvl (with an error of ±1 day) and the vision can last up to 1 hour per level.
+
+@@ 30
+Past Vision IV — As Past Vision I, except time range is 1 year per level (with an error of ±1 week) and the vision can last up to 5 hours per level.
+
+@@ 50
+Past Vision True — As Past Vision I, except time range is 10 ELVING year per level (with an error of ±1 month) and vision can last up to 10 hours per level (each hour of the past event takes only 10

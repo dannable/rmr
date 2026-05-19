@@ -1,0 +1,95 @@
+# Spell List 4.3.6 — Prosthetics (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - mentalism.pdf.
+#
+@realm:    Mentalism
+@name:     Prosthetics
+@number:   4.3.6
+@category: Base
+@class:    Lay Healer
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Measure | caster | — | touch | I
+ 2 | Mold Wood | caster | 1 hr/lvl (C) | self | U
+ 3 | Fit Wood | caster | P | self | U
+ 4 | Animation I | 1 target | 8 hrs | touch | U
+ 5 | Mold Glass | caster | 1 hr/lvl (C) | self | U
+ 6 | Fit Glass | caster | P | self | U
+ 7 | Animation II | 1 target | 24 hrs | touch | U
+ 8 | Mold Normal Metal | caster | 1 hr/lvl (C) | self | U
+ 9 | Fit Normal Metal | caster | P | self | U
+10 | Artificial Flesh | caster | 1 hr/lvl (C) | self | E
+11 | Animation III | 1 target | 1 week | touch | U
+13 | Fit Enchanted Materials | caster | P | self | U
+15 | Animation IV | 1 target | 1 month | touch | U
+17 | Animation V | 1 target | 3 months | touch | U
+19 | Animation VI | 1 target | 6 months | touch | U
+20 | Artificial Flesh True | caster | 1 hr/lvl (C) | self | E
+25 | Animation VII | 1 target | 1 year | touch | U
+30 | Animation VIII | 1 target | 1 year/lvl | touch | U
+50 | Animation True | 1 target | P | touch | U
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Measure — Caster knows the proper dimesions need to make a false limb for the target.
+
+@@ 2
+Mold Wood — Caster may mold target wood (up to 4 cubic feet) as if it were clay when he concentrates. It normally takes 1 day (approximately 8 hours) to mold an artificial limb. At the end of the molding time, the target wood returns its normal hardness.
+
+@@ 3
+Fit Wood — Caster attaches a wooden (artificial) limb to a body. Process takes 1 hour. This spell must be cast before an Animation spell can be cast.
+
+@@ 4
+Animation I — Allows wearer to operate an artificial limb at will for 8 hours.
+
+@@ 5
+Mold Glass — As Mold Wood, except works on glass. The process takes 2 days (approximately 8 hours per day) hours to mold.
+
+@@ 6
+Fit Glass — As Fit Wood; except allows caster to fit a glass limb.
+
+@@ 7
+Animation II — As Animation I, except duration is 24 hours.
+
+@@ 8
+Mold Normal Metal — As Mold Wood, except involves basic metals and the process takes 4 days (approximately 8 hours per day).
+
+@@ 9
+Fit Normal Metal — As Fit Wood; allows caster to fit a normal metal limb.
+
+@@ 10
+Artificial Flesh — This spell enables caster to convert clay into enough artificial flesh to cover one artificial limb (limb must be present at the time of casting). The flesh is only semirealistic (similiar to plastic). The process takes 2 days (approximately 8 hours each day), but might require more for larger limbs (GM’s discretion).
+
+@@ 11
+Animation III — As Animation I, except duration is 1 week.
+
+@@ 13
+Fit Enchanted Materials — As Fit Wood; except allows caster to fit limbs of enchanted materials (the limb must be created through some other means).
+
+@@ 15
+Animation IV — As Animation I, except duration is 1 month.
+
+@@ 17
+Animation V — As Animation I, except duration is 3 months.
+
+@@ 19
+Animation VI — As Animation I, except duration is 6 months.
+
+@@ 20
+Artificial Flesh True — As Artificial Flesh, except perfectly realistic synthetic flesh can be made and worked. This process takes 10-100 days, depending on amount of flesh needed.
+
+@@ 25
+Animation VI — As Animation I, except duration is 1 year.
+
+@@ 30
+Animation VII — As Animation I, except duration is 1 year per caster’s level.
+
+@@ 50
+Animation True — As Animation, except duration is permanent. Once created, a false limb is no longer magical. However, the animation of the limb is magical (and can be dispelled). When resisting Cancel and Dispel, an animated false limb gets an additional +50 RR modification.
