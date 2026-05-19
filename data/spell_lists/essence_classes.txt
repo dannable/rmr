@@ -1,0 +1,49 @@
+# Essence Realm — class-to-list index
+# Transcribed from author-supplied PDF
+# X:\RMFRPSuite\spell law - essence.pdf.
+#
+@realm: Essence
+#
+# Each Essence class has access to its own Base lists PLUS all
+# Open and Closed Essence lists. Loader auto-grants Open+Closed
+# memberships to every class declared here, so this file only lists
+# the class-specific Base lists below.
+#
+# Format: <class_name> | <list_name>
+#
+Illusionist | Feel-Taste-Smell
+Illusionist | Guises
+Illusionist | Illusion Mastery
+Illusionist | Light Molding
+Illusionist | Mind Sense Molding
+Illusionist | Sound Molding
+Magician | Earth Law
+Magician | Fire Law
+Magician | Ice Law
+Magician | Light Law
+Magician | Water Law
+Magician | Wind Law
+Dabbler | Concealment Mastery
+Dabbler | Influences
+Dabbler | Mechanisms
+Dabbler | Movement Mastery
+Dabbler | Senses
+Dabbler | Thieving Law
+Monk | Body Reins
+Monk | Body Renewal
+Monk | Evasions
+Monk | Mind Over Matter
+Monk | Monk's Bridge
+Monk | Monk's Sense
+Sorcerer | Flesh Destruction
+Sorcerer | Fluid Destruction
+Sorcerer | Gas Destruction
+Sorcerer | Mind Destruction
+Sorcerer | Solid Destruction
+Sorcerer | Soul Destruction
+Evil Magician | Dark Contacts
+Evil Magician | Dark Summons
+Evil Magician | Darkness
+Evil Magician | Entity Summons
+Evil Magician | Matter Disruption
+Evil Magician | Physical Erosion

@@ -1,0 +1,99 @@
+# Spell List 3.4.3 — Ice Law (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - essence.pdf.
+#
+@realm:    Essence
+@name:     Ice Law
+@number:   3.4.3
+@category: Base
+@class:    Magician
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Freeze Liquid | 1 cu'/lvl | C | 10' | F
+ 2 | Cool Solid | 1 cu'/lvl | 24 hr | 10' | F
+ 3 | Wall of Cold | 10'x10'x1' | 1 rnd/lvl | 100' | E
+ 5 | Chill Solid | 1 cu'/lvl | 1 min/lvl (C) | 10' | F
+ 6 | Ice Bolt I | 1 target | — | 100' | DE
+ 7 | Cold Ball II | 20'R | — | 100' | BE
+ 8 | Wall of Ice | 10'x10'x2' | P | 100' | E
+ 9 | Call Cold I | 10'x10'x10' | 1 rnd/lvl | 10' | E
+10 | Circle of Cold | 20'R | 1 rnd/lvl | self | E
+11 | Ice Bolt III | 1 target | — | 300' | DE
+12 | Water/Ice | 10 cu'/lvl | P | 100' | F
+13 | Chill Metal | 1 object | 24 hr | 10' | F
+14 | Call Cold II | 20'x20'x20' | 1 rnd/lvl | 20' | E
+15 | Ice Bolt V | 1 target | — | 500' | DE
+16 | Triad of Ice | 3 targets | — | 10' | DE
+18 | Call Cold V | 50'x50'x50' | 1 rnd/lvl | 100' | E
+20 | Cold Ball IV | 40'R | — | 300' | BE
+25 | Rain/Snow | 1 mi R | varies | self | E
+30 | Cold True | 1000' R/lvl | 24 hr | self | E
+50 | Cold Mastery | varies | 1 rnd/lvl | varies | U
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Freeze Liquid — For every level of the caster, 1 cubic foot of liquid is cooled to freezing at a rate of one cubic foot per round. This will not drop a liquid’s temperature below -20˚F (thus, liquids will a freezing point below -20˚F will not freeze).
+
+@@ 2
+Cool Solid — Any solid, inanimate, non-metal material can be cooled to -20˚F, at a rate of 1 cubic foot per round of concentration.
+
+@@ 3
+Wall of Cold — Creates a clear wall of intense cold (up to 10'x10'x1'). Anyone passing through this wall takes an 'A' Cold critical (no RR).
+
+@@ 5
+Chill Solid — As Cool Solid, except material can be cooled to -200˚F, at a rate of 50˚F per round. The caster must concentrate to decrease the temperature (without concentration, the material will remain at its current temperature for the duration of the spell).
+
+@@ 6
+Ice Bolt I — A bolt of ice is shot from the palm of the caster. Resolve attack on the Ice Bolt Attack Table.
+
+@@ 7
+Cold Ball II — A 1' diameter ball of cold is shot from the palm of the caster. Upon reaching its target, it explodes to affect a 20'R area. Resolve attack on the Cold Ball Attack Table.
+
+@@ 8
+Wall of Ice — Summons a wall of ice up to 10'x10'x(2' at base, 1' at top). It can be melted through or chipped through or toppled (if not against a solid surface).
+
+@@ 9
+Call Cold I — As Wall of Cold, except it creates a cube of cold (up to 10' x 10' x 10'). The cube takes a complete round to form and the range is 100'. and be effective. Anyone passing through (or that is caught
+
+@@ 10
+Circle of Cold — As Wall of Cold, except “wall” is 10' high
+
+@@ 11
+Ice Bolt III — As Ice Bolt I, except range is 300'.
+
+@@ 12
+Water/Ice — For every level of the caster, changes 10 cubic minutes up to a number of degrees equal to the caster’s level. foot of water to ice, instantly.
+
+@@ 13
+Chill Metal — As Chill Solid, except chills metal to the point that it becomes extremely brittle (1 object only). Under normal conditions, this will decrease a weapon’s strength (when checkS N ing for breakage) by
+
+@@ 14
+Call Cold II — As Call Cold I, except size is up to a 20' cube and the range is 20'.
+
+@@ 15
+Ice Bolt V — As Ice Bolt I, except range is 500'.
+
+@@ 16
+Triad of Ice — Three bolts of ice are shot from the palm of the caster. They can strike up to three different targets (as long as they are all withing 60˚ of each other; and they are visible to the caster). Caster may apply his directed spell skill (Icebolt) to only one of the attacks (the others get a +0 OB).
+
+@@ 18
+Call Cold V — As Call Cold I, except size is up to a 50' cube
+
+@@ 20
+Cold Ball IV — As Cold Ball II, except area of effect is 40'R inside) the cube takes an 'A' Cold critical. and the range is 300'.
+
+@@ 25
+Rain/Snow — Changes all rain within 1 mile of the caster to and forms a 20'R circle (6" thick) with the caster at the center snow. The area of effect decreases by 500'R for every 10˚F (the wall will not move with the caster). above freezing.
+
+@@ 30
+Cold True — Causes the temperature to drop 1˚F every 10
+
+@@ 50
+In addition, the weapon will have its See Section for more information on walls (and breakage number increased by 5 (to a maximum of 10). Each spell effects on walls). following minute the breakage factor will decrease by 1 until it returns to normal (i.e., it warms up); also, the weapon’s strength will increase by 5 each minute until it returns to normal.

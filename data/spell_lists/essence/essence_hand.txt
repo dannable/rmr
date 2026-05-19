@@ -1,0 +1,106 @@
+# Spell List 3.1.4 — Essence Hand (Open)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - essence.pdf.
+#
+@realm:    Essence
+@name:     Essence Hand
+@number:   3.1.4
+@category: Open
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Vibrations I | 1 lb | 1 rnd/lvl | 100' | F
+ 2 | Staying I | 1 lb | 1 min/lvl | 100' | F
+ 3 | Telekinesis I | 1 lb | 1 min/lvl(C) | 100' | F
+ 4 | Vibrations II | 5 lbs | 1 rnd/lvl | 100' | F
+ 5 | Staying II | 5 lbs | 1 min/lvl | 100' | F
+ 6 | Telekinesis II | 5 lbs | 1 min/lvl(C) | 100' | F
+ 7 | Vibrations III | 25 lbs | 1 rnd/lvl | 100' | F
+ 8 | Staying III | 25 lbs | 1 min/lvl | 100' | F
+ 9 | Vibrations IV | 50 lbs | 1 rnd/lvl | 100' | F
+10 | Aiming | 1 target | 1 rnd(C) | touch | U
+11 | Telekinesis III | 25 lbs | 1 min/lvl(C) | 100' | F
+12 | Staying IV | 50 lbs | 1 min/lvl | 100' | F
+13 | Mass Vibrations I | varies | 1 rnd/lvl | 100' | F
+14 | Telekinesis IV | 50 lbs | 1 min/lvl(C) | 100' | F
+15 | Staying V | 100 lbs | 1 min/lvl | 100' | F
+16 | Hurling I | 1 lb | — | 10' | E
+17 | Telekinesis V | 100 lbs | 1 min/lvl(C) | 100' | F
+19 | Mass Vibrations III | varies | 1 rnd/lvl | 100' | F
+20 | Lord Aim | 1 target | 1 rnd(C) | touch | U
+25 | Staying True | 10 lb/lvl | 1 min/lvl | 100' | F
+30 | Great Telekinesis | 10 lb/lvl | 1 min/lvl(C) | 100' | F
+50 | Aim True | 1 target | 1 rnd(C) | touch | U
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Vibrations I — Causes an object of up to 1 pound mass to pounds. vibrate rapidly; if fragile it may break (roll a RR). If it is an
+
+@@ 2
+Staying I — Exerts 1 pound of pressure on a person or object.
+
+@@ 3
+Telekinesis I — Can move one object, up to 1 pound in mass, pounds per level. up to 1' per second (with no acceleration). If the caster stops
+
+@@ 4
+Vibrations II — As Vibrations I, except mass limit is 5 pounds.
+
+@@ 5
+Staying II — As Staying I, except mass limit is 5 pounds.
+
+@@ 6
+Telekinesis II — As Telekinesis I, except mass limit is 5 pounds.
+
+@@ 7
+Vibrations III — As Vibrations I, except mass limit is 25 pounds.
+
+@@ 8
+Staying III — As Staying I, except mass limit is 25 pounds.
+
+@@ 9
+Vibrations IV — As Vibrations I, except mass limit is 50 pounds.
+
+@@ 10
+Aiming — By concentrating on the mind of a missile firer and the flight of the missile, the caster causes +50 to be added to the attack roll of the missile. The caster must concentrate, touch the Spell Law firer and see the missile for the entire round that the missile is 76 fired.
+
+@@ 11
+Telekinesis III — As Telekinesis I, except the mass limit is 25 pounds.
+
+@@ 12
+Staying IV — As Staying I, except the mass limit is 50 pounds.
+
+@@ 13
+Mass Vibrations I — As Vibrations I, except as many objects (up to 5 pounds each) as the caster’s level can be vibrated (they must all be within the field of vision of the caster).
+
+@@ 14
+Telekinesis IV — As Telekinesis I, except mass limit is 50 pounds.
+
+@@ 15
+Staying V — As Staying I, except mass limit is 100 pounds.
+
+@@ 16
+Hurling I — Caster may “hurl” one object (that starts within 10' of him) of 1 pound or less with sufficient force to deliver an attack. Attacks are resolved on the Sling Attack Table with a maximum range of 300'. The OB of the attack is the caster’s directed spell skill with this spell. If Arms Law is not available, use the Shock Bolt Attack Table (with a maximum range of 300') delivering Impact criticals.
+
+@@ 17
+Telekinesis V — As Telekinesis I, except mass limit is 100
+
+@@ 19
+Mass Vibrations III— As Mass Vibrations, except objects object held by a being the being must make a RR or fumble it may be up to 25 pounds in mass. (each round).
+
+@@ 20
+Lord Aim — As Aiming, except missile attack bonus is 100.
+
+@@ 25
+Staying True — As Staying I, except mass limit is 10 pounds Object cannot be moved by staying alone, and pressure can only per level. be in one direction.
+
+@@ 30
+Great Telekinesis — As Telekinesis I, except mass limit is 10
+
+@@ 50
+Aim True — As Aiming, except missile attack automatically concentration before the duration is up, the object remains does maximum damage. If the target is a Large or Super Large stationary as if it had a Staying spell of an equal weight limit cast creature, the attack is treated as a Slaying attack. upon it.

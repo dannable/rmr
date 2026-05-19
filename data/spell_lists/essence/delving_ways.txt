@@ -1,0 +1,86 @@
+# Spell List 3.1.1 — Delving Ways (Open)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - essence.pdf.
+#
+@realm:    Essence
+@name:     Delving Ways
+@number:   3.1.1
+@category: Open
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 2 | Text Analysis I | caster | 1 min/lvl (C) | self | U
+ 3 | Stone Analysis | caster | — | 10' | I
+ 4 | Metal Analysis | caster | — | 10' | I
+ 5 | Gas Analysis | caster | — | 10' | I
+ 7 | Text Analysis II | caster | 1 min/lvl (C) | self | U
+ 8 | Liquid Analysis | caster | — | 10' | I
+10 | Delving | 1 item | — | touch | I
+11 | Spell Analysis | 1 spell | — | 100' | I
+14 | Death Analysis | 1 corpse | — | touch | I
+15 | Text Analysis III | caster | 1 min/lvl (C) | self | U
+16 | Power Analysis | 1 target | — | 100' | P
+17 | Conveyance | caster | 10 min/lvl | self | U
+18 | Death’s Delving | 1 corpse | — | touch | I
+20 | Analysis | 1 target | — | 10' | I
+25 | Mass Analysis | 1 tgt/rnd | 1 rnd/lvl | 10' | I
+30 | Power Analysis True | 1 target | — | 100' | P
+50 | Conveyance True | caster | 10 min/lvl | self | U
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 2
+Text Analysis I — Caster can read text written in an unknown O language, but only understand basic concepts of it. This spell gives the caster the equivalent of rank 2 knowledge in a written ELVING AYS language.
+
+@@ 3
+Stone Analysis — Gives nature and origin of natural stone, and when and how worked stone was obtained and worked.
+
+@@ 4
+Metal Analysis — As Stone Analysis, except metal may be examined.
+
+@@ 5
+Gas Analysis — As Stone Analysis, except gas may be examined.
+
+@@ 7
+Text Analysis II — As Text Analysis I, except gives a complete technical analysis (vocabulary and syntax) but not an understanding of idioms (jargon), implications, or cultural references.This spell gives the caster the equivalent of rank 5 knowledge in a written language.
+
+@@ 8
+Liquid Analysis — As Stone Analysis, except liquid may be examined.
+
+@@ 10
+Delving — Gives significant details about an item’s construction and purpose (not specific powers).
+
+@@ 11
+Spell Analysis — Provides analysis of an active spell; giving its duration, the list it was cast from, and its type (not its level or exactly what spell it is).
+
+@@ 14
+Death Analysis — Gives information concerning a being’s death (weapon, spell, time since, etc.); must be cast in place of death (within 24 hour) or in the presence of body (no time limit).
+
+@@ 15
+Text Analysis III — As Text Analysis II, except everything but implications is known (e.g., answers to riddles are not known automatically). This spell gives the caster the equivalent of rank 8 knowledge in a written language.
+
+@@ 16
+Power Analysis — As Spell Analysis, except will work on abilities/powers that are not currently active. One item, person, or place may be examined to see if it has power, which realm the power is from, a general idea of its origin, and its basic configuration.
+
+@@ 17
+Conveyance — Caster’s awareness leaves his body (which is together on one item, person, or place (Conveyance is not inactive for the duration of the spell) and may travel at 1 mile per included). minute. However, it can only travel 10' per round when moving
+
+@@ 18
+Death’s Delving — As Death Analysis, except gives a visual per minute (50' per round through solid material and while image of the killer, and a vague reason for death (e.g., revenge, observing). robbery, accident, etc.).
+
+@@ 20
+Analysis — Any of the lower level spells may be used
+
+@@ 25
+Mass Analysis — As Analysis, except one item per round through solid material or when observing the world. If the spell may be examined. expires before the caster returns to his body, he will return to his
+
+@@ 30
+Power Analysis True — As Power Analysis, except exact body at the fixed rate of 500' per round, and upon returning to origin, creator, and detailed purpose are given; this includes his body, he must make a RR modified by -50 or die (the attack exact spell (when appropriate). level is equal to the number of rounds overstayed).
+
+@@ 50
+Conveyance True — As Conveyance, except rate is 10 mile

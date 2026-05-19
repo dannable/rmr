@@ -1,0 +1,107 @@
+# Spell List 3.6.4 — Mind Over Matter (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - essence.pdf.
+#
+@realm:    Essence
+@name:     Mind Over Matter
+@number:   3.6.4
+@category: Base
+@class:    Monk
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Body Weaponry I | caster | 1 rnd/lvl | self | U
+ 2 | Adrenal Focus II * | caster | — | self | U
+ 3 | Missile’s Master II * | caster | — | self | U
+ 5 | Shattering Blow I | caster | — | self | U
+ 6 | Adrenal Focus III * | caster | — | self | U
+ 7 | Body Weaponry II | caster | 1 rnd/lvl | self | U
+ 8 | Missile’s Master III | * caster | — | self | U
+ 9 | Body Armor III | caster | 1 rnd/lvl | self | U
+10 | Lion’s Heart | caster | 1 min/lvl | self | U
+11 | Adrenal Focus IV * | caster | — | self | U
+12 | Shattering Blow II | caster | — | self | U
+13 | Body Weaponry III | caster | 1 rnd/lvl | self | U
+14 | Missile’s Master IV | * caster | — | self | U
+15 | Adrenal Focus V * | caster | — | self | U
+16 | Body Armor IV | caster | 1 rnd/lvl | self | U
+17 | Shattering Blow III | caster | — | self | U
+18 | Missile’s Master V * | caster | — | self | U
+19 | Body Weaponry IV | caster | 1 rnd/lvl | self | U
+20 | Adrenal Focus True | * caster | — | self | U
+25 | Body Weaponry True | caster | 1 rnd/lvl | self | U
+30 | Shattering Blow True | caster | — | self | U
+50 | Mind Over Matter | caster | 1 rnd/lvl | self | U
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Body Weaponry I — Caster gets a +5 bonus to all Martial Arts
+
+@@ 2
+Adrenal Focus II — Caster gets a +20 bonus for all Adrenal Moves. is +30.
+
+@@ 3
+Missile’s Master II — Caster gets a +20 for attempts to deflect,
+
+@@ 5
+Shattering Blow I — Caster can strike an inanimate object and
+
+@@ 6
+Adrenal Focus III — As Adrenal Focus II, except bonus is +30.
+
+@@ 7
+Body Weaponry II — As Body Weaponry I, except bonus is +10.
+
+@@ 8
+Missile’s Master III — As Missile’s Master II, except bonus is +30.
+
+@@ 9
+Body Armor III — For the duration of this spell, the caster’s skin is treated as AT 3 (this is only effective if the caster is wearing no armor at all).
+
+@@ 10
+Lion’s Heart — The caster may ignore the effects of the first critical strike made against him. At the end of this spell’s duration, all effects apply normally. Only one wound can be ignored in this fashion at a time (i.e., the caster cannot have more than one Lion’s Heart spell active at any given time).
+
+@@ 11
+Adrenal Focus IV — As Adrenal Focus II, except bonus is +40.
+
+@@ 12
+Shattering Blow II — As Shattering Blow I, except the chance of breaking the object is 25% plus 3% per degree of severity of the critical.
+
+@@ 13
+Body Weaponry III — As Body Weaponry I, except bonus is +15.
+
+@@ 14
+Missile’s Master IV — As Missile’s Master II, except bonus is +40.
+
+@@ 15
+Adrenal Focus V — As Adrenal Focus II, except bonus is +50.
+
+@@ 16
+Body Armor IV — For the duration of this spell, the caster’s skin is treated as AT 4 (this is only effective if the caster is wearing no armor at all).
+
+@@ 17
+Shattering Blow III — As Shattering Blow I, except the chance of breaking the object is 40% plus 6% per degree of severity of the critical.
+
+@@ 18
+Missile’s Master V — As Missile’s Master II, except bonus is +50.
+
+@@ 19
+Body Weaponry IV — As Body Weaponry I, except bonus is +20.
+
+@@ 20
+Adrenal Focus True — As Adrenal Focus II, except bonus is +75. attacks.
+
+@@ 25
+Body Weaponry True — As Body Weaponry I, except bonus
+
+@@ 30
+Shattering Blow True — As Shattering Blow I, except the block, or parry one missile attack. chance of breaking the object is 50% plus 10% per degree of severity of the critical.
+
+@@ 50
+Mind Over Matter — Caster may use any one of the lower deliver damage to it (taking no damage himself). Caster makes a normal Martial Arts Strikes attack against the object. In level spells on this list, once per round. addition, there is a chance that the object that is struck will break if it has any flaws (e.g., cracks, fractures, etc.) in it. The chance is equal to 10% plus 1% per degree of severity of the critical See Section for information on structural integrity of delivered in the attack (i.e., 'A' critical = 5%, 'B' critical = 10%, objects. etc.). This chance is modified by +10% to +50% depending on the severity of the flaws.

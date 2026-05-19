@@ -1,0 +1,86 @@
+# Spell List 3.1.2 — Detecting Ways (Open)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - essence.pdf.
+#
+@realm:    Essence
+@name:     Detecting Ways
+@number:   3.1.2
+@category: Open
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Detect Essence | 5'R | 1 min/lvl (C) | 100' | P
+ 2 | Detect Mentalism | 5'R | 1 min/lvl (C) | 100' | P
+ 3 | Detect Channeling | 5'R | 1 min/lvl (C) | 100' | P
+ 5 | Detect Invisible | 5'R | 1 min/lvl (C) | 100' | P
+ 6 | Detect Traps | 5'R | 1 min/lvl (C) | 100' | P
+ 7 | Detect Evil | 5'R | 1 min/lvl | 100' | P
+ 8 | Location I | caster | 1 min/lvl | 100' | P
+10 | Perceive Power I | 5'R | 1 min/lvl (C) | 100' | P
+11 | Detect Death | 5'R | 1 min/lvl (C) | 100' | P
+12 | Location III | caster | 1 min/lvl | 300' | P
+15 | Detect Spell | 5'R | 1 min/lvl (C) | 100' | P
+16 | Location V | caster | 1 min/lvl | 500' | P
+18 | Perceive Power III | 5'R | 1 min/lvl (C) | 300' | P
+20 | Greater Location | caster | 1 min/lvl | 1 mile | P
+25 | Detect Detections | 5'R | 1 min/lvl (C) | 100' | P
+30 | Detect True | 5'R | 1 rnd/lvl (C) | 100' | P
+50 | Location True | caster | 1 min/lvl 1 | mi/lvl | P
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Detect Essence — Detects any active spell or item from the Essence realm. Caster can concentrate on a 5'R area each round. 1) See Section for more on detecting invisible.
+
+@@ 2
+Detect Mentalism — As Detect Essence, except realm is 2) For the purposes of spells on this list, “evil” is defined as Mentalism. something that causes (or is a source of) intentional suffering,
+
+@@ 3
+Detect Channeling — As Detect Essence, except realm is injury, or destruction (see Section ). Channeling. 3) When using a Location spell, the caster must provide an
+
+@@ 5
+Detect Invisible — As Detect Essence, except detects invisible unambiguous description of the object being sought. This things. All attacks against something so detected are modified includes a minimum of: the item’s dimensions (within 10% of by -50. actual size) and at least two other identifying attributes (e.g.,
+
+@@ 6
+Detect Traps — As Detect Essence, except it gives a 75% color, weight, shape, texture, etc.). Often, it will take more chance of detecting a trap (trap sophistication may modify this than two other attributes to make the description “unique” chance). (i.e., no other item with range can possibly match the descrip
+
+@@ 7
+Detect Evil — As Detect Essence, except detects if a being is tion). evil or an item created by evil or long used by a very evil person.
+
+@@ 8
+Location I — Gives the direction and distance to any specific object or place that the caster is familiar with or has had described in detail.
+
+@@ 10
+Perceive Power I — As Detect Essence, except it will give an estimate of the power of the person (level) or item or spell examined.
+
+@@ 11
+Detect Death — As Detect Essence, except detects dead bodies and whether anything has died in the radius in the last 24 hours.
+
+@@ 12
+Location III — As Location I, except range is 300'.
+
+@@ 15
+Detect Spell — As Detect Essence, except detects any spell Spell Law that has been cast in the area examined. Gives exact spell that 74 was cast.
+
+@@ 16
+Location V — As Location I, except range is 500'.
+
+@@ 18
+Perceive Power III — As Perceive Power I, except range is
+
+@@ 20
+Greater Location — As Location I, except range is 1 mile.
+
+@@ 25
+Detect Detections — As Detect Essence, except detects any type of detection spell that is operating in the area examined (gives exact spell detected).
+
+@@ 30
+Detect True — Any of the lower level Detect spells can be used once per round.
+
+@@ 50
+Location True — As Location I, except range is 1 mile per level.

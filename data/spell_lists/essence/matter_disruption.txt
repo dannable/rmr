@@ -1,0 +1,103 @@
+# Spell List 3.8.5 — Matter Disruption (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - essence.pdf.
+#
+@realm:    Essence
+@name:     Matter Disruption
+@number:   3.8.5
+@category: Base
+@class:    Evil Magician
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Un-Ice I | 100 cu' | P | 100' | F
+ 2 | Earth to Dust I | 10 cu' | P | 100' | F
+ 3 | Cracks Call | 1000 cu' | P | 100' | F
+ 4 | Powder Stone I | 10 cu' | P | 100' | F
+ 5 | Un-Ice X | 1000 cu' | P | 100' | F
+ 6 | Disruption I | 1 cu' | P | 10' | F
+ 7 | Earth to Dust X | 100 cu' | P | 100' | F
+ 8 | Shatter | 1 cu' | P | 10' | F
+ 9 | Powder Stone X | 100 cu' | P | 100' | F
+10 | Un-Ice True | 100 cu'/lvl | P | 100' | F
+11 | Disruption X | 10 cu' | P | 10' | F
+12 | Earth to Dust True | 1000 cu' | P | 100' | F
+13 | Cause Cracks | 100 cu' | P | 100' | F
+14 | Powder Stone True | 1000 cu' | P | 100' | F
+15 | Disintegration I | 1 cu' | P | 100' | F
+17 | Long Matter Disruption | varies | P | 300' | F
+19 | Disintegration X | 10' cu' | P | 100' | F
+20 | Mass Earth to Dust | 100 cu'/lvl | P | 300' | F
+25 | Mass Powder Stone | 100 cu'/lvl | P | 300' | F
+30 | Mass Disruption | varies | P | 10' | F
+50 | Disintegration True | 100 cu' | P | 300' | F
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Un-Ice I — Turns 100 cubic feet of ice into water vapor. E
+
+@@ 2
+Earth to Dust I — Turns 10 cubic feet of earth into fine dust.
+
+@@ 3
+Cracks Call — Any previous cracks or flaws within a section of any normal material 1,000 cubic feet (10'x10'x10') will extend to their limit. See Section .
+
+@@ 4
+Powder Stone I — Turns 10 cubic feet of stone into fine powder.
+
+@@ 5
+Un-Ice X — As Un-Ice I, except affects up to 1,000 cubic feet.
+
+@@ 6
+Disruption I — Turns 1 cubic foot of any inorganic material to fine powder (must be one object).
+
+@@ 7
+Earth to Dust X — As Earth to Dust I, except affects up to 100 cubic feet.
+
+@@ 8
+Shatter — Can shatter an inorganic object, up to 1 cubic foot in volume; all within 5' take an 'A' Impact critical, holder takes a 'C' Impact critical. Metal objects get a +30 RR modification.
+
+@@ 9
+Powder Stone X — As Powder Stone I, except affects up to 100 cubic feet.
+
+@@ 10
+Un-Ice True — As Un-Ice I, except affects up to 100 cubic feet per level of the caster.
+
+@@ 11
+Disruption X — As Disruption I, except affects up to 10 cubic feet.
+
+@@ 12
+Earth to Dust True — As Earth to Dust I, except affects up to 1,000 cubic feet.
+
+@@ 13
+Cause Cracks — Causes cracks to appear in up to 100 cubic feet of non-metal, inorganic material.
+
+@@ 14
+Powder Stone True — As Powder Stone I, except affects 1,000 cubic feet.
+
+@@ 15
+Disintegration I — Completely disintegrates 1 cubic feet of inorganic material.
+
+@@ 17
+Long Matter Disruption — As any single spell (10th level or lower) from this list, except with a range of 300'
+
+@@ 19
+Disintegration X — As Disintegration I, except affects 10 cubic feet.
+
+@@ 20
+Mass Earth to Dust — As Earth to Dust I, except affects up to 100 cubic feet per level of the caster
+
+@@ 25
+Mass Powder Stone — As Powder Stone I, except affects up to 100 cubic feet per level of the caster
+
+@@ 30
+Mass Disruption — As Disruption I, except up to as many objects (up to 1 cubic foot each) as the caster’s level can be affected, and range is 100'.
+
+@@ 50
+Disintegration True — As Disintegration I, except affects objects up to 100 cubic feet and range is 300'. See Section 7.3 for more information on using evil spell lists.
