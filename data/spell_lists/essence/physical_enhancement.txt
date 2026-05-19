@@ -1,0 +1,98 @@
+# Spell List 3.1.7 — Physical Enhancement (Open)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - essence.pdf.
+#
+@realm:    Essence
+@name:     Physical Enhancement
+@number:   3.1.7
+@category: Open
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Mannish Scale * | 1 object | — | 1' | I
+ 2 | Sly Ears | 1 target | 10 min/lvl | 10' | U
+ 3 | Balance * | 1 target | varies | 10' | U
+ 4 | Nightvision | 1 target | 10 min/lvl | 10' | U
+ 5 | Sidevision | 1 target | 10 min/lvl | 10' | U
+ 6 | Sounding | 1 target | 10 min/lvl | 10' | U
+ 7 | Watervision | 1 target | 10 min/lvl | 10' | U
+ 8 | Waterlungs | 1 target | 10 min/lvl | 10' | U
+ 9 | Heatvision | 1 target | 10 min/lvl | 10' | U
+10 | Gaslungs | 1 target | 10 min/lvl | 10' | U
+11 | Resist Poison * | 1 target | 1 hr/lvl | touch | Us
+12 | Darkvision | 1 target | 10 min/lvl | 10' | U
+15 | Changing Lungs | 1 target | 10 min/lvl | 10' | U
+16 | Mass Balance | 1 tgt/lvl | varies | 10' | U
+18 | Mass Nightvision | 1 tgt/lvl | 10 min/lvl | 10' | U
+19 | Mass Watervision | 1 tgt/lvl | 10 min/lvl | 10' | U
+20 | Vision * | 1 target | 10 min/lvl | 10' | U
+25 | Mass Waterlungs | 1 tgt/lvl | 10 min/lvl | 10' | U
+30 | Mass Gaslungs | 1 tgt/lvl | 10 min/lvl | 10' | U
+50 | Mass Vision | 1 tgt/lvl | 10 min/lvl | 10' | U
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Mannish Scale — Caster can tell the exact dimensions, mass, O and/or weight of one object.
+
+@@ 2
+Sly Ears — Target gains double normal hearing. The results in +50 to Perception involving only hearing, +25 to Perception involving hearing and other senses.
+
+@@ 3
+Balance — Target may add +50 to any manuever rolls for one slow maneuver (e.g., walking a 3" beam).
+
+@@ 4
+Nightvision — Target can see 100' on a normal night as if it were daylight. See Section .
+
+@@ 5
+Sidevision — Target has a 300˚ field of vision. The flank bonus for attacks against the target is lowered to +5 and the rear bonus is lowered to +15.
+
+@@ 6
+Sounding — Target’s voice has its loudness tripled. This has no effect on spell casting capabilities (it simply allows the caster to make himself heard without difficulty over long distances).
+
+@@ 7
+Watervision — As Nightvision, except target can see 100' in even murky water.
+
+@@ 8
+Waterlungs — Target can breathe water but not air.
+
+@@ 9
+Heatvision — As Nightvision, except target can see varying degrees of heat on the surfaces of objects. This spell does not allow the caster to see “through” things. While this vision is sufficient for moving around, it is not sufficient at all for reading or mapping.
+
+@@ 10
+Gaslungs — As Waterlungs, except target can breathe any gas as normal air.
+
+@@ 11
+Resist Poison — Delays the effect of a poison on a target. If poison is not eliminated before the spell expires, the target will be affected by the poison at that time.
+
+@@ 12
+Darkvision — As Nightvision, except any darkness can be seen through. Also, no light is needed at all for this spell to work.
+
+@@ 15
+Changing Lungs — As Waterlungs, except target can breathe water, air, and/or any gas at will.
+
+@@ 16
+Mass Balance — As Balance, except can affect one target per level of caster. See Section for more on how the environment
+
+@@ 18
+Mass Nightvision — As Nightvision, except can affect one affects vision. target per level of caster.
+
+@@ 19
+Mass Watervision — As Watervision, except can affect one target/level of caster.
+
+@@ 20
+Vision — As all “vision” spells below 15th level functioning at the same time.
+
+@@ 25
+Mass Waterlungs — As Waterlungs, except can affect 1 target per level of caster.
+
+@@ 30
+Mass Gaslungs — As Gaslungs, except can affect 1 target per level of caster.
+
+@@ 50
+Mass Vision — As Vision, except can affect 1 target per level of caster.

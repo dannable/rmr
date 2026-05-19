@@ -1,0 +1,107 @@
+# Spell List 3.4.6 — Wind Law (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - essence.pdf.
+#
+@realm:    Essence
+@name:     Wind Law
+@number:   3.4.6
+@category: Base
+@class:    Magician
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Breezes | 10'R/lvl | C | 10'/lvl | E
+ 2 | Airwall | 10'x10'x3' | C | 100' | E
+ 3 | Slumber Mist | 5'R/lvl | C | 5'/lvl | F
+ 4 | Stun Cloud I | 5'R | 6 rnds | 10' | E
+ 5 | Air Stop I | 10'R | C | 100' | F
+ 6 | Stun Cloud II | 10'R | 6 rnds | 20' | E
+ 7 | Vacuum I | 5'R | — | 100' | F
+ 8 | Air Stop II | 20'R | C | 100' | F
+ 9 | Slumber Cloud | 1'R/lvl | 1 min/lvl | 5'/lvl | F
+10 | Stun Cloud IV | 20'R | 6 rnds | 40' | E
+11 | Death Cloud I | 5'R | 10 rnds | 10' | E
+12 | Vacuum II | 10'R | — | 100' | F
+13 | Air Stop X | 100'R | C | 100' | F
+14 | Whirlwind | 10'R | C | 100' | E
+15 | Death Cloud II | 10'R | 10 rnds | 40' | E
+17 | Vacuum IV | 20'R | — | 100' | F
+18 | Great Vacuum | 5'R | — | 100' | F
+19 | Stun Cloud True | 20'R | 6 rnds | 100' | E
+20 | Reverse Winds | 100'R/lvl | C | 100'/lvl | E
+25 | Hard Wind | 300'x25'R | 1 rnd/lvl | 300' | E
+30 | Storm Call | 1 mi R/lvl | varies 1 | mi/lvl | E
+50 | Wind Mastery | varies | 1 rnd/lvl | varies | U
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Breezes — Causes a light breeze (up to 20' per round) as long as the caster concentrates. Any gasses in the area are moved by the breeze. 1) All vacuums created by spells on this list also create a loud
+
+@@ 2
+Airwall — Creates a wall of dense churning air up to 10' x 10' noise. The larger the radius, the louder the noise. The GM may x 3'. This wall reduces all movement through it by 50%. In wish to rule that all within the radius must make a second RR addition, all attacks through the wall suffer a -50 penalty. or be deafened for 1 round per 10 failure (RR attack level
+
+@@ 3
+Slumber Mist — By concentrating, the caster can remove equals the radius of the vacuum). most of the oxygen from the area of 2) All walls creatured by spells on effect. After three rounds of concentrathis list must rest on a solid tion, all targets in the area of effect must surface. See Section for make an RR each round in the area of more information on walls (and effect or fall asleep (1 round per 10 spell effects on walls). failure). All fire spells in the area suf3) An elemental creature made of fers a -20 penalty (or are 20% less gas will be cut to 20% activity effective in the case of non-attack if it is the target of an Air Stop spells). spell (and the creature fits into
+
+@@ 4
+Stun Cloud I — Creates a 5'R cloud of the area of effect). A Vacuum charged gas particles. This cloud delivspell thrown upon an elemental ers a 'C' Electricity critical to all within creature made of gas will result the area of effect on the first and second in a Slaying critical on the crearounds; a 'B' on the third and fourth ture. A Whirlwind has no effect rounds; and an 'A' on the fifth and sixth on an elemental creature made rounds (after 6 rounds, the cloud dissiof gas. pates). This cloud drifts with the wind. The cloud takes one round to form (so anyone in the radius when it is cast may make a maneuver to move out of the radius without taking a critical). It will then stayed formed for six rounds.
+
+@@ 5
+Airstop I — Stops all generalized air movement (e.g., wind) up to winds of 30 mph; cuts stronger winds by 30 mph in the area of effect.
+
+@@ 6
+Stun Cloud X — As Stun Cloud I, except radius is 10'.
+
+@@ 7
+Vacuum I — Creates a 5'R near vacuum. Anyone inside the radius must make a successful RR or take a 'B' Impact critical, as air leaves and rushes back in.
+
+@@ 8
+Air Stop II — As Air Stop I, except radius is 20'.
+
+@@ 9
+Slumber Cloud — As Slumber Mist, except for the duration, and it drifts with the wind.
+
+@@ 10
+Stun Cloud IV — As Stun Cloud V, except radius is 20'.
+
+@@ 11
+Death Cloud I — As Stun Cloud I, except delivers an 'E' on rounds 1 and 2, a 'D' on rounds 3 and 4, a 'C' on rounds 5 and 6, a 'B' on rounds 7 and 8, and an 'A' on rounds 9 and
+
+@@ 12
+Vacuum II — As Vacuum I, except radius is 10'.
+
+@@ 13
+Air Stop X — As Air Stop I, except radius is 100'.
+
+@@ 14
+Whirlwind — A 10'R whirlwind is created. This whirlwind delivers an 'A' Impact critical to all inside (every round). All movement through or within the whirlwind is reduced by 80%. The caster can move the whirlwind 1' per round.
+
+@@ 15
+Death Cloud II — As Death Cloud I, except radius is 10'.
+
+@@ 17
+Vacuum IV — As Vacuum I, except radius is 20'.
+
+@@ 18
+Great Vacuum — As Vacuum I, except delivers a 'D' Impact critical.
+
+@@ 19
+Stun Cloud True — As Stun Cloud IV, except by concentrating the caster can move it 10' per round up to 100' away.
+
+@@ 20
+Reverse Winds — Allows the caster to change the direction of the wind within the radius.
+
+@@ 25
+Hard Wind — Caster must outstretch arms and then a hard wind comes forth from them, fanning out till it has a 25'R at 300'. All within the cone receive a 'B' Impact critical.
+
+@@ 30
+Storm Call — Summons forces of nature in a fierce thunderstorm. This storm will include heavy rain, 25-60 mph winds, lightning (random), and a blizzard (if correct climate). The storm can be delayed for up to 1 hour per level of the caster.
+
+@@ 50
+Wind Mastery — Caster can use one lower level spell (on this list) each round.

@@ -1,0 +1,94 @@
+# Spell List 3.1.3 — Elemental Shields (Open)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - essence.pdf.
+#
+@realm:    Essence
+@name:     Elemental Shields
+@number:   3.1.3
+@category: Open
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Resist Light | 1 target | 1 min/lvl | 10' | U
+ 2 | Resist Heat | 1 target | 1 min/lvl | 10' | U
+ 3 | Resist Cold | 1 target | 1 min/lvl | 10' | U
+ 4 | Resist Light Sphere | 10'R | 1 min/lvl | 10' | U
+ 5 | Resist Heat Sphere | 10'R | 1 min/lvl | 10' | U
+ 6 | Resist Cold Sphere | 10'R | 1 min/lvl | 10' | U
+ 8 | Lightarmor | 1 target | 1 min/lvl | 10' | U
+ 9 | Heatarmor | 1 target | 1 min/lvl | 10' | U
+10 | Coldarmor | 1 target | 1 min/lvl | 10' | U
+11 | Lightarmor Sphere | 10'R | 1 min/lvl | self | U
+12 | Heatarmor Sphere | 10'R | 1 min/lvl | self | U
+13 | Coldarmor Sphere | 10'R | 1 min/lvl | self | U
+15 | Lightning Armor | 1 target | 1 min/lvl | 10' | U
+17 | Fire Armor | 1 target | 1 min/lvl | 10' | U
+19 | Ice Armor | 1 target | 1 min/lvl | 10' | U
+20 | Mass Lightarmor | 1 tgt/lvl | 1 min/lvl | 10' | U
+25 | Mass Heatarmor | 1 tgt/lvl | 1 min/lvl | 10' | U
+30 | Mass Coldarmor | 1 tgt/lvl | 1 min/lvl | 10' | U
+50 | True Armor | 1 target | 1 min/lvl | 10' | U
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Resist Light — Target is totally protected from all natural light O (includes glare, sunburn, and temporary blinding; but not lightning); +10 to all RRs vs light (electricity); -10 to elemental LEMENTAL HIELDS electricity attacks.
+
+@@ 2
+Resist Heat — As Resist Light, except protects against natural heat to 200˚ F and modifies spells involving heat by
+
+@@ 3
+Resist Cold — As Resist Light, except protects against natural cold to -20˚ F and modifies spells involving cold by
+
+@@ 4
+Resist Light Sphere — As Resist Light, except all beings within 10'R of target are protected.
+
+@@ 5
+Resist Heat Sphere — As Resist Heat, except all beings within 10'R of target are protected.
+
+@@ 6
+Resist Cold Sphere — As Resist Cold, except all beings within 10'R of target are protected.
+
+@@ 8
+Lightarmor — As Resist Light , except protects against all natural light and electricity and modifies spells involving light (electricity) by
+
+@@ 9
+Heatarmor — As Lightarmor, except protects against heat.
+
+@@ 10
+Coldarmor — As Lightarmor, except protects against cold.
+
+@@ 11
+Lightarmor Sphere — As Lightarmor, except protects all beings within 10'R.
+
+@@ 12
+Heatarmor Sphere — As Heatarmor, except protects all beings within 10'R.
+
+@@ 13
+Coldarmor Sphere — As Coldarmor, except protects all beings within 10'R.
+
+@@ 15
+Lightning Armor — As Lightarmor, except it also decreases all electrical concussion hits (e.g., from shock bolts and lightning bolts) by half, and decreases electrical critical strikes by one level (e.g., ‘A’s are ignored, 'B's become 'A's, 'C's become 'B's, etc.)
+
+@@ 17
+Fire Armor — As Lightning Armor, except fire and heat spells are affected (e.g., fire bolts and fireballs).
+
+@@ 19
+Ice Armor — As Lightning Armor, except cold and ice spells are affected (e.g., ice bolts and coldballs).
+
+@@ 20
+Mass Lightarmor — As Lightarmor, except as many targets No spells on this list are cumulative with each other. as the caster’s level can be affected.
+
+@@ 25
+Mass Heatarmor — As Heatarmor, except as many targets as the caster’s level can be affected.
+
+@@ 30
+Mass Coldarmor — As Coldarmor , except as many targets as the caster’s level can be affected.
+
+@@ 50
+True Armor — Acts as Lightning Armor, Fire Armor, and Ice Armor all at the same time.

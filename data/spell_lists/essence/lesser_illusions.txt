@@ -1,0 +1,110 @@
+# Spell List 3.1.6 — Lesser Illusions (Open)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - essence.pdf.
+#
+@realm:    Essence
+@name:     Lesser Illusions
+@number:   3.1.6
+@category: Open
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Ventriloquism | 1 point | C | 100' | E
+ 2 | Sound/Light Mirage | 10'R | 10 min/lvl | 100' | E
+ 3 | Taste/Smell Mirage | 10'R | 10 min/lvl | 100' | E
+ 4 | Illusions II | 10'R | 1 min/lvl | 100' | E
+ 5 | Phantasm I | 10'R | 1 min/lvl (C) | 100' | E
+ 6 | Light Glamour | 1 object | 1 day/lvl | 50' | E
+ 7 | Waiting Illusion II | 10'R | varies | 50' | E
+ 8 | Illusions III | 10'R | 1 min/lvl | 100' | E
+ 9 | Phantasm II | 10'R | 1 min/lvl (C) | 100' | E
+10 | Waiting Phantasm II | 10'R | varies | 100' | E
+11 | Waiting Illusion III | 10'R | varies | 100' | E
+12 | Phantasm III | 10'R | 1 min/lvl (C) | 100' | E
+13 | Illusions V | 10'R | 1 min/lvl | 100' | E
+14 | Waiting Illusion IV | 10'R | varies | 100' | E
+15 | Waiting Phantasm III | 10'R | varies | 100' | E
+16 | Waiting Illusion V | 10'R | varies | 100' E | 
+17 | Phantasm IV | 10'R | 1 min/lvl (C) | 100' | E
+18 | Waiting Phantasm IV | 10'R | varies | 100' | E
+19 | Illusions VII | 10'R | 1 min/lvl | 100' | E
+20 | Waiting Illusion VI | 10'R | varies | 100' | E
+25 | Phantasm V | 10'R | 1 min/lvl (C) | 100' | E
+30 | Illusions X | 10'R | 1 min/lvl | 100' | E
+50 | Phantasm X | 10'R | 1 min/lvl (C) | 100' | E
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Ventriloquism — Caster can speak and his voice will appear chosen. to come from any point that he wants within 100' (point must be
+
+@@ 2
+Sound/Light Mirage — Creates any simple, immobile image,
+
+@@ 3
+Taste/Smell Mirage — As Sound/Light Mirage, except crechosen. ates a set of immobile smells in the area of effect, or a set of
+
+@@ 4
+Illusions II — Creates a simple, immobile image or scene up to an area of 10'R. One of the following options may also be chosen: a) an extra sense can be added (not the tactile or PECIAL OTES Presence senses), b) the duration can be doubled, c) the range 1) See Section for more on Illusions. can be doubled, or d) the radius of the area of effect can be doubled. All parts of the area of effect must be within the range 2) If more than one option can be added to the Illusion or of the spell (and all parts of the range must be in the caster’s field Phantasm spell, the same option may be chosen more than of vision). once. For example, with an Illusion III, two options are available. The range could be doubled once to 200' and then
+
+@@ 5
+Phantasm I — Creates the image of one object or being that doubled again to 400'. will move however the caster wants (as long as the caster concentrates). When the caster stops concentrating, the image 3) The sense aspects of the illusion (mirage or phantasm) are remains but stops moving. The caster may resume concentraactually created (no RR) and detecting that it is an illusion can tion again later and make the image move again (presuming that normally be accomplished only through spells or through the the duration has not expired). The image can be of any size that use of a conflicting sense. Even after the illusion is detected, would fit in a 10'R. it still exists (but the detector knows that it is not real).
+
+@@ 6
+Light Glamour — Changes the visual appearance of one object. The target can be no larger than 10 pounds per level. Spell Law
+
+@@ 7
+Waiting Illusion II — As Illusion II, except it can be delayed up to 24 hours. At the time of casting, the caster must decide upon the trigger for the spell. The caster can choose one of the following: a) time period, b) specified movements, c) specified sounds, d) specified smells, e) specified tastes. If a sense is used to trigger the spell, that sense must be included in the illusion.
+
+@@ 8
+Illusions III — As Illusion II, except two options may be chosen. See the notes below for guidelines on how to combine the options.
+
+@@ 9
+Phantasm II — As Phantasm I, except one of the following options may also be chosen: a) an extra sense can be added (not the tactile or Presence senses), b) the duration can be doubled, c) the range can be doubled, d) the radius of the area of effect can be doubled, e) another image can be created and moved independently of the first (all separate images must be within the caster’s field of vision and within range of the spell), or f) limited repetitious sounds, movements, etc can be added that do not require concentration of the caster (the proper senses involved must also be included with the illusion).
+
+@@ 10
+Waiting Phantasm II — As Phantasm II, except it can be delayed as in Waiting Illusion II. The phantasm will move and act if given a simple command (at the time of casting), or it can deliver a short speech (if sound was one of the included senses).
+
+@@ 11
+Waiting Illusion III — As Waiting Illusion II, except two options may be chosen. See the notes below for guidelines on how to combine the options.
+
+@@ 12
+Phantasm III — As Phantasm II, except two options may be chosen. See the notes below for guidelines on how to combine the options.
+
+@@ 13
+Illusions V — As Illusions III, except four options may be chosen.
+
+@@ 14
+Waiting Illusion IV — As Waiting Illusion III, except three options may be chosen.
+
+@@ 15
+Waiting Phantasm III — As Waiting Phantasm III, except two options may be chosen.
+
+@@ 16
+Waiting Illusion V — As Waiting Illusion III, except four options may be chosen.
+
+@@ 17
+Phantasm IV — As Phantasm III, except three options may be chosen.
+
+@@ 18
+Waiting Phantasm IV — As Waiting Phantasm III, except three options may be chosen.
+
+@@ 19
+Illusions VII — As Illusions III, except six options may be
+
+@@ 20
+Waiting Illusion VI — As Waiting Illusion III, except five in his field of vision). options may be chosen.
+
+@@ 25
+Phantasm V — As Phantasm III, except four options may be scene, or sounds in an area up to 10'R, or creates a set of chosen. immobile sounds in an area up to 10'R.
+
+@@ 30
+Illusions X — As Illusion III, except nine options may be
+
+@@ 50
+Phantasm X — As Phantasm III, except nine options may be immobile tastes in the area of effect. chosen.

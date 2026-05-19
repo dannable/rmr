@@ -1,0 +1,111 @@
+# Spell List 3.3.6 — Sound Molding (Base)
+# Transcribed (summary chart only — Phase 1) from author-supplied PDF
+# X:\RMFRPSuite\spell law - essence.pdf.
+#
+@realm:    Essence
+@name:     Sound Molding
+@number:   3.3.6
+@category: Base
+@class:    Illusionist
+#
+# Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
+# A trailing '*' in the source chart (a Concentration / continuing-effect
+# marker) is recorded in the @starred slot rather than the name.
+#
+ 1 | Sound Mirage | 10'R | 10 min/lvl | 100' | E
+ 2 | Silence I | 10'R | 1 min/lvl | 100' | E
+ 3 | Sound Control I | 10'R | C | 10' | E
+ 4 | Sudden Sound | 1 target | — | 100' | F
+ 5 | Sound Control V | 50'R | C | 50' | E
+ 6 | Sound Glamour | 1 object | 1 day/lvl | 50' | E
+ 7 | Deafen | 1 target | 1 hr/5 fail | 100' | F
+ 8 | Silence V | 50'R | 1 min/lvl | 100' | E
+ 9 | Minor Ultrasonics | 50'R | 1 rnd/lvl(C) | self | F
+10 | Sound Control X | 100'R | C | 100' | E
+11 | Sudden Sound Sphere | 20'R | — | 100' | F
+12 | Sound Terrain | 1000'R | 1 day/lvl | 100' | E
+13 | Silence X | 100'R | 1 min/lvl | 100' | E
+14 | Deafen Sphere | 10'R | 1 hr/5 fail | 100' | F
+15 | Greater Sound Control | 10'R/lvl | C | 100' | E
+16 | Long Silence | 5'R | 1 min/lvl | 10'/lvl | E
+17 | Long Sound Control | 10'R | C | 10'/lvl | E
+18 | Long Sudden Sound | 1 target | — | 10'/lvl | F
+19 | Long Deafen | 10'R | 1 hr/5 fail | 10'/lvl | F
+20 | Mass Deafening | 1 tgt/lvl | 1 hr/5 fail | 100' | F
+25 | Mass Silence | 1 tgt/lvl | 1 min/lvl | 100' | E
+30 | Sound Control True | 20'R/lvl | 10 min/lvl (C) | 100' | E
+50 | Major Ultrasonics | 100'R | 1 rnd/lvl (C) | self | F
+
+# Descriptions
+# Format: each spell description starts with `@@ <level>` on its
+# own line. The block continues until the next `@@` or end-of-file.
+# Multi-paragraph text is preserved; whitespace is normalised.
+#
+@@ 1
+Sound Mirage — Creates any simple immobile set up sounds up to an area of 10'R.
+
+@@ 2
+Silence I — Creates a 5'R area into and out of which sound cannot travel. If the point is on a mobile object or being, it will move with the object/being. This results in a +25 to Stalking attempts. See Section .
+
+@@ 3
+Sound Control I — Caster can control the intensity of sounds within the area of effect. The intensity can vary from absolute silence to a very loud shout, and it can be different in different parts of the radius.
+
+@@ 4
+Sudden Sound — Causes a very loud, sudden sound next to the target’s ears. The target is stunned for 1 round per 5 failure.
+
+@@ 5
+Sound Control V — As Sound Control I, except radius is 50'.
+
+@@ 6
+Sound Glamour — One object (up to 10 pounds per level) has its sound altered for the duration of the spell. Note that the no other aspect of the object changes.
+
+@@ 7
+Deafen — Target cannot hear sounds occurring more than 6" from his ears, and no one can hear him speak from more than 6" away.
+
+@@ 8
+Silence V — As Silence I, except radius is 50'.
+
+@@ 9
+Minor Ultrasonics — All beings within area of effect capable of hearing ultrasonic sounds (except for the caster) are stunned for 1 round per 10 failure. Animals capable of hearing ultrasonics will panic and flee. must be made each round while in radius.
+
+@@ 10
+Sound Control X — As Sound Control I, except radius is
+
+@@ 11
+Sudden Sound Sphere — As Sudden Sound, except everyone the area of effect is affected.
+
+@@ 12
+Sound Terrain — All of the terrain in the area of effect will have sounds that are different than it actually has. The caster may designate in what way the terrain sounds different. For example, an open plain could be made to sound like a rustling forset. Note that only the audio aspect of the terrain changes.
+
+@@ 13
+Silence X — As Silence I, except radius is 100'.
+
+@@ 14
+Deafen Sphere — As Deafen, except everyone in a 10'R is affected.
+
+@@ 15
+Greater Sound Control — As Sound Control I, except radius is 10'/lvl.
+
+@@ 16
+Long Silence — As Silence I, except for range.
+
+@@ 17
+Long Sound Control — As Sound Control I, except for range.
+
+@@ 18
+Long Sudden Sound — As Sudden Sound, except for range.
+
+@@ 19
+Long Deafen — As Deafen, except for range.
+
+@@ 20
+Mass Deafening — As Deafen, except as many targets as the caster’s level can be affected.
+
+@@ 25
+Mass Silence — As Silence I, except as many targets as the caster’s level can have a 1'R silence on them.
+
+@@ 30
+Sound Control True — As Sound Control, except radius is 20'/lvl and the caster does not have to concentrate.
+
+@@ 50
+Major Ultrasonics — As Minor Ultrasonics, except everyone (except for the caster) in a 100'R is affected. Anyone failing their RR by more than 40 is unconscious. Anyone failing their RR by more than 75 is dead. Certain spells that have a radius effect can be cast upon mobile targets (e.g., Silence). The target of these spells may make an RR. If successful, the radius will remain in the area where the target was when the spell was cast (as opposed to on the target). See Section .
