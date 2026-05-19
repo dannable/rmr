@@ -7,6 +7,7 @@ from discord import app_commands
 
 from core import (
     connect,
+    list_realms,
     list_classes,
     search_classes,
     lists_for_class,
@@ -38,12 +39,37 @@ async def class_autocomplete(interaction: discord.Interaction, current: str
     return [app_commands.Choice(name=n, value=n) for n in names]
 
 
-async def spell_list_autocomplete(interaction: discord.Interaction, current: str
-                                   ) -> list[app_commands.Choice[str]]:
+async def realm_autocomplete(interaction: discord.Interaction, current: str
+                              ) -> list[app_commands.Choice[str]]:
+    """Suggest loaded realm names (Channeling, Essence, ...)."""
     try:
         conn = connect()
         try:
-            names = search_spell_lists(conn, current, limit=25)
+            names = list_realms(conn)
+        finally:
+            conn.close()
+    except Exception:
+        names = []
+    c = current.lower()
+    return [
+        app_commands.Choice(name=n, value=n)
+        for n in names if c in n.lower()
+    ][:25]
+
+
+async def spell_list_autocomplete(interaction: discord.Interaction, current: str
+                                   ) -> list[app_commands.Choice[str]]:
+    """Spell-list name autocomplete, optionally narrowed to one realm.
+
+    When the user has already filled in a `realm:` option on the same
+    command, we read it off the interaction's namespace and forward it
+    to `search_spell_lists` so only that realm's lists show up.
+    """
+    realm = getattr(interaction.namespace, "realm", None)
+    try:
+        conn = connect()
+        try:
+            names = search_spell_lists(conn, current, limit=25, realm=realm)
         finally:
             conn.close()
     except Exception:
@@ -113,24 +139,33 @@ def register(tree: app_commands.CommandTree) -> None:
             conn.close()
 
     # ============================================================
-    # /spell-list <list_name> — full spell list with parameters
+    # /spell-list [realm] <list_name> — full spell list with parameters
     # ============================================================
     @tree.command(
         name="spell-list",
         description="Show all spells on a spell list (level + name + parameters).",
     )
-    @app_commands.describe(list_name="Spell list name (autocomplete)")
-    @app_commands.autocomplete(list_name=spell_list_autocomplete)
+    @app_commands.describe(
+        list_name="Spell list name (autocomplete)",
+        realm="Optional realm filter — narrows the list_name autocomplete.",
+    )
+    @app_commands.autocomplete(
+        list_name=spell_list_autocomplete,
+        realm=realm_autocomplete,
+    )
     async def cmd_spell_list(
         interaction: discord.Interaction,
         list_name: str,
+        realm: str | None = None,
     ) -> None:
         conn = connect()
         try:
-            meta = get_spell_list(conn, list_name)
+            meta = get_spell_list(conn, list_name, realm=realm)
             if meta is None:
+                suffix = f" in realm `{realm}`" if realm else ""
                 await interaction.response.send_message(
-                    f"Spell list `{list_name}` not found.", ephemeral=True,
+                    f"Spell list `{list_name}`{suffix} not found.",
+                    ephemeral=True,
                 )
                 return
             spells = spells_on_list(conn, meta["list_id"])
@@ -142,7 +177,7 @@ def register(tree: app_commands.CommandTree) -> None:
             conn.close()
 
     # ============================================================
-    # /spell <list_name> <level> — full spell detail with description
+    # /spell [realm] <list_name> <level> — full spell detail with description
     # ============================================================
     @tree.command(
         name="spell",
@@ -151,19 +186,25 @@ def register(tree: app_commands.CommandTree) -> None:
     @app_commands.describe(
         list_name="Spell list the spell belongs to (autocomplete)",
         level="Spell's slot on the list (1-50)",
+        realm="Optional realm filter — narrows the list_name autocomplete.",
     )
-    @app_commands.autocomplete(list_name=spell_list_autocomplete)
+    @app_commands.autocomplete(
+        list_name=spell_list_autocomplete,
+        realm=realm_autocomplete,
+    )
     async def cmd_spell(
         interaction: discord.Interaction,
         list_name: str,
         level: app_commands.Range[int, 1, 50],
+        realm: str | None = None,
     ) -> None:
         conn = connect()
         try:
-            spell = get_spell(conn, list_name, level)
+            spell = get_spell(conn, list_name, level, realm=realm)
             if spell is None:
+                suffix = f" in realm `{realm}`" if realm else ""
                 await interaction.response.send_message(
-                    f"No spell at `{list_name}` level `{level}`.",
+                    f"No spell at `{list_name}` level `{level}`{suffix}.",
                     ephemeral=True,
                 )
                 return

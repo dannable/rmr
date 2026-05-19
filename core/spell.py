@@ -77,26 +77,64 @@ def list_spell_lists(conn: sqlite3.Connection) -> list[dict]:
     ).fetchall()]
 
 
+def list_realms(conn: sqlite3.Connection) -> list[str]:
+    """All loaded realm names, alphabetical (`['Channeling', 'Essence']` today)."""
+    return [r[0] for r in conn.execute(
+        "SELECT name FROM spell_realm ORDER BY name"
+    ).fetchall()]
+
+
 def search_spell_lists(conn: sqlite3.Connection, prefix: str,
-                       limit: int = 25) -> list[str]:
-    rows = conn.execute(
-        "SELECT name FROM spell_list WHERE LOWER(name) LIKE LOWER(?) "
-        "ORDER BY name LIMIT ?",
-        (f"%{prefix}%", limit),
-    ).fetchall()
+                       limit: int = 25,
+                       realm: str | None = None) -> list[str]:
+    """Substring search across spell-list names. Pass `realm` (case-insensitive)
+    to scope results to a single realm — useful when the bot's /spell or
+    /spell-list commands narrow the autocomplete after the user picks a realm.
+    """
+    if realm:
+        rows = conn.execute(
+            """SELECT sl.name FROM spell_list sl
+                 JOIN spell_realm sr ON sl.realm_id = sr.realm_id
+                WHERE LOWER(sl.name) LIKE LOWER(?)
+                  AND LOWER(sr.name) = LOWER(?)
+                ORDER BY sl.name LIMIT ?""",
+            (f"%{prefix}%", realm, limit),
+        ).fetchall()
+    else:
+        rows = conn.execute(
+            "SELECT name FROM spell_list WHERE LOWER(name) LIKE LOWER(?) "
+            "ORDER BY name LIMIT ?",
+            (f"%{prefix}%", limit),
+        ).fetchall()
     return [r[0] for r in rows]
 
 
-def get_spell_list(conn: sqlite3.Connection, name: str) -> dict | None:
-    """Look up a spell list by name (case-insensitive). Returns None if absent."""
-    row = conn.execute(
-        """SELECT sl.list_id, sl.name, sl.list_number, sl.category,
-                  sr.name AS realm_name
-             FROM spell_list sl
-             JOIN spell_realm sr USING (realm_id)
-            WHERE LOWER(sl.name) = LOWER(?)""",
-        (name,),
-    ).fetchone()
+def get_spell_list(conn: sqlite3.Connection, name: str,
+                   realm: str | None = None) -> dict | None:
+    """Look up a spell list by name (case-insensitive). Returns None if absent.
+
+    Pass `realm` to disambiguate when the same list name exists in two realms;
+    without it, the first match by realm-then-name order wins.
+    """
+    if realm:
+        row = conn.execute(
+            """SELECT sl.list_id, sl.name, sl.list_number, sl.category,
+                      sr.name AS realm_name
+                 FROM spell_list sl
+                 JOIN spell_realm sr USING (realm_id)
+                WHERE LOWER(sl.name) = LOWER(?)
+                  AND LOWER(sr.name) = LOWER(?)""",
+            (name, realm),
+        ).fetchone()
+    else:
+        row = conn.execute(
+            """SELECT sl.list_id, sl.name, sl.list_number, sl.category,
+                      sr.name AS realm_name
+                 FROM spell_list sl
+                 JOIN spell_realm sr USING (realm_id)
+                WHERE LOWER(sl.name) = LOWER(?)""",
+            (name,),
+        ).fetchone()
     return dict(row) if row else None
 
 
@@ -128,20 +166,37 @@ def classes_for_list(conn: sqlite3.Connection, list_id: int) -> list[str]:
 # individual spell lookup + search
 # ---------------------------------------------------------------------------
 
-def get_spell(conn: sqlite3.Connection, list_name: str,
-              level: int) -> dict | None:
-    """Look up one spell by its list name + level."""
-    row = conn.execute(
-        """SELECT s.level, s.name, s.area_effect, s.duration, s.range_str,
-                  s.spell_type, s.starred, s.description,
-                  sl.name AS list_name, sl.list_number, sl.category,
-                  sr.name AS realm_name
-             FROM spell s
-             JOIN spell_list sl ON s.list_id = sl.list_id
-             JOIN spell_realm sr ON sl.realm_id = sr.realm_id
-            WHERE LOWER(sl.name) = LOWER(?) AND s.level = ?""",
-        (list_name, level),
-    ).fetchone()
+def get_spell(conn: sqlite3.Connection, list_name: str, level: int,
+              realm: str | None = None) -> dict | None:
+    """Look up one spell by its list name + level.
+
+    Pass `realm` to disambiguate when the same list name exists in two realms.
+    """
+    if realm:
+        row = conn.execute(
+            """SELECT s.level, s.name, s.area_effect, s.duration, s.range_str,
+                      s.spell_type, s.starred, s.description,
+                      sl.name AS list_name, sl.list_number, sl.category,
+                      sr.name AS realm_name
+                 FROM spell s
+                 JOIN spell_list sl ON s.list_id = sl.list_id
+                 JOIN spell_realm sr ON sl.realm_id = sr.realm_id
+                WHERE LOWER(sl.name) = LOWER(?) AND s.level = ?
+                  AND LOWER(sr.name) = LOWER(?)""",
+            (list_name, level, realm),
+        ).fetchone()
+    else:
+        row = conn.execute(
+            """SELECT s.level, s.name, s.area_effect, s.duration, s.range_str,
+                      s.spell_type, s.starred, s.description,
+                      sl.name AS list_name, sl.list_number, sl.category,
+                      sr.name AS realm_name
+                 FROM spell s
+                 JOIN spell_list sl ON s.list_id = sl.list_id
+                 JOIN spell_realm sr ON sl.realm_id = sr.realm_id
+                WHERE LOWER(sl.name) = LOWER(?) AND s.level = ?""",
+            (list_name, level),
+        ).fetchone()
     return dict(row) if row else None
 
 
