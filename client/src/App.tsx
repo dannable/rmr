@@ -12,7 +12,12 @@ import {
 import { fetchMe, logout, UnauthenticatedError, type Me } from "./api";
 import { CharacterDetailPage } from "./pages/CharacterDetail";
 import { CharacterListPage } from "./pages/CharacterList";
+import { ClassListsPage } from "./pages/ClassLists";
 import { NewCharacterPage } from "./pages/NewCharacter";
+import { SpellDetailPage } from "./pages/SpellDetail";
+import { SpellEditPage } from "./pages/SpellEdit";
+import { SpellListDetailPage } from "./pages/SpellListDetail";
+import { SpellsHomePage } from "./pages/SpellsHome";
 
 export function App() {
   return (
@@ -21,6 +26,11 @@ export function App() {
         <Route path="/" element={<RequireAuth><CharacterListPage /></RequireAuth>} />
         <Route path="/characters/new" element={<RequireAuth><NewCharacterPage /></RequireAuth>} />
         <Route path="/characters/:id" element={<RequireAuth><CharacterDetailPage /></RequireAuth>} />
+        <Route path="/spells" element={<RequireAuth><SpellsHomePage /></RequireAuth>} />
+        <Route path="/spells/classes/:className" element={<RequireAuth><ClassListsPage /></RequireAuth>} />
+        <Route path="/spells/lists/:listId" element={<RequireAuth><SpellListDetailPage /></RequireAuth>} />
+        <Route path="/spells/lists/:listId/spells/:level" element={<RequireAuth><SpellDetailPage /></RequireAuth>} />
+        <Route path="/spells/lists/:listId/spells/:level/edit" element={<RequireAuth><SpellEditPage /></RequireAuth>} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
@@ -98,14 +108,16 @@ function AppShell({ me, children }: { me: Me; children: ReactNode }) {
             rmr
           </Link>
         </h1>
-        <div style={{ fontSize: 13, color: "#666" }}>
-          <span style={{ marginRight: 12 }}>
+        <nav style={{ display: "flex", gap: 16, alignItems: "baseline", fontSize: 13 }}>
+          <Link to="/" style={{ color: "#444" }}>Characters</Link>
+          <Link to="/spells" style={{ color: "#444" }}>Spells</Link>
+          <span style={{ color: "#666" }}>
             {me.discord_username ?? me.discord_id}
           </span>
           <button className="btn-link" onClick={() => logoutM.mutate()}>
             Sign out
           </button>
-        </div>
+        </nav>
       </header>
       {children}
     </Layout>

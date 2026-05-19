@@ -113,3 +113,109 @@ export const updateCharacterStats = (
     method: "PUT",
     body: JSON.stringify({ stats }),
   });
+
+// ---- spells ------------------------------------------------------------
+
+export interface SpellClassRow {
+  class_name: string;
+  realm_name: string;
+}
+
+export interface SpellListRow {
+  list_id: number;
+  name: string;
+  list_number: string;
+  category: string;
+  realm_name: string;
+}
+
+export interface ClassListRow {
+  name: string;
+  list_number: string;
+  category: string;
+}
+
+export interface SpellListDetail {
+  list_id: number;
+  name: string;
+  list_number: string;
+  category: string;
+  realm_name: string;
+  classes: string[];
+}
+
+export interface SpellSummary {
+  level: number;
+  name: string;
+  area_effect: string | null;
+  duration: string | null;
+  range_str: string | null;
+  spell_type: string | null;
+  starred: boolean;
+}
+
+export interface Spell {
+  list_id: number;
+  list_name: string;
+  list_number: string;
+  category: string;
+  realm_name: string;
+  level: number;
+  name: string;
+  area_effect: string | null;
+  duration: string | null;
+  range_str: string | null;
+  spell_type: string | null;
+  starred: boolean;
+  description: string | null;
+  updated_at: string | null;
+  updated_by_user_id: number | null;
+}
+
+export interface SpellUpdate {
+  name?: string;
+  area_effect?: string | null;
+  duration?: string | null;
+  range_str?: string | null;
+  spell_type?: string | null;
+  description?: string | null;
+  starred?: boolean;
+}
+
+export interface SpellSearchHit {
+  level: number;
+  name: string;
+  spell_type: string | null;
+  list_name: string;
+  list_number: string;
+  category: string;
+}
+
+export const fetchSpellClasses = () =>
+  api<SpellClassRow[]>("/api/v1/spells/classes");
+
+export const fetchClassLists = (className: string) =>
+  api<ClassListRow[]>(`/api/v1/spells/classes/${encodeURIComponent(className)}/lists`);
+
+export const fetchSpellLists = () =>
+  api<SpellListRow[]>("/api/v1/spells/lists");
+
+export const fetchSpellList = (listId: number) =>
+  api<SpellListDetail>(`/api/v1/spells/lists/${listId}`);
+
+export const fetchListSpells = (listId: number) =>
+  api<SpellSummary[]>(`/api/v1/spells/lists/${listId}/spells`);
+
+export const fetchSpell = (listId: number, level: number) =>
+  api<Spell>(`/api/v1/spells/lists/${listId}/spells/${level}`);
+
+export const updateSpell = (listId: number, level: number, body: SpellUpdate) =>
+  api<Spell>(`/api/v1/spells/lists/${listId}/spells/${level}`, {
+    method: "PUT",
+    body: JSON.stringify(body),
+  });
+
+export const searchSpellsByName = (q: string, limit = 25) =>
+  api<SpellSearchHit[]>(
+    `/api/v1/spells/search?q=${encodeURIComponent(q)}&limit=${limit}`,
+  );
