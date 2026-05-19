@@ -18,7 +18,12 @@ x-rmr-image: &rmr-image
   environment:
     DB_PATH: /app/db/rmfrp.db
   volumes:
-    - ./data:/app/data:ro
+    # data/ is read-write so the web edit endpoint can re-serialize a
+    # spell list's .txt file after a save. The host's working tree IS
+    # the source of truth — operator commits prod edits back to git
+    # periodically. Pulls into a dirty data/ will conflict, so commit
+    # (or stash) prod-side changes before `git pull`.
+    - ./data:/app/data
     - ./db:/app/db
 
 services:
