@@ -1,6 +1,7 @@
 # Spell List 3.4.2 — Fire Law (Base)
-# Transcribed (summary chart only — Phase 1) from author-supplied PDF
-# X:\RMFRPSuite\spell law - essence.pdf.
+# Generated from rmfrp.db on 2026-05-19T22:47:33+00:00.
+# Source of truth: this file. The web edit endpoint regenerates it
+# atomically whenever a spell on this list is changed.
 #
 @realm:    Essence
 @name:     Fire Law
@@ -10,7 +11,7 @@
 #
 # Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
 # A trailing '*' in the source chart (a Concentration / continuing-effect
-# marker) is recorded in the @starred slot rather than the name.
+# marker) is recorded as the starred flag rather than in the name.
 #
  1 | Boil Liquid | 1 cu'/lvl | C | 10' | F
  2 | Warm Solid | 1 cu'/lvl | 24 hr | 10' | F
@@ -57,7 +58,8 @@ Wall of Fire — Creates an opaque wall of fire (up to 10' x 10'
 Heat Solid — As Warm Solid, except for duration and material Spell Law can be heated to 500˚F at a rate of 50˚F per round. The caster
 
 @@ 6
-Fire Bolt I — A bolt of fire is shot from the palm of the caster. Section for more information on walls (and spell Resolve attack on the Fire Bolt Table. effects on walls).
+Fire Bolt I — A bolt of fire is shot from the palm of the caster.
+Resolve attack on the Fire Bolt Table.
 
 @@ 7
 Call Flame I — As Wall of Fire, except it creates a cube of flame (up to 10' x 10' x 10'). The cube takes a complete round to form and be effective. Anyone passing through (or that is caught inside) the cube takes an 'A' Heat critical.

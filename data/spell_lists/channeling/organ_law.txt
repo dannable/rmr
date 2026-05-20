@@ -1,6 +1,7 @@
 # Spell List 2.2.9 — Organ Law (Closed)
-# Transcribed (summary chart only — Phase 1) from author-supplied PDF
-# X:\RMFRPSuite\spell law - channeling.pdf.
+# Generated from rmfrp.db on 2026-05-19T22:39:27+00:00.
+# Source of truth: this file. The web edit endpoint regenerates it
+# atomically whenever a spell on this list is changed.
 #
 @realm:    Channeling
 @name:     Organ Law
@@ -9,7 +10,7 @@
 #
 # Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
 # A trailing '*' in the source chart (a Concentration / continuing-effect
-# marker) is recorded in the @starred slot rather than the name.
+# marker) is recorded as the starred flag rather than in the name.
 #
  1 | Organ Lore | 1 target | — | touch | I
  3 | Nasal Repair | 1 target | P | touch | U
@@ -33,7 +34,7 @@
 # Multi-paragraph text is preserved; whitespace is normalised.
 #
 @@ 1
-Organ Lore — Caster acquires complete understanding of any organ damage, including the tools and the methods required for healing; caster does not receive the skill or power to perform the RGAN AW cure.
+Organ Lore — Caster acquires complete understanding of any organ damage, including the tools and the methods required for healing; caster does not receive the skill or power to perform the cure.
 
 @@ 3
 Nasal Repair —Allows caster to repair any nose damage short of complete nose loss; requires 6-60 minutes depending on damage.

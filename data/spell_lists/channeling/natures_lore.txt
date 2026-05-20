@@ -1,6 +1,7 @@
 # Spell List 2.3.3 — Nature's Lore (Base)
-# Transcribed (summary chart only — Phase 1) from author-supplied PDF
-# X:\RMFRPSuite\spell law - channeling.pdf.
+# Generated from rmfrp.db on 2026-05-20T01:21:50+00:00.
+# Source of truth: this file. The web edit endpoint regenerates it
+# atomically whenever a spell on this list is changed.
 #
 @realm:    Channeling
 @name:     Nature's Lore
@@ -10,7 +11,7 @@
 #
 # Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
 # A trailing '*' in the source chart (a Concentration / continuing-effect
-# marker) is recorded in the @starred slot rather than the name.
+# marker) is recorded as the starred flag rather than in the name.
 #
  1 | Trap Detection | 5'R | 1 min/lvl | 50' | P
  2 | Nature's Awareness | I 100'R | C | self | I
@@ -51,13 +52,14 @@ Nature’s Awareness I — Caster can monitor animate activity in the area of ef
 Pathfinding — Caster learns the location(s) of any “path(s)” within 100'. The spell gives the nearest point on the path, but not the path’s course.
 
 @@ 4
-Detect Magic — Caster has a 75% chance of detecting active magic in the area of effect. The caster can concentrate on a
+Detect Magic — Caster has a 75% chance of detecting active magic in the area of effect. The caster can concentrate on a different area each round. There must be living plants or animals
+in the  area of effect or no information will be gained.
 
 @@ 5
-Weather Prediction I — Give a 95% chance of predicting with any elemental force within range. The elemental force time, type, and severity of weather over the next 24 hour period. must be able to communicate with the caster (i.e., this spell does
+Weather Prediction I — Give a 95% chance of predicting time, type, and severity of weather over the next 24 hour period.
 
 @@ 6
-Nature’s Awareness II — As Nature’s Awareness I, except not confer communication abilities upon the force). Elemental for the area of effect. forces include all magically created elementals, water spirits, forest spirits, etc.
+Nature’s Awareness II — As Nature’s Awareness I, except for the area of effect.
 
 @@ 7
 Weather Prediction III — As Weather Prediction I, except

@@ -1,6 +1,7 @@
 # Spell List 2.8.5 — Necromancy (Base)
-# Transcribed (summary chart only — Phase 1) from author-supplied PDF
-# X:\RMFRPSuite\spell law - channeling.pdf.
+# Generated from rmfrp.db on 2026-05-19T21:25:32+00:00.
+# Source of truth: this file. The web edit endpoint regenerates it
+# atomically whenever a spell on this list is changed.
 #
 @realm:    Channeling
 @name:     Necromancy
@@ -10,7 +11,7 @@
 #
 # Format: <level> | <spell_name> | <area_effect> | <duration> | <range> | <type>
 # A trailing '*' in the source chart (a Concentration / continuing-effect
-# marker) is recorded in the @starred slot rather than the name.
+# marker) is recorded as the starred flag rather than in the name.
 #
  1 | Animate Dead I | 1 corpse | 1 min/lvl(C) | 100' | U
  2 | Control Undead I * | 1 undead | C | 100' | E
@@ -40,7 +41,7 @@
 # Multi-paragraph text is preserved; whitespace is normalised.
 #
 @@ 1
-Animate Dead I — Caster can cause any dead body (within E 50% of his own mass), to rise up and move. The caster must concentrate for the body to perform action; if he stops concenECROMANCY tration, the body will stand motionless. The body can be maneuvered with a -25 modifier, and can melee with a -20 OB. Body cannot have been dead more than 1 day. Use Created Undead stats from Creatures & Monsters except the Undead with have a Move Rate of 25 and an OB of -20.
+Animate Dead I — Caster can cause any dead body (within E 50% of his own mass), to rise up and move. The caster must concentrate for the body to perform action; if he stops concentration, the body will stand motionless. The body can be maneuvered with a -25 modifier, and can melee with a -20 OB. Body cannot have been dead more than 1 day. Use Created Undead stats from Creatures & Monsters except the Undead with have a Move Rate of 25 and an OB of -20.
 
 @@ 2
 Control Undead I — Caster can control one Class I Undead. When this spell is cast, there is a flat 2% per Class of the Undead that the Undead will resist the spell.
