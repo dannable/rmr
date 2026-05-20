@@ -14,11 +14,11 @@
 #
  1 | Summon Nourishment | 1 creature | — | varies | U
  2 | Summon Warmth | 1 creature | 8 hours | varies | U
- 3 | Summon Guide | 1 creature 24 | hours (C) | varies | U
+ 3 | Summon Guide | 1 creature | 24 hours (C) | varies | U
  4 | Summon Guardian | 1 creature | 8 hours | varies | U
  5 | Summon Mount | 1 creature | 24 hours | varies | U
  6 | Summon Hunter | 1 creature | — | varies | U
- 7 | Summon Sense | 1 creature 24 | hours (C) | varies | U
+ 7 | Summon Sense | 1 creature | 24 hours (C) | varies | U
  9 | Summon Group | 1 group | 24 hours | varies | U
 10 | Mass Summons | 1 creature/lvl | varies | varies | U
 12 | Spread Plants | 20'R | P | 10' | U

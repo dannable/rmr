@@ -20,7 +20,7 @@
  8 | Dark Blinding * | 1 target | 1 hr/10 fail | 100' | F
 10 | Black Channel I * | 1 target | — | varies | F
 11 | Channels V * | 1 spell | — | varies | U
-13 | Absolution * | 1 target 1 | week/10 fail | 50' | F
+13 | Absolution * | 1 target | 1 week/10 fail | 50' | F
 15 | Black Channel II * | 1 target | — | varies | F
 16 | Channel Opening II | 1 being | C 10 | mile/lvl | U
 17 | Channel VII * | 1 spell | — | varies | U

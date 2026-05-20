@@ -19,7 +19,7 @@
  6 | Green Tongue | 1 target | special | 100' | F
  7 | Sea Curse | 1 target | special | 100' | F
  8 | Curse of Furd | 1 target | special | 100' | F
- 9 | Excommunication | 1 target 1 | day/10 fail | 100' | F
+ 9 | Excommunication | 1 target | 1 day/10 fail | 100' | F
 10 | Learning of Mins | 1 target | special | 100' | F
 11 | Curse of Shar Bu | 1 target | special | 100' | F
 12 | Power Leech | 1 target | special | 100' | F

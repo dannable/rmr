@@ -13,7 +13,7 @@
 # marker) is recorded in the @starred slot rather than the name.
 #
  1 | Repel Undead I | varies | 1 min/lvl | 100' | F
- 2 | Detect Undead | 10'R 1 | min/lvl(C) | 10'/lvl | P
+ 2 | Detect Undead | 10'R | 1 min/lvl(C) | 10'/lvl | P
  3 | Repel Undead III | varies. | 1 min/lvl | 100' | F
  4 | Repel Demon I | 5'R/lvl | C | 10' | F
  5 | Repel Undead V | varies | 1 min/lvl | 100' | F
