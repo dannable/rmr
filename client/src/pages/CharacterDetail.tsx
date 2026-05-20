@@ -7,6 +7,7 @@ import {
   HttpError,
   type Character,
 } from "../api";
+import { RacePicker } from "../components/RacePicker";
 import { StatsEditor } from "../components/StatsEditor";
 
 export function CharacterDetailPage() {
@@ -58,7 +59,10 @@ function CharacterDetail({ characterId }: { characterId: number }) {
       <Link to="/" style={{ fontSize: 13, color: "#666" }}>← Back</Link>
 
       <h2 style={{ marginTop: 8 }}>{c.name}</h2>
-      <p style={{ color: "#666" }}>Level {c.level}</p>
+      <p style={{ color: "#666" }}>
+        Level {c.level}
+        {c.race_name && <span style={{ marginLeft: 8 }}> · {c.race_name}</span>}
+      </p>
 
       <hr />
 
@@ -80,12 +84,16 @@ function CharacterDetail({ characterId }: { characterId: number }) {
 
       <hr />
 
+      <RacePicker character={c} />
+
+      <hr />
+
       <StatsEditor characterId={c.character_id} />
 
       <hr />
 
       <p style={{ color: "#888", fontSize: 13 }}>
-        Next: race, culture, profession picker. Skill DP allocator after that.
+        Next: culture + profession picker. Skill DP allocator after that.
       </p>
 
       <div style={{ marginTop: 24 }}>

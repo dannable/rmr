@@ -195,6 +195,46 @@ CREATE TABLE IF NOT EXISTS app_user (
 CREATE INDEX IF NOT EXISTS idx_app_user_discord_id ON app_user(discord_id);
 
 -- =========================================================================
+-- Chargen reference data: races.
+-- =========================================================================
+-- One row per playable race. Loaded from data/chargen/races/<slug>.txt via
+-- load.py with INSERT ... ON CONFLICT(slug) DO UPDATE so the race_id stays
+-- stable across reference-data reloads (characters reference race_id).
+--
+-- Stat / RR modifiers are stored as plain INTEGER columns (one per code).
+-- Development "progression" sequences come from the source PDF as e.g.
+-- "0 • 7 • 5 • 3 • 1" and are stored verbatim as TEXT; the caller parses.
+
+CREATE TABLE IF NOT EXISTS race (
+    race_id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    slug             TEXT    NOT NULL UNIQUE,    -- e.g. "high_men", "dwarves"
+    name             TEXT    NOT NULL UNIQUE,    -- e.g. "High Men", "Dwarves"
+    -- Stat modifiers (RMSS T-1.1). Range observed: -5..+10 in source data.
+    stat_ag  INTEGER NOT NULL DEFAULT 0,
+    stat_co  INTEGER NOT NULL DEFAULT 0,
+    stat_me  INTEGER NOT NULL DEFAULT 0,
+    stat_re  INTEGER NOT NULL DEFAULT 0,
+    stat_sd  INTEGER NOT NULL DEFAULT 0,
+    stat_em  INTEGER NOT NULL DEFAULT 0,
+    stat_in  INTEGER NOT NULL DEFAULT 0,
+    stat_pr  INTEGER NOT NULL DEFAULT 0,
+    stat_qu  INTEGER NOT NULL DEFAULT 0,
+    stat_st  INTEGER NOT NULL DEFAULT 0,
+    -- Resistance Roll modifiers (RMSS T-1.1).
+    rr_ess   INTEGER NOT NULL DEFAULT 0,
+    rr_chan  INTEGER NOT NULL DEFAULT 0,
+    rr_ment  INTEGER NOT NULL DEFAULT 0,
+    rr_pois  INTEGER NOT NULL DEFAULT 0,
+    rr_dis   INTEGER NOT NULL DEFAULT 0,
+    -- Background option count + per-progression DP costs (verbatim TEXT).
+    bg_opts        INTEGER NOT NULL DEFAULT 0,
+    body_dev_prog  TEXT    NOT NULL DEFAULT '',
+    chan_pp_prog   TEXT    NOT NULL DEFAULT '',
+    ess_pp_prog    TEXT    NOT NULL DEFAULT '',
+    ment_pp_prog   TEXT    NOT NULL DEFAULT ''
+);
+
+-- =========================================================================
 -- Characters (web layer)
 -- =========================================================================
 -- A character is owned by exactly one app_user. As of this milestone the
@@ -209,7 +249,13 @@ CREATE TABLE IF NOT EXISTS character (
     name           TEXT    NOT NULL,
     level          INTEGER NOT NULL DEFAULT 1,
     created_at     TEXT    NOT NULL,           -- ISO-8601 UTC
-    updated_at     TEXT    NOT NULL            -- ISO-8601 UTC
+    updated_at     TEXT    NOT NULL,           -- ISO-8601 UTC
+    -- Chargen progress columns. Nullable so a blank character can sit at
+    -- step 1 (stats) without forcing a downstream choice. The race FK
+    -- uses SET NULL so a reference-data reload that wipes race rows
+    -- doesn't cascade-delete characters — though in practice the race
+    -- loader uses ON CONFLICT(slug) DO UPDATE so race_id stays stable.
+    race_id        INTEGER REFERENCES race(race_id) ON DELETE SET NULL
 );
 
 CREATE INDEX IF NOT EXISTS idx_character_owner ON character(owner_user_id);
