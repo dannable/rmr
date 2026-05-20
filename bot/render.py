@@ -298,10 +298,20 @@ def _spell_list_color(category: str) -> int:
 
 
 def class_lists_embed(class_name: str, lists: list[dict]) -> discord.Embed:
-    """Render all spell lists accessible to one class, grouped by category."""
+    """Render all spell lists accessible to one class, grouped by category.
+
+    Open/Closed section labels carry the realm name (e.g. "Open Essence")
+    rather than a hardcoded "Channeling" — a class belongs to exactly one
+    realm, so we read it off any row in the result set.
+    """
     by_cat: dict[str, list[dict]] = {"Base": [], "Open": [], "Closed": []}
     for li in lists:
         by_cat.setdefault(li["category"], []).append(li)
+    # Every row carries the same realm (a class lives in one realm); the
+    # `or "Channeling"` is a defensive fallback for the empty-result case
+    # where we wouldn't reach the loop anyway.
+    realm = next((li.get("realm_name") for li in lists if li.get("realm_name")),
+                 "Channeling")
     embed = discord.Embed(
         title=f"{class_name} — spell lists",
         color=COLOR_SPELL_BASE,
@@ -309,7 +319,7 @@ def class_lists_embed(class_name: str, lists: list[dict]) -> discord.Embed:
     for cat, items in by_cat.items():
         if not items:
             continue
-        label = f"{cat} Lists" if cat == "Base" else f"{cat} Channeling"
+        label = f"{cat} Lists" if cat == "Base" else f"{cat} {realm}"
         lines = [f"`{i['list_number']}` — {i['name']}" for i in items]
         embed.add_field(name=label, value="\n".join(lines), inline=False)
     if not any(by_cat.values()):

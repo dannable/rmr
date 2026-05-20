@@ -48,10 +48,12 @@ def lists_for_class(conn: sqlite3.Connection, class_name: str) -> list[dict]:
     then by list_number within each category.
     """
     rows = conn.execute(
-        """SELECT sl.name, sl.list_number, sl.category
+        """SELECT sl.name, sl.list_number, sl.category,
+                  sr.name AS realm_name
              FROM spell_list sl
              JOIN class_spell_list csl ON sl.list_id = csl.list_id
              JOIN spell_class sc ON sc.class_id = csl.class_id
+             JOIN spell_realm sr ON sl.realm_id = sr.realm_id
             WHERE sc.name = ?
             ORDER BY CASE sl.category
                        WHEN 'Base'   THEN 1
