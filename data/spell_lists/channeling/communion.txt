@@ -12,16 +12,16 @@
 # A trailing '*' in the source chart (a Concentration / continuing-effect
 # marker) is recorded in the @starred slot rather than the name.
 #
- 1 | Detect Enemies | 50'R 1 min/lvl(C) |  | 100'/lvl | P
- 2 | Cancel Channeling | caster 1 | min/lvl | self | F
- 3 | Cancel Essence | caster 1 | min/lvl | self | F
- 4 | Cancel Mentalism | caster 1 | min/lvl | self | F
+ 1 | Detect Enemies | 50'R | 1 min/lvl(C) | 100'/lvl | P
+ 2 | Cancel Channeling | caster | 1 min/lvl | self | F
+ 3 | Cancel Essence | caster | 1 min/lvl | self | F
+ 4 | Cancel Mentalism | caster | 1 min/lvl | self | F
  5 | Dreams I | caster | sleep | self | I
- 6 | Enemy Speech | caster 1 | min/lvl | self | I
+ 6 | Enemy Speech | caster | 1 min/lvl | self | I
  7 | Dispel Channeling I | 1 target | — | 10' | F
  8 | Dispel Essence I | 1 target | — | 10' | F
  9 | Dispel Mentalism I | 1 target | — | 10' | F
-10 | Detect Enemies II | 100'R 1 min/lvl(C) |  | 500'/lvl | P
+10 | Detect Enemies II | 100'R | 1 min/lvl(C) | 500'/lvl | P
 11 | Dream III | caster | sleep | self | I
 12 | Death’s Tale | caster | — | self | I
 13 | Channel Opening I | 1 being | C 1 | mile/lvl | U
@@ -30,7 +30,7 @@
 16 | Dispel Ment. Sphere | I 10'R | C | self | F
 17 | Commune I | caster | C | self | U
 19 | Death’s Tale True | caster | — | self | I
-20 | Detect Enemies True | 200'R 1 min/lvl(C) | 1000'/lvl |  | P
+20 | Detect Enemies True | 200'R | 1 min/lvl(C) | 1000'/lvl | P
 25 | Commune True | caster | C | self | U
 30 | Channel Opening Tr. | 1 being | C 1 | mile/lvl | U
 50 | High Prayer | caster | C | self | U

@@ -24,7 +24,7 @@
 11 | Lifekeeping III | 1 body | 1 day/lvl | 10' | U
 12 | Lifegiving I | 1 body | P | 10' | U
 13 | Heal Life Essence True | 1 target | P | 10' | U
-14 | Preservation V | 1 body 1 | month/lvl | 10' | U
+14 | Preservation V | 1 body | 1 month/lvl | 10' | U
 15 | Lifegiving II | 1 body | P | 10' | U
 16 | Lifekeeping IV | 1 body | 1 week/lvl | 10' | U
 17 | Lifegiving III | 1 body | P | 10' | U

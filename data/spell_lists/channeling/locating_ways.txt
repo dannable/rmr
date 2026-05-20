@@ -13,7 +13,7 @@
 #
  2 | Guess | caster | — | self | I
  3 | Pathfinding I | caster | — | 100' | I
- 4 | Guidance | caster 10 | min/lvl(C)100'/lvl |  | E
+ 4 | Guidance | caster | 10 min/lvl(C) | 100'/lvl | E
  5 | Location I | 1 target | — | 100' | P
  6 | Pathfinding III | caster | — | 300' | I
  8 | Location III | 1 target | — | 300' | P
