@@ -52,6 +52,10 @@ export interface Character {
   level: number;
   created_at: string;
   updated_at: string;
+  // Chargen progress fields — NULL when not picked yet.
+  race_id: number | null;
+  race_slug: string | null;
+  race_name: string | null;
 }
 
 export const fetchCharacters = () =>
@@ -69,6 +73,12 @@ export const createCharacter = (name: string) =>
 export const deleteCharacter = (id: number) =>
   api<void>(`/api/v1/characters/${id}`, { method: "DELETE" });
 
+export const updateCharacterRace = (id: number, slug: string | null) =>
+  api<Character>(`/api/v1/characters/${id}/race`, {
+    method: "PUT",
+    body: JSON.stringify({ slug }),
+  });
+
 // ---- character stats ---------------------------------------------------
 
 export type StatCode = "Ag" | "Co" | "Me" | "Re" | "SD" | "Em" | "In" | "Pr" | "Qu" | "St";
@@ -82,10 +92,12 @@ export interface StatRow {
   name: string;
   temp: number;
   potential: number;
-  basic_bonus: number;
+  race_mod: number;       // T-1.1 race modifier (0 when no race set)
+  basic_bonus: number;    // T-2.1 bonus from (temp + race_mod)
 }
 
 export interface StatsRR {
+  // Race-inclusive totals from the API.
   channeling: number;
   essence: number;
   mentalism: number;
@@ -97,9 +109,15 @@ export interface StatsRR {
   fear: number;
 }
 
+export interface StatsRaceInfo {
+  slug: string;
+  name: string;
+}
+
 export interface CharacterStats {
   stats: StatRow[];
   resistance_rolls: StatsRR;
+  race: StatsRaceInfo | null;
 }
 
 export const fetchCharacterStats = (id: number) =>
@@ -113,6 +131,34 @@ export const updateCharacterStats = (
     method: "PUT",
     body: JSON.stringify({ stats }),
   });
+
+// ---- races -------------------------------------------------------------
+
+export interface RaceRRMods {
+  channeling: number;
+  essence: number;
+  mentalism: number;
+  chan_ess: number;
+  chan_ment: number;
+  ess_ment: number;
+  arcane: number;
+  poison_disease: number;
+  fear: number;
+}
+
+export interface Race {
+  slug: string;
+  name: string;
+  stat_mods: Record<StatCode, number>;
+  rr_mods: RaceRRMods;
+  bg_opts: number;
+  body_dev_prog: string;
+  chan_pp_prog: string;
+  ess_pp_prog: string;
+  ment_pp_prog: string;
+}
+
+export const fetchRaces = () => api<Race[]>("/api/v1/races");
 
 // ---- spells ------------------------------------------------------------
 

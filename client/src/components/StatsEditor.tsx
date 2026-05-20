@@ -77,10 +77,11 @@ export function StatsEditor({ characterId }: Props) {
       <table style={{ width: "100%", borderCollapse: "collapse", marginTop: 12, fontSize: 14 }}>
         <thead>
           <tr style={{ textAlign: "left", borderBottom: "1px solid #ddd" }}>
-            <th style={{ padding: "6px 4px", width: "40%" }}>Stat</th>
-            <th style={{ padding: "6px 4px", width: "20%" }}>Temp</th>
-            <th style={{ padding: "6px 4px", width: "20%" }}>Potential</th>
-            <th style={{ padding: "6px 4px", width: "20%", textAlign: "right" }}>Bonus</th>
+            <th style={{ padding: "6px 4px", width: "32%" }}>Stat</th>
+            <th style={{ padding: "6px 4px", width: "18%" }}>Temp</th>
+            <th style={{ padding: "6px 4px", width: "18%" }}>Potential</th>
+            <th style={{ padding: "6px 4px", width: "16%", textAlign: "right" }}>Race</th>
+            <th style={{ padding: "6px 4px", width: "16%", textAlign: "right" }}>Bonus</th>
           </tr>
         </thead>
         <tbody>
@@ -139,9 +140,14 @@ function StatInputRow({
   onChange: (next: { temp: number; potential: number }) => void;
 }) {
   // Recompute bonus locally so the user gets instant feedback as they type.
-  // The server is still the source of truth on save.
-  const bonus = basicStatBonusLocal(draft.temp);
+  // race_mod comes from the server-rendered row; we apply it to the live
+  // draft temp before looking up the T-2.1 bonus.
+  const effectiveTemp = draft.temp + row.race_mod;
+  const bonus = basicStatBonusLocal(effectiveTemp);
   const tempPotentialMismatch = draft.potential < draft.temp;
+  const raceTitle = row.race_mod !== 0
+    ? `Effective: ${draft.temp} + ${row.race_mod >= 0 ? "+" : ""}${row.race_mod} = ${effectiveTemp}`
+    : undefined;
 
   return (
     <tr style={{ borderBottom: "1px solid #f3f3f3" }}>
@@ -177,6 +183,17 @@ function StatInputRow({
           }}
           title={tempPotentialMismatch ? "Potential is usually >= temp" : undefined}
         />
+      </td>
+      <td
+        style={{
+          padding: "6px 4px",
+          textAlign: "right",
+          fontVariantNumeric: "tabular-nums",
+          color: row.race_mod === 0 ? "#aaa" : (row.race_mod > 0 ? "#16a34a" : "#dc2626"),
+        }}
+        title={raceTitle}
+      >
+        {row.race_mod === 0 ? "—" : (row.race_mod > 0 ? `+${row.race_mod}` : `${row.race_mod}`)}
       </td>
       <td style={{ padding: "6px 4px", textAlign: "right", fontVariantNumeric: "tabular-nums" }}>
         {bonus >= 0 ? `+${bonus}` : bonus}

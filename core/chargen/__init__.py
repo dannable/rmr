@@ -15,6 +15,14 @@ from .stats import (
     Realm,
     RR_FORMULAS,
 )
+from .race import (
+    list_races,
+    get_race_by_id,
+    get_race_by_slug,
+    race_stat_mods,
+    race_rr_mods,
+    apply_stat_mods,
+)
 
 __all__ = [
     "STAT_CODES",
@@ -25,4 +33,10 @@ __all__ = [
     "rr_bonus",
     "Realm",
     "RR_FORMULAS",
+    "list_races",
+    "get_race_by_id",
+    "get_race_by_slug",
+    "race_stat_mods",
+    "race_rr_mods",
+    "apply_stat_mods",
 ]

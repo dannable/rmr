@@ -15,6 +15,7 @@ WEAPONS_DIR = ROOT / "data" / "weapons"
 CRIT_TABLES_DIR = ROOT / "data" / "crit_tables"
 FUMBLE_TABLES_DIR = ROOT / "data" / "fumble_tables"
 SPELL_LISTS_DIR = ROOT / "data" / "spell_lists"
+RACES_DIR = ROOT / "data" / "chargen" / "races"
 
 CELL_RE = re.compile(r"^(\d{1,3})([A-F])([GKPSTU])?$")  # severity-only crit_type optional; F is the special dual-crit code on table 3.10
 
@@ -712,6 +713,134 @@ def insert_spell_lists(conn: sqlite3.Connection) -> tuple[int, int, int, int]:
 # entry point
 # ---------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# race loader (chargen reference data)
+# ---------------------------------------------------------------------------
+
+# Field aliases — race .txt files use @stat_mods / @rr_mods / @bg_opts /
+# @body_dev_prog etc. Stat / RR mods are space-separated "Code=Value" pairs.
+_RACE_STAT_KEYS: tuple[str, ...] = (
+    "Ag", "Co", "Me", "Re", "SD", "Em", "In", "Pr", "Qu", "St",
+)
+_RACE_RR_KEYS: tuple[str, ...] = ("Ess", "Chan", "Ment", "Pois", "Dis")
+
+
+def parse_race_file(path: Path) -> dict:
+    """Parse a data/chargen/races/<slug>.txt file.
+
+    Returns a dict ready to feed insert_race(). Validates that every
+    expected @key appears and that stat/RR mod tokens cover the full set.
+    """
+    meta: dict[str, str] = {}
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        kv = parse_meta_line(line)
+        if kv is None:
+            continue
+        meta[kv[0]] = kv[1]
+
+    for key in ("name", "slug", "stat_mods", "rr_mods", "bg_opts",
+                "body_dev_prog", "chan_pp_prog", "ess_pp_prog", "ment_pp_prog"):
+        if key not in meta:
+            raise ValueError(f"{path.name}: missing @{key}")
+
+    # Parse "Ag=-2 Co=+4 Me=0 ..." into a dict of code -> int.
+    def _parse_mods(s: str, allowed: tuple[str, ...]) -> dict[str, int]:
+        out: dict[str, int] = {}
+        for tok in s.split():
+            if "=" not in tok:
+                raise ValueError(f"{path.name}: bad mod token {tok!r}")
+            k, _, v = tok.partition("=")
+            if k not in allowed:
+                raise ValueError(f"{path.name}: unexpected mod key {k!r}")
+            out[k] = int(v)
+        missing = [k for k in allowed if k not in out]
+        if missing:
+            raise ValueError(f"{path.name}: missing mod keys {missing}")
+        return out
+
+    stat_mods = _parse_mods(meta["stat_mods"], _RACE_STAT_KEYS)
+    rr_mods   = _parse_mods(meta["rr_mods"],   _RACE_RR_KEYS)
+
+    return {
+        "slug":          meta["slug"],
+        "name":          meta["name"],
+        "stat_mods":     stat_mods,
+        "rr_mods":       rr_mods,
+        "bg_opts":       int(meta["bg_opts"]),
+        "body_dev_prog": meta["body_dev_prog"],
+        "chan_pp_prog":  meta["chan_pp_prog"],
+        "ess_pp_prog":   meta["ess_pp_prog"],
+        "ment_pp_prog":  meta["ment_pp_prog"],
+    }
+
+
+def insert_race(conn: sqlite3.Connection, data: dict) -> int:
+    """Upsert a race row by slug. Returns the (stable) race_id.
+
+    Using ON CONFLICT(slug) DO UPDATE keeps race_id stable across reloads,
+    which matters because characters reference race_id. (If we used DELETE
+    + INSERT, the FK SET NULL on character.race_id would clear every
+    character's race on every --reload-ref.)
+    """
+    sm = data["stat_mods"]
+    rr = data["rr_mods"]
+    conn.execute(
+        """
+        INSERT INTO race (
+            slug, name,
+            stat_ag, stat_co, stat_me, stat_re, stat_sd,
+            stat_em, stat_in, stat_pr, stat_qu, stat_st,
+            rr_ess, rr_chan, rr_ment, rr_pois, rr_dis,
+            bg_opts, body_dev_prog, chan_pp_prog, ess_pp_prog, ment_pp_prog
+        ) VALUES (?, ?,  ?, ?, ?, ?, ?,  ?, ?, ?, ?, ?,
+                  ?, ?, ?, ?, ?,  ?, ?, ?, ?, ?)
+        ON CONFLICT(slug) DO UPDATE SET
+            name           = excluded.name,
+            stat_ag        = excluded.stat_ag, stat_co = excluded.stat_co,
+            stat_me        = excluded.stat_me, stat_re = excluded.stat_re,
+            stat_sd        = excluded.stat_sd, stat_em = excluded.stat_em,
+            stat_in        = excluded.stat_in, stat_pr = excluded.stat_pr,
+            stat_qu        = excluded.stat_qu, stat_st = excluded.stat_st,
+            rr_ess         = excluded.rr_ess,  rr_chan = excluded.rr_chan,
+            rr_ment        = excluded.rr_ment, rr_pois = excluded.rr_pois,
+            rr_dis         = excluded.rr_dis,
+            bg_opts        = excluded.bg_opts,
+            body_dev_prog  = excluded.body_dev_prog,
+            chan_pp_prog   = excluded.chan_pp_prog,
+            ess_pp_prog    = excluded.ess_pp_prog,
+            ment_pp_prog   = excluded.ment_pp_prog
+        """,
+        (
+            data["slug"], data["name"],
+            sm["Ag"], sm["Co"], sm["Me"], sm["Re"], sm["SD"],
+            sm["Em"], sm["In"], sm["Pr"], sm["Qu"], sm["St"],
+            rr["Ess"], rr["Chan"], rr["Ment"], rr["Pois"], rr["Dis"],
+            data["bg_opts"],
+            data["body_dev_prog"], data["chan_pp_prog"],
+            data["ess_pp_prog"], data["ment_pp_prog"],
+        ),
+    )
+    row = conn.execute(
+        "SELECT race_id FROM race WHERE slug = ?", (data["slug"],)
+    ).fetchone()
+    return row[0]
+
+
+def insert_races(conn: sqlite3.Connection) -> int:
+    """Load every data/chargen/races/<slug>.txt into the race table."""
+    if not RACES_DIR.exists():
+        return 0
+    n = 0
+    for f in sorted(RACES_DIR.glob("*.txt")):
+        data = parse_race_file(f)
+        insert_race(conn, data)
+        n += 1
+    return n
+
+
 # Tables that hold REFERENCE data (loaded from data/). Safe to wipe-and-reload.
 # Order matters: child tables before parents for the DELETE pass.
 REF_TABLES_DELETE_ORDER: tuple[str, ...] = (
@@ -748,6 +877,11 @@ _REQUIRED_COLUMNS: tuple[tuple[str, str, str], ...] = (
         "updated_by_user_id",
         "ADD COLUMN updated_by_user_id INTEGER REFERENCES app_user(user_id) "
         "ON DELETE SET NULL",
+    ),
+    (
+        "character",
+        "race_id",
+        "ADD COLUMN race_id INTEGER REFERENCES race(race_id) ON DELETE SET NULL",
     ),
 )
 
@@ -853,9 +987,13 @@ def main() -> None:
             weapons_loaded.append((data["meta"]["name"], len(data["rows"]), n))
 
     spell_stats = insert_spell_lists(conn)
+    races_loaded = insert_races(conn)
 
     conn.commit()
     conn.close()
+
+    if races_loaded:
+        print(f"Races: {races_loaded} loaded")
 
     print(f"DB written: {DB_PATH}")
     if crit_loaded:
