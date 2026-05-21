@@ -447,7 +447,12 @@ CREATE TABLE IF NOT EXISTS skill_category_group (
     section     TEXT    NOT NULL,               -- e.g. "A-1.7"
     name        TEXT    NOT NULL,               -- e.g. "Awareness • Perceptions"
     page_div    INTEGER NOT NULL,
-    page_content INTEGER NOT NULL
+    page_content INTEGER NOT NULL,
+    -- Audit fields touched by the web edit endpoint; NULL until the first
+    -- save. updated_by_user_id may be NULL after the user's account is
+    -- deleted (ON DELETE SET NULL).
+    updated_at         TEXT,
+    updated_by_user_id INTEGER REFERENCES app_user(user_id) ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS skill_category (

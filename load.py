@@ -1305,6 +1305,13 @@ _REQUIRED_COLUMNS: tuple[tuple[str, str, str], ...] = (
         "general_mods",
         "ADD COLUMN general_mods TEXT NOT NULL DEFAULT ''",
     ),
+    ("skill_category_group", "updated_at", "ADD COLUMN updated_at TEXT"),
+    (
+        "skill_category_group",
+        "updated_by_user_id",
+        "ADD COLUMN updated_by_user_id INTEGER REFERENCES app_user(user_id) "
+        "ON DELETE SET NULL",
+    ),
 )
 
 
