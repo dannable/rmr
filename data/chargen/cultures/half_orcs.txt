@@ -21,23 +21,23 @@
 # Col R (Languages, Prejudices, Professions, OUTFITTING, BACKGROUND).
 #
 @@ half_orcs
-Half-orcs are a hideous creation, born of Man and Orc. The are often confused with Greater Orcs, but are a distinct race, sma in number but capable and deadly. Half-orcs normally ha Hillman blood in them and some are capable of blending in Hillmen societies.
+Half-orcs are a hideous creation, born of Man and Orc. They are often confused with Greater Orcs, but are a distinct race, small in number but capable and deadly. Half-orcs normally have Hillman blood in them and some are capable of blending into Hillmen societies.
 
-@@ hysical_haracter
-Build: Half-orcs are akin to Greater Orcs, but look more like da Men. Males average 150 pounds; females, 135 pounds. Coloring: Black or grey hair, black or reddish-brown eyes. Endurance: They can travel for 2 days without sleep. +10 exhaustion points (see Section 22.3). Height: Males average 5'8"; females, 5'5". Lifespan: Normally 250-500 years. Resistance: +15 DB and RR bonuses versus heat and co attacks. Special Abilities: Half-orcish vision in most darkness is at lea 300'. When there is barely any light (cloudy, moonless night upper caverns, dungeons), Half-orcs can see at least 25' pe fectly and fairly well up to 50'. In absolute darkness, they ca still see 5'.
+@@ physical_character
+Build: Half-orcs are akin to Greater Orcs, but look more like dark Men. Males average 150 pounds; females, 135 pounds. Coloring: Black or grey hair, black or reddish-brown eyes. Endurance: They can travel for 2 days without sleep. +10 to exhaustion points (see Section 22.3). Height: Males average 5'8"; females, 5'5". Lifespan: Normally 250-500 years. Resistance: +15 DB and RR bonuses versus heat and cold attacks. Special Abilities: Half-orcish vision in most darkness is at least 300'. When there is barely any light (cloudy, moonless nights; upper caverns, dungeons), Half-orcs can see at least 25' perfectly and fairly well up to 50'. In absolute darkness, they can still see 5'.
 
-@@ ulture
-Clothing & Decoration: Varies, but leather and metal armor standard with other clothing being depend upon the Orcish Mannish group they are currently associated with. Fears & Inabilities: They perfer to avoid bright sunlit places, b they are not adversely affected by sunlight. Lifestyle: Individual Half-orcs respect power and terror above a things. Their lifestyle is dependent upon the Orcish or Mannis group they are currently associated with. Marriage Pattern: This is normally dependent upon the Orcis or Mannish group they are currently associated with. Religion: Most Half-orcs worship Darkness and power.
+@@ culture
+Clothing & Decoration: Varies, but leather and metal armor is standard with other clothing being depend upon the Orcish or Mannish group they are currently associated with. Fears & Inabilities: They perfer to avoid bright sunlit places, but they are not adversely affected by sunlight.. Lifestyle: Individual Half-orcs respect power and terror above all things. Their lifestyle is dependent upon the Orcish or Mannish group they are currently associated with. . Marriage Pattern: This is normally dependent upon the Orcish or Mannish group they are currently associated with. Religion: Most Half-orcs worship Darkness and power.
 
-@@ ther_actors
-Demeanor: Half-orcs are normally cruel, jealous, petty, amb tious, selfish, and suspicious. Language: Starting Languages: Common-speech (S8/W4 Orcish (S8/W4), Black-speech (S4/W3). Allowed Adolescen Development: Common-speech (S10/W8), Orcish (S10/W8 Black-speech (S8/W8), Hill-speech (S6/W6). Prejudices: Half-orcs dislike most races, but they particulari despise Elves and High Men. Professions: No special notes. Special Skills: Everyman: none; Restricted: none.
+@@ other_factors
+. Demeanor: Half-orcs are normally cruel, jealous, petty, ambitious, selfish, and suspicious. Language: Starting Languages: Common-speech (S8/W4), Orcish (S8/W4), Black-speech (S4/W3). Allowed Adolescence. Development: Common-speech (S10/W8), Orcish (S10/W8), Black-speech (S8/W8), Hill-speech (S6/W6). Prejudices: Half-orcs dislike most races, but they particularily despise Elves and High Men. Professions: No special notes. Special Skills: Everyman: none; Restricted: none.
 
 @@ intro
-y ll ve to rk to ld st s; r- n is or Standard Hobby Skills: Acting, Ambush, Animal Handl ut Appraisal, any Armor skills, Attunement, Body Developm Bribery, Caving, Climbing, Directed Spells, Disarming Tr ll Fletching, Gambling, Hiding, Jumping, Languages, Lea h ship, Leather-crafts, Metal-crafts, Military Organization, servation, Picking Locks, Rappelling, Region Lore, Rid h Scaling, Seduction, Signaling, Sprinting, Stalking, Swimm Tactics, Tale Telling, Tracking, Trap-building, Trickery, Weapon skills, Weaving, Wood-crafts.
+Standard Hobby Skills: Acting, Ambush, Animal Handling, Appraisal, any Armor skills, Attunement, Body Development, Bribery, Caving, Climbing, Directed Spells, Disarming Traps, Fletching, Gambling, Hiding, Jumping, Languages, Leadership, Leather-crafts, Metal-crafts, Military Organization, Observation, Picking Locks, Rappelling, Region Lore, Riding, Scaling, Seduction, Signaling, Sprinting, Stalking, Swimming, Tactics, Tale Telling, Tracking, Trap-building, Trickery, any Weapon skills, Weaving, Wood-crafts.
 
-@@ utfitting_ptions
-Armor: Any. Chain and plate armor are made of utilitarian si- Money: 20 silver pieces. ), Weapons: Broadsword, club, dagger, handaxe, long bow, m ce morning star, scimitar, short bow, short sword, spear, ), hammer, whip, clawed club or clawed mace (use morning table), long sword, harpoon, poisoned arrows. ly B O
+@@ outfitting_options
+Armor: Any. Chain and plate armor are made of utilitarian steel. Money: 20 silver pieces. Weapons: Broadsword, club, dagger, handaxe, long bow, mace, morning star, scimitar, short bow, short sword, spear, war hammer, whip, clawed club or clawed mace (use morning star table), long sword, harpoon, poisoned arrows.
 
-@@ ackground_ptions
-Half-orcs get five background options. Extra Languages: In addition to the tongues listed above: No speech (S8/S8), and Wood-speech (S8/W8). Extra Money: Coinage, gems, and weapons. Special Items: All available. Most Half-orcs are equipped f the armories of their evil lords and thus have some of the fi gear. Talents: All available.
+@@ background_options
+Half-orcs get five background options. Extra Languages: In addition to the tongues listed above: Northspeech (S8/S8), and Wood-speech (S8/W8). Extra Money: Coinage, gems, and weapons. Special Items: All available. Most Half-orcs are equipped from the armories of their evil lords and thus have some of the finest gear. Talents: All available.
 
