@@ -138,5 +138,11 @@ UM 66 | Unusual Event | 100% | 1.0u | +0 | Oops! Unbeknownst to you, two rival f
 UM 100 | Unusual Success | 150% | 1.1u | +50 | Astounding! You establish your dominion over your audience quite early, and in a feeling of invincibility, you begin to improvise around the material. Your audience (and supporting cast, if applicable) is left breathless by the end of your performance, and your new interpretation of the work is the talk of the land for days to come. Your confidence soars, and you operate with a modification of +20 (non-cumulative) to this skill until you achieve a result of Absolute Failure or Spectacular Failure.
 91 — 110 | Near Success | 80% | 0.8u | +10 | You near the completion of the act. Fine tuning is all that you lack. Roll again with a +10 modification to bring it home.
 111 — 175 | Success | 100% | 1.0u | +20 | Bravo! Your performance is a success, and the enthusiastic response of your audience warms your old performer’s heart.
-176 up | Absolute Success | 120% | 1.0u | +30 | You have surpassed yourself, and your audience mobs you for autographs, bits of string from your outfit, and kisses. What will you do for an encore? Practiced piece: +(1-3 x Memory bonus) Improvisation: -20 With interactive partner: -10 7+ ranks in a specific related Lore: +10
+176 up | Absolute Success | 120% | 1.0u | +30 | You have surpassed yourself, and your audience mobs you for autographs, bits of string from your outfit, and kisses. What will you do for an encore?
 
+
+@general_mods:
+Practiced piece: +(1-3 x Memory bonus)
+Improvisation: -20
+With interactive partner: -10
+7+ ranks in a specific related Lore: +10

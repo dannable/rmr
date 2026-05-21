@@ -123,5 +123,8 @@ UM 66 | Unusual Event | | | | You don’t know your own strength! You break the 
 UM 100 | Unusual Success | | | | Adrenaline surges through you as you make your attempt; you succeed with contemptuous ease. You still have 80% activity left for the round.
 91 — 110 | Near Success | 80% | 1.0u | +10 | Argh, so close! If appropriate, you may make a roll to finish the maneuver next round at a +10 modification.
 111 — 175 | Success | 100% | 1.0u | +20 | Unnff! Ah, nice work! Your mighty thews have carried the day. You feel the burn.
-176 up | Absolute Success | 120% | 0.8u | +30 | You have a place waiting for you at the circus, Herc. Without proper equipment: -10 to -50
+176 up | Absolute Success | 120% | 0.8u | +30 | You have a place waiting for you at the circus, Herc.
 
+
+@general_mods:
+Without proper equipment: -10 to -50

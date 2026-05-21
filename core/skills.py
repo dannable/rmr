@@ -52,7 +52,7 @@ def get_skill_group(conn: sqlite3.Connection, slug: str) -> dict | None:
         ).fetchall()
     ]
     tables_rows = conn.execute(
-        """SELECT table_id, name, columns
+        """SELECT table_id, name, columns, general_mods
              FROM skill_table
             WHERE group_id = ?
             ORDER BY table_id""",
@@ -67,9 +67,14 @@ def get_skill_group(conn: sqlite3.Connection, slug: str) -> dict | None:
                 ORDER BY sort_order""",
             (t["table_id"],),
         ).fetchall()
+        # general_mods is stored newline-separated; split + drop blanks so
+        # callers get a list of "Label: value" strings ready to render.
+        gm_raw = (t["general_mods"] or "").strip()
+        general_mods = [ln.strip() for ln in gm_raw.split("\n") if ln.strip()] if gm_raw else []
         g["tables"].append({
             "name": t["name"],
             "columns": [c.strip() for c in (t["columns"] or "").split("|")],
+            "general_mods": general_mods,
             "rows": [dict(r) for r in rows],
         })
     return g

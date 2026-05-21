@@ -482,6 +482,10 @@ CREATE TABLE IF NOT EXISTS skill_table (
     group_id     INTEGER NOT NULL REFERENCES skill_category_group(group_id) ON DELETE CASCADE,
     name         TEXT    NOT NULL,              -- "Static Maneuver Table T-4.8.7"
     columns      TEXT    NOT NULL,              -- pipe-separated column labels
+    -- "General and GM-Assigned Modifers" list that the source PDF prints
+    -- below the table proper. Stored as newline-separated "Label: value"
+    -- entries; empty when the source table has no such section.
+    general_mods TEXT    NOT NULL DEFAULT '',
     UNIQUE (group_id, name)
 );
 

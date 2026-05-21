@@ -49,8 +49,9 @@ def _seed_skill_group(slug: str = "test_crafts") -> int:
                 (group_id, name, stat, desc),
             )
         cur = conn.execute(
-            """INSERT INTO skill_table (group_id, name, columns) VALUES
-               (?, 'Test Table T-9.9', 'roll | result | percent | time | mod | description')
+            """INSERT INTO skill_table (group_id, name, columns, general_mods) VALUES
+               (?, 'Test Table T-9.9', 'roll | result | percent | time | mod | description',
+                'Practiced: +5' || char(10) || 'Improvised: -10')
                RETURNING table_id""",
             (group_id,),
         )
@@ -94,6 +95,7 @@ def test_get_skill_group_detail(client) -> None:
     t = g["tables"][0]
     assert t["name"] == "Test Table T-9.9"
     assert t["columns"] == ["roll", "result", "percent", "time", "mod", "description"]
+    assert t["general_mods"] == ["Practiced: +5", "Improvised: -10"]
     assert len(t["rows"]) == 1
     assert t["rows"][0]["roll"] == "01-05"
 
