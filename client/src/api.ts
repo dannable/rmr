@@ -116,7 +116,8 @@ export interface StatsRaceInfo {
 
 export interface CharacterStats {
   stats: StatRow[];
-  resistance_rolls: StatsRR;
+  resistance_rolls: StatsRR;       // formula + race contribution (totals)
+  race_rr_mods: StatsRR;           // race contribution only (zero if unraced)
   race: StatsRaceInfo | null;
 }
 
