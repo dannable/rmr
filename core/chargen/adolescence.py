@@ -29,7 +29,11 @@ def adolescence_ranks(conn: sqlite3.Connection, culture_slug: str) -> list[dict]
     out: list[dict] = []
     for r in rows:
         skill = r["skill"]
-        kind = "category" if "skill category" in skill else "leaf"
+        # Check for the suffix specifically (not just "in") — leaf rows for
+        # weapons carry a [Weapon • 1-H Edged skill category] prefix that
+        # the loader adds to disambiguate duplicate "1 Weapon Based..." rows,
+        # and a substring check would mis-tag them as categories.
+        kind = "category" if skill.endswith("skill category") else "leaf"
         out.append({"skill": skill, "value": r["value"], "kind": kind})
     return out
 
