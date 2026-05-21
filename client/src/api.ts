@@ -318,3 +318,76 @@ export const searchSpellsByName = (q: string, limit = 25) =>
   api<SpellSearchHit[]>(
     `/api/v1/spells/search?q=${encodeURIComponent(q)}&limit=${limit}`,
   );
+
+// ---- skills catalog (RMSS Appendix A-1) --------------------------------
+
+export interface SkillGroupRow {
+  slug: string;
+  section: string;
+  name: string;
+  page_div: number;
+  page_content: number;
+}
+
+export interface SkillCategory {
+  name: string;
+  skills_list: string | null;
+  restricted: string | null;
+  stat_bonuses: string | null;
+  rank_progression: string | null;
+  category_progression: string | null;
+  parent_group: string | null;
+  classification: string | null;
+  description: string | null;
+}
+
+export interface SkillEntry {
+  name: string;
+  stat: string | null;
+  description: string | null;
+}
+
+export interface SkillTableRow {
+  roll: string | null;
+  result: string | null;
+  percent: string | null;
+  time: string | null;
+  mod: string | null;
+  description: string | null;
+}
+
+export interface SkillTable {
+  name: string;
+  columns: string[];
+  rows: SkillTableRow[];
+}
+
+export interface SkillGroupDetail {
+  slug: string;
+  section: string;
+  name: string;
+  page_div: number;
+  page_content: number;
+  categories: SkillCategory[];
+  skills: SkillEntry[];
+  tables: SkillTable[];
+}
+
+export interface SkillSearchHit {
+  name: string;
+  stat: string | null;
+  group_slug: string;
+  section: string;
+  group_name: string;
+}
+
+export const fetchSkillGroups = () =>
+  api<SkillGroupRow[]>("/api/v1/skills");
+
+export const fetchSkillGroup = (slug: string) =>
+  api<SkillGroupDetail>(`/api/v1/skills/${encodeURIComponent(slug)}`);
+
+export const searchSkills = (q: string, limit = 25) =>
+  api<SkillSearchHit[]>(
+    `/api/v1/skills/search?q=${encodeURIComponent(q)}&limit=${limit}`,
+  );
