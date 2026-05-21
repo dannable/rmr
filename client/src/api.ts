@@ -377,6 +377,20 @@ export interface SkillGroupDetail {
   categories: SkillCategory[];
   skills: SkillEntry[];
   tables: SkillTable[];
+  updated_at: string | null;
+  updated_by_user_id: number | null;
+}
+
+/**
+ * Wholesale-replace payload for `PUT /api/v1/skills/{slug}`. The server
+ * wipes the group's categories/skills/tables and re-inserts from this
+ * payload, then re-serialises data/skills/<slug>.txt.
+ */
+export interface SkillGroupUpdate {
+  name?: string;
+  categories: SkillCategory[];
+  skills: SkillEntry[];
+  tables: SkillTable[];
 }
 
 export interface SkillSearchHit {
@@ -392,6 +406,12 @@ export const fetchSkillGroups = () =>
 
 export const fetchSkillGroup = (slug: string) =>
   api<SkillGroupDetail>(`/api/v1/skills/${encodeURIComponent(slug)}`);
+
+export const updateSkillGroup = (slug: string, body: SkillGroupUpdate) =>
+  api<SkillGroupDetail>(`/api/v1/skills/${encodeURIComponent(slug)}`, {
+    method: "PUT",
+    body: JSON.stringify(body),
+  });
 
 export const searchSkills = (q: string, limit = 25) =>
   api<SkillSearchHit[]>(

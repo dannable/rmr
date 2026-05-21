@@ -1,25 +1,41 @@
 """Skills catalog endpoints (RMSS Appendix A-1).
 
-Read-only; the catalog data is loaded from data/skills/*.txt by load.py.
-All endpoints are login-gated, matching the rest of the character builder.
+Read endpoints surface the catalog loaded from data/skills/*.txt by
+load.py. The PUT endpoint lets any logged-in user fix extraction errors
+by editing the whole group payload (categories + skills + tables) at
+once; on save we wipe + re-insert the group's children and then re-
+serialise data/skills/<slug>.txt so the on-disk source-of-truth stays
+in sync (same pattern as the spells edit handler).
 
 Routes:
     GET /api/v1/skills                       — list all 34 groups
     GET /api/v1/skills/{slug}                — one group + categories + skills + tables
+    PUT /api/v1/skills/{slug}                — replace the group's editable contents
     GET /api/v1/skills/search?q=<substring>  — skill-name search
 """
 
 from __future__ import annotations
 
+from pathlib import Path
+
 from fastapi import APIRouter, HTTPException, Query, status
 from pydantic import BaseModel
 
-from core.skills import list_skill_groups, get_skill_group, search_skills
+from core.skills import (
+    get_skill_group,
+    list_skill_groups,
+    search_skills,
+    update_skill_group,
+    write_skill_group_file,
+)
 
 from ..auth.deps import CurrentUser
 from ..db import connect_rw
 
 router = APIRouter(prefix="/api/v1/skills", tags=["skills"])
+
+# web/api/skills.py → web/api/ → web/ → project root
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 
 
 # ---------------------------------------------------------------------------
@@ -80,6 +96,23 @@ class SkillGroupDetail(BaseModel):
     categories: list[SkillCategory]
     skills: list[Skill]
     tables: list[SkillTable]
+    # Audit metadata stamped by the PUT handler; both NULL until the first save.
+    updated_at: str | None = None
+    updated_by_user_id: int | None = None
+
+
+class SkillGroupUpdate(BaseModel):
+    """Wholesale payload for `PUT /api/v1/skills/{slug}`.
+
+    The shape mirrors the GET response (minus slug/section/page_* —
+    those identify the group but aren't editable). Everything in
+    categories/skills/tables is replaced wholesale: send the full
+    desired list, and the server wipes + re-inserts.
+    """
+    name: str | None = None
+    categories: list[SkillCategory]
+    skills: list[Skill]
+    tables: list[SkillTable]
 
 
 class SkillSearchHit(BaseModel):
@@ -126,3 +159,47 @@ def get_group(slug: str, user: dict = CurrentUser) -> SkillGroupDetail:
             detail="Skill group not found",
         )
     return SkillGroupDetail(**g)
+
+
+@router.put("/{slug}", response_model=SkillGroupDetail)
+def update_group(
+    slug: str,
+    body: SkillGroupUpdate,
+    user: dict = CurrentUser,
+) -> SkillGroupDetail:
+    """Replace one group's editable contents and re-serialise its .txt file.
+
+    The sequence — DB UPDATE → file write → COMMIT — mirrors the spells
+    edit handler: if the file write raises, the DB is rolled back so the
+    on-disk file stays canonical.
+    """
+    payload = body.model_dump()
+    # `name` is allowed to drift if the user fixes a typo; the loader-level
+    # @group_name field gets re-serialised from the DB row.
+    new_name = payload.get("name")
+
+    with connect_rw() as conn:
+        if new_name:
+            conn.execute(
+                "UPDATE skill_category_group SET name = ? WHERE slug = ?",
+                (new_name, slug),
+            )
+        updated = update_skill_group(
+            conn,
+            slug=slug,
+            payload=payload,
+            user_id=user["user_id"],
+        )
+        if updated is None:
+            conn.rollback()
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Skill group not found",
+            )
+        try:
+            write_skill_group_file(conn, slug=slug, project_root=_PROJECT_ROOT)
+        except Exception:
+            conn.rollback()
+            raise
+        conn.commit()
+    return SkillGroupDetail(**updated)

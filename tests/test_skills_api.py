@@ -130,3 +130,117 @@ def test_search_requires_q(client) -> None:
 def test_endpoints_require_auth(anon_client, path: str) -> None:
     r = anon_client.get(path)
     assert r.status_code == 401, f"{path} expected 401, got {r.status_code}"
+
+
+# ---------------------------------------------------------------------------
+# PUT /api/v1/skills/{slug} — wholesale edit
+# ---------------------------------------------------------------------------
+
+def test_put_skill_group_updates_db_and_file(client, tmp_path, monkeypatch) -> None:
+    """PUT should wipe + replace the group's children, stamp audit fields,
+    and rewrite data/skills/<slug>.txt at the configured project root."""
+    # Redirect file write-back to a temp directory so we don't clobber
+    # data/skills/test_crafts.txt under the repo.
+    from web.api import skills as skills_api
+    monkeypatch.setattr(skills_api, "_PROJECT_ROOT", tmp_path)
+
+    _seed_skill_group("test_crafts")
+    r = client.get("/api/v1/skills/test_crafts")
+    assert r.status_code == 200
+    original = r.json()
+
+    # Fix an extraction error (skill description) + add a row to the table
+    # + rewrite a GM mod entry. Send back the full group payload.
+    payload = {
+        "name": original["name"],
+        "categories": [
+            {**c, "description": "Edited category description."}
+            for c in original["categories"]
+        ],
+        "skills": [
+            {**s, "description": f"Edited: {s['description']}"}
+            for s in original["skills"]
+        ],
+        "tables": [
+            {
+                **t,
+                "general_mods": ["New mod: +99"],
+                "rows": t["rows"] + [{
+                    "roll": "UM 100", "result": "Unusual Success",
+                    "percent": "150%", "time": "1.0u", "mod": "+50",
+                    "description": "Astounding.",
+                }],
+            }
+            for t in original["tables"]
+        ],
+    }
+    r = client.put("/api/v1/skills/test_crafts", json=payload)
+    assert r.status_code == 200, r.text
+    updated = r.json()
+
+    assert updated["categories"][0]["description"] == "Edited category description."
+    assert all(s["description"].startswith("Edited: ") for s in updated["skills"])
+    assert updated["tables"][0]["general_mods"] == ["New mod: +99"]
+    assert len(updated["tables"][0]["rows"]) == 2
+    assert updated["tables"][0]["rows"][1]["roll"] == "UM 100"
+    assert updated["updated_at"] is not None
+
+    # The file should now exist under the tmp project root.
+    written = tmp_path / "data" / "skills" / "test_crafts.txt"
+    assert written.exists(), "expected write-back to create data/skills/test_crafts.txt"
+    body = written.read_text(encoding="utf-8")
+    assert "@group_name: Test Crafts" in body
+    assert "@@ Cooking" in body
+    assert "UM 100 | Unusual Success" in body
+    assert "@general_mods:" in body
+    assert "New mod: +99" in body
+
+
+def test_put_unknown_group_returns_404(client, tmp_path, monkeypatch) -> None:
+    from web.api import skills as skills_api
+    monkeypatch.setattr(skills_api, "_PROJECT_ROOT", tmp_path)
+
+    r = client.put(
+        "/api/v1/skills/no_such_group_xyz",
+        json={"categories": [], "skills": [], "tables": []},
+    )
+    assert r.status_code == 404
+
+
+def test_put_requires_auth(anon_client) -> None:
+    r = anon_client.put(
+        "/api/v1/skills/test_crafts",
+        json={"categories": [], "skills": [], "tables": []},
+    )
+    assert r.status_code == 401
+
+
+def test_put_roundtrip_parses_back(client, tmp_path, monkeypatch) -> None:
+    """The serialised file should round-trip through load.parse_skill_file
+    without losing structure — guards against subtle format drift."""
+    from web.api import skills as skills_api
+    monkeypatch.setattr(skills_api, "_PROJECT_ROOT", tmp_path)
+
+    _seed_skill_group("test_crafts")
+    r = client.get("/api/v1/skills/test_crafts")
+    original = r.json()
+    # Send the same payload back so an identity edit produces a parseable file.
+    payload = {
+        "categories": original["categories"],
+        "skills": original["skills"],
+        "tables": original["tables"],
+    }
+    r = client.put("/api/v1/skills/test_crafts", json=payload)
+    assert r.status_code == 200
+
+    from load import parse_skill_file
+    parsed = parse_skill_file(tmp_path / "data" / "skills" / "test_crafts.txt")
+    assert parsed["slug"] == "test_crafts"
+    assert parsed["name"] == "Test Crafts"
+    assert len(parsed["categories"]) == 1
+    assert {s["name"] for s in parsed["skills"]} == {"Cooking", "Sewing"}
+    assert len(parsed["tables"]) == 1
+    assert parsed["tables"][0]["general_mods"] == [
+        "Practiced: +5", "Improvised: -10",
+    ]
+    assert parsed["tables"][0]["rows"][0]["roll"] == "01-05"
