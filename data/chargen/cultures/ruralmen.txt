@@ -20,21 +20,49 @@
 # Block ordering: Col L (PHYSICAL / CULTURE / OTHER FACTORS) then
 # Col R (Languages, Prejudices, Professions, OUTFITTING, BACKGROUND).
 #
+# Structured field extraction (regex on bold labels)
+@allowed_adolescence_developmentCommon-speech (S10/W10), High Man (S6/W6), Small-speech (S6/W6).
+@armor                    Leather or no armor.
+@build                    All types, but normally medium. Men average 160 pounds; women, 125 pounds.
+@clothing_decoration      Practical wool and linen garb, including cloaks, boots, etc. Tunics are worn in warmer areas; shirts belted over pants or skirts and leggings predominate in cooler locales.
+@coloring                 Variations of fair to tan or olive skin. All colors of hair and eyes.
+@demeanor                 Practical, hard-working, quiet, loyal, and often shy.
+@endurance                Average.
+@everyman                 none; none.
+@extra_languages          In addition to the tongues listed above: High-speech (S8/W8), Small-speech (S8/W8), and Hillspeech (S8/W8).
+@extra_money              Silver and bronze pieces.
+@fears_inabilities        Nothing special, aside from local superstitions.
+@height                   Males average 5'10", women 5'4".
+@lifespan                 Moderate, averaging 60-80 years.
+@lifestyle                These rural folk are mostly farmers and herders with little contact areas outside their village or region.
+@marriage_pattern         Monogamous. The line is traced through either the male or female.
+@money                    Livestock which may be sold for coinage: a milk cow (20 sp), a pair of sheep (10 sp each), four goats (5 sp each), or ten geese (2 sp each).
+@prejudices               Ruralmen are suspicious of most outsiders and might be in awe of some. They hate no race, aside from the Orcs.
+@professions              No special notes.
+@religion                 Variations of subdued rituals. Most have reverence for local spirits, although the principal worship focuses on the “True Gods.”
+@resistance               Normal.
+@special_abilities        None.
+@special_items            All available. Weapons and tools made by these rural folk are usually crude, but serviceable. Wood, bronze, iron, leather, wool, and linen are the most abundant materials.
+@standard_hobby_skills    Armor • Light skills, Acrobatics, Animal Handling, Caving, Climb, Cooking, Dancing, Foraging, Hiding, Leather-crafting, Observation, Rope Mastery, Scaling, Stalking, Star-gazing, Swimming, Tracking, any Weapon skills, Weather-watching, Woodcrafting.
+@starting_languages       Common-speech (S8/W6).
+@talents                  All available.
+@weapons                  Dagger, handaxe, club, throwing dagger, sling, quarterstaff, fishing spear (treat as -5 javelin).
+#
 @@ ruralmen
-This is a generalized label for the rural folk of the northern an southern empires. Ruralmen contain varying degrees of Hillman Nomad, Woodman, and High Man blood. This catagory repre sents men born and raised on farms, on grazing lands, and in sma hamlets.
+This is a generalized label for the rural folk of the northern and southern empires. Ruralmen contain varying degrees of Hillman, Nomad, Woodman, and High Man blood. This catagory represents men born and raised on farms, on grazing lands, and in small hamlets.
 
-@@ hysical_haracter
-Build: All types, but normally medium. Men average 160 pound women, 125 pounds. Coloring: Variations of fair to tan or olive skin. All colors of ha and eyes. Endurance: Average. Height: Males average 5'10", women 5'4". Lifespan: Moderate, averaging 60-80 years. Resistance: Normal. Special Abilities: None.
+@@ physical_character
+Build: All types, but normally medium. Men average 160 pounds; women, 125 pounds. Coloring: Variations of fair to tan or olive skin. All colors of hair and eyes. Endurance: Average. Height: Males average 5'10", women 5'4". Lifespan: Moderate, averaging 60-80 years. Resistance: Normal. Special Abilities: None.
 
-@@ ulture
-Clothing & Decoration: Practical wool and linen garb, includ ing cloaks, boots, etc. Tunics are worn in warmer areas; shirt belted over pants or skirts and leggings predominate in cooled locales., - Fears & Inabilities: Nothing special, aside from local supersti ll tions. Lifestyle: These rural folk are mostly farmers and herders wit little contact areas outside their village or region. Marriage Pattern: Monogamous. The line is traced throug s; either the male or female. Religion: Variations of subdued rituals. Most have reverence fo ir local spirits, although the principal worship focuses on th “True Gods.”
+@@ culture
+Clothing & Decoration: Practical wool and linen garb, including cloaks, boots, etc. Tunics are worn in warmer areas; shirts belted over pants or skirts and leggings predominate in cooler locales. Fears & Inabilities: Nothing special, aside from local superstitions. Lifestyle: These rural folk are mostly farmers and herders with little contact areas outside their village or region. Marriage Pattern: Monogamous. The line is traced through either the male or female. Religion: Variations of subdued rituals. Most have reverence for local spirits, although the principal worship focuses on the “True Gods.”
 
-@@ ther_actors
-Demeanor: Practical, hard-working, quiet, loyal, and often shy Language: Starting Languages: Common-speech (S8/W6). Al lowed Adolescence Development: Common-speech (S10/W10) High Man (S6/W6), Small-speech (S6/W6). Prejudices: Ruralmen are suspicious of most outsider and might be in awe of some. They hate no race, asid from the Orcs. Professions: No special notes. Special Skills: Restricted: Everyman: none; none. Standard Hobby Skills: Armor • Light skills, Acrobatics Animal Handling, Caving, Climb, Cooking, Dancing Foraging, Hiding, Leather-crafting, Observation, Rop Mastery, Scaling, Stalking, Star-gazing, Swimming Tracking, any Weapon skills, Weather-watching, Wood crafting.
+@@ other_factors
+Demeanor: Practical, hard-working, quiet, loyal, and often shy. Language: Starting Languages: Common-speech (S8/W6). Allowed Adolescence Development: Common-speech (S10/W10), High Man (S6/W6), Small-speech (S6/W6). Prejudices: Ruralmen are suspicious of most outsiders and might be in awe of some. They hate no race, aside from the Orcs. Professions: No special notes. Special Skills: Restricted: Everyman: none; none. Standard Hobby Skills: Armor • Light skills, Acrobatics, Animal Handling, Caving, Climb, Cooking, Dancing, Foraging, Hiding, Leather-crafting, Observation, Rope Mastery, Scaling, Stalking, Star-gazing, Swimming, Tracking, any Weapon skills, Weather-watching, Woodcrafting.
 
-@@ utfitting_ptions
-Armor: Leather or no armor. Money: Livestock which may be sold for coinage: a mil cow (20 sp), a pair of sheep (10 sp each), four goats (5 sp each), or ten geese (2 sp each). Weapons: Dagger, handaxe, club, throwing dagger, sling quarterstaff, fishing spear (treat as -5 javelin).
+@@ outfitting_options
+Armor: Leather or no armor. Money: Livestock which may be sold for coinage: a milk cow (20 sp), a pair of sheep (10 sp each), four goats (5 sp each), or ten geese (2 sp each). Weapons: Dagger, handaxe, club, throwing dagger, sling, quarterstaff, fishing spear (treat as -5 javelin).
 
-@@ b_ackground_o_ptions
-Common Men get get six background options; Mixed Men get five background options. Extra Languages: In addition to the tongues listed above High-speech (S8/W8), Small-speech (S8/W8), and Hill speech (S8/W8). Extra Money: Silver and bronze pieces. Special Items: All available. Weapons and tools made by these rural folk are usually crude, but serviceable. Wood bronze, iron, leather, wool, and linen are the mos abundant materials. Talents: All available.
+@@ background_options
+Common Men get get six background options; Mixed Men get five background options. Extra Languages: In addition to the tongues listed above: High-speech (S8/W8), Small-speech (S8/W8), and Hillspeech (S8/W8). Extra Money: Silver and bronze pieces. Special Items: All available. Weapons and tools made by these rural folk are usually crude, but serviceable. Wood, bronze, iron, leather, wool, and linen are the most abundant materials. Talents: All available.
 

@@ -193,6 +193,156 @@ function RacePreview({ race }: { race: Race }) {
         <div><strong>Essence PP cost:</strong> {race.ess_pp_prog}</div>
         <div><strong>Mentalism PP cost:</strong> {race.ment_pp_prog}</div>
       </div>
+
+      <CultureDetails race={race} />
     </div>
+  );
+}
+
+// Field-key catalog for the culture details panel. Keys not in this list
+// (if the extractor ever adds more) will be silently ignored by the
+// renderer — add them here when extending.
+const CULTURE_SECTIONS: { title: string; fields: { key: string; label: string }[] }[] = [
+  {
+    title: "Physical",
+    fields: [
+      { key: "build", label: "Build" },
+      { key: "coloring", label: "Coloring" },
+      { key: "endurance", label: "Endurance" },
+      { key: "height", label: "Height" },
+      { key: "lifespan", label: "Lifespan" },
+      { key: "resistance", label: "Resistance" },
+      { key: "special_abilities", label: "Special Abilities" },
+    ],
+  },
+  {
+    title: "Languages",
+    fields: [
+      { key: "starting_languages", label: "Starting" },
+      { key: "allowed_adolescence_development", label: "Adolescence" },
+      { key: "extra_languages", label: "Background-extra" },
+    ],
+  },
+  {
+    title: "Skills",
+    fields: [
+      { key: "everyman", label: "Everyman" },
+      { key: "restricted", label: "Restricted" },
+      { key: "standard_hobby_skills", label: "Hobby" },
+    ],
+  },
+  {
+    title: "Outfitting",
+    fields: [
+      { key: "weapons", label: "Weapons" },
+      { key: "armor", label: "Armor" },
+      { key: "money", label: "Money" },
+    ],
+  },
+  {
+    title: "Background Options",
+    fields: [
+      { key: "extra_money", label: "Extra Money" },
+      { key: "special_items", label: "Special Items" },
+      { key: "talents", label: "Talents" },
+    ],
+  },
+  {
+    title: "Culture",
+    fields: [
+      { key: "lifestyle", label: "Lifestyle" },
+      { key: "religion", label: "Religion" },
+      { key: "marriage_pattern", label: "Marriage" },
+      { key: "fears_inabilities", label: "Fears & Inabilities" },
+      { key: "clothing_decoration", label: "Clothing & Decoration" },
+    ],
+  },
+  {
+    title: "Social",
+    fields: [
+      { key: "professions", label: "Professions" },
+      { key: "prejudices", label: "Prejudices" },
+      { key: "demeanor", label: "Demeanor" },
+    ],
+  },
+];
+
+function CultureDetails({ race }: { race: Race }) {
+  const [open, setOpen] = useState(false);
+  const data = race.culture_data || {};
+  const hasAnyData = Object.keys(data).length > 0;
+  if (!hasAnyData) {
+    // The 6 new Men cultures DO have data; the only races without it are
+    // Common Men + Mixed Men (no entry in the source PDF). Surface a
+    // small hint so the user knows it's intentional, not broken.
+    return (
+      <p style={{ marginTop: 16, fontSize: 12, color: "#888", fontStyle: "italic" }}>
+        No detailed culture description available for {race.name}.
+      </p>
+    );
+  }
+  return (
+    <div style={{ marginTop: 16 }}>
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        style={{
+          background: "none",
+          border: "1px solid #ccc",
+          borderRadius: 4,
+          padding: "4px 10px",
+          fontSize: 12,
+          cursor: "pointer",
+          color: "#444",
+        }}
+      >
+        {open ? "▾" : "▸"} Culture details
+      </button>
+      {open && (
+        <div style={{ marginTop: 12, fontSize: 13, lineHeight: 1.5 }}>
+          {CULTURE_SECTIONS.map((sec) => {
+            // Only render the section if it has at least one populated field.
+            const rows = sec.fields.filter((f) => data[f.key]);
+            if (rows.length === 0) return null;
+            return (
+              <div key={sec.title} style={{ marginBottom: 12 }}>
+                <div
+                  style={{
+                    fontSize: 11,
+                    color: "#888",
+                    textTransform: "uppercase",
+                    letterSpacing: 0.4,
+                    marginBottom: 4,
+                  }}
+                >
+                  {sec.title}
+                </div>
+                <dl
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "140px 1fr",
+                    gap: "4px 12px",
+                    margin: 0,
+                  }}
+                >
+                  {rows.map((f) => (
+                    <FragmentRow key={f.key} label={f.label} value={data[f.key]} />
+                  ))}
+                </dl>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function FragmentRow({ label, value }: { label: string; value: string }) {
+  return (
+    <>
+      <dt style={{ color: "#666" }}>{label}</dt>
+      <dd style={{ margin: 0 }}>{value}</dd>
+    </>
   );
 }

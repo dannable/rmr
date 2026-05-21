@@ -20,24 +20,52 @@
 # Block ordering: Col L (PHYSICAL / CULTURE / OTHER FACTORS) then
 # Col R (Languages, Prejudices, Professions, OUTFITTING, BACKGROUND).
 #
+# Structured field extraction (regex on bold labels)
+@armor                    Any. Mariners who are wealthy adorn their armor with gold chasing or engraving.
+@build                    Strong of build. Males average 215 pounds; women, 145 pounds.
+@clothing_decoration      Mariners favor purple, red, and gold clothing made from silk or fine cotton. They wear tunics and only rarely don leggings. Men wear gold collars, while women are well-adorned with jewelry.
+@coloring                 Mariners are generally fair skinned and have grey or bluish eyes and black or dark brown hair.
+@demeanor                 Aggressive, haughty, determined, embittered—the Mariners have the attitude of royalty in unjust exile.
+@endurance                Considerable. They do not get seasick.
+@everyman                 Rope Mastery, Rowing, Sailing, Star Gazing
+@extra_languages          In addition to the tongues listed above: Wood-speech (S8/W8), Plains-speech (S8/W8), Black-speech (S8/W8), Orcish (S6/W6), Grey-elvish (S6/W6), and Elvish (S6/W6).
+@extra_money              Gold pieces.
+@fears_inabilities        Disease and illness, and their own natural mortality.
+@height                   Men average 6'3"; women, 5'9".
+@lifespan                 95-190 years.
+@lifestyle                Mariner culture reflects the conservative elements found among southern empires’ aristocracy, only it is carried to an extreme.
+@marriage_pattern         Monogamous. Line is traced through male.
+@money                    2 gold pieces.
+@prejudices               Their greatest enemies are the High Men, because they are held to blame for the wars of the southern empires.
+@professions              No special notes.
+@religion                 Mariner religion is preoccupied with Death and Darkness, and largely revolves around ancestor and hero worship. The great Ancient Kings are revered as godlike. Ceremonies dwell on the perpetuation of the life of the individual and, more importantly, the lineage. The dead are buried with elaborate fanfare and are laid to rest in a preserved state, one of pronounced splendor.
+@resistance               Normal.
+@restricted               none.
+@special_abilities        They get a special +20 bonus for the following skills: Boat Piloting, Navigation, Rope Mastery, Rowing, Sailing, Star Gazing, Weather Watching.
+@special_items            All available. Mariners favor weapons and tools ornamented with gold.
+@standard_hobby_skills    Acrobatics, Acting, Ambush, Appraisal, any Armor skills, Boat Piloting, Body Development, Climbing, Cultural Lore, Dance, Embroidery [Craft], First Aid, Hiding, History, Jumping, Leadership, Metal-crafting, Navigation, Observation, Painting, Public Speaking, Rappelling, Region Lore, Riding, Rope Mastery, Sculpting, Signaling, Spell Lists, Sprinting, Stalking, Star-gazing, Swimming, Tracking, Trading, any Weapon skills, Weather-watching, Woodcrafting.
+@starting_languages       High-speech (S8/W6), Al-Common-speech (S8/W6), Sea-speech (S8/W6). lowed Adolescence Development: High-speech (S10/ W10), Common-speech (S10/W10), Sea-speech (S10/ W10), South-speech (S8/W8), Wood-speech (S6/W6), Plains-speech (S6/W6).
+@talents                  All available.
+@weapons                  Dagger, scimitar, broadsword, short sword, mace, morning star, whip, bola, composite bow, long bow, short bow, flail, quarterstaff, two-handed sword, lance, spear, armored fist, bastard sword, boar spear, cat of nine tails, cutlass, falchion, harpoon, main gauche, net, pole arm, sabre.
+#
 @@ mariners
-The Mariners are descendants of High Man rebels who fled th southern empires. Most settled in the far south and began a lon struggle for control with the native elements. Since that tim modest inbreeding with the locals has created a somewhat distinc group, although their High Man roots remain strong. The heritage as sailors and merchantmen from the southern empire still influences their culture and lifestyle. They long to reclaim th southern empires.
+The Mariners are descendants of High Man rebels who fled the southern empires. Most settled in the far south and began a long struggle for control with the native elements. Since that time, modest inbreeding with the locals has created a somewhat distinct group, although their High Man roots remain strong. Their heritage as sailors and merchantmen from the southern empires still influences their culture and lifestyle. They long to reclaim the southern empires.
 
-@@ hysical_haracter
-Build: Strong of build. Males average 215 pounds; women, 14 pounds. Coloring: Mariners are generally fair skinned and have grey o bluish eyes and black or dark brown hair. Endurance: Considerable. They do not get seasick. Height: Men average 6'3"; women, 5'9". Lifespan: 95-190 years. Resistance: Normal. Special Abilities: They get a special +20 bonus for the followin skills: Boat Piloting, Navigation, Rope Mastery, Rowing Sailing, Star Gazing, Weather Watching.
+@@ physical_character
+Build: Strong of build. Males average 215 pounds; women, 145 pounds. Coloring: Mariners are generally fair skinned and have grey or bluish eyes and black or dark brown hair. Endurance: Considerable. They do not get seasick. Height: Men average 6'3"; women, 5'9". Lifespan: 95-190 years. Resistance: Normal. Special Abilities: They get a special +20 bonus for the following skills: Boat Piloting, Navigation, Rope Mastery, Rowing, Sailing, Star Gazing, Weather Watching.
 
-@@ ulture
-Clothing & Decoration: Mariners favor purple, red, and gol clothing made from silk or fine cotton. They wear tunics an only rarely don leggings. Men wear gold collars, while wome are well-adorned with jewelry. Fears & Inabilities: Disease and illness, and their own natura mortality. Lifestyle: Mariner culture reflects the conservative ele- ments found among southern empires’ aristocracy, only it is carried to an extreme. Marriage Pattern: Monogamous. Line is traced through male. Religion: Mariner religion is preoccupied with Death and Darkness, and largely revolves around ancestor and hero worship. The great Ancient Kings are revered as god- like. Ceremonies dwell on the perpetuation of the life of the individual and, more importantly, the lineage. The dead are buried with elaborate fanfare and are laid to rest in a preserved state, one of pronounced splendor.
+@@ culture
+Clothing & Decoration: Mariners favor purple, red, and gold clothing made from silk or fine cotton. They wear tunics and only rarely don leggings. Men wear gold collars, while women are well-adorned with jewelry. Fears & Inabilities: Disease and illness, and their own natural mortality. Lifestyle: Mariner culture reflects the conservative elements found among southern empires’ aristocracy, only it is carried to an extreme. Marriage Pattern: Monogamous. Line is traced through male. Religion: Mariner religion is preoccupied with Death and Darkness, and largely revolves around ancestor and hero worship. The great Ancient Kings are revered as godlike. Ceremonies dwell on the perpetuation of the life of the individual and, more importantly, the lineage. The dead are buried with elaborate fanfare and are laid to rest in a preserved state, one of pronounced splendor.
 
-@@ ther_actors
-Demeanor: Aggressive, haughty, determined, embit- tered—the Mariners have the attitude of royalty in unjust exile. Language: Starting Languages: High-speech (S8/W6), Al-Common-speech (S8/W6), Sea-speech (S8/W6). lowed Adolescence Development: High-speech (S10/ W10), Common-speech (S10/W10), Sea-speech (S10/ W10), South-speech (S8/W8), Wood-speech (S6/W6), Plains-speech (S6/W6). Prejudices: Their greatest enemies are the High Men, because they are held to blame for the wars of the southern empires. Professions: No special notes. Special Skills: Everyman: Rope Mastery, Rowing, Sail- ing, Star Gazing; Restricted: none.
+@@ other_factors
+Demeanor: Aggressive, haughty, determined, embittered—the Mariners have the attitude of royalty in unjust exile. Language: Starting Languages: High-speech (S8/W6), Al-Common-speech (S8/W6), Sea-speech (S8/W6). lowed Adolescence Development: High-speech (S10/ W10), Common-speech (S10/W10), Sea-speech (S10/ W10), South-speech (S8/W8), Wood-speech (S6/W6), Plains-speech (S6/W6). Prejudices: Their greatest enemies are the High Men, because they are held to blame for the wars of the southern empires. Professions: No special notes. Special Skills: Everyman: Rope Mastery, Rowing, Sailing, Star Gazing; Restricted: none.
 
 @@ intro
-Standard Hobby Skills: Acrobatics, Acting, Ambush, Appraisal any Armor skills, Boat Piloting, Body Development, Climb ing, Cultural Lore, Dance, Embroidery [Craft], First Aid Hiding, History, Jumping, Leadership, Metal-crafting, Navi e gation, Observation, Painting, Public Speaking, Rappelling g Region Lore, Riding, Rope Mastery, Sculpting, Signaling e, Spell Lists, Sprinting, Stalking, Star-gazing, Swimming, Track t ing, Trading, any Weapon skills, Weather-watching, Wood ir crafting. s e O O
+Standard Hobby Skills: Acrobatics, Acting, Ambush, Appraisal, any Armor skills, Boat Piloting, Body Development, Climbing, Cultural Lore, Dance, Embroidery [Craft], First Aid, Hiding, History, Jumping, Leadership, Metal-crafting, Navigation, Observation, Painting, Public Speaking, Rappelling, Region Lore, Riding, Rope Mastery, Sculpting, Signaling, Spell Lists, Sprinting, Stalking, Star-gazing, Swimming, Tracking, Trading, any Weapon skills, Weather-watching, Woodcrafting.
 
-@@ utfitting_ptions
-Armor: Any. Mariners who are wealthy adorn their armor wit gold chasing or engraving. Money: 2 gold pieces.5 Weapons: Dagger, scimitar, broadsword, short sword, mace morning star, whip, bola, composite bow, long bow, short bowr flail, quarterstaff, two-handed sword, lance, spear, armore fist, bastard sword, boar spear, cat of nine tails, cutlass, falchion harpoon, main gauche, net, pole arm, sabre.
+@@ outfitting_options
+Armor: Any. Mariners who are wealthy adorn their armor with gold chasing or engraving. Money: 2 gold pieces. Weapons: Dagger, scimitar, broadsword, short sword, mace, morning star, whip, bola, composite bow, long bow, short bow, flail, quarterstaff, two-handed sword, lance, spear, armored fist, bastard sword, boar spear, cat of nine tails, cutlass, falchion, harpoon, main gauche, net, pole arm, sabre.
 
-@@ ackground_ptions
-Common Men get get six background options; Mixed Men ge five background options. g Extra Languages: In addition to the tongues listed above , Wood-speech (S8/W8), Plains-speech (S8/W8), Black-speec (S8/W8), Orcish (S6/W6), Grey-elvish (S6/W6), and Elvis (S6/W6). d Extra Money: Gold pieces. d Special Items: All available. Mariners favor weapons and tool n ornamented with gold. Talents: All available. l
+@@ background_options
+Common Men get get six background options; Mixed Men get five background options. Extra Languages: In addition to the tongues listed above: Wood-speech (S8/W8), Plains-speech (S8/W8), Black-speech (S8/W8), Orcish (S6/W6), Grey-elvish (S6/W6), and Elvish (S6/W6). Extra Money: Gold pieces. Special Items: All available. Mariners favor weapons and tools ornamented with gold. Talents: All available.
 

@@ -9,7 +9,7 @@
 # Numeric data block (RMSS T-1.1 / Race Abilities)
 @stat_mods:      Ag=+0 Co=+0 Me=+0 Re=+0 SD=+2 Em=+0 In=+0 Pr=+0 Qu=+0 St=+2
 @rr_mods:        Ess=+0 Chan=+0 Ment=+0 Pois=+0 Dis=+0
-@bg_opts:        5
+@bg_opts:        6
 @body_dev_prog:  0•6•4•2•1
 @chan_pp_prog:   0•6•5•4•3
 @ess_pp_prog:    0•6•5•4•3
@@ -20,18 +20,49 @@
 # Block ordering: Col L (PHYSICAL / CULTURE / OTHER FACTORS) then
 # Col R (Languages, Prejudices, Professions, OUTFITTING, BACKGROUND).
 #
+# Structured field extraction (regex on bold labels)
+@armor                    None or soft leather.
+@build                    Average to stocky, with strong but angular features. The men possess large amounts of facial hair. Men average 195 pounds; women, 135 pounds.
+@clothing_decoration      They wear crude woolen tunics and short pants with leggings. Most favor coats, cloaks, and fur hats.
+@coloring                 Fair skin with reddish highlights. They have blond hair and blue or green eyes.
+@demeanor                 Quiet, independent, reclusive.
+@endurance                Average.
+@everyman                 Climbing, Foraging, Hiding, Hunting, Tracking
+@extra_languages          In addition to the tongues listed above: Grey-elvish (S8/W8), Plains-speech (S8/ W8), Orcish (S6/W6), and Elvish (S6/W6).
+@extra_money              Herbs worth 1-200 gp.
+@fears_inabilities        Nothing special.
+@height                   Men average 6'1"; women, 5'5".
+@lifespan                 65-85 years.
+@lifestyle                They are an independent lot who have no formal political structure. Living off the gifts of the forest, they reside in small, close groups secluded from other races. They interact with few other than the Wood Elves. Utterly at home in the woodlands, their tracking, climbing, hiding, hunting, and foraging techniques are superb.
+@marriage_pattern         Monogamous. The line is traced through the male.
+@money                    Herbs worth 20 sp.
+@prejudices               Woodmen hate Orcs, Trolls, and Giant Spiders.
+@professions              No special notes.
+@religion                 Mostly personal and within the family or band. Female shamans act as seers, healers, and spiritual leaders. They manage the ancient Cult of Growing (“Alanakyn”) which meets for rare tribal ceremonies.
+@resistance               Average.
+@restricted               none.
+@special_abilities        They can climb and move along tree limbs exceedingly well. They get a special +20 bonus to Climbing skill and Acrobatics skill. They get a special +10 bonus to Foraging skill. . . . . r 
+@special_items            All available. Woodmen create items of wood, bark, fur, leather, and feathers.
+@standard_hobby_skills    Acrobatics, Ambush, Armor • Light skills, Body Development, Climbing, Crewelwork [Crafts], Dancing, Fauna Lore, First Aid, Fletching, Flora Lore, Foraging, Hiding, Leather-crafting, Observation, Rappelling, Read Runes, Region Lore (forested regions), Rope Mastery, Signaling, Stalking, Swim, Tale Telling, Tightrope-walking, Tracking, any Weapon skills, Woodcrafting.
+@starting_languages       Wood-speech (S8/W6), ComAl-mon-speech (S6/W4), Grey-elvish (S4/W3). lowed Adolescence Development: Wood-speech (S10/W10), Common-speech (S8/W8), Grey-elvish (S6/W6), Plains-speech (S6/W6).
+@talents                  All available.
+@weapons                  Club, dagger, handaxe, long bow, quarterstaff, short sword, sling, woodman’s axe, throwing darts, knife.
+#
 @@ woodmen
-The Woodmen have long dwelt in the great forests. They a a loose tribe of hunter/gatherers who live in or below the trees extended families, bands, or clans.
+The Woodmen have long dwelt in the great forests. They are a loose tribe of hunter/gatherers who live in or below the trees as extended families, bands, or clans.
 
-@@ hysical_haracter
-Build: Average to stocky, with strong but angular features. T men possess large amounts of facial hair. Men average 19 pounds; women, 135 pounds. Coloring: Fair skin with reddish highlights. They have blond ha and blue or green eyes. Endurance: Average. Height: Men average 6'1"; women, 5'5". Lifespan: 65-85 years. Resistance: Average. Special Abilities: They can climb and move along tree lim exceedingly well. They get a special +20 bonus to Climbin skill and Acrobatics skill. They get a special +10 bonus Foraging skill.
+@@ physical_character
+Build: Average to stocky, with strong but angular features. The men possess large amounts of facial hair. Men average 195 pounds; women, 135 pounds. Coloring: Fair skin with reddish highlights. They have blond hair and blue or green eyes. Endurance: Average. Height: Men average 6'1"; women, 5'5". Lifespan: 65-85 years. Resistance: Average. Special Abilities: They can climb and move along tree limbs exceedingly well. They get a special +20 bonus to Climbing skill and Acrobatics skill. They get a special +10 bonus to Foraging skill. . . . . r ,
 
-@@ ulture
-Clothing & Decoration: They wear crude woolen tunics short pants with leggings. Most favor coats, cloaks, and hats.re as Fears & Inabilities: Nothing special. Lifestyle: They are an independent lot who have no for political structure. Living off the gifts of the forest, they re in small, close groups secluded from other races. They inte he with few other than the Wood Elves. Utterly at home in 5 woodlands, their tracking, climbing, hiding, hunting, and aging techniques are superb. ir Marriage Pattern: Monogamous. The line is traced through male. Religion: Mostly personal and within the family or band. Fe shamans act as seers, healers, and spiritual leaders. T manage the ancient Cult of Growing (“Alanakyn”) w meets for rare tribal ceremonies. bs O THER F ACTORS g Demeanor: Quiet, independent, reclusive. to Language: Starting Languages: Wood-speech (S8/W6), C mon-speech (S6/W4), Grey-elvish (S4/W3). lowed Adolescence Development: Wood-spe (S10/W10), Common-speech (S8/W8), Grey- ish (S6/W6), Plains-speech (S6/W6). Prejudices: Woodmen hate Orcs, Trolls, and G Spiders. Professions: No special notes. Special Skills: Everyman: Climbing, Forag Hiding, Hunting, Tracking; Restricted: none. Standard Hobby Skills: Acrobatics, Amb Armor • Light skills, Body Development, Cli ing, Crewelwork [Crafts], Dancing, Fauna L First Aid, Fletching, Flora Lore, Foraging, Hid Leather-crafting, Observation, Rappelling, R Runes, Region Lore (forested regions), Rope M tery, Signaling, Stalking, Swim, Tale Telling, Ti rope-walking, Tracking, any Weapon skills, Wo crafting.
+@@ culture
+Clothing & Decoration: They wear crude woolen tunics and short pants with leggings. Most favor coats, cloaks, and fur hats. Fears & Inabilities: Nothing special. Lifestyle: They are an independent lot who have no formal political structure. Living off the gifts of the forest, they reside in small, close groups secluded from other races. They interact with few other than the Wood Elves. Utterly at home in the woodlands, their tracking, climbing, hiding, hunting, and foraging techniques are superb. Marriage Pattern: Monogamous. The line is traced through the male. Religion: Mostly personal and within the family or band. Female shamans act as seers, healers, and spiritual leaders. They manage the ancient Cult of Growing (“Alanakyn”) which meets for rare tribal ceremonies.
 
-@@ utfitting_ptions
-Armor: None or soft leather. Money: Herbs worth 20 sp. Weapons: Club, dagger, handaxe, long bow, q terstaff, short sword, sling, woodman’s axe, thr ing darts, knife.
+@@ other_factors
+Demeanor: Quiet, independent, reclusive. Language: Starting Languages: Wood-speech (S8/W6), ComAl-mon-speech (S6/W4), Grey-elvish (S4/W3). lowed Adolescence Development: Wood-speech (S10/W10), Common-speech (S8/W8), Grey-elvish (S6/W6), Plains-speech (S6/W6). Prejudices: Woodmen hate Orcs, Trolls, and Giant Spiders. Professions: No special notes. Special Skills: Everyman: Climbing, Foraging, Hiding, Hunting, Tracking; Restricted: none. Standard Hobby Skills: Acrobatics, Ambush, Armor • Light skills, Body Development, Climbing, Crewelwork [Crafts], Dancing, Fauna Lore, First Aid, Fletching, Flora Lore, Foraging, Hiding, Leather-crafting, Observation, Rappelling, Read Runes, Region Lore (forested regions), Rope Mastery, Signaling, Stalking, Swim, Tale Telling, Tightrope-walking, Tracking, any Weapon skills, Woodcrafting.
 
-@@ ackground_ptions
-Common Men get get six background opti Mixed Men get five background options. Extra Languages: In addition to the tongues li above: Grey-elvish (S8/W8), Plains-speech W8), Orcish (S6/W6), and Elvish (S6/W6). Extra Money: Herbs worth 1-200 gp. Special Items: All available. Woodmen create it of wood, bark, fur, leather, and feathers. Talents: All available.
+@@ outfitting_options
+Armor: None or soft leather. Money: Herbs worth 20 sp. Weapons: Club, dagger, handaxe, long bow, quarterstaff, short sword, sling, woodman’s axe, throwing darts, knife.
+
+@@ background_options
+Common Men get get six background options; Mixed Men get five background options. Extra Languages: In addition to the tongues listed above: Grey-elvish (S8/W8), Plains-speech (S8/ W8), Orcish (S6/W6), and Elvish (S6/W6). Extra Money: Herbs worth 1-200 gp. Special Items: All available. Woodmen create items of wood, bark, fur, leather, and feathers. Talents: All available.
 

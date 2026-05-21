@@ -231,7 +231,34 @@ CREATE TABLE IF NOT EXISTS race (
     body_dev_prog  TEXT    NOT NULL DEFAULT '',
     chan_pp_prog   TEXT    NOT NULL DEFAULT '',
     ess_pp_prog    TEXT    NOT NULL DEFAULT '',
-    ment_pp_prog   TEXT    NOT NULL DEFAULT ''
+    ment_pp_prog   TEXT    NOT NULL DEFAULT '',
+    -- Rich culture data extracted from "Cultures and Races" appendix. Stored
+    -- as a JSON object with optional keys for each structured field —
+    -- languages, hobby skills, weapons, armor, money, special skills, bg
+    -- option sub-fields, narrative paragraphs (build, lifestyle, religion,
+    -- demeanor, etc.). Default '{}' means no rich data loaded for this
+    -- race yet (current case for Common Men + Mixed Men).
+    culture_data   TEXT    NOT NULL DEFAULT '{}'
+);
+
+-- =========================================================================
+-- Adolescence Rank Table T-1.6
+-- =========================================================================
+-- Starting skill ranks granted to a new character during adolescence,
+-- per (culture × skill) pair. Loaded from data/chargen/adolescence_ranks.txt.
+-- The skill DP allocator consumes this to seed each character's skill
+-- ranks once race + culture is chosen.
+--
+-- skill column is the verbatim row label from T-1.6 ("Athletic • Brawn
+-- skill category", "Climbing skill", "1 Weapon Based on Culture/Race ‡",
+-- etc.). value is the cell text — usually an integer but the Background
+-- Options row stores values like "6/5".
+
+CREATE TABLE IF NOT EXISTS adolescence_rank (
+    skill        TEXT    NOT NULL,
+    culture_slug TEXT    NOT NULL,   -- e.g. "hillmen", "dwarves" (matches race.slug)
+    value        TEXT    NOT NULL,
+    PRIMARY KEY (skill, culture_slug)
 );
 
 -- =========================================================================

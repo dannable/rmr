@@ -20,24 +20,50 @@
 # Block ordering: Col L (PHYSICAL / CULTURE / OTHER FACTORS) then
 # Col R (Languages, Prejudices, Professions, OUTFITTING, BACKGROUND).
 #
-@@ high_men
-High Men are great warriors and builders of empires, for the initiative matches their physical stature. They are said to hav traces of Elven blood and maybe even a little blood of the God
+# Structured field extraction (regex on bold labels)
+@allowed_adolescence_developmentHigh-speech (S10/ W10), Common-speech (S10/W10), Grey-elvish (S8/W8), High-elvish (S6/W6), Hill-speech (S6/W6), Sea-speech (S8/ W8), Small-speech (S6/W6), Plains-speech (S6/W6).
+@armor                    Any. High Man warriors have access to some of the best armor made, as well as the powerful physique necessary to feel comfortable in the heavier types.
+@build                    Tall and strong. Men average 225 pounds; women, 150 pounds.
+@clothing_decoration      Rich and well made, with elaborate collars. The High Men of the southern lands wear light tunics and often go without leggings. Those of colder areas wear more. They favor feathers and white symbols on dark fields.
+@coloring                 Fair skin and black or dark brown hair. They have grey, hazel, blue, or green eyes.
+@demeanor                 Noble, confident, impatient, proud, and often haughty.
+@endurance                Considerable.
+@everyman                 none
+@extra_languages          In addition to the tongues listed above: Highelvish (S8/W8), Hill-speech (S8/W8), Plains-speech (S8/W8), North-speech (S8/W8), and Wood-speech (S8/W8).
+@extra_money              Gold pieces.
+@fears_inabilities        The High Men fear Death, for they are acutely aware of their own great skills and potential.
+@height                   Men average 6'5"; women, 5'10".
+@lifespan                 100-300 years.
+@lifestyle                Well organized, comfortable, and centered around cosmopolitan cities and towns. High Men are traditional and well-educated—their early days are so filled with learning.
+@marriage_pattern         Monogamous. They often marry folk of other races. The line is traced through the male.
+@money                    20 silver pieces.
+@prejudices               The High Men hate the Mariners, for they blame them for a variety of wars that plagued the southern lands. The Hillmen and Orcs have always been their enemies.
+@professions              Any. They are well-suited to magic, although the High Men of the North use spells and enchantments more often than any other group. However, in both North and South, the royal lines, court artisans, and court seers practice various forms of traditional and blessed magic (e.g., sword-making and observations through Seeing-stones).
+@religion                 Restrained and personal. The High Men revere the “True Gods.” They have elaborate burials involving preservation of the body.
+@resistance               Normal.
+@restricted               none.
+@special_abilities        None.
+@special_items            All available.
+@standard_hobby_skills    Animal Handling, any Armor skills, Boat Piloting, Body Development, Diplomacy, Culture Lore (Elven), Embroidery [Crafts], First Aid, Fletching, Hiding, History, Jumping, Languages, Leadership, Meditation, Metalcrafts, Military Organization, Observation, Play Instrument, Poetic Improvisation, Pole Vaulting, Public Speaking, Read Runes, Riding, Rope Mastery, Sewing, Singing, Skating, Skiing, Sprinting, Stalking, Star-gazing, Stone-crafts, Swimming, Tactics, Tracking, any Weapon skills, Weather-watching.
+@starting_languages       High-speech (S8/W6), Common-speech (S8/W6), Grey-elvish (S6/W6), High-elvish (S2/ W2).
+@talents                  All available.
+@weapons                  Battle-axe, broadsword, composite bow, dagger, flail, halbard, lance, long bow, mace, morning star, quarterstaff, short sword, spear, two-handed sword, war hammer, armored fist, bastard sword, boar spear, dag, falchion, foil, kynac, long kynac, main gauche, rapier, war mattock.
+#
+@@ highmen
+High Men are great warriors and builders of empires, for their initiative matches their physical stature. They are said to have traces of Elven blood and maybe even a little blood of the Gods.
 
-@@ hysical_haracter
-Build: Tall and strong. Men average 225 pounds; women, 15 pounds. Coloring: Fair skin and black or dark brown hair. They have gre hazel, blue, or green eyes. Endurance: Considerable. Height: Men average 6'5"; women, 5'10". Lifespan: 100-300 years. Resistance: Normal. Special Abilities: None.
+@@ physical_character
+Build: Tall and strong. Men average 225 pounds; women, 150 pounds. Coloring: Fair skin and black or dark brown hair. They have grey, hazel, blue, or green eyes. Endurance: Considerable. Height: Men average 6'5"; women, 5'10". Lifespan: 100-300 years. Resistance: Normal. Special Abilities: None.
 
-@@ ulture
-Clothing & Decoration: Rich and well made, with elaborat collars. The High Men of the southern lands wear light tunic and often go without leggings. Those of colder areas wea more. They favor feathers and white symbols on dark fields Fears & Inabilities: The High Men fear Death, for they ar acutely aware of their own great skills and potential. Lifestyle: Well organized, comfortable, and centered aroun cosmopolitan cities and towns. High Men are traditional an well-educated—their early days are so filled with learning. Marriage Pattern: Monogamous. They often marry folk o other races. The line is traced through the male. Religion: Restrained and personal. The High Men revere th “True Gods.” They have elaborate burials involving preserva tion of the body.
+@@ culture
+Clothing & Decoration: Rich and well made, with elaborate collars. The High Men of the southern lands wear light tunics and often go without leggings. Those of colder areas wear more. They favor feathers and white symbols on dark fields. Fears & Inabilities: The High Men fear Death, for they are acutely aware of their own great skills and potential. Lifestyle: Well organized, comfortable, and centered around cosmopolitan cities and towns. High Men are traditional and well-educated—their early days are so filled with learning. Marriage Pattern: Monogamous. They often marry folk of other races. The line is traced through the male. Religion: Restrained and personal. The High Men revere the “True Gods.” They have elaborate burials involving preservation of the body.
 
-@@ ther_actors
-Demeanor: Noble, confident, impatient, proud, and often haught Language: Starting Languages: High-speech (S8/W6), Com mon-speech (S8/W6), Grey-elvish (S6/W6), High-elvish (S2 W2). Allowed Adolescence Development: High-speech (S10 W10), Common-speech (S10/W10), Grey-elvish (S8/W8 High-elvish (S6/W6), Hill-speech (S6/W6), Sea-speech (S8 W8), Small-speech (S6/W6), Plains-speech (S6/W6). Prejudices: The High Men hate the Mariners, for they blam them for a variety of wars that plagued the southern lands. Th Hillmen and Orcs have always been their enemies. Professions: Any. They are well-suited to magic, although th High Men of the North use spells and enchantments more ofte than any other group. However, in both North and South, th royal lines, court artisans, and court seers practice variou forms of traditional and blessed magic (e.g., sword-making an observations through Seeing-stones). Special Skills: Everyman: none; Restricted: none. Standard Hobby Skills: Animal Handling, any Armor skill Boat Piloting, Body Development, Diplomacy, Culture Lor (Elven), Embroidery [Crafts], First Aid, Fletching, Hidin History, Jumping, Languages, Leadership, Meditation, Meta crafts, Military Organization, Observation, Play Instrumen Poetic Improvisation, Pole Vaulting, Public Speaking, Rea Runes, Riding, Rope Mastery, Sewing, Singing, Skating, Sk ing, Sprinting, Stalking, Star-gazing, Stone-crafts, Swimmin Tactics, Tracking, any Weapon skills, Weather-watching.
+@@ other_factors
+Demeanor: Noble, confident, impatient, proud, and often haughty. Language: Starting Languages: High-speech (S8/W6), Common-speech (S8/W6), Grey-elvish (S6/W6), High-elvish (S2/ W2). Allowed Adolescence Development: High-speech (S10/ W10), Common-speech (S10/W10), Grey-elvish (S8/W8), High-elvish (S6/W6), Hill-speech (S6/W6), Sea-speech (S8/ W8), Small-speech (S6/W6), Plains-speech (S6/W6). Prejudices: The High Men hate the Mariners, for they blame them for a variety of wars that plagued the southern lands. The Hillmen and Orcs have always been their enemies. Professions: Any. They are well-suited to magic, although the High Men of the North use spells and enchantments more often than any other group. However, in both North and South, the royal lines, court artisans, and court seers practice various forms of traditional and blessed magic (e.g., sword-making and observations through Seeing-stones). Special Skills: Everyman: none; Restricted: none. Standard Hobby Skills: Animal Handling, any Armor skills, Boat Piloting, Body Development, Diplomacy, Culture Lore (Elven), Embroidery [Crafts], First Aid, Fletching, Hiding, History, Jumping, Languages, Leadership, Meditation, Metalcrafts, Military Organization, Observation, Play Instrument, Poetic Improvisation, Pole Vaulting, Public Speaking, Read Runes, Riding, Rope Mastery, Sewing, Singing, Skating, Skiing, Sprinting, Stalking, Star-gazing, Stone-crafts, Swimming, Tactics, Tracking, any Weapon skills, Weather-watching.
 
-@@ intro
-ir e s. 0 y, e s r . e d d f e
+@@ outfitting_options
+Armor: Any. High Man warriors have access to some of the best armor made, as well as the powerful physique necessary to feel comfortable in the heavier types. Money: 20 silver pieces. Weapons: Battle-axe, broadsword, composite bow, dagger, flail, halbard, lance, long bow, mace, morning star, quarterstaff, short sword, spear, two-handed sword, war hammer, armored fist, bastard sword, boar spear, dag, falchion, foil, kynac, long kynac, main gauche, rapier, war mattock.
 
-@@ ptions_utfitting
-Armor: Any. High Man warriors have access to some of the bes armor made, as well as the powerful physique necessary to fee comfortable in the heavier types. y. Money: 20 silver pieces. - Weapons: Battle-axe, broadsword, composite bow, dagger, flail / halbard, lance, long bow, mace, morning star, quarterstaff / short sword, spear, two-handed sword, war hammer, armore ), fist, bastard sword, boar spear, dag, falchion, foil, kynac, lon / kynac, main gauche, rapier, war mattock.
-
-@@ ptionse_ackground
-High Men get four background options.e Extra Languages: In addition to the tongues listed above: High elvish (S8/W8), Hill-speech (S8/W8), Plains-speech (S8/W8)e North-speech (S8/W8), and Wood-speech (S8/W8).n e Extra Money: Gold pieces. s Special Items: All available. d Talents: All available. s, e g, l- t, d i- g,
+@@ background_options
+High Men get four background options. Extra Languages: In addition to the tongues listed above: Highelvish (S8/W8), Hill-speech (S8/W8), Plains-speech (S8/W8), North-speech (S8/W8), and Wood-speech (S8/W8). Extra Money: Gold pieces. Special Items: All available. Talents: All available.
 

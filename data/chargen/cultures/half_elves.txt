@@ -20,21 +20,50 @@
 # Block ordering: Col L (PHYSICAL / CULTURE / OTHER FACTORS) then
 # Col R (Languages, Prejudices, Professions, OUTFITTING, BACKGROUND).
 #
+# Structured field extraction (regex on bold labels)
+@allowed_adolescence_developmentGrey-elvish (S10/ W10), Common-speech (S10/W10), High-elvish (S10/ W10), High-speech (S10/W10), Elvish (S10/W10).
+@armor                    Any. Half-elves are comfortable in plate, scale, and lamellar (as chain, -5 vs. melee, +5 vs. missile).
+@build                    Strong and slender, thinner than Men but stouter than Elves. They have thin, angular features. Males average 190 pounds, females 135 pounds.
+@clothing_decoration      Varies, although it is generally well-made and beautifully and subtly adorned. Favored colors are deep blues and greens, greys and grey-greens, silver, and white.
+@coloring                 Fair, generally with brown or black hair and grey eyes.
+@demeanor                 Patient, reserved, considerate, balanced, mellow, and thoughtful.
+@endurance                Considerable. Half-elves need but 4 hours rest a day: sleep for mortals or meditation for the immortals.
+@everyman                 none
+@extra_languages          In addition to the tongues listed above: Northspeech (S6/W6), Plains-speech (S6/W6), and Wood-speech (S6/W6).
+@extra_money              Gold pieces of High Mannish mint.
+@fears_inabilities        Nothing special.
+@height                   Males average 6'3", females 5'11".
+@lifespan                 Mortal Half-elves live 250-500 years.
+@lifestyle                Varies, although they generally live in secluded retreats or havens, or among Elvenkind. Their culture is much like that of the Grey Elves, although they are constantly concerned with the ways of Men.
+@marriage_pattern         Monogamous. The line is traced through the male or female.
+@money                    20 silver pieces in High Mannish mint.
+@prejudices               Orcs are their sworn enemies.
+@professions              No special notes.
+@religion                 Quiet, personal, and involving meditation—in general, they are like the Elves in this (see Section A3.0).
+@resistance               Half-elves are highly resistant to disease and natural illness. They have a +5 DB and RR bonus versus cold attacks.
+@restricted               none.
+@special_abilities        Half-elves can see extremely well in the dark. Under moonlight or starlight they can see perfectly for 500'. In other darkness situations they see as Elves do (50' to 100' if a light source is available).
+@special_items            All available. Finely wrought metals are a popular material for such.
+@standard_hobby_skills    Acrobatics, Acting, Ambush, Animal Handling, any Armor skills, Boat Piloting, Culture Lore, Diplomacy, First Aid, Fletching, Foraging, Hiding, History, Leadership, Meditation, Play Instrument, any Power Awareness skills, Public Speaking, Region Lore, Riding, Sewing, Singing, Skating, Skiing, Sprinting, Stalking, Star-gazing, Swimming, Tale Telling, Tracking, any Weapon skills, Weatherwatching.
+@starting_languages       Grey-elvish (S8/W6), Common-speech (S8/W6), High-elvish (S6/W5).
+@talents                  All available.
+@weapons                  Dagger, broadsword, long sword, war hammer, mace, morning star, composite bow, crossbow, battle-axe, flail, quarterstaff, two-handed sword, lance, spear, falchion, main gauche, rapier, dag, heavy crossbow, war mattock, bastard sword, boar spear.
+#
 @@ half_elves
-True Half-elves have one Human and one Elven parent. The must choose relatively early in life whether they shall be morta (and of men) or immortal and of Elvenkind. Should they choos immortality, they usually follow the lifestyle and course of the Elven parent. They are akin to “High Men,” for the latter ma (depending on race and game setting) have varying degrees o Elven blood.
+True Half-elves have one Human and one Elven parent. They must choose relatively early in life whether they shall be mortal (and of men) or immortal and of Elvenkind. Should they choose immortality, they usually follow the lifestyle and course of their Elven parent. They are akin to “High Men,” for the latter may (depending on race and game setting) have varying degrees of Elven blood.
 
-@@ hysical_haracter
-Build: Strong and slender, thinner than Men but stouter tha Elves. They have thin, angular features. Males average 19 pounds, females 135 pounds. Coloring: Fair, generally with brown or black hair and grey eye Endurance: Considerable. Half-elves need but 4 hours rest day: sleep for mortals or meditation for the immortals. Height: Males average 6'3", females 5'11". Lifespan: Mortal Half-elves live 250-500 years. Resistance: Half-elves are highly resistant to disease and natural illness. They have a +5 DB and RR bonus versus cold attacks. Special Abilities: Half-elves can see extremely well in the dark. Under moonlight or starlight they can see perfectly for 500'. In other darkness situations they see as Elves do (50' to 100' if a light source is available).
+@@ physical_character
+Build: Strong and slender, thinner than Men but stouter than Elves. They have thin, angular features. Males average 190 pounds, females 135 pounds. Coloring: Fair, generally with brown or black hair and grey eyes. Endurance: Considerable. Half-elves need but 4 hours rest a day: sleep for mortals or meditation for the immortals. Height: Males average 6'3", females 5'11". Lifespan: Mortal Half-elves live 250-500 years. Resistance: Half-elves are highly resistant to disease and natural illness. They have a +5 DB and RR bonus versus cold attacks. Special Abilities: Half-elves can see extremely well in the dark. Under moonlight or starlight they can see perfectly for 500'. In other darkness situations they see as Elves do (50' to 100' if a light source is available).
 
-@@ ulture
-Clothing & Decoration: Varies, although it is generally well-made and beautifully and subtly adorned. Favored colors are deep blues and greens, greys and grey-greens, silver, and white. Fears & Inabilities: Nothing special. Lifestyle: Varies, although they generally live in secluded retreats or havens, or among Elvenkind. Their culture is much like that of the Grey Elves, although they are constantly concerned with the ways of Men. Marriage Pattern: Monogamous. The line is traced through the male or female. Religion: Quiet, personal, and involving meditation—in general, they are like the Elves in this (see Section A- 3.0).
+@@ culture
+Clothing & Decoration: Varies, although it is generally well-made and beautifully and subtly adorned. Favored colors are deep blues and greens, greys and grey-greens, silver, and white. Fears & Inabilities: Nothing special. Lifestyle: Varies, although they generally live in secluded retreats or havens, or among Elvenkind. Their culture is much like that of the Grey Elves, although they are constantly concerned with the ways of Men. Marriage Pattern: Monogamous. The line is traced through the male or female. Religion: Quiet, personal, and involving meditation—in general, they are like the Elves in this (see Section A3.0).
 
-@@ ther_actors
-Demeanor: Patient, reserved, considerate, balanced, mel- low, and thoughtful. Language: Starting Languages: Grey-elvish (S8/W6), Common-speech (S8/W6), High-elvish (S6/W5). Al- lowed Adolescence Development: Grey-elvish (S10/ W10), Common-speech (S10/W10), High-elvish (S10/ W10), High-speech (S10/W10), Elvish (S10/W10). Prejudices: Orcs are their sworn enemies. Professions: No special notes. Special Skills: Everyman: none; Restricted: none. Standard Hobby Skills: Acrobatics, Acting, Ambush, Animal Handling, any Armor skills, Boat Piloting, Cul- ture Lore, Diplomacy, First Aid, Fletching, Foraging, Hidin History, Leadership, Meditation, Play Instrument, any Powe Awareness skills, Public Speaking, Region Lore, Riding, Sew ing, Singing, Skating, Skiing, Sprinting, Stalking, Star-gazin Swimming, Tale Telling, Tracking, any Weapon skills, Weathe watching.
+@@ other_factors
+Demeanor: Patient, reserved, considerate, balanced, mellow, and thoughtful. Language: Starting Languages: Grey-elvish (S8/W6), Common-speech (S8/W6), High-elvish (S6/W5). Allowed Adolescence Development: Grey-elvish (S10/ W10), Common-speech (S10/W10), High-elvish (S10/ W10), High-speech (S10/W10), Elvish (S10/W10). Prejudices: Orcs are their sworn enemies. Professions: No special notes. Special Skills: Everyman: none; Restricted: none. Standard Hobby Skills: Acrobatics, Acting, Ambush, Animal Handling, any Armor skills, Boat Piloting, Culture Lore, Diplomacy, First Aid, Fletching, Foraging, Hiding, History, Leadership, Meditation, Play Instrument, any Power Awareness skills, Public Speaking, Region Lore, Riding, Sewing, Singing, Skating, Skiing, Sprinting, Stalking, Star-gazing, Swimming, Tale Telling, Tracking, any Weapon skills, Weatherwatching.
 
-@@ utfitting_ptions
-Weapons: Dagger, broadsword, long sword, war hammer, mace morning star, composite bow, crossbow, battle-axe, flail quarterstaff, two-handed sword, lance, spear, falchion, maiy gauche, rapier, dag, heavy crossbow, war mattock, bastardl sword, boar spear.e ir Armor: Any. Half-elves are comfortable in plate, scale, an y lamellar (as chain, -5 vs. melee, +5 vs. missile). f Money: 20 silver pieces in High Mannish mint.
+@@ outfitting_options
+Weapons: Dagger, broadsword, long sword, war hammer, mace, morning star, composite bow, crossbow, battle-axe, flail, quarterstaff, two-handed sword, lance, spear, falchion, main gauche, rapier, dag, heavy crossbow, war mattock, bastard sword, boar spear. Armor: Any. Half-elves are comfortable in plate, scale, and lamellar (as chain, -5 vs. melee, +5 vs. missile). Money: 20 silver pieces in High Mannish mint.
 
-@@ ackground_ptions
-Because of their strong cultural and racial ties, Half-elves only n get four background options. 0 Extra Languages: In addition to the tongues listed above: North speech (S6/W6), Plains-speech (S6/W6), and Wood-speec s. (S6/W6). a Extra Money: Gold pieces of High Mannish mint. Special Items: All available. Finely wrought metals are a popula material for such. Talents: All available. g, r - g, r-
+@@ background_options
+Because of their strong cultural and racial ties, Half-elves only get four background options. Extra Languages: In addition to the tongues listed above: Northspeech (S6/W6), Plains-speech (S6/W6), and Wood-speech (S6/W6). Extra Money: Gold pieces of High Mannish mint. Special Items: All available. Finely wrought metals are a popular material for such. Talents: All available.
 
