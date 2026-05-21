@@ -8,6 +8,7 @@ import {
   type SkillCategory,
   type SkillEntry,
   type SkillTable,
+  type SkillTableRow,
 } from "../api";
 
 /**
