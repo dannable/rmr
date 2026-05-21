@@ -76,54 +76,195 @@
 # SKILL DESCRIPTIONS
 # ===================================================================
 
-@@ LORE • Magical
+@@ Fauna Lore
+@stat: Em
+@description:
+  This skill provides a bonus for recognizing and identifying the animal
+  forms within a specific area, region and climate. May be oped either
+  in-depth for a specific area or as general education in zoological trends.
+  Several different regions/climates may be developed simultaneously,
+  provided that research materials are available. This skill may be used for
+  learning about specific species providing great detail on the
+  characteristics and habits of a particular of animal.
+
+@@ Flora Lore
+@description:
+  This skill provides a bonus for recognizing and identifying the plant forms
+  within a specific area, region and climate. May be developed either
+  in-depth for a specific area or as general education in flora/botanical
+  trends. Several different regions/climates may be developed neously,
+  provided that research materials are available. Note: This may be used for
+  learning about specific species as well, providing detail on the
+  characteristics and habits of a particular type of plant.
+
+@@ Heraldry
 @stat: Me
 @description:
-  Artifact Lore This skill provides a bonus for recognizing and knowing the
-  powers potent magical items.  Circle Lore This skill provides a bonus for
-  manipulating and using magical in conjunction with spells. It also allows
-  non-magical research in ing, identifying new “Circles” in which to add to
-  his repertoire spells.  Planar Lore Rolemaster This skill provides a bonus
-  for recognizing and navigating other Standard Rules of existence; it also
-  provides knowledge about other planes.  172
+  This skill provides a bonus for designing or recognizing the particular
+  heraldic crests (coats-of-arms) specific to a given culture. Separate
+  cultures must be developed separately.
+
+@@ History
+@stat: Me
+@description:
+  This skill provides knowledge about the past. One may develop skill in
+  general World History (subject to the available learning als—i.e., if
+  knowledge about the other side of the world is not available, it may not be
+  learned) although the information will be far less specific, focusing
+  instead on the broad strokes of history. If this skill is developed in the
+  history of a particular region or subject, the information will more
+  specific. In essence, the smaller the focus of the skill, the greater level
+  of detail and accuracy. Developing skill in the history Kingdom of Harran,
+  for instance, might provide information about rulers and the great events
+  in the Kingdom's past; skill in the history Guild of Architects in the city
+  of Jeppod would likely include all names of the Guild’s officers, the
+  bylaws memorized by heart, etc. skill encompasses military history as well.
+
+@@ Philosophy
+@stat: In
+@description:
+  This skill provides a bonus for recognizing and identifying aspects of
+  philosophic doctrines. Each philosophy doctrine concentrated in and learned
+  separately for in-depth knowledge understanding.
+
+@@ Region Lore
+@stat: Me
+@description:
+  This skill provides knowledge about the beliefs, rituals, information about
+  a specific region. Note that skill for each region be developed separately.
+  All characters begin with ranks in Region for their own region. See Section
+  13.0.
+
+@@ Religion
+@stat: Me
+@description:
+  This skill provides a bonus for recognizing and identifying aspects of
+  religious doctrines. Each religion may be concentrated learned separately
+  for in-depth knowledge and understanding.
+
+@@ LORE • Magical
+
+@@ Artifact Lore
+@stat: Me
+@description:
+  This skill provides a bonus for recognizing and knowing the powers potent
+  magical items.
+
+@@ Circle Lore
+@stat: Me
+@description:
+  This skill provides a bonus for manipulating and using magical in
+  conjunction with spells. It also allows non-magical research in ing,
+  identifying new “Circles” in which to add to his repertoire spells.
+
+@@ Planar Lore
+@stat: In
+@description:
+  Rolemaster This skill provides a bonus for recognizing and navigating other
+  Standard Rules of existence; it also provides knowledge about other planes.
+  172
+
+@@ Symbol Lore
+@stat: Em
+@description:
+  major This skill provides a bonus on manipulating and using symbols
+  develconjunction with the appropriate symbol spells. Also allows
+  non-magical fauna/ research in defining and identifying new “Symbols” to
+  add to his repertoire of symbol spells. Note that the GM may decide to
+  allow this skill Note: help interpret dreams.  as well,
+
+@@ Undead Lore
+@stat: Me
+@description:
+  type This skill provides a bonus for recognizing and (with the proper magic
+  and materials) creating Undead.
+
+@@ Warding Lore
+@stat: Me
+@description:
+  major This skill provides a bonus on manipulating and using wards
+  conjunction with the appropriate ward spells. Also allows non-magical
+  research in defining & identifying new “Wards” which to add to
+  simultarepertoire of ward spells.  skill great
 
 @@ LORE • Obscure
 @stat: Em
-@description:
-  Demon/Devil Lore This skill provides a bonus for recognizing, and
-  identifying the major powers and abilities of extra-dimensional beings, and
-  information taining to demons/devils (land, items, etc.).  Dragon Lore this
-  This skill provides a bonus for recognizing and identifying the major
-  materipowers and abilities of dragons, and information pertaining to
-  dragons (e.g., lands, items).  Faerie Lore This skill provides a bonus for
-  recognizing and identifying the major be far powers and abilities of
-  faeries, and information pertaining to faeries (e.g., the lands, items,
-  etc.).  of the the Xeno-lores of the This skill should be used by the GM to
-  insert Lores dealing with of the unusual or rare races not listed here.
-  This skill may also be used to simulate This esoteric Lores developed by
-  those races.  Example: The Shimmiebops of Dimension X have their own
-  Philosophy which is radically different from our own . The GM major rules
-  that learning Shimmiebop Philosophy falls under Xenomay be lore. and
 
-@@ LORE • Technical
+@@ Demon/Devil Lore
 @stat: Me
 @description:
-  or other Herb Lore must This skill provides a bonus for
-  recognizing/identifying herbs.  Lore Lock Lore This skill provides a bonus
-  for recognizing and identifying major forms of locks and similar devices.
-  major in and Metal Lore This skill provides a bonus for recognizing and
-  identifying metals, alloys, metallic crystal structures, etc. Also will
-  give information famous, magical, historic, legendary, or cursed types of
-  metals. Skill must be developed separately for each culture or region as
-  applicable to GM’s world scheme.  of Poison Lore This skill provides a
-  bonus for recognizing and identifying poisons, well as knowledge of proper
-  application and usage techniques. (These may require an Using/Removing
-  Poison skill roll to actually carry circles through.)  definof circle Stone
-  Lore This skill provides a bonus for recognizing and identifying stones.
-  Also will give information on famous, magical, powerful, historic,
+  This skill provides a bonus for recognizing, and identifying the major
+  powers and abilities of extra-dimensional beings, and information taining
+  to demons/devils (land, items, etc.).
+
+@@ Dragon Lore
+@stat: Me
+@description:
+  this This skill provides a bonus for recognizing and identifying the major
+  materipowers and abilities of dragons, and information pertaining to
+  dragons (e.g., lands, items).
+
+@@ Faerie Lore
+@stat: Me
+@description:
+  This skill provides a bonus for recognizing and identifying the major be
+  far powers and abilities of faeries, and information pertaining to faeries
+  (e.g., the lands, items, etc.).  of the
+
+@@ Xeno-lores
+@stat: Me
+@description:
+  of the This skill should be used by the GM to insert Lores dealing with of
+  the unusual or rare races not listed here. This skill may also be used to
+  simulate This esoteric Lores developed by those races.  Example: The
+  Shimmiebops of Dimension X have their own Philosophy which is radically
+  different from our own . The GM major rules that learning Shimmiebop
+  Philosophy falls under Xenomay be lore. and
+
+@@ LORE • Technical
+@description:
+  or other
+
+@@ Herb Lore
+@stat: Me
+@description:
+  must This skill provides a bonus for recognizing/identifying herbs.  Lore
+
+@@ Lock Lore
+@stat: Me
+@description:
+  This skill provides a bonus for recognizing and identifying major forms of
+  locks and similar devices.  major
+
+@@ Metal Lore
+@stat: Me
+@description:
+  in and This skill provides a bonus for recognizing and identifying metals,
+  alloys, metallic crystal structures, etc. Also will give information
+  famous, magical, historic, legendary, or cursed types of metals. Skill must
+  be developed separately for each culture or region as applicable to GM’s
+  world scheme.
+
+@@ Poison Lore
+@stat: Me
+@description:
+  of This skill provides a bonus for recognizing and identifying poisons,
+  well as knowledge of proper application and usage techniques. (These may
+  require an Using/Removing Poison skill roll to actually carry circles
+  through.)  defin-
+
+@@ Stone Lore
+@stat: Me
+@description:
+  of circle This skill provides a bonus for recognizing and identifying
+  stones. Also will give information on famous, magical, powerful, historic,
   legendary or cursed types of stone. Skill lore is developed separately
-  planes each culture or region as applicable to GM’s world scheme.  Trading
-  Lore This skill provides knowledge of trade-related affairs. Trade routes,
+  planes each culture or region as applicable to GM’s world scheme.
+
+@@ Trading Lore
+@stat: Me
+@description:
+  This skill provides knowledge of trade-related affairs. Trade routes,
   customs laws, exchange rates, traditions and rituals, etc. are all
   encompassed by this skill.
 

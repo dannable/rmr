@@ -25,3 +25,59 @@
   such a spell must be able to cast it at least once a day (either
   intrinsically or from an item).
 
+# ===================================================================
+# SKILL DESCRIPTIONS
+# ===================================================================
+
+@@ DIRECTED SPELLS
+@stat: Ag
+@description:
+  Descriptions The skills in this category provide bonuses to directed
+  attacks utilizing the elemental form to which they apply. example, skill in
+  fire directed spells will give a bonus to Sample Bolts (regardless of
+  range). Skill may be developed separately Directed Spells Attack each such
+  spell. A character wishing to develop skill with Table spell must be able
+  to cast it without the need of a spell roll once a day, either
+  intrinsically or from an item or runes cannot require overcasting, etc.).
+  20 19 18 17 16 15 14 13 12 11 UM01-02 F F F F F F F F F 03-10 F F F F F F F
+  F F 11-20 F F F F F F F F – 21-30 1 1 – – – – – – – 31-35 2 3 1 – 3 1 – – –
+  36-40 3 5 3 2 5 3 1 – – 41-45 5A 6 5 3 6 5 3 1 – 46-50 6A 7A 7 5 7A 7 5 3 1
+  51-55 7A 8A 8A 7 8A 9A 7A 5 2 56-60 8A 9A 9A 9A 9A 10A 9A 7A 3 61-65 9A 10A
+  10A 11B 10A 11A 11A 9B 4 66-70 10A 11A 11B 13B 11B 12A 12B 11B 5A 71-75 11A
+  12B 12B 14C 12B 13B 13B 13B 6A 8A 76-80 12B 13B 13B 15C 13B 13B 14B 15B 7A
+  9A 81-85 13B 14B 14C 16C 13B 14B 15B 17C 8A 10B 86-90 14B 14B 15C 17D 14C
+  14B 16C 18C 8A 11B 91-95 14B 15C 16C 18D 14C 15C 17C 19D 9B 12B 96-100 15C
+  15C 17D 19D 15C 15C 18D 20D 9B 12C 101-105 15C 16C 18D 20E 15D 15D 19D 21E
+  10B 13C 106-110 16C 16D 19E 21E 16D 16D 20E 22E 10C 13C 111-115 16D 17D 20E
+  22F 16E 16E 21E 23F 11C 14D 116-120 16D 17E 21F 23F 17E 17E 22F 24F 11D 14D
+  121-125 17E 18E 22F 24G 17F 18F 23F 25G 12D 15E 126-130 17E 18F 23G 25G 18F
+  19F 24G 26G 12E 15E 131-135 17F 19F 24G 26G 19G 20G 25G 27H 13E 16F 136-140
+  18F 19G 25H 26H 20G 21G 26H 27H 13F 16F 141-145 18F 20G 26H 27H 21H 22H 27H
+  28H 14F 17G 146-150 18G 20H 27I 27I 22H 22H 28I 28I 14G 18H UM 100 22H 25I
+  32J 32J 25I 25I 33J 33J 20H 25I Rolemaster Standard Range Mod (For A, B,
+  Rules 0' - 10' +35 11' - 50' – 168 51' - 100' -25 101' - 200' -40 201' -
+  300' -55 301' - up -75 UM = Unmodified Roll spell The five types of
+  directed spells (with their associated Attack For Table) are Fire Bolts (SL
+  5.4), Ice Bolts (SL 5.5), Lightning Bolts all Fire (SL 5.6), Shock Bolts
+  (SL 5.7) and Water Bolts (SL 5.8). for Section 23.7 for guidelines on
+  handling Directed Spell attacks. such a  at least Below is an example of a
+  Directed Spell Attack Table from (i.e., it Spell Law. 10 9 8 7 6 5 4 3 2 1
+  F F F F F F F F F F F 01-02 UM F F F F F F F – – – – 03-10 – – – – – – – –
+  – – – 11-20 – – – – – – – – – – – 21-30 – – – – – – – – – – – 31-35 – – – 1
+  – – – – – – – 36-40 – – – 2 1 – – – – 3A – 41-45 – – – 3 3 1 – 1 1 5A 1
+  46-50 1 1 – 4A 5A 3 1 2 3 7B 3 51-55 3 3 1 5A 6A 5A 3 4 5 9B 5A 56-60 5 5 3
+  6A 7B 7B 5A 6 7A 11C 7B 61-65 7 7 5A 7B 8B 8B 7B 8A 9A 13D 9C 66-70 9A 7A
+  8B 9C 9C 9C 10A 11B 15D 11D 71-75 11A 9B 9C 10C 10D 11D 12B 13B 17E 13D
+  76-80 12B 11B 10C 11D 11D 12E 14B 15C 19E 15E 81-85 13B 13C 11D 12D 12E 14E
+  16C 17C 21F 17E 86-90 14C 15C 12D 13E 13E 16E 18C 19D 23F 19F 91-95 15C 15C
+  13E 14E 14E 18F 20D 21D 25F 21F 96-100 16D 18D 14E 15E 15E 15F 22D 23E 27G
+  23F 101-105 17D 19E 15E 16f 16F 22F 24E 25E 29G 25G 106-110 18E 20E 16F 17F
+  18F 24G 25E 27F 31G 27G 111-115 19E 21F 17F 18F 20G 25G 26F 28F 32H 29G
+  116-120 20F 22F 18F 19G 22G 28G 27F 29G 33H 31H 121-125 21F 23G 19G 20G 24G
+  30H 28G 30G 34H 33H 126-130 22G 24G 20G 21G 26H 31H 29G 31H 35I 35H 130-135
+  23G 24H 21G 22H 28H 33H 30H 32H 36I 37I 136-140 24H 25H 22H 23H 29H 34I 32H
+  33I 37I 39I 141-145 25I 25I 23H 24H 30I 35I 32I 34I 38I 40I 146-150
+  LIGHTNING 30J 30J 27I 30I 38J 42J 38J 42J 43J 45J 100 UM C, D, and E
+  results, use Electricity Criticals) SPELL BOLT Critical Use Use Use Result
+  Electricity Impact Heat F E A — LAW G E B — H E C A I E D B
+

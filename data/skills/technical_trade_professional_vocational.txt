@@ -34,6 +34,217 @@
   developed even without instruction.
 
 # ===================================================================
+# SKILL DESCRIPTIONS
+# ===================================================================
+
+@@ Advertising
+@description:
+  Vocational This skill provides a bonus for successfully marketing a product
+  Skill service. Must be developed separately for each culture encountered.
+  Descriptions
+
+@@ Architecture
+@stat: In
+@description:
+  This skill provides a bonus for designing buildings, reading or blueprints
+  and technical diagrams, and evaluating or appraising tures. This skill may
+  also provide a bonus for locating hidden within a structure.
+
+@@ Diagnostics
+@stat: Em
+@description:
+  This skill provides a bonus for determining medical condition of creature.
+  Skill must be learned for a particular race, or type of creature. One must
+  pick the skill in either general diagnosis, or diagnosis specific race.
+  General diagnostics skill of 6 ranks or higher certification of simple
+  medical practice on all races (use of field ment and healing drugs).
+  Diagnostics skill for a specific race of 12 or higher is required for
+  surgical certification (and reasonable tence).
+
+@@ Dowsing
+@stat: In
+@description:
+  This skill provides a bonus for locating underground water through the
+  ground. The water will be directly under your feet when skill has
+  successfully been used.
+
+@@ Drowsing
+@stat: SD
+@description:
+  This skill provides a bonus to lazing about, drifting in and out and
+  falling asleep in uncomfortable or socially inappropriate
+
+@@ Engineering
+@stat: In
+@description:
+  This skill provides a bonus for knowing major facts about engineering of
+  the appropriate technical level known to the culture. Also provides bonus
+  for attempts to utilize that knowledge in new engineering projects. A GM
+  may require different types of Engineering to be treated as skills.
+
+@@ Mechanition
+@stat: Ag
+@description:
+  This skill provides a bonus for building and using a machine already
+  exists. It will be necessary to have the appropriate skills the machine.
+  Each type of machine must be learned as a separate
+
+@@ Military Organization
+@stat: In
+@description:
+  This skill provides a bonus for organization of a military force, actual
+  deployment into battle (which is tactics). Includes knowledge how to billet
+  and supply a unit, posting of watch, running of patrols,  The following is
+  a partial listing of types of military organization: •Aerial Forces: Air
+  Cav, aerial assault forces, etc. •Ground Forces: Infantry, cavalry, or
+  other similar types of •Marine Forces: Marine, Merchant Marine or other
+  similar •Naval Forces: Sea, Ocean, or other similar water type units.
+
+@@ Mining
+@stat: In
+@description:
+  This skill provides a bonus for assessing the possibilities of mining an
+  area, and supervising the creation and running of the mine. Each of mining
+  process must be learned as separate skill.  The following is a partial
+  listing of mining process: • Dredging: Scraping material off the bottom of
+  a river, ocean, • Open Pit: Removal of top layers to extract materials. •
+  Quarry: Removal of materials in block form. • Tunneling: Making of
+  underground passages to extract materials.
+
+@@ Second Aid
+@stat: Em
+@description:
+  This skill provides a bonus for performing minor surgery, including sewing
+  closed wounds, removing diseased or mangled limbs, bone and any other minor
+  surgery operation.
+
+@@ Surgery
+@stat: Em
+@description:
+  This skill provides a bonus for performing major surgery, includes
+  performing exploratory surgery, organ transplants, acupuncture, and organ
+  and limb repairs. Use of this skill is done with simple equipment (e.g.,
+  scalpel, anesthesia, hemostats, respirators etc.).  Rolemaster Standard
+  Rules 204
+
+@@ Administration
+@stat: In
+@description:
+  or This skill provides a bonus for functioning successfully within
+  familiar government where record keeping, personnel interaction,
+  bureaucracy is present. Also useful in gaining public office and applying
+  governmental power.  creating
+
+@@ Appraisal
+@stat: Re
+@description:
+  strucspaces This skill provides a bonus for determining or estimating the
+  value an object or goods other than Armor, Metal, Stones or Weapons.
+
+@@ Boat Pilot
+@stat: Ag
+@description:
+  a type This skill provides a bonus for knowledge of water courses such as
+  locations of sand bars, rapids, waterfalls, whirlpools, currents, reefs, of
+  a icebergs, vegetation clogs (underwater snags and roots) (overhead
+  hangallows ing branches, and vines), etc. Skill is very useful for
+  navigating water equipways. Each water course must be learned separately.
+  ranks
+
+@@ Cartography
+@stat: Re
+@description:
+  compeThis skill provides a bonus to the analysis, preparation and use
+  advanced maps and mapping techniques, using cartographic tools. skill
+  complements the skill of Navigation.  sources
+
+@@ Evaluate Armor
+@stat: Re
+@description:
+  the Provides a bonus for determining the value and quality of armor.
+
+@@ Evaluate Metal
+@stat: Re
+@description:
+  Provides a bonus for determining the value and quality of metal objects of
+  sleep, in worked, refined or raw condition.  places.
+
+@@ Evaluate Stone
+@stat: Re
+@description:
+  Provides a bonus for determining the value and quality of stone objects in
+  worked, refined or raw condition. This skill is also used to evaluate gems.
+  a
+
+@@ Evaluate Weapon
+@stat: Re
+@description:
+  separate Provides a bonus for determining the value and quality of weapons.
+
+@@ Gimmickry
+@stat: Re
+@description:
+  that This skill provides a bonus for making plans for an uncommon or to
+  build yet invented item. The character does not receive materials or other
+  skill. essentials for the production of item (such as mathematics, Laen,
+  wood carving, etc.). The GM must approve the creation of any such item.
+
+@@ Hypnosis
+@stat: Em
+@description:
+  not the This skill provides a bonus for placing a willing individual into a
+  trance of where they are responsive to suggestions. An unwilling individual
+  etc. ceives a +50 RR bonus. Such an individual can be told to forget that
+  have been placed under hypnosis. He can be primed to perform some of task
+  which is triggered by a word, a gesture, a person, etc.
+
+@@ Midwifery
+@stat: Em
+@description:
+  units. This skill provides a bonus for delivery and care of babies.  units.
+
+@@ Navigation
+@stat: Re
+@description:
+  This skill provides a bonus for determining proper directions distances
+  when using a map in conjunction with various directional aids, in such as a
+  compass, sextant, clock, etc. This includes the concept type orienting, and
+  is applicable on land, water or the stars. Note that this is far more
+  precise and complex than Orienteering.
+
+@@ Preparing Herbs
+@stat: Ag
+@description:
+  etc. This skill provides a bonus to successfully prepare a medicinal herb
+  from its natural state into a usable form.
+
+@@ Preparing Poisons
+@stat: SD
+@description:
+  This skill provides a bonus to successfully prepare a poison from natural
+  state into a usable form.  setting
+
+@@ Siege Engineering
+@stat: Re
+@description:
+  Allows the user knowledge of conducting all aspects of a siege. Includes
+  proper and best positioning of siege weapons, determining which weaker
+  portions of a wall (for siege weapon assault and/or sapping), basic
+  engineering knowledge for building ramps, digging trenches and horse traps
+  (for opposing cavalry), etc.
+
+@@ Tactics
+@stat: Re
+@description:
+  These skills provide bonuses for perceiving and planning appropriate and
+  effective strategy in tactical military situations. Skill with each
+  tactical situation must be developed separately.  The following is a
+  partials listing of types of tactics: • Battle Field: Cavalry and infantry
+  tactics. • Naval: Ship and boat tactics. • Sabotage: Underground/behind
+  enemy lines tactics. • Siege: Reduction of fortified position tactics. •
+  Small Unit: Conflict between small groups.
+
+# ===================================================================
 # TABLES
 # ===================================================================
 

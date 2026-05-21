@@ -58,12 +58,14 @@
 # ===================================================================
 
 @@ OTHE
+
+@@ CONDITION
 @description:
-  CONDITION Skill for Spell’s List: Non-instantaneous Spell Cast as a Snap
-  Action: Overall Power 26% to 50% Points Used: 51% to 75% 76% to 100% Spell
-  List Type: Own Base, Own Realm Open, Own Realm Closed, Own Realm Arcane
-  Lists Other Base, Own Realm Open List, Other Realm Closed List, Other Realm
-  Base List, Other Realm Free Hands (*): None One Two Use of Voice (*): None
+  Skill for Spell’s List: Non-instantaneous Spell Cast as a Snap Action:
+  Overall Power 26% to 50% Points Used: 51% to 75% 76% to 100% Spell List
+  Type: Own Base, Own Realm Open, Own Realm Closed, Own Realm Arcane Lists
+  Other Base, Own Realm Open List, Other Realm Closed List, Other Realm Base
+  List, Other Realm Free Hands (*): None One Two Use of Voice (*): None
   Whisper Normal Shout Helmet (*): None Leather Leather & Metal Metal
   Equipment (*†): Organic Material, living Organic Material, non-living
   Inorganic Material Armor Normal ATs 1, 2, 3, 4 Status (*‡): Normal ATs 5, 6

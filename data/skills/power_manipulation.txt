@@ -40,6 +40,77 @@
   extraordinary channeling.
 
 # ===================================================================
+# SKILL DESCRIPTIONS
+# ===================================================================
+
+@@ Spell Mastery
+@stat: Pr
+@description:
+  to This skill allows user to modify spells within or beyond basic paramby
+  one eters. Each individual spell list requires separate skill development
+  with Riding or Weapon skills). This skill might be used to change
+  orientation upon arrival of the target of a Teleport spell, or it might be
+  used skill to allow a spell user to attempt to alter a Bolt spell into a
+  Ball spell. The character should roll for a successful Spell Mastery using
+  Power Manipulation Static Action Table. The result may indicate success or
+  or failure, as well as provide a modifier to the Spell Casting Static that
+  Maneuver Roll.  has Modifying the Range Bak x2
+  ........................................................................-20
+  x3
+  ........................................................................-30
+  +90 x4
+  ........................................................................-40
+  for x5
+  ........................................................................-50
+  x 60 Each additional
+  1.......................................................................-10
+  67 Touch to
+  .......................................................................-30†
+  Caster/Self to Target/Touch
+  ......................................................-30† Modifying the
+  Area of Effect roll is x2
+  .......................................................................-20*
+  x3
+  .......................................................................-30*
+  x4
+  .......................................................................-40*
+  x5
+  .......................................................................-50*
+  in Each additional
+  x1.....................................................................-10*
+  help * Only for Areas of Effect that are not simply “target.” For the
+  additional “targets” use: +1
+  ........................................................................-30
+  with “target” to
+  .......................................................................-50§
+  58% He Modifying the Duration for x2
+  ........................................................................-20
+  total x3
+  ........................................................................-30
+  x4
+  ........................................................................-40
+  x5
+  ........................................................................-50
+  over 95, Each additional
+  1.......................................................................-10
+  He No duration to 1 round
+  ..............................................................-50‡
+  Concentration to 1round/level
+  (c)..............................................-20‡ Concentration to 1
+  minute/level (c)...........................................-50‡ the used to
+  † — may use a range multiplier afterwards from ‡ — may use a duration
+  multiplier afterwards § — may use an area of effect multiplier afterwards
+  all Transcend Armor: The character’s total skill bonus in Transcend Armor
+  can is applied against any Spell Casting Static Maneuver penalties accrued
+  and from wearing armor, wearing a helmet, or carrying equipment (similar an
+  adult fashion to the way that Armor skills apply against maneuver
+  penalties) a maximum of a +0 modifier. If the penalty is reduced to zero,
+  character must still make the maneuver roll. Example: If a character is an
+  Essence user and wearing AT 13, he has a penalty of -40 to his Spell
+  Casting Static Maneuvers. He may apply his Transcend Armor skill to this
+  penalty to reduce it to zero.
+
+# ===================================================================
 # TABLES
 # ===================================================================
 

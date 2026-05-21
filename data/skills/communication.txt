@@ -34,14 +34,15 @@
 # ===================================================================
 
 @@ Language
+
+@@ Rolemaster
 @stat: Em
 @description:
-  Rolemaster is created for a world with a variety of cultures languages.
-  There is no such thing as a common tongue alignment tongue (though a GM can
-  add them for his system), although certain professions have developed their
-  languages for use in research. Each language must be developed
-  individually, with the written and spoken versions of a language each
-  counting separately. Skills in one language normally little effect on
+  languages. There is no such thing as a common tongue alignment tongue
+  (though a GM can add them for his system), although certain professions
+  have developed their languages for use in research. Each language must be
+  developed individually, with the written and spoken versions of a language
+  each counting separately. Skills in one language normally little effect on
   others; however, “brother languages,” those ing from an immediate common
   ancestor, may be an exception. One’s skill rank indicates the level of
   comprehension spoken or written language. See the Language Rank Table One’s
@@ -85,13 +86,14 @@
   .........................................................................-2
 
 @@ Magical Languages
-@stat: SD
 @description:
   This skill enables characters to learn magical languages. These languages
   are acquired in the same fashion as are regular guages. These Languages are
   rarely spoken except in conjunction with spell casting, where they aid the
   spell’s potency. This is language of Power Words. The effects of such
-  languages will GM covered in an upcoming RM supplement.
+  languages will GM
+
+@@ RM
 
 @@ Signaling
 @stat: Me
