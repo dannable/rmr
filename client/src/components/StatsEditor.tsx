@@ -77,11 +77,21 @@ export function StatsEditor({ characterId }: Props) {
       <table style={{ width: "100%", borderCollapse: "collapse", marginTop: 12, fontSize: 14 }}>
         <thead>
           <tr style={{ textAlign: "left", borderBottom: "1px solid #ddd" }}>
-            <th style={{ padding: "6px 4px", width: "32%" }}>Stat</th>
-            <th style={{ padding: "6px 4px", width: "18%" }}>Temp</th>
-            <th style={{ padding: "6px 4px", width: "18%" }}>Potential</th>
-            <th style={{ padding: "6px 4px", width: "16%", textAlign: "right" }}>Race</th>
-            <th style={{ padding: "6px 4px", width: "16%", textAlign: "right" }}>Bonus</th>
+            <th style={{ padding: "6px 4px", width: "26%" }}>Stat</th>
+            <th style={{ padding: "6px 4px", width: "14%" }}>Temp</th>
+            <th style={{ padding: "6px 4px", width: "14%" }}>Potential</th>
+            <th style={{ padding: "6px 4px", width: "14%", textAlign: "right" }}
+                title="T-2.1 basic stat bonus from temp alone, before racial modifier.">
+              Stat Bonus
+            </th>
+            <th style={{ padding: "6px 4px", width: "14%", textAlign: "right" }}
+                title="RMSS T-1.1 racial stat modifier. Added to temp before the T-2.1 bonus lookup.">
+              Race
+            </th>
+            <th style={{ padding: "6px 4px", width: "18%", textAlign: "right" }}
+                title="Final stat bonus: T-2.1 lookup on (Temp + Race). This is what gets added to all rolls using this stat.">
+              Total
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -125,7 +135,7 @@ export function StatsEditor({ characterId }: Props) {
         )}
       </div>
 
-      <RRPanel rr={q.data.resistance_rolls} />
+      <RRPanel rr={q.data.resistance_rolls} raceMods={q.data.race_rr_mods} />
     </section>
   );
 }
@@ -139,15 +149,24 @@ function StatInputRow({
   draft: { temp: number; potential: number };
   onChange: (next: { temp: number; potential: number }) => void;
 }) {
-  // Recompute bonus locally so the user gets instant feedback as they type.
-  // race_mod comes from the server-rendered row; we apply it to the live
-  // draft temp before looking up the T-2.1 bonus.
+  // Three displayed bonuses, all computed locally so they update live as
+  // the user types. The server is still the source of truth on save.
+  //   * statBonus = T-2.1(temp)              — bonus from temp alone
+  //   * race      = row.race_mod             — racial stat modifier (T-1.1)
+  //   * total     = T-2.1(temp + race_mod)   — final stat bonus used in play
+  // Note: race is a modifier to the STAT, not to the bonus, so total can
+  // differ from statBonus by more or less than `race` depending on which
+  // T-2.1 bands the temp and effective temp fall into.
   const effectiveTemp = draft.temp + row.race_mod;
-  const bonus = basicStatBonusLocal(effectiveTemp);
+  const statBonus = basicStatBonusLocal(draft.temp);
+  const total = basicStatBonusLocal(effectiveTemp);
   const tempPotentialMismatch = draft.potential < draft.temp;
   const raceTitle = row.race_mod !== 0
-    ? `Effective: ${draft.temp} + ${row.race_mod >= 0 ? "+" : ""}${row.race_mod} = ${effectiveTemp}`
+    ? `Effective stat: ${draft.temp} ${row.race_mod >= 0 ? "+" : "−"} ${Math.abs(row.race_mod)} = ${effectiveTemp}`
     : undefined;
+  const totalTitle = row.race_mod !== 0
+    ? `T-2.1(${draft.temp}) = ${fmt(statBonus)};  T-2.1(${effectiveTemp}) = ${fmt(total)}`
+    : `T-2.1(${draft.temp}) = ${fmt(total)}`;
 
   return (
     <tr style={{ borderBottom: "1px solid #f3f3f3" }}>
@@ -189,49 +208,110 @@ function StatInputRow({
           padding: "6px 4px",
           textAlign: "right",
           fontVariantNumeric: "tabular-nums",
+          color: "#666",
+        }}
+      >
+        {fmt(statBonus)}
+      </td>
+      <td
+        style={{
+          padding: "6px 4px",
+          textAlign: "right",
+          fontVariantNumeric: "tabular-nums",
           color: row.race_mod === 0 ? "#aaa" : (row.race_mod > 0 ? "#16a34a" : "#dc2626"),
         }}
         title={raceTitle}
       >
-        {row.race_mod === 0 ? "—" : (row.race_mod > 0 ? `+${row.race_mod}` : `${row.race_mod}`)}
+        {row.race_mod === 0 ? "—" : fmt(row.race_mod)}
       </td>
-      <td style={{ padding: "6px 4px", textAlign: "right", fontVariantNumeric: "tabular-nums" }}>
-        {bonus >= 0 ? `+${bonus}` : bonus}
+      <td
+        style={{
+          padding: "6px 4px",
+          textAlign: "right",
+          fontVariantNumeric: "tabular-nums",
+          fontWeight: 500,
+        }}
+        title={totalTitle}
+      >
+        {fmt(total)}
       </td>
     </tr>
   );
 }
 
-function RRPanel({ rr }: { rr: CharacterStats["resistance_rolls"] }) {
-  const rows: { label: string; value: number; formula: string }[] = [
-    { label: "Channeling",      value: rr.channeling,     formula: "3 × In" },
-    { label: "Essence",         value: rr.essence,        formula: "3 × Em" },
-    { label: "Mentalism",       value: rr.mentalism,      formula: "3 × Pr" },
-    { label: "Chan / Ess",      value: rr.chan_ess,       formula: "In + Em" },
-    { label: "Chan / Ment",     value: rr.chan_ment,      formula: "In + Pr" },
-    { label: "Ess / Ment",      value: rr.ess_ment,       formula: "Em + Pr" },
-    { label: "Arcane",          value: rr.arcane,         formula: "Em + In + Pr" },
-    { label: "Poison / Disease", value: rr.poison_disease, formula: "3 × Co" },
-    { label: "Fear",            value: rr.fear,           formula: "3 × SD" },
+// Format a signed integer as "+N" / "-N" / "0".
+function fmt(n: number): string {
+  if (n === 0) return "0";
+  return n > 0 ? `+${n}` : `${n}`;
+}
+
+function RRPanel({
+  rr,
+  raceMods,
+}: {
+  rr: CharacterStats["resistance_rolls"];
+  raceMods: CharacterStats["race_rr_mods"];
+}) {
+  type Key = keyof CharacterStats["resistance_rolls"];
+  const rows: { label: string; key: Key; formula: string }[] = [
+    { label: "Channeling",       key: "channeling",     formula: "3 × In" },
+    { label: "Essence",          key: "essence",        formula: "3 × Em" },
+    { label: "Mentalism",        key: "mentalism",      formula: "3 × Pr" },
+    { label: "Chan / Ess",       key: "chan_ess",       formula: "In + Em" },
+    { label: "Chan / Ment",      key: "chan_ment",      formula: "In + Pr" },
+    { label: "Ess / Ment",       key: "ess_ment",       formula: "Em + Pr" },
+    { label: "Arcane",           key: "arcane",         formula: "Em + In + Pr" },
+    { label: "Poison / Disease", key: "poison_disease", formula: "3 × Co" },
+    { label: "Fear",             key: "fear",           formula: "3 × SD" },
   ];
 
   return (
     <div style={{ marginTop: 24 }}>
       <h4 style={{ margin: 0, fontSize: 14 }}>Resistance Rolls (from saved stats)</h4>
       <p style={{ fontSize: 12, color: "#888", marginTop: 4 }}>
-        Updates after you save. Racial RR mods will layer on once race is picked.
+        Stat-derived <strong>base</strong> + race <strong>RR mods</strong> = total. Updates after Save.
       </p>
       <table style={{ width: "100%", borderCollapse: "collapse", marginTop: 8, fontSize: 13 }}>
+        <thead>
+          <tr style={{ textAlign: "left", borderBottom: "1px solid #ddd", color: "#666", fontSize: 12 }}>
+            <th style={{ padding: "4px 0" }}>RR</th>
+            <th style={{ padding: "4px 0" }}>Formula</th>
+            <th style={{ padding: "4px 0", textAlign: "right" }}>Base</th>
+            <th style={{ padding: "4px 0", textAlign: "right" }}>Race</th>
+            <th style={{ padding: "4px 0", textAlign: "right" }}>Total</th>
+          </tr>
+        </thead>
         <tbody>
-          {rows.map((r) => (
-            <tr key={r.label} style={{ borderBottom: "1px solid #f3f3f3" }}>
-              <td style={{ padding: "4px 0", width: "40%" }}>{r.label}</td>
-              <td style={{ padding: "4px 0", width: "30%", color: "#888" }}>{r.formula}</td>
-              <td style={{ padding: "4px 0", textAlign: "right", fontVariantNumeric: "tabular-nums" }}>
-                {r.value}
-              </td>
-            </tr>
-          ))}
+          {rows.map((r) => {
+            const total = rr[r.key];
+            const race = raceMods[r.key];
+            const base = total - race;
+            return (
+              <tr key={r.label} style={{ borderBottom: "1px solid #f3f3f3" }}>
+                <td style={{ padding: "4px 0" }}>{r.label}</td>
+                <td style={{ padding: "4px 0", color: "#888" }}>{r.formula}</td>
+                <td style={{
+                  padding: "4px 0", textAlign: "right",
+                  fontVariantNumeric: "tabular-nums", color: "#666",
+                }}>
+                  {base}
+                </td>
+                <td style={{
+                  padding: "4px 0", textAlign: "right",
+                  fontVariantNumeric: "tabular-nums",
+                  color: race === 0 ? "#aaa" : (race > 0 ? "#16a34a" : "#dc2626"),
+                }}>
+                  {race === 0 ? "—" : fmt(race)}
+                </td>
+                <td style={{
+                  padding: "4px 0", textAlign: "right",
+                  fontVariantNumeric: "tabular-nums", fontWeight: 500,
+                }}>
+                  {total}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

@@ -103,7 +103,11 @@ class StatsRaceInfo(BaseModel):
 
 class CharacterStats(BaseModel):
     stats: list[StatRow]
-    resistance_rolls: StatsRR
+    resistance_rolls: StatsRR              # totals (formula + race contribution)
+    # Race RR mods only (zero for an unraced character). Exposed in
+    # parallel so the SPA can render the Base / Race / Total breakdown
+    # without re-implementing T-1.1.
+    race_rr_mods: StatsRR
     race: StatsRaceInfo | None = None
 
 
@@ -293,7 +297,12 @@ def _build_stats_payload(rows: list, race: dict | None = None) -> CharacterStats
     race_info = (
         StatsRaceInfo(slug=race["slug"], name=race["name"]) if race else None
     )
-    return CharacterStats(stats=stats, resistance_rolls=rr, race=race_info)
+    return CharacterStats(
+        stats=stats,
+        resistance_rolls=rr,
+        race_rr_mods=StatsRR(**rr_mods),
+        race=race_info,
+    )
 
 
 def _load_character_race(conn: sqlite3.Connection, character_id: int) -> dict | None:
