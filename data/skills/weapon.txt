@@ -54,47 +54,20 @@
 # SKILL DESCRIPTIONS
 # ===================================================================
 
-@@ WEAPON • 1-Handed Concussion
+@@ WEAPON
 @stat: St
 @description:
-  These skills include weapon skills utilizing one-handed crushing weapons.
-  Maces, clubs and morning stars all fall into category.
-
-@@ WEAPON • 1-Handed Edged
-@stat: Ag
-@description:
-  These skills include weapon skills utilizing one-handed slashing weapons.
-  Most swords, daggers and other small bladed weapons all fall into this
-  category.
-
-@@ WEAPON •2-Handed
-@stat: St
-@description:
-  These skills include all weapons which require two hands wield.
-  Quarterstaves, flails, two-handed swords and the like fall into this
-  category.
-
-@@ WEAPON • Missile
-@stat: Ag
-@description:
-  These skills include all bow and sling weapons. This also includes
-  crossbows.
-
-@@ WEAPON • Missile Artillery
-@stat: Re
-@description:
-  These skills include all heavy medieval weaponry, from catapults to
-  trebuchets.
-
-@@ WEAPON • Pole Arms
-@stat: St
-@description:
-  These skills include all polearms, from halberds to pikes the ever-popular
-  glaive-guisarme.
-
-@@ WEAPON • Thrown
-@stat: Ag
-@description:
-  This category encompasses the use of all thrown weapons, from thrown knives
-  and javelins.
+  Rolemaster Standard Rules 208 WEAPON • 1-Handed Concussion These skills
+  include weapon skills utilizing one-handed crushing weapons. Maces, clubs
+  and morning stars all fall into category.  WEAPON • 1-Handed Edged These
+  skills include weapon skills utilizing one-handed slashing weapons. Most
+  swords, daggers and other small bladed weapons all fall into this category.
+  WEAPON • 2-Handed These skills include all weapons which require two hands
+  wield. Quarterstaves, flails, two-handed swords and the like fall into this
+  category.  WEAPON • Missile These skills include all bow and sling weapons.
+  This also includes crossbows.  WEAPON • Missile Artillery These skills
+  include all heavy medieval weaponry, from catapults to trebuchets.  WEAPON
+  • Pole Arms These skills include all polearms, from halberds to pikes the
+  ever-popular glaive-guisarme.  WEAPON • Thrown This category encompasses
+  the use of all thrown weapons, from thrown knives and javelins.
 

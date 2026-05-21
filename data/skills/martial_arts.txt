@@ -45,11 +45,6 @@
 # SKILL DESCRIPTIONS
 # ===================================================================
 
-@@ MARTIAL ARTS • Strikes
-@description:
-  Note: Early editions of Arms Law refer to “Rank” instead of “Degree” 1-4.
-  This has been corrected should be read as “Degree” 1-4.
-
 @@ Boxing
 @stat: St
 @description:
@@ -104,10 +99,6 @@
   to an equivalent Striking Degree 1 and Grappling Criticals are used. If a
   struggle continues successful tackle, the Wrestling skill should be used
   instead.  Rolemaster Standard Rules 174
-
-@@ MARTIAL ARTS • Sweeps
-@description:
-  1-4
 
 @@ Blocking
 @stat: St

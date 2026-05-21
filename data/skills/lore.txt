@@ -140,9 +140,7 @@
 @description:
   This skill provides a bonus for recognizing and identifying aspects of
   religious doctrines. Each religion may be concentrated learned separately
-  for in-depth knowledge and understanding.
-
-@@ LORE • Magical
+  for in-depth knowledge and understanding.  LORE • Magical
 
 @@ Artifact Lore
 @stat: Me
@@ -185,10 +183,7 @@
   major This skill provides a bonus on manipulating and using wards
   conjunction with the appropriate ward spells. Also allows non-magical
   research in defining & identifying new “Wards” which to add to
-  simultarepertoire of ward spells.  skill great
-
-@@ LORE • Obscure
-@stat: Em
+  simultarepertoire of ward spells.  skill great  LORE • Obscure
 
 @@ Demon/Devil Lore
 @stat: Me
@@ -219,11 +214,7 @@
   simulate This esoteric Lores developed by those races.  Example: The
   Shimmiebops of Dimension X have their own Philosophy which is radically
   different from our own . The GM major rules that learning Shimmiebop
-  Philosophy falls under Xenomay be lore. and
-
-@@ LORE • Technical
-@description:
-  or other
+  Philosophy falls under Xenomay be lore. and LORE • Technical or other
 
 @@ Herb Lore
 @stat: Me
