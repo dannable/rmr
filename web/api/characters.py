@@ -11,6 +11,7 @@ characters by owner_user_id — there is no public/shared mode yet.
 
 from __future__ import annotations
 
+import re
 import sqlite3
 from datetime import datetime, timezone
 
@@ -32,7 +33,12 @@ from core.chargen.race import (
     race_rr_mods,
     apply_stat_mods,
 )
-from core.chargen.adolescence import grouped_ranks
+from core.chargen.adolescence import grouped_ranks, adolescence_ranks
+from core.chargen.weapons import (
+    category_for_t16_row,
+    filter_race_weapons_by_category,
+    all_race_weapons,
+)
 
 from ..auth.deps import CurrentUser
 from ..db import connect_rw
@@ -127,6 +133,17 @@ class CharacterStatsUpdate(BaseModel):
 class AdolescenceSkill(BaseModel):
     name: str
     value: str
+    # When set, the player must pick a specific instance before this row
+    # can be applied as a character skill. `choice_kind` is "text"
+    # (free-form input, e.g. Riding mount) or "select" (dropdown).
+    choice_kind: str | None = None
+    # Dropdown options (only populated for choice_kind == "select"). For
+    # weapon rows, these are the race's outfitting weapons filtered to
+    # the row's RMSS weapon category.
+    choice_options: list[str] | None = None
+    # The player's current pick for this row (persisted via PUT
+    # /adolescence-choices). None if not yet picked.
+    choice: str | None = None
 
 
 class AdolescenceGroup(BaseModel):
@@ -143,6 +160,23 @@ class CharacterAdolescence(BaseModel):
     culture_slug: str | None      # None when character is unraced
     culture_name: str | None
     groups: list[AdolescenceGroup]
+
+
+class AdolescenceChoiceItem(BaseModel):
+    t16_row: str = Field(..., min_length=1)
+    choice:  str = Field(..., max_length=120)   # "" clears the choice
+
+
+class AdolescenceChoicesUpdate(BaseModel):
+    choices: list[AdolescenceChoiceItem]
+
+
+class AdolescenceApplyResult(BaseModel):
+    """Returned by POST /apply-adolescence — what got written into
+    character_skill, including any 'pending' rows skipped because the
+    player hasn't filled in their specifier yet."""
+    applied: int            # number of character_skill rows written
+    skipped_pending: list[str]    # t16_row labels needing a choice still
 
 
 # ---------------------------------------------------------------------------
@@ -412,6 +446,56 @@ def update_character_stats(
 # race sub-resource
 # ---------------------------------------------------------------------------
 
+def _resolved_skill_name(t16_row: str, choice: str | None) -> str | None:
+    """Compose the canonical character_skill name for a T-1.6 row + choice.
+
+    Rows that DO NOT require a choice are returned as the row label minus
+    the boilerplate " skill" suffix. Rows requiring a choice but missing
+    one return None — the apply step skips those.
+    """
+    kind, _options = _choice_metadata(t16_row, weapons_text="")
+    if kind is None:
+        return t16_row.removesuffix(" skill").strip()
+    if not choice:
+        return None   # specifier required but not picked yet
+    if kind == "select":
+        # Weapon row: weapon-category prefix + selected weapon name.
+        cat = category_for_t16_row(t16_row) or "Weapon"
+        return f"{cat}: {choice}"
+    # text → "<Skill> (<specifier>)" form. Strip the trailing parenthetical
+    # hint and the boilerplate " skill" word out of the label first so we
+    # produce e.g. "Riding (horses)" not "Riding skill (usually horses)".
+    base = re.sub(r"\s*\(.*?\)\s*$", "", t16_row).strip()
+    base = base.removesuffix(" skill").strip()
+    return f"{base} ({choice})"
+
+
+def _choice_metadata(t16_row: str, weapons_text: str) -> tuple[str | None, list[str] | None]:
+    """Decide whether a T-1.6 row needs user input.
+
+    Returns (choice_kind, options) where:
+      * choice_kind = "select"  → dropdown (options populated)
+      * choice_kind = "text"    → free-text input (options=None)
+      * choice_kind = None      → no input needed (rank applies directly)
+    """
+    # 1 Weapon Based on Culture/Race ‡ — under each weapon-category prefix.
+    if t16_row.endswith("1 Weapon Based on Culture/Race ‡"):
+        cat = category_for_t16_row(t16_row)
+        if cat:
+            options = filter_race_weapons_by_category(weapons_text, cat)
+            if not options:
+                # Fall back to the full race weapons list when the filter
+                # finds nothing (e.g. the race's outfitting doesn't include
+                # a weapon in this category). User can still pick something.
+                options = all_race_weapons(weapons_text)
+            return "select", options
+        return "text", None
+    # Riding skill — free-text for the mount.
+    if t16_row.startswith("Riding skill"):
+        return "text", None
+    return None, None
+
+
 @router.get("/{character_id}/adolescence-ranks", response_model=CharacterAdolescence)
 def get_character_adolescence(
     character_id: int,
@@ -419,20 +503,162 @@ def get_character_adolescence(
 ) -> CharacterAdolescence:
     """Look up the starting skill ranks for the character's race/culture.
 
-    Empty groups when the character has no race set yet — the SPA renders
-    a "pick a race to see starting ranks" empty state in that case.
+    Each row carries per-row metadata identifying whether the player must
+    pick a specifier before the rank can be applied — `choice_kind` is
+    "text" (free input) or "select" (dropdown), with `choice_options`
+    populated for selects and `choice` reflecting the player's saved pick.
     """
     with connect_rw() as conn:
         _assert_owned(conn, character_id, user["user_id"])
         race = _load_character_race(conn, character_id)
         if race is None:
             return CharacterAdolescence(culture_slug=None, culture_name=None, groups=[])
+        # Pull the race's weapons text out of culture_data for the
+        # dropdown options.
+        import json
+        weapons_text = ""
+        try:
+            cd = json.loads(race.get("culture_data") or "{}")
+            if isinstance(cd, dict):
+                weapons_text = cd.get("weapons", "") or ""
+        except (TypeError, ValueError):
+            pass
         groups = grouped_ranks(conn, race["slug"])
+        # Load existing player picks for this character.
+        choices_rows = conn.execute(
+            "SELECT t16_row, choice FROM character_adolescence_choice "
+            "WHERE character_id = ?",
+            (character_id,),
+        ).fetchall()
+        choice_by_row = {r["t16_row"]: r["choice"] for r in choices_rows}
+
+    # Enrich each leaf skill with choice metadata + saved pick.
+    out_groups: list[AdolescenceGroup] = []
+    for g in groups:
+        enriched: list[AdolescenceSkill] = []
+        for s in g["skills"]:
+            kind, options = _choice_metadata(s["name"], weapons_text)
+            enriched.append(AdolescenceSkill(
+                name=s["name"],
+                value=s["value"],
+                choice_kind=kind,
+                choice_options=options,
+                choice=choice_by_row.get(s["name"]),
+            ))
+        out_groups.append(AdolescenceGroup(
+            category=g["category"], value=g["value"], skills=enriched,
+        ))
     return CharacterAdolescence(
         culture_slug=race["slug"],
         culture_name=race["name"],
-        groups=[AdolescenceGroup(**g) for g in groups],
+        groups=out_groups,
     )
+
+
+@router.put("/{character_id}/adolescence-choices", response_model=CharacterAdolescence)
+def update_character_adolescence_choices(
+    character_id: int,
+    body: AdolescenceChoicesUpdate,
+    user: dict = CurrentUser,
+) -> CharacterAdolescence:
+    """Set the player's picks for "specify-required" T-1.6 rows.
+
+    Empty `choice` strings clear the existing pick for a row. Returns the
+    refreshed adolescence-ranks payload so the SPA can re-render without
+    a second round-trip.
+    """
+    now = _utcnow()
+    with connect_rw() as conn:
+        _assert_owned(conn, character_id, user["user_id"])
+        for item in body.choices:
+            choice = item.choice.strip()
+            if choice:
+                conn.execute(
+                    "INSERT INTO character_adolescence_choice (character_id, t16_row, choice) "
+                    "VALUES (?, ?, ?) ON CONFLICT(character_id, t16_row) DO UPDATE SET "
+                    "choice = excluded.choice",
+                    (character_id, item.t16_row, choice),
+                )
+            else:
+                conn.execute(
+                    "DELETE FROM character_adolescence_choice "
+                    "WHERE character_id = ? AND t16_row = ?",
+                    (character_id, item.t16_row),
+                )
+        conn.execute(
+            "UPDATE character SET updated_at = ? WHERE character_id = ?",
+            (now, character_id),
+        )
+        conn.commit()
+    return get_character_adolescence(character_id, user)
+
+
+@router.post("/{character_id}/apply-adolescence", response_model=AdolescenceApplyResult)
+def apply_character_adolescence(
+    character_id: int,
+    user: dict = CurrentUser,
+) -> AdolescenceApplyResult:
+    """Translate the current T-1.6 ranks + picks into character_skill rows.
+
+    Idempotent within source='adolescence' — re-applying clears the
+    previous adolescence-sourced ranks and writes the current view, so
+    swapping a weapon pick + re-applying does the right thing. Skills
+    where the player hasn't yet picked a required specifier are skipped
+    and their t16_row labels returned in `skipped_pending`.
+    """
+    now = _utcnow()
+    with connect_rw() as conn:
+        _assert_owned(conn, character_id, user["user_id"])
+        race = _load_character_race(conn, character_id)
+        if race is None:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Pick a race before applying adolescence ranks.",
+            )
+        rows = adolescence_ranks(conn, race["slug"])
+        choices_rows = conn.execute(
+            "SELECT t16_row, choice FROM character_adolescence_choice "
+            "WHERE character_id = ?",
+            (character_id,),
+        ).fetchall()
+        choice_by_row = {r["t16_row"]: r["choice"] for r in choices_rows}
+
+        # Wipe existing adolescence-sourced rows, write the fresh set.
+        conn.execute(
+            "DELETE FROM character_skill WHERE character_id = ? AND source = 'adolescence'",
+            (character_id,),
+        )
+        applied = 0
+        skipped: list[str] = []
+        for r in rows:
+            if r["kind"] != "leaf":
+                # Categories don't become character_skill rows directly;
+                # they're aggregate counters for the DP allocator.
+                continue
+            try:
+                rank = int(r["value"])
+            except ValueError:
+                # "Hobby Ranks" etc. have non-integer values; skip here.
+                continue
+            if rank <= 0:
+                continue
+            resolved = _resolved_skill_name(r["skill"], choice_by_row.get(r["skill"]))
+            if resolved is None:
+                skipped.append(r["skill"])
+                continue
+            conn.execute(
+                "INSERT INTO character_skill (character_id, skill, rank, source) "
+                "VALUES (?, ?, ?, 'adolescence') ON CONFLICT(character_id, skill) "
+                "DO UPDATE SET rank = excluded.rank, source = excluded.source",
+                (character_id, resolved, rank),
+            )
+            applied += 1
+        conn.execute(
+            "UPDATE character SET updated_at = ? WHERE character_id = ?",
+            (now, character_id),
+        )
+        conn.commit()
+    return AdolescenceApplyResult(applied=applied, skipped_pending=skipped)
 
 
 @router.put("/{character_id}/race", response_model=Character)

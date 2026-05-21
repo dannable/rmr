@@ -1,29 +1,92 @@
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useMemo, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
+  applyAdolescenceRanks,
   fetchCharacterAdolescence,
+  updateAdolescenceChoices,
+  type AdolescenceApplyResult,
+  type AdolescenceSkill,
   type CharacterAdolescence,
 } from "../api";
 
 interface Props {
   characterId: number;
-  /** The slug of the currently-picked race, used as a render hint so the
-   *  panel re-fetches when the picker mutates the character's race. */
+  /** raceSlug is in the query key so picking a different race triggers a refetch. */
   raceSlug: string | null;
 }
 
 /**
- * Starting skill ranks granted to a character during adolescence
- * (RMSS T-1.6, keyed by race/culture). Read-only — these come straight
- * from reference data once a race is picked; the future skill DP
- * allocator will let the player layer additional ranks on top.
+ * Starting skill ranks granted by race/culture during adolescence
+ * (RMSS T-1.6). Rows with `choice_kind` set ("text" for Riding, "select"
+ * for the 6 "1 Weapon Based on Culture/Race" rows) render an input next
+ * to the rank — picks auto-save. The "Apply" button at the bottom
+ * transfers the current view into the character's actual skill list
+ * (character_skill table, source='adolescence').
  */
 export function AdolescenceRanks({ characterId, raceSlug }: Props) {
+  const qc = useQueryClient();
   const q = useQuery<CharacterAdolescence>({
-    // raceSlug is in the key so picking a different race triggers a refetch.
     queryKey: ["characters", characterId, "adolescence-ranks", raceSlug],
     queryFn: () => fetchCharacterAdolescence(characterId),
   });
+
+  // Local draft of pending choices — keyed by t16_row. Initialised from
+  // the server's saved picks; user edits update local state and we
+  // PUT in a debounced batch.
+  const [drafts, setDrafts] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    if (!q.data) return;
+    const next: Record<string, string> = {};
+    for (const g of q.data.groups) {
+      for (const s of g.skills) {
+        if (s.choice_kind != null) {
+          next[s.name] = s.choice ?? "";
+        }
+      }
+    }
+    setDrafts(next);
+  }, [q.data]);
+
+  const saveChoices = useMutation({
+    mutationFn: (choices: { t16_row: string; choice: string }[]) =>
+      updateAdolescenceChoices(characterId, choices),
+    onSuccess: (fresh) => {
+      qc.setQueryData(
+        ["characters", characterId, "adolescence-ranks", raceSlug],
+        fresh,
+      );
+    },
+  });
+
+  const applyRanks = useMutation({
+    mutationFn: () => applyAdolescenceRanks(characterId),
+    onSuccess: () => {
+      // Refresh character_skill consumers when they show up later.
+      qc.invalidateQueries({ queryKey: ["characters", characterId, "skills"] });
+    },
+  });
+
+  // Persist a single picked row to the server (auto-save on change).
+  function commitChoice(t16_row: string, value: string) {
+    setDrafts((d) => ({ ...d, [t16_row]: value }));
+    saveChoices.mutate([{ t16_row, choice: value }]);
+  }
+
+  const allChoiceRows = useMemo(() => {
+    if (!q.data) return [] as AdolescenceSkill[];
+    return q.data.groups.flatMap((g) =>
+      g.skills.filter((s) => s.choice_kind != null),
+    );
+  }, [q.data]);
+
+  // Count how many specifier rows are still unfilled — the Apply button
+  // is enabled regardless (we just skip pending rows), but the count is
+  // surfaced so the user can see what's missing.
+  const pendingCount = allChoiceRows.filter(
+    (s) => !(drafts[s.name] ?? "").trim() && Number(s.value) > 0,
+  ).length;
 
   return (
     <section>
@@ -50,44 +113,99 @@ export function AdolescenceRanks({ characterId, raceSlug }: Props) {
       {q.data && q.data.culture_slug && (
         <>
           <p style={{ marginTop: 8, fontSize: 13, color: "#666" }}>
-            Ranks below are what your character starts with based on{" "}
-            <strong>{q.data.culture_name}</strong> race/culture. Each rank reflects
-            time spent learning skills before character creation; the skill DP
-            allocator (coming later) will let you add more on top.
+            Ranks below are what your character starts with as a{" "}
+            <strong>{q.data.culture_name}</strong>. Pick a mount for Riding and
+            one weapon per weapon category, then click Apply to write these
+            into your character's skill list.
           </p>
-          <RanksTable data={q.data} />
+          <RanksTable
+            data={q.data}
+            drafts={drafts}
+            onChange={commitChoice}
+          />
+
+          <div style={{ marginTop: 16, display: "flex", gap: 12, alignItems: "center" }}>
+            <button
+              className="btn"
+              onClick={() => applyRanks.mutate()}
+              disabled={applyRanks.isPending}
+            >
+              {applyRanks.isPending ? "Applying…" : "Apply Adolescent Ranks"}
+            </button>
+            {pendingCount > 0 && (
+              <span style={{ fontSize: 13, color: "#a16207" }}>
+                {pendingCount} row{pendingCount === 1 ? "" : "s"} still need a pick — Apply will skip them.
+              </span>
+            )}
+            {applyRanks.error && (
+              <span style={{ color: "crimson", fontSize: 13 }}>
+                {String(applyRanks.error)}
+              </span>
+            )}
+            <ApplyResultBanner result={applyRanks.data} />
+          </div>
         </>
       )}
     </section>
   );
 }
 
-function RanksTable({ data }: { data: CharacterAdolescence }) {
+function ApplyResultBanner({ result }: { result: AdolescenceApplyResult | undefined }) {
+  if (!result) return null;
+  return (
+    <span style={{ fontSize: 13, color: "#16a34a" }}>
+      Applied {result.applied} rank{result.applied === 1 ? "" : "s"}.
+      {result.skipped_pending.length > 0 && (
+        <span style={{ color: "#a16207", marginLeft: 8 }}>
+          Skipped {result.skipped_pending.length} pending pick{result.skipped_pending.length === 1 ? "" : "s"}.
+        </span>
+      )}
+    </span>
+  );
+}
+
+interface TableProps {
+  data: CharacterAdolescence;
+  drafts: Record<string, string>;
+  onChange: (t16_row: string, value: string) => void;
+}
+
+function RanksTable({ data, drafts, onChange }: TableProps) {
   return (
     <table style={{ width: "100%", borderCollapse: "collapse", marginTop: 12, fontSize: 13 }}>
       <thead>
         <tr style={{ textAlign: "left", borderBottom: "1px solid #ddd", color: "#666", fontSize: 12 }}>
           <th style={{ padding: "4px 0" }}>Skill / Category</th>
-          <th style={{ padding: "4px 0", textAlign: "right", width: 80 }}>Ranks</th>
+          <th style={{ padding: "4px 0" }}>Specify</th>
+          <th style={{ padding: "4px 0", textAlign: "right", width: 60 }}>Ranks</th>
         </tr>
       </thead>
       <tbody>
         {data.groups.map((g, gi) => (
-          <GroupRows key={`${g.category}-${gi}`} group={g} />
+          <GroupRows
+            key={`${g.category}-${gi}`}
+            group={g}
+            drafts={drafts}
+            onChange={onChange}
+          />
         ))}
       </tbody>
     </table>
   );
 }
 
-function GroupRows({ group }: { group: { category: string; value: string; skills: { name: string; value: string }[] } }) {
+interface GroupRowsProps {
+  group: { category: string; value: string; skills: AdolescenceSkill[] };
+  drafts: Record<string, string>;
+  onChange: (t16_row: string, value: string) => void;
+}
+
+function GroupRows({ group, drafts, onChange }: GroupRowsProps) {
   const isSummary = group.category === "Summary";
   const isOther = group.category === "Other";
 
   return (
     <>
-      {/* Category header row — bold, no indent. Summary/Other are synthetic
-         buckets so we render their label slightly differently. */}
       <tr style={{ background: isSummary || isOther ? "#fafafa" : "transparent" }}>
         <td style={{
           padding: "5px 0",
@@ -96,6 +214,7 @@ function GroupRows({ group }: { group: { category: string; value: string; skills
         }}>
           {prettify(group.category)}
         </td>
+        <td style={{ padding: "5px 0" }} />
         <td style={{
           padding: "5px 0",
           textAlign: "right",
@@ -105,37 +224,98 @@ function GroupRows({ group }: { group: { category: string; value: string; skills
           {zero(group.value) ? "—" : group.value}
         </td>
       </tr>
-      {/* Leaf skills indented under their category. */}
       {group.skills.map((s, i) => (
-        <tr key={`${group.category}-${s.name}-${i}`} style={{ borderBottom: "1px solid #f3f3f3" }}>
-          <td style={{ padding: "3px 0 3px 24px", color: "#444" }}>
-            {prettify(s.name)}
-          </td>
-          <td style={{
-            padding: "3px 0",
-            textAlign: "right",
-            fontVariantNumeric: "tabular-nums",
-            color: zero(s.value) ? "#bbb" : "#222",
-          }}>
-            {zero(s.value) ? "—" : s.value}
-          </td>
-        </tr>
+        <SkillRow
+          key={`${group.category}-${s.name}-${i}`}
+          skill={s}
+          draft={drafts[s.name] ?? ""}
+          onChange={onChange}
+        />
       ))}
     </>
   );
 }
 
-// Trim the boilerplate suffixes T-1.6 uses ("skill category", "skill", etc.)
-// to keep the table compact.
+function SkillRow({
+  skill,
+  draft,
+  onChange,
+}: {
+  skill: AdolescenceSkill;
+  draft: string;
+  onChange: (t16_row: string, value: string) => void;
+}) {
+  const hasRank = !zero(skill.value);
+  const needsChoice = skill.choice_kind != null && hasRank;
+  const isMissing = needsChoice && !draft.trim();
+
+  return (
+    <tr style={{ borderBottom: "1px solid #f3f3f3" }}>
+      <td style={{ padding: "3px 0 3px 24px", color: "#444" }}>
+        {prettify(skill.name)}
+      </td>
+      <td style={{ padding: "3px 0" }}>
+        {skill.choice_kind === "text" && (
+          <input
+            type="text"
+            value={draft}
+            placeholder={placeholderFor(skill.name)}
+            onChange={(e) => onChange(skill.name, e.target.value)}
+            style={{
+              width: "85%", maxWidth: 200,
+              padding: "3px 6px", fontSize: 13,
+              border: `1px solid ${isMissing ? "#dc2626" : "#ccc"}`,
+              borderRadius: 3,
+            }}
+          />
+        )}
+        {skill.choice_kind === "select" && (
+          <select
+            value={draft}
+            onChange={(e) => onChange(skill.name, e.target.value)}
+            style={{
+              maxWidth: 200,
+              padding: "3px 6px", fontSize: 13,
+              border: `1px solid ${isMissing ? "#dc2626" : "#ccc"}`,
+              borderRadius: 3,
+              background: "white",
+            }}
+          >
+            <option value="">— Pick a weapon —</option>
+            {(skill.choice_options ?? []).map((opt) => (
+              <option key={opt} value={opt}>{opt}</option>
+            ))}
+          </select>
+        )}
+      </td>
+      <td style={{
+        padding: "3px 0",
+        textAlign: "right",
+        fontVariantNumeric: "tabular-nums",
+        color: zero(skill.value) ? "#bbb" : "#222",
+      }}>
+        {zero(skill.value) ? "—" : skill.value}
+      </td>
+    </tr>
+  );
+}
+
 function prettify(label: string): string {
+  // Strip the bracketed category prefix from weapon rows; the prefix is
+  // a loader artefact to disambiguate duplicate row labels. Then drop
+  // boilerplate suffixes.
   return label
+    .replace(/^\[[^\]]+\]\s*/, "")
     .replace(/ skill category$/i, "")
     .replace(/ skill$/i, "")
     .trim();
 }
 
-// T-1.6 uses "0" for "no starting rank"; render those as em-dashes to
-// keep the table visually quiet (only non-zero ranks draw the eye).
+function placeholderFor(t16_row: string): string {
+  if (t16_row.startsWith("Riding")) return "e.g. horses, wolves";
+  return "specify";
+}
+
 function zero(value: string): boolean {
   return value === "" || value === "0";
 }
