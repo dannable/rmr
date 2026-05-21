@@ -305,6 +305,43 @@ CREATE TABLE IF NOT EXISTS character_stat (
     PRIMARY KEY (character_id, stat_code)
 );
 
+-- =========================================================================
+-- Adolescence specifier choices + character_skill ranks
+-- =========================================================================
+-- Some T-1.6 rows require the player to pick a specific instance before
+-- the rank can be applied. Examples:
+--   * "Riding skill (usually horses)" — pick a mount (free-text).
+--   * "1 Weapon Based on Culture/Race ‡" rows — pick a weapon from the
+--     race's outfitting list, classified by RMSS weapon category.
+--
+-- We store the player's pending picks here, keyed by the T-1.6 row label
+-- the loader uses (the same label that comes back on the
+-- /adolescence-ranks API). On "Apply Adolescent Ranks" the picks are
+-- folded into character_skill rows with a resolved skill name like
+-- "Riding (horses)" or "1-H Edged: Short Sword".
+
+CREATE TABLE IF NOT EXISTS character_adolescence_choice (
+    character_id INTEGER NOT NULL REFERENCES character(character_id) ON DELETE CASCADE,
+    t16_row      TEXT    NOT NULL,           -- adolescence_rank.skill verbatim
+    choice       TEXT    NOT NULL,           -- user's text or selected weapon name
+    PRIMARY KEY (character_id, t16_row)
+);
+
+-- One row per (character, skill). `source` tags where the rank came
+-- from so future passes (skill DP allocator, hobby ranks) can layer
+-- additional ranks on top without overwriting the adolescence-derived
+-- ones. Reapplying adolescence is idempotent within source='adolescence'.
+
+CREATE TABLE IF NOT EXISTS character_skill (
+    character_id INTEGER NOT NULL REFERENCES character(character_id) ON DELETE CASCADE,
+    skill        TEXT    NOT NULL,           -- resolved final name (e.g. "Riding (horses)")
+    rank         INTEGER NOT NULL DEFAULT 0,
+    source       TEXT    NOT NULL DEFAULT 'adolescence',  -- 'adolescence' | 'dp' | 'hobby' | ...
+    PRIMARY KEY (character_id, skill)
+);
+CREATE INDEX IF NOT EXISTS idx_character_skill_by_source
+    ON character_skill(character_id, source);
+
 CREATE VIEW IF NOT EXISTS v_attack_result_by_roll AS
 WITH RECURSIVE expand(weapon_id, roll, roll_min, armor_type) AS (
     SELECT weapon_id, roll_min, roll_min, armor_type FROM attack_result

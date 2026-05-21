@@ -84,6 +84,12 @@ export const updateCharacterRace = (id: number, slug: string | null) =>
 export interface AdolescenceSkill {
   name: string;
   value: string;
+  /** Set when this row needs a player pick before it can be applied. */
+  choice_kind: "text" | "select" | null;
+  /** Dropdown options when choice_kind === "select". */
+  choice_options: string[] | null;
+  /** Player's saved pick, or null if not yet chosen. */
+  choice: string | null;
 }
 
 export interface AdolescenceGroup {
@@ -98,8 +104,27 @@ export interface CharacterAdolescence {
   groups: AdolescenceGroup[];
 }
 
+export interface AdolescenceApplyResult {
+  applied: number;
+  skipped_pending: string[];
+}
+
 export const fetchCharacterAdolescence = (id: number) =>
   api<CharacterAdolescence>(`/api/v1/characters/${id}/adolescence-ranks`);
+
+export const updateAdolescenceChoices = (
+  id: number,
+  choices: { t16_row: string; choice: string }[],
+) =>
+  api<CharacterAdolescence>(`/api/v1/characters/${id}/adolescence-choices`, {
+    method: "PUT",
+    body: JSON.stringify({ choices }),
+  });
+
+export const applyAdolescenceRanks = (id: number) =>
+  api<AdolescenceApplyResult>(`/api/v1/characters/${id}/apply-adolescence`, {
+    method: "POST",
+  });
 
 // ---- character stats ---------------------------------------------------
 

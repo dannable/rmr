@@ -250,8 +250,9 @@ def test_stats_after_clearing_race_is_back_to_baseline(client) -> None:
 # ---------------------------------------------------------------------------
 
 def _seed_adolescence_rows() -> None:
-    """Seed a minimal adolescence_rank fixture: 2 categories + 3 leaves for
-    Dwarves, enough to validate grouping + ordering through the API."""
+    """Seed a minimal adolescence_rank fixture for Dwarves: 2 simple categories
+    plus the 4 rows the apply/choice flow exercises (Riding free-text,
+    1-H Edged + 1-H Conc. weapon dropdowns), plus a summary row."""
     from web.db import connect_rw
     rows = [
         ("Armor • Light skill category",   "dwarves", "0"),
@@ -259,7 +260,11 @@ def _seed_adolescence_rows() -> None:
         ("Rigid Leather skill",            "dwarves", "1"),
         ("Athletic • Brawn skill category","dwarves", "1"),
         ("Climbing skill",                 "dwarves", "5"),
-        # Summary row
+        # The specifier-required rows.
+        ("Riding skill (usually horses)",  "dwarves", "1"),
+        ("[Weapon • 1-H Edged skill category] 1 Weapon Based on Culture/Race ‡", "dwarves", "2"),
+        ("[Weapon • 1-H Conc. skill category] 1 Weapon Based on Culture/Race ‡", "dwarves", "1"),
+        # Summary row (non-integer value — must be skipped on apply).
         ("Hobby Ranks (see Section 13.0) ‡", "dwarves", "12"),
     ]
     with connect_rw() as conn:
@@ -270,6 +275,13 @@ def _seed_adolescence_rows() -> None:
                 (skill, slug, val),
             )
         conn.commit()
+
+
+# Dwarven culture_data with a small weapons list spanning two categories,
+# used for verifying the dropdown filter on the adolescence GET response.
+DWARVEN_CULTURE_DATA = (
+    '{"weapons": "Dagger, handaxe, short sword, club, war hammer, mace"}'
+)
 
 
 # ---------------------------------------------------------------------------
@@ -343,11 +355,208 @@ def test_adolescence_404_for_other_users_character(client, other_user) -> None:
     ("GET", "/api/v1/races", None),
     ("PUT", "/api/v1/characters/1/race", {"slug": "dwarves"}),
     ("GET", "/api/v1/characters/1/adolescence-ranks", None),
+    ("PUT", "/api/v1/characters/1/adolescence-choices", {"choices": []}),
+    ("POST", "/api/v1/characters/1/apply-adolescence", None),
 ])
 def test_endpoints_require_auth(anon_client, method: str, path: str, body) -> None:
     kwargs = {"json": body} if body is not None else {}
     r = anon_client.request(method, path, **kwargs)
     assert r.status_code == 401, f"{method} {path} expected 401, got {r.status_code}"
+
+
+# ---------------------------------------------------------------------------
+# adolescence choices + apply
+# ---------------------------------------------------------------------------
+
+def test_adolescence_rows_carry_choice_metadata(client) -> None:
+    """The GET response identifies which rows need user input + provides
+    dropdown options filtered by RMSS weapon category."""
+    _seed_race("dwarves", culture_data=DWARVEN_CULTURE_DATA)
+    _seed_adolescence_rows()
+    cid = _create_character(client)
+    client.put(f"/api/v1/characters/{cid}/race", json={"slug": "dwarves"})
+
+    body = client.get(f"/api/v1/characters/{cid}/adolescence-ranks").json()
+    # Flatten every leaf skill for easier assertions.
+    all_skills = {s["name"]: s for g in body["groups"] for s in g["skills"]}
+
+    # Plain leaf — no choice needed.
+    climbing = all_skills["Climbing skill"]
+    assert climbing["choice_kind"] is None
+    assert climbing["choice_options"] is None
+
+    # Riding row — free-text input.
+    riding = all_skills["Riding skill (usually horses)"]
+    assert riding["choice_kind"] == "text"
+    assert riding["choice_options"] is None
+    assert riding["choice"] is None
+
+    # Weapon rows — dropdowns filtered to the race's matching weapons.
+    edged = all_skills[
+        "[Weapon • 1-H Edged skill category] 1 Weapon Based on Culture/Race ‡"
+    ]
+    assert edged["choice_kind"] == "select"
+    assert set(edged["choice_options"]) == {"Dagger", "handaxe", "short sword"}
+    conc = all_skills[
+        "[Weapon • 1-H Conc. skill category] 1 Weapon Based on Culture/Race ‡"
+    ]
+    assert conc["choice_kind"] == "select"
+    assert set(conc["choice_options"]) == {"club", "war hammer", "mace"}
+
+
+def test_save_and_clear_adolescence_choices(client) -> None:
+    _seed_race("dwarves", culture_data=DWARVEN_CULTURE_DATA)
+    _seed_adolescence_rows()
+    cid = _create_character(client)
+    client.put(f"/api/v1/characters/{cid}/race", json={"slug": "dwarves"})
+
+    # Save Riding + 1-H Edged picks.
+    r = client.put(
+        f"/api/v1/characters/{cid}/adolescence-choices",
+        json={"choices": [
+            {"t16_row": "Riding skill (usually horses)", "choice": "war boars"},
+            {"t16_row":
+                "[Weapon • 1-H Edged skill category] 1 Weapon Based on Culture/Race ‡",
+             "choice": "short sword"},
+        ]},
+    )
+    assert r.status_code == 200
+    by_name = {s["name"]: s for g in r.json()["groups"] for s in g["skills"]}
+    assert by_name["Riding skill (usually horses)"]["choice"] == "war boars"
+    assert by_name[
+        "[Weapon • 1-H Edged skill category] 1 Weapon Based on Culture/Race ‡"
+    ]["choice"] == "short sword"
+
+    # Clear by sending an empty string.
+    r = client.put(
+        f"/api/v1/characters/{cid}/adolescence-choices",
+        json={"choices": [
+            {"t16_row": "Riding skill (usually horses)", "choice": ""},
+        ]},
+    )
+    by_name = {s["name"]: s for g in r.json()["groups"] for s in g["skills"]}
+    assert by_name["Riding skill (usually horses)"]["choice"] is None
+
+
+def test_apply_adolescence_writes_character_skill_rows(client) -> None:
+    _seed_race("dwarves", culture_data=DWARVEN_CULTURE_DATA)
+    _seed_adolescence_rows()
+    cid = _create_character(client)
+    client.put(f"/api/v1/characters/{cid}/race", json={"slug": "dwarves"})
+    # Save both specifier picks.
+    client.put(
+        f"/api/v1/characters/{cid}/adolescence-choices",
+        json={"choices": [
+            {"t16_row": "Riding skill (usually horses)", "choice": "horses"},
+            {"t16_row":
+                "[Weapon • 1-H Edged skill category] 1 Weapon Based on Culture/Race ‡",
+             "choice": "short sword"},
+            {"t16_row":
+                "[Weapon • 1-H Conc. skill category] 1 Weapon Based on Culture/Race ‡",
+             "choice": "mace"},
+        ]},
+    )
+
+    r = client.post(f"/api/v1/characters/{cid}/apply-adolescence")
+    assert r.status_code == 200
+    result = r.json()
+    # Applied rows: Rigid Leather (1), Climbing (5), Riding (1),
+    # 1-H Edged: short sword (2), 1-H Conc.: mace (1) = 5 rows.
+    # Soft Leather is 0 → skipped. Hobby Ranks is non-int → skipped.
+    assert result["applied"] == 5
+    assert result["skipped_pending"] == []
+
+    # Verify the actual character_skill rows.
+    from web.db import connect_rw
+    with connect_rw() as conn:
+        skills = {
+            r["skill"]: (r["rank"], r["source"])
+            for r in conn.execute(
+                "SELECT skill, rank, source FROM character_skill WHERE character_id = ?",
+                (cid,),
+            ).fetchall()
+        }
+    assert skills["Rigid Leather"]            == (1, "adolescence")
+    assert skills["Climbing"]                 == (5, "adolescence")
+    assert skills["Riding (horses)"]          == (1, "adolescence")
+    assert skills["1-H Edged: short sword"]   == (2, "adolescence")
+    assert skills["1-H Conc.: mace"]          == (1, "adolescence")
+
+
+def test_apply_skips_pending_picks(client) -> None:
+    _seed_race("dwarves", culture_data=DWARVEN_CULTURE_DATA)
+    _seed_adolescence_rows()
+    cid = _create_character(client)
+    client.put(f"/api/v1/characters/{cid}/race", json={"slug": "dwarves"})
+    # Pick Riding but leave both weapon rows blank.
+    client.put(
+        f"/api/v1/characters/{cid}/adolescence-choices",
+        json={"choices": [
+            {"t16_row": "Riding skill (usually horses)", "choice": "horses"},
+        ]},
+    )
+    r = client.post(f"/api/v1/characters/{cid}/apply-adolescence")
+    result = r.json()
+    # Applied: Rigid Leather, Climbing, Riding = 3. Both weapons → skipped.
+    assert result["applied"] == 3
+    assert set(result["skipped_pending"]) == {
+        "[Weapon • 1-H Edged skill category] 1 Weapon Based on Culture/Race ‡",
+        "[Weapon • 1-H Conc. skill category] 1 Weapon Based on Culture/Race ‡",
+    }
+
+
+def test_apply_is_idempotent(client) -> None:
+    """Re-applying replaces adolescence-sourced rows; doesn't double them up."""
+    _seed_race("dwarves", culture_data=DWARVEN_CULTURE_DATA)
+    _seed_adolescence_rows()
+    cid = _create_character(client)
+    client.put(f"/api/v1/characters/{cid}/race", json={"slug": "dwarves"})
+    client.put(
+        f"/api/v1/characters/{cid}/adolescence-choices",
+        json={"choices": [
+            {"t16_row": "Riding skill (usually horses)", "choice": "horses"},
+            {"t16_row":
+                "[Weapon • 1-H Edged skill category] 1 Weapon Based on Culture/Race ‡",
+             "choice": "short sword"},
+            {"t16_row":
+                "[Weapon • 1-H Conc. skill category] 1 Weapon Based on Culture/Race ‡",
+             "choice": "mace"},
+        ]},
+    )
+    # First apply
+    client.post(f"/api/v1/characters/{cid}/apply-adolescence")
+    # Change weapon pick and re-apply
+    client.put(
+        f"/api/v1/characters/{cid}/adolescence-choices",
+        json={"choices": [
+            {"t16_row":
+                "[Weapon • 1-H Edged skill category] 1 Weapon Based on Culture/Race ‡",
+             "choice": "Dagger"},
+        ]},
+    )
+    client.post(f"/api/v1/characters/{cid}/apply-adolescence")
+    from web.db import connect_rw
+    with connect_rw() as conn:
+        skills = {
+            r["skill"]: r["rank"]
+            for r in conn.execute(
+                "SELECT skill, rank FROM character_skill WHERE character_id = ?",
+                (cid,),
+            ).fetchall()
+        }
+    # Old "1-H Edged: short sword" should be GONE; new "1-H Edged: Dagger" present.
+    assert "1-H Edged: short sword" not in skills
+    assert skills["1-H Edged: Dagger"] == 2
+    # Other rows unchanged.
+    assert skills["1-H Conc.: mace"] == 1
+    assert skills["Riding (horses)"] == 1
+
+
+def test_apply_requires_race(client) -> None:
+    """Apply with no race set returns 409."""
+    cid = _create_character(client)
+    r = client.post(f"/api/v1/characters/{cid}/apply-adolescence")
+    assert r.status_code == 409
 
 
 # ---------------------------------------------------------------------------
