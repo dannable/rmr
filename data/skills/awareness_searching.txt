@@ -128,5 +128,8 @@ UM 66 | Unusual Event | 100% | 3.0u | +10 | You gain full information about your
 UM 100 | Unusual Success | 130% | 0.5u | +30 | Shades of the Oracle! Your powerful perception pierces the veil of ignorance; you notice everything relevant about your target, and you may make a free (0% activity) static maneuver for the purposes of analysis or identification (e.g., a Science/Analytic static maneuver, a Lore static maneuver, etc.).
 91 — 110 | Near Success | 80% | 1.0u | +10 | Following your instincts, you focus your attention. You gather some general information on your target, but not the specifics which you feel lie just beyond your grasp. If appropriate, roll again next round with a modification of +10 to pinpoint what has eluded you.
 111 — 175 | Success | 100% | 1.0u | +20 | Extraordinary! Your finely-tuned perception has revealed that which you sought.
-176 up | Absolute Success | 120% | 1.0u | +30 | Elementary, my dear boy! You identify with casual ease the target and/or information you seek, along with contextual information not obvious to a lesser eye. Specific target for search: +10 to +50
+176 up | Absolute Success | 120% | 1.0u | +30 | Elementary, my dear boy! You identify with casual ease the target and/or information you seek, along with contextual information not obvious to a lesser eye.
 
+
+@general_mods:
+Specific target for search: +10 to +50

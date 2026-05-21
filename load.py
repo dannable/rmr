@@ -868,7 +868,7 @@ def parse_skill_file(path: Path) -> dict:
           "page_div": int, "page_content": int,
           "categories": [{name, fields...}, ...],
           "skills":     [{name, stat, description}, ...],
-          "tables":     [{name, columns, rows: [{roll, result, ...}]}],
+          "tables":     [{name, columns, general_mods: [...], rows: [...]}],
         }
     """
     slug = path.stem
@@ -876,9 +876,14 @@ def parse_skill_file(path: Path) -> dict:
     categories: list[dict] = []
     skills: list[dict] = []
     tables: list[dict] = []
-    state: str = "header"   # header | category | skill | table
+    # States: header | category | skill | table | general_mods. The
+    # general_mods state captures the flat list of "Label: value" lines
+    # following a `@general_mods:` marker, and attaches them to the most
+    # recently opened table.
+    state: str = "header"
     current: dict | None = None
     multiline_field: str | None = None
+    gm_target: dict | None = None   # the table dict that owns the active general_mods block
 
     def finalize():
         nonlocal current, multiline_field
@@ -897,11 +902,25 @@ def parse_skill_file(path: Path) -> dict:
         line = raw.rstrip()
         if not line or line.lstrip().startswith("#"):
             multiline_field = None
+            # Blank line inside a general_mods block ends it.
+            if state == "general_mods":
+                state = "header"
+                gm_target = None
             continue
 
-        # Multi-line continuation: lines indented by 2+ spaces extend the
-        # most recently opened @description / @columns / etc. value.
-        if line.startswith("  ") and multiline_field is not None and current is not None:
+        # General-mod list entries: flush-left "Label: value" lines that
+        # follow a `@general_mods:` marker. Stop when we hit another @-line.
+        if state == "general_mods" and not line.startswith("@") and gm_target is not None:
+            gm_target.setdefault("general_mods", []).append(line.strip())
+            continue
+
+        # Multi-line continuation: any leading-whitespace line that isn't
+        # a known @-marker extends the most recently opened @description /
+        # @columns value. (Originally required 2+ spaces — relaxed to 1+
+        # to tolerate post-cleanup files where multi-space indentation
+        # was collapsed by the whitespace pass.)
+        if (line.startswith(" ") and not line.lstrip().startswith("@")
+                and multiline_field is not None and current is not None):
             current[multiline_field] = (
                 current.get(multiline_field, "") + " " + line.strip()
             ).strip()
@@ -913,6 +932,7 @@ def parse_skill_file(path: Path) -> dict:
             state = "skill"
             current = {"name": line[3:].strip(), "stat": "", "description": ""}
             multiline_field = None
+            gm_target = None
             continue
 
         if line.startswith("@table:"):
@@ -921,13 +941,37 @@ def parse_skill_file(path: Path) -> dict:
             current = {
                 "name": line.split(":", 1)[1].strip(),
                 "columns": "",
+                "general_mods": [],
                 "rows": [],
             }
             multiline_field = None
+            gm_target = None
             continue
 
         if line.startswith("@columns:") and state == "table" and current is not None:
             current["columns"] = line.split(":", 1)[1].strip()
+            continue
+
+        if line.startswith("@general_mods:"):
+            # The block that follows belongs to the most recently *seen*
+            # table. If state is currently "table", that's `current` —
+            # finalize it into the tables list first so subsequent rows
+            # can't accidentally land on it, and remember the table dict
+            # so we can append into its general_mods list.
+            if state == "table" and current is not None:
+                tables.append(current)
+                gm_target = current
+                current = None
+            elif tables:
+                gm_target = tables[-1]
+            else:
+                gm_target = None
+            state = "general_mods"
+            multiline_field = None
+            # Any inline value on the marker line itself (rare) becomes an entry.
+            inline = line.split(":", 1)[1].strip()
+            if inline and gm_target is not None:
+                gm_target.setdefault("general_mods", []).append(inline)
             continue
 
         # A table-row line is anything inside a @table block that has " | "
@@ -951,6 +995,7 @@ def parse_skill_file(path: Path) -> dict:
                 "group": "", "classification": "", "description": "",
             }
             multiline_field = None
+            gm_target = None
             continue
 
         if line.startswith("@"):
@@ -1020,9 +1065,14 @@ def insert_skill_group(conn: sqlite3.Connection, data: dict) -> int:
             (group_id, sk["name"], sk.get("stat", ""), sk.get("description", "")),
         )
     for t in data["tables"]:
+        # general_mods is stored as newline-separated "Label: value" entries
+        # (one per line, no surrounding whitespace). Empty list -> empty
+        # string, which trips the NOT NULL DEFAULT '' on the column.
+        gm_text = "\n".join(t.get("general_mods") or [])
         cur = conn.execute(
-            "INSERT INTO skill_table (group_id, name, columns) VALUES (?, ?, ?) RETURNING table_id",
-            (group_id, t["name"], t.get("columns", "")),
+            "INSERT INTO skill_table (group_id, name, columns, general_mods) "
+            "VALUES (?, ?, ?, ?) RETURNING table_id",
+            (group_id, t["name"], t.get("columns", ""), gm_text),
         )
         table_id = cur.fetchone()[0]
         for i, row in enumerate(t["rows"]):
@@ -1249,6 +1299,11 @@ _REQUIRED_COLUMNS: tuple[tuple[str, str, str], ...] = (
         "race",
         "culture_data",
         "ADD COLUMN culture_data TEXT NOT NULL DEFAULT '{}'",
+    ),
+    (
+        "skill_table",
+        "general_mods",
+        "ADD COLUMN general_mods TEXT NOT NULL DEFAULT ''",
     ),
 )
 

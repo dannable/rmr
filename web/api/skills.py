@@ -64,6 +64,10 @@ class SkillTableRow(BaseModel):
 class SkillTable(BaseModel):
     name: str
     columns: list[str]
+    # "General and GM-Assigned Modifers" entries the source PDF prints
+    # below the table proper (e.g. "Practiced piece: +(1-3 x Memory bonus)").
+    # Empty list when the table has no such footer in the source.
+    general_mods: list[str] = []
     rows: list[SkillTableRow]
 
 

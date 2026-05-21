@@ -359,6 +359,12 @@ export interface SkillTableRow {
 export interface SkillTable {
   name: string;
   columns: string[];
+  /**
+   * "General and GM-Assigned Modifers" footer entries from the source PDF
+   * (e.g. "Practiced piece: +(1-3 x Memory bonus)"). Empty when the source
+   * table has no such footer. Each entry is a full "Label: value" string.
+   */
+  general_mods: string[];
   rows: SkillTableRow[];
 }
 

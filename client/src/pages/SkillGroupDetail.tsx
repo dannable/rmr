@@ -15,6 +15,10 @@ import {
  * One skill-category-group from RMSS Appendix A-1: shows the per-category
  * metadata blocks, the per-skill description blocks, and any embedded
  * maneuver/lookup tables.
+ *
+ * Layout mirrors the printed page: category/skill prose on the left,
+ * the Static Maneuver Table + its "General and GM-Assigned Modifers"
+ * footer on the right.
  */
 export function SkillGroupDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -41,8 +45,15 @@ function SkillGroupView({ slug }: { slug: string }) {
   if (q.error || !q.data) return <p style={{ color: "crimson" }}>{String(q.error)}</p>;
 
   const g = q.data;
+  const hasTables = g.tables.length > 0;
+
   return (
     <section>
+      {/* Widen the page just for this view — the rest of the SPA stays
+          at 720px. Two-column maneuver-table view doesn't breathe well
+          inside the default narrow layout. */}
+      <style>{`main { max-width: min(1180px, 96vw); }`}</style>
+
       <Link to="/skills" style={{ fontSize: 13, color: "#666" }}>← Skills</Link>
       <h2 style={{ marginTop: 8 }}>{g.name}</h2>
       <p style={{ color: "#666", margin: "4px 0 0" }}>
@@ -51,31 +62,55 @@ function SkillGroupView({ slug }: { slug: string }) {
 
       <hr />
 
+      {hasTables ? (
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)",
+            gap: 32,
+            alignItems: "start",
+          }}
+        >
+          <div>
+            <LeftColumn categories={g.categories} skills={g.skills} />
+          </div>
+          <div style={{ position: "sticky", top: 16 }}>
+            {g.tables.map((t, i) => (
+              <TableBlock key={`${t.name}-${i}`} table={t} />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <LeftColumn categories={g.categories} skills={g.skills} />
+      )}
+    </section>
+  );
+}
+
+function LeftColumn({
+  categories,
+  skills,
+}: {
+  categories: SkillCategory[];
+  skills: SkillEntry[];
+}) {
+  return (
+    <>
       <h3 style={{ margin: "0 0 8px", fontSize: 15 }}>Categories</h3>
-      {g.categories.map((c, i) => (
+      {categories.map((c, i) => (
         <CategoryBlock key={`${c.name}-${i}`} cat={c} />
       ))}
 
-      {g.skills.length > 0 && (
+      {skills.length > 0 && (
         <>
           <hr />
           <h3 style={{ margin: "0 0 8px", fontSize: 15 }}>Skill descriptions</h3>
-          {g.skills.map((s, i) => (
+          {skills.map((s, i) => (
             <SkillBlock key={`${s.name}-${i}`} skill={s} />
           ))}
         </>
       )}
-
-      {g.tables.length > 0 && (
-        <>
-          <hr />
-          <h3 style={{ margin: "0 0 8px", fontSize: 15 }}>Embedded tables</h3>
-          {g.tables.map((t, i) => (
-            <TableBlock key={`${t.name}-${i}`} table={t} />
-          ))}
-        </>
-      )}
-    </section>
+    </>
   );
 }
 
@@ -162,24 +197,47 @@ function isExpectedColumns(actual: string[], expected: string[]): boolean {
 }
 
 
-/** PDF-style Static Maneuver Table layout — mirrors RMSS T-4.8.x. */
+/**
+ * PDF-style Static Maneuver Table layout — mirrors RMSS T-4.8.x.
+ *
+ * Visual references the printed page:
+ *   - Centered uppercase title with a thin rule beneath it.
+ *   - Each row: bold roll range + result name on the left, the
+ *     percent / time-multiplier / mod cluster right-aligned, dotted
+ *     leaders bridging the two halves. Description below.
+ *   - Below the rows: "General and GM-Assigned Modifers" footer, with
+ *     each entry rendered "Label ......... value" — dotted leaders just
+ *     like the printed page.
+ */
 function ManeuverTableBlock({ table }: { table: SkillTable }) {
   return (
-    <div style={{ marginBottom: 20 }}>
+    <div
+      style={{
+        marginBottom: 20,
+        background: "#fafaf8",
+        border: "1px solid #ddd",
+        borderRadius: 4,
+        padding: "12px 16px",
+      }}
+    >
       <h4 style={{
-        margin: "0 0 8px",
+        margin: "0 0 12px",
         fontSize: 13,
         textAlign: "center",
         textTransform: "uppercase",
         letterSpacing: 0.3,
         borderBottom: "1px solid #ccc",
-        paddingBottom: 4,
+        paddingBottom: 6,
       }}>
         {table.name}
       </h4>
       {table.rows.map((row, i) => (
         <ManeuverRow key={i} row={row} />
       ))}
+
+      {table.general_mods.length > 0 && (
+        <GeneralModsFooter entries={table.general_mods} />
+      )}
     </div>
   );
 }
@@ -195,28 +253,40 @@ function ManeuverRow({ row }: { row: SkillTableRow }) {
 
   return (
     <div style={{ marginBottom: 10 }}>
-      <div style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "baseline",
-        gap: 12,
-        fontSize: 13,
-      }}>
-        <div style={{ fontWeight: 600, color: "#222" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "baseline",
+          gap: 8,
+          fontSize: 13,
+        }}
+      >
+        <div style={{ fontWeight: 600, color: "#222", whiteSpace: "nowrap" }}>
           {row.roll && <span style={{ marginRight: 8 }}>{row.roll}</span>}
-          {row.result}{showColon ? ":" : ""}
+          {row.result}{showColon ? "" : ""}
         </div>
+        {/* Dotted leader bridges roll/result and the mod cluster, mirroring
+            the printed page's "name .......... value" pattern. */}
+        <span
+          aria-hidden
+          style={{
+            flex: 1,
+            borderBottom: "1px dotted #bbb",
+            marginBottom: 4,
+            minWidth: 12,
+          }}
+        />
         {modText && (
-          <div style={{
-            color: "#666",
-            fontVariantNumeric: "tabular-nums",
-            whiteSpace: "nowrap",
-            fontSize: 12,
-          }}>
+          <div
+            style={{
+              color: "#555",
+              fontVariantNumeric: "tabular-nums",
+              whiteSpace: "nowrap",
+              fontSize: 12,
+            }}
+          >
             {modText}
-            {row.mod && (
-              <span style={{ marginLeft: 6 }}>➡</span>
-            )}
           </div>
         )}
       </div>
@@ -230,6 +300,70 @@ function ManeuverRow({ row }: { row: SkillTableRow }) {
           {row.description}
         </p>
       )}
+    </div>
+  );
+}
+
+
+/**
+ * "General and GM-Assigned Modifers" footer.
+ *
+ * Each entry comes from the API as a single "Label: value" string. We split
+ * on the LAST colon so labels containing colons (rare) stay intact, then
+ * render the label and value with a dotted leader between them — same
+ * styling as the maneuver rows above.
+ */
+function GeneralModsFooter({ entries }: { entries: string[] }) {
+  return (
+    <div style={{ marginTop: 14, paddingTop: 10, borderTop: "1px solid #ccc" }}>
+      <h5
+        style={{
+          margin: "0 0 8px",
+          fontSize: 12,
+          textTransform: "uppercase",
+          letterSpacing: 0.3,
+          color: "#444",
+          fontWeight: 600,
+        }}
+      >
+        General and GM-Assigned Modifers
+      </h5>
+      {entries.map((entry, i) => {
+        const idx = entry.lastIndexOf(":");
+        const label = idx >= 0 ? entry.slice(0, idx).trim() : entry;
+        const value = idx >= 0 ? entry.slice(idx + 1).trim() : "";
+        return (
+          <div
+            key={i}
+            style={{
+              display: "flex",
+              alignItems: "baseline",
+              gap: 6,
+              fontSize: 12,
+              marginBottom: 3,
+            }}
+          >
+            <span style={{ color: "#333" }}>{label}</span>
+            <span
+              aria-hidden
+              style={{
+                flex: 1,
+                borderBottom: "1px dotted #bbb",
+                marginBottom: 4,
+                minWidth: 12,
+              }}
+            />
+            <span style={{
+              color: "#333",
+              fontVariantNumeric: "tabular-nums",
+              whiteSpace: "nowrap",
+              fontWeight: 500,
+            }}>
+              {value}
+            </span>
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -268,6 +402,9 @@ function GenericTableBlock({ table }: { table: SkillTable }) {
           ))}
         </tbody>
       </table>
+      {table.general_mods.length > 0 && (
+        <GeneralModsFooter entries={table.general_mods} />
+      )}
     </div>
   );
 }

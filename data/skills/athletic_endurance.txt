@@ -103,5 +103,8 @@ UM 66 | Unusual Event | 100% | 1.2u | +0 | You begin to feel soreness in a limb 
 UM 100 | Unusual Success | 125% | 0.75u | +30 | You’ve got the rhythm now! You breeze through this maneuver, and you will operate at a bonus of +20 (non-cumulative) to this activity until you receive a result of Absolute Failure or Spectacular Failure.
 91 — 110 | Near Success | 80% | 0.8u | +10 | You’ve reached the wall…keep going! If appropriate, roll next round at a +10 modification to get your second wind.
 111 — 175 | Success | 100% | 1.0u | +20 | Good wind, a cool sweat…you look marvelous, darling.
-176 up | Absolute Success | 120% | 0.8u | +30 | Your incredible body control leaves you stamina to spare at the end of your endeavor. You’re ready for the Decathlon. Without proper equipment: -10 to -50
+176 up | Absolute Success | 120% | 0.8u | +30 | Your incredible body control leaves you stamina to spare at the end of your endeavor. You’re ready for the Decathlon.
 
+
+@general_mods:
+Without proper equipment: -10 to -50
