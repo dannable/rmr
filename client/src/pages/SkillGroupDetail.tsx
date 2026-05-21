@@ -139,6 +139,103 @@ function SkillBlock({ skill }: { skill: SkillEntry }) {
 }
 
 function TableBlock({ table }: { table: SkillTable }) {
+  // Most embedded tables are RMSS Static Maneuver Tables — six columns
+  // (roll, result, percent, time, mod, description). For those we use a
+  // PDF-style per-row layout: bold roll + result on the left, mod values
+  // right-aligned on the same line, description indented beneath. Tables
+  // with a different column set fall through to the plain HTML <table>.
+  const isManeuverTable = isExpectedColumns(
+    table.columns,
+    ["roll", "result", "percent", "time", "mod", "description"],
+  );
+  if (isManeuverTable) {
+    return <ManeuverTableBlock table={table} />;
+  }
+  return <GenericTableBlock table={table} />;
+}
+
+
+function isExpectedColumns(actual: string[], expected: string[]): boolean {
+  if (actual.length !== expected.length) return false;
+  return actual.every((c, i) => c.toLowerCase() === expected[i].toLowerCase());
+}
+
+
+/** PDF-style Static Maneuver Table layout — mirrors RMSS T-4.8.x. */
+function ManeuverTableBlock({ table }: { table: SkillTable }) {
+  return (
+    <div style={{ marginBottom: 20 }}>
+      <h4 style={{
+        margin: "0 0 8px",
+        fontSize: 13,
+        textAlign: "center",
+        textTransform: "uppercase",
+        letterSpacing: 0.3,
+        borderBottom: "1px solid #ccc",
+        paddingBottom: 4,
+      }}>
+        {table.name}
+      </h4>
+      {table.rows.map((row, i) => (
+        <ManeuverRow key={i} row={row} />
+      ))}
+    </div>
+  );
+}
+
+
+function ManeuverRow({ row }: { row: SkillTableRow }) {
+  const modParts: string[] = [];
+  if (row.percent) modParts.push(row.percent);
+  if (row.time)    modParts.push(row.time);
+  if (row.mod)     modParts.push(row.mod);
+  const modText = modParts.join(" • ");
+  const showColon = !!row.result;
+
+  return (
+    <div style={{ marginBottom: 10 }}>
+      <div style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "baseline",
+        gap: 12,
+        fontSize: 13,
+      }}>
+        <div style={{ fontWeight: 600, color: "#222" }}>
+          {row.roll && <span style={{ marginRight: 8 }}>{row.roll}</span>}
+          {row.result}{showColon ? ":" : ""}
+        </div>
+        {modText && (
+          <div style={{
+            color: "#666",
+            fontVariantNumeric: "tabular-nums",
+            whiteSpace: "nowrap",
+            fontSize: 12,
+          }}>
+            {modText}
+            {row.mod && (
+              <span style={{ marginLeft: 6 }}>➡</span>
+            )}
+          </div>
+        )}
+      </div>
+      {row.description && (
+        <p style={{
+          margin: "2px 0 0",
+          fontSize: 12,
+          color: "#444",
+          lineHeight: 1.45,
+        }}>
+          {row.description}
+        </p>
+      )}
+    </div>
+  );
+}
+
+
+/** Fallback for tables that don't match the standard maneuver-table shape. */
+function GenericTableBlock({ table }: { table: SkillTable }) {
   return (
     <div style={{ marginBottom: 20 }}>
       <h4 style={{ margin: "0 0 6px", fontSize: 14 }}>{table.name}</h4>
