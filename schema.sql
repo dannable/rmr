@@ -426,3 +426,75 @@ CREATE INDEX IF NOT EXISTS idx_spell_lookup_name
     ON spell(name COLLATE NOCASE);
 CREATE INDEX IF NOT EXISTS idx_spell_by_list
     ON spell(list_id, level);
+
+-- =========================================================================
+-- Skills (RMSS Appendix A-1)
+-- =========================================================================
+-- One skill_category_group row per A-1.x divider page (34 in total). A
+-- group can hold 1+ skill_category rows (Armor has 3 sub-categories, Lore
+-- has 4, most groups have 1) and 0+ skill rows for the per-skill
+-- descriptions on the content page.
+--
+-- skill_table + skill_table_row capture the embedded maneuver / lookup
+-- tables (Static Maneuver Table T-4.8.x etc.) that sit on the divider
+-- pages alongside category metadata.
+--
+-- All four tables are reference data — wiped + reloaded on --reload-ref.
+
+CREATE TABLE IF NOT EXISTS skill_category_group (
+    group_id    INTEGER PRIMARY KEY AUTOINCREMENT,
+    slug        TEXT    NOT NULL UNIQUE,        -- e.g. "awareness_perceptions"
+    section     TEXT    NOT NULL,               -- e.g. "A-1.7"
+    name        TEXT    NOT NULL,               -- e.g. "Awareness • Perceptions"
+    page_div    INTEGER NOT NULL,
+    page_content INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS skill_category (
+    category_id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    group_id             INTEGER NOT NULL REFERENCES skill_category_group(group_id) ON DELETE CASCADE,
+    name                 TEXT    NOT NULL,
+    skills_list          TEXT,                  -- raw comma-separated as in source
+    restricted           TEXT,
+    stat_bonuses         TEXT,
+    rank_progression     TEXT,
+    category_progression TEXT,
+    parent_group         TEXT,                  -- the "Group:" field — e.g. "Armor"
+    classification       TEXT,                  -- "Moving Maneuver" / "Static Maneuver" / ...
+    description          TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_skill_category_by_group
+    ON skill_category(group_id);
+
+CREATE TABLE IF NOT EXISTS skill (
+    skill_id     INTEGER PRIMARY KEY AUTOINCREMENT,
+    group_id     INTEGER NOT NULL REFERENCES skill_category_group(group_id) ON DELETE CASCADE,
+    name         TEXT    NOT NULL,
+    stat         TEXT,                          -- "In" / "Em" / multi like "Em/Pr"
+    description  TEXT,
+    UNIQUE (group_id, name)
+);
+CREATE INDEX IF NOT EXISTS idx_skill_lookup_name
+    ON skill(name COLLATE NOCASE);
+
+CREATE TABLE IF NOT EXISTS skill_table (
+    table_id     INTEGER PRIMARY KEY AUTOINCREMENT,
+    group_id     INTEGER NOT NULL REFERENCES skill_category_group(group_id) ON DELETE CASCADE,
+    name         TEXT    NOT NULL,              -- "Static Maneuver Table T-4.8.7"
+    columns      TEXT    NOT NULL,              -- pipe-separated column labels
+    UNIQUE (group_id, name)
+);
+
+CREATE TABLE IF NOT EXISTS skill_table_row (
+    row_id       INTEGER PRIMARY KEY AUTOINCREMENT,
+    table_id     INTEGER NOT NULL REFERENCES skill_table(table_id) ON DELETE CASCADE,
+    sort_order   INTEGER NOT NULL,              -- preserves source order
+    roll         TEXT,
+    result       TEXT,
+    percent      TEXT,
+    time         TEXT,
+    mod          TEXT,
+    description  TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_skill_table_row_by_table
+    ON skill_table_row(table_id, sort_order);

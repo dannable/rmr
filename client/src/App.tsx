@@ -14,6 +14,8 @@ import { CharacterDetailPage } from "./pages/CharacterDetail";
 import { CharacterListPage } from "./pages/CharacterList";
 import { ClassListsPage } from "./pages/ClassLists";
 import { NewCharacterPage } from "./pages/NewCharacter";
+import { SkillGroupDetailPage } from "./pages/SkillGroupDetail";
+import { SkillsHomePage } from "./pages/SkillsHome";
 import { SpellDetailPage } from "./pages/SpellDetail";
 import { SpellEditPage } from "./pages/SpellEdit";
 import { SpellListDetailPage } from "./pages/SpellListDetail";
@@ -31,6 +33,8 @@ export function App() {
         <Route path="/spells/lists/:listId" element={<RequireAuth><SpellListDetailPage /></RequireAuth>} />
         <Route path="/spells/lists/:listId/spells/:level" element={<RequireAuth><SpellDetailPage /></RequireAuth>} />
         <Route path="/spells/lists/:listId/spells/:level/edit" element={<RequireAuth><SpellEditPage /></RequireAuth>} />
+        <Route path="/skills" element={<RequireAuth><SkillsHomePage /></RequireAuth>} />
+        <Route path="/skills/:slug" element={<RequireAuth><SkillGroupDetailPage /></RequireAuth>} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
@@ -111,6 +115,7 @@ function AppShell({ me, children }: { me: Me; children: ReactNode }) {
         <nav style={{ display: "flex", gap: 16, alignItems: "baseline", fontSize: 13 }}>
           <Link to="/" style={{ color: "#444" }}>Characters</Link>
           <Link to="/spells" style={{ color: "#444" }}>Spells</Link>
+          <Link to="/skills" style={{ color: "#444" }}>Skills</Link>
           <span style={{ color: "#666" }}>
             {me.discord_username ?? me.discord_id}
           </span>

@@ -16,6 +16,7 @@ CRIT_TABLES_DIR = ROOT / "data" / "crit_tables"
 FUMBLE_TABLES_DIR = ROOT / "data" / "fumble_tables"
 SPELL_LISTS_DIR = ROOT / "data" / "spell_lists"
 RACES_DIR = ROOT / "data" / "chargen" / "races"
+SKILLS_DIR = ROOT / "data" / "skills"
 CULTURES_DIR = ROOT / "data" / "chargen" / "cultures"
 ADOLESCENCE_FILE = ROOT / "data" / "chargen" / "adolescence_ranks.txt"
 
@@ -844,6 +845,214 @@ def insert_races(conn: sqlite3.Connection) -> int:
 
 
 # ---------------------------------------------------------------------------
+# skills loader (RMSS Appendix A-1)
+# ---------------------------------------------------------------------------
+
+# Field labels at category-block level.
+_SKILL_CATEGORY_FIELDS: tuple[str, ...] = (
+    "skills", "restricted", "stat_bonuses", "rank_progression",
+    "category_progression", "group", "classification", "description",
+)
+# Field labels at the file-header level.
+_SKILL_HEADER_FIELDS: tuple[str, ...] = (
+    "section", "group_name", "page_div", "page_content",
+)
+
+
+def parse_skill_file(path: Path) -> dict:
+    """Parse a data/skills/<slug>.txt into structured form.
+
+    Returns:
+        {
+          "slug": "...", "section": "A-1.X", "name": "...",
+          "page_div": int, "page_content": int,
+          "categories": [{name, fields...}, ...],
+          "skills":     [{name, stat, description}, ...],
+          "tables":     [{name, columns, rows: [{roll, result, ...}]}],
+        }
+    """
+    slug = path.stem
+    header: dict[str, str] = {}
+    categories: list[dict] = []
+    skills: list[dict] = []
+    tables: list[dict] = []
+    state: str = "header"   # header | category | skill | table
+    current: dict | None = None
+    multiline_field: str | None = None
+
+    def finalize():
+        nonlocal current, multiline_field
+        if current is None:
+            return
+        if state == "category":
+            categories.append(current)
+        elif state == "skill":
+            skills.append(current)
+        elif state == "table":
+            tables.append(current)
+        current = None
+        multiline_field = None
+
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        line = raw.rstrip()
+        if not line or line.lstrip().startswith("#"):
+            multiline_field = None
+            continue
+
+        # Multi-line continuation: lines indented by 2+ spaces extend the
+        # most recently opened @description / @columns / etc. value.
+        if line.startswith("  ") and multiline_field is not None and current is not None:
+            current[multiline_field] = (
+                current.get(multiline_field, "") + " " + line.strip()
+            ).strip()
+            continue
+
+        if line.startswith("@@ "):
+            # Start of a skill description block.
+            finalize()
+            state = "skill"
+            current = {"name": line[3:].strip(), "stat": "", "description": ""}
+            multiline_field = None
+            continue
+
+        if line.startswith("@table:"):
+            finalize()
+            state = "table"
+            current = {
+                "name": line.split(":", 1)[1].strip(),
+                "columns": "",
+                "rows": [],
+            }
+            multiline_field = None
+            continue
+
+        if line.startswith("@columns:") and state == "table" and current is not None:
+            current["columns"] = line.split(":", 1)[1].strip()
+            continue
+
+        # A table-row line is anything inside a @table block that has " | "
+        # — we split on pipe.
+        if state == "table" and " | " in line and current is not None:
+            cells = [c.strip() for c in line.split("|")]
+            # Header columns are "roll | result | percent | time | mod | description"
+            cols = [c.strip() for c in (current["columns"] or "").split("|")]
+            row = {c: cells[i] if i < len(cells) else ""
+                   for i, c in enumerate(cols)}
+            current["rows"].append(row)
+            continue
+
+        if line.startswith("@category:"):
+            finalize()
+            state = "category"
+            current = {
+                "name": line.split(":", 1)[1].strip(),
+                "skills": "", "restricted": "", "stat_bonuses": "",
+                "rank_progression": "", "category_progression": "",
+                "group": "", "classification": "", "description": "",
+            }
+            multiline_field = None
+            continue
+
+        if line.startswith("@"):
+            key, _, value = line[1:].partition(":")
+            key = key.strip()
+            value = value.strip()
+            if state in ("header", "category", "skill") and current is not None:
+                # Field assignment within the active block.
+                if key in current:
+                    current[key] = value
+                    # Allow multi-line continuation for description-style fields.
+                    if value == "" and key in ("description",):
+                        multiline_field = key
+            elif state == "header":
+                # File-level header field.
+                if key in _SKILL_HEADER_FIELDS:
+                    header[key] = value
+            else:
+                # Unknown — ignore.
+                pass
+            continue
+        # else: ignore stray line
+
+    finalize()
+
+    return {
+        "slug": slug,
+        "section": header.get("section", ""),
+        "name": header.get("group_name", slug),
+        "page_div": int(header.get("page_div") or 0),
+        "page_content": int(header.get("page_content") or 0),
+        "categories": categories,
+        "skills": skills,
+        "tables": tables,
+    }
+
+
+def insert_skill_group(conn: sqlite3.Connection, data: dict) -> int:
+    """Insert one skill_category_group + its categories/skills/tables.
+
+    Returns the group_id. Designed to be called repeatedly with the
+    reference-data wipe handled by the caller (REF_TABLES_DELETE_ORDER).
+    """
+    cur = conn.execute(
+        "INSERT INTO skill_category_group (slug, section, name, page_div, page_content) "
+        "VALUES (?, ?, ?, ?, ?) RETURNING group_id",
+        (data["slug"], data["section"], data["name"],
+         data["page_div"], data["page_content"]),
+    )
+    group_id = cur.fetchone()[0]
+    for cat in data["categories"]:
+        conn.execute(
+            """INSERT INTO skill_category (
+                group_id, name, skills_list, restricted, stat_bonuses,
+                rank_progression, category_progression, parent_group,
+                classification, description
+               ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            (group_id, cat["name"], cat.get("skills", ""), cat.get("restricted", ""),
+             cat.get("stat_bonuses", ""), cat.get("rank_progression", ""),
+             cat.get("category_progression", ""), cat.get("group", ""),
+             cat.get("classification", ""), cat.get("description", "")),
+        )
+    for sk in data["skills"]:
+        conn.execute(
+            "INSERT OR IGNORE INTO skill (group_id, name, stat, description) "
+            "VALUES (?, ?, ?, ?)",
+            (group_id, sk["name"], sk.get("stat", ""), sk.get("description", "")),
+        )
+    for t in data["tables"]:
+        cur = conn.execute(
+            "INSERT INTO skill_table (group_id, name, columns) VALUES (?, ?, ?) RETURNING table_id",
+            (group_id, t["name"], t.get("columns", "")),
+        )
+        table_id = cur.fetchone()[0]
+        for i, row in enumerate(t["rows"]):
+            conn.execute(
+                """INSERT INTO skill_table_row (
+                    table_id, sort_order, roll, result, percent, time, mod, description
+                   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+                (table_id, i, row.get("roll", ""), row.get("result", ""),
+                 row.get("percent", ""), row.get("time", ""), row.get("mod", ""),
+                 row.get("description", "")),
+            )
+    return group_id
+
+
+def insert_skills(conn: sqlite3.Connection) -> tuple[int, int, int, int]:
+    """Load every data/skills/<slug>.txt. Returns (groups, categories, skills, tables)."""
+    if not SKILLS_DIR.exists():
+        return (0, 0, 0, 0)
+    n_g = n_c = n_s = n_t = 0
+    for f in sorted(SKILLS_DIR.glob("*.txt")):
+        data = parse_skill_file(f)
+        insert_skill_group(conn, data)
+        n_g += 1
+        n_c += len(data["categories"])
+        n_s += len(data["skills"])
+        n_t += len(data["tables"])
+    return (n_g, n_c, n_s, n_t)
+
+
+# ---------------------------------------------------------------------------
 # culture-data loader (rich per-race fields from Cultures and Races appendix)
 # ---------------------------------------------------------------------------
 
@@ -996,6 +1205,12 @@ REF_TABLES_DELETE_ORDER: tuple[str, ...] = (
     "weapon",
     "fumble_table",
     "critical_strike_table",
+    # Skill tables (RMSS Appendix A-1). children first.
+    "skill_table_row",
+    "skill_table",
+    "skill",
+    "skill_category",
+    "skill_category_group",
     # Spell tables. The web explorer's PUT handler stamps spell.updated_at +
     # updated_by_user_id, but those are derived metadata — the canonical data
     # lives in data/spell_lists/<realm>/*.txt and re-inserting from there
@@ -1142,6 +1357,7 @@ def main() -> None:
     races_loaded = insert_races(conn)
     cultures_loaded = insert_culture_data(conn)
     adolescence_cells = insert_adolescence_ranks(conn)
+    skill_stats = insert_skills(conn)
 
     conn.commit()
     conn.close()
@@ -1150,6 +1366,9 @@ def main() -> None:
         print(f"Races: {races_loaded} loaded")
     if cultures_loaded:
         print(f"Culture data: {cultures_loaded} races enriched")
+    if skill_stats[0]:
+        ng, nc, ns, nt = skill_stats
+        print(f"Skills: {ng} groups, {nc} categories, {ns} skills, {nt} tables")
     if adolescence_cells:
         print(f"Adolescence ranks: {adolescence_cells} cells")
 
