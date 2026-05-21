@@ -20,6 +20,35 @@
 # Block ordering: Col L (PHYSICAL / CULTURE / OTHER FACTORS) then
 # Col R (Languages, Prejudices, Professions, OUTFITTING, BACKGROUND).
 #
+# Structured field extraction (regex on bold labels)
+@allowed_adolescence_developmentCommon- . speech (S10/W10), High-speech (S8/W8), Sea-speech (S8/W8), Grey-elvish (S8/W8).
+@armor                    Any. Inhabitants of the larger cities have more reliable access to to chain and plate mail than do those in towns or small cities.
+@build                    All types, but normally medium. Males average 155 pounds; women, 125 pounds.
+@clothing_decoration      Various types of elaborate or practical wool and linen garb, including cloaks, boots, etc. Tunics are worn in warmer areas; shirts and pants or leggings are worn in cooler locales. Some imported silks and fine cottons are in evidence.
+@coloring                 Variations of fair to tan or olive skin. All colors of hair and eyes.
+@demeanor                 Practical, aggressive, hard-working, and inquisitive.
+@endurance                Average.
+@everyman                 all skills in the Urban category
+@extra_languages          In addition to the tongues listed above: Hillspeech (S6/W6), Small-speech (S6/W6), Plains-speech (S8/ W8), and High-elvish (S6/W6).
+@extra_money              Silver pieces.
+@fears_inabilities        Nothing special, aside from local superstitions.
+@height                   Males average 5'10"; women, 5'4".
+@lifespan                 Moderate, averaging 65-85 years.
+@lifestyle                Urban folk are a varied, rather cosmopolitan lot. Many are from mercantile or guild backgrounds and . some have dealt with enchantments.
+@marriage_pattern         Monogamous. The line is traced through either the male or female.
+@money                    20 silver pieces of High Mannish mint.
+@prejudices               Urbanmen are worldly enough to deal with most outsiders. They hate no race, aside from the Orcs.r 
+@professions              No special notes.
+@religion                 Variations of subdued rituals with some organized cults and shrines. Most have reverence for local or . community spirits, although the principal worship focuses on the “True Gods.”
+@resistance               Normal.
+@restricted               none.
+@special_abilities        None.
+@special_items            All available. Items made by urban Urbanmen display high quality craftsmanship and include durable materials often unavailable in more rural societies (steel being a prime example). Enchanted metals (mithril, eog, etc.) are not normally available, however.
+@standard_hobby_skills    Acrobatics, Acting, Ambush, Animal Handling, Appraisal, any Armor skills, Boat Piloting, Body Development, Bribery, Climbing, Contortions, Cooking, Dancing, Diplomacy, Disarming Traps, Embroidery [Crafts], First Aid, Fletching, Gambling, Hiding, History (city), Interrogation, Juggling, Languages, Leather-crafting, Metal-crafting, Observation, Painting, Picking Locks, Play Instrument, Public Speaking, Read Runes, Region Lore, Riding, Sculpting, Seduction, Sewing, Singing, Stalking, Stilt-walking, Stone-crafting, Tightrope-walking, Trading, Trap Building, Trickery, any Weapon skills, Wood-crafting.
+@starting_languages       Common-speech (S8/ W6).
+@talents                  All available.
+@weapons                  Battle-axe, broadsword, composite bow, dagger, halberd, javelin, long bow, mace, morning star, quarterstaff, short sword, spear, two-handed sword, bastard sword, foil, main gauche, rapier.
+#
 @@ urbanmen
 This is a generalized label for the town and city folk of the northern and southern empires. Urbanmen contain varying degrees of Hillman, Nomad, Woodman, and High Man blood. This catagory represents men born and raised in major towns and cities.
 

@@ -14,8 +14,14 @@ import pytest
 # helpers
 # ---------------------------------------------------------------------------
 
-def _seed_race(slug: str = "dwarves", **overrides) -> dict:
-    """Insert a race row directly via SQL. Returns the inserted row dict."""
+def _seed_race(slug: str = "dwarves", culture_data: str = "{}", **overrides) -> dict:
+    """Insert a race row directly via SQL. Returns the inserted row dict.
+
+    `culture_data` is a JSON-encoded string of rich-text fields (as
+    persisted by load.py from data/chargen/cultures/<slug>.txt). Empty
+    "{}" is the default — matches the post-migration state of races
+    that don't have a culture entry.
+    """
     defaults = {
         "name": "Dwarves",
         # Famously magic-resistant: +6 Co, -2 Ag/Qu, etc.
@@ -36,10 +42,13 @@ def _seed_race(slug: str = "dwarves", **overrides) -> dict:
                 stat_ag, stat_co, stat_me, stat_re, stat_sd,
                 stat_em, stat_in, stat_pr, stat_qu, stat_st,
                 rr_ess, rr_chan, rr_ment, rr_pois, rr_dis,
-                bg_opts, body_dev_prog, chan_pp_prog, ess_pp_prog, ment_pp_prog
+                bg_opts, body_dev_prog, chan_pp_prog, ess_pp_prog, ment_pp_prog,
+                culture_data
             ) VALUES (?, ?,  ?, ?, ?, ?, ?,  ?, ?, ?, ?, ?,
-                      ?, ?, ?, ?, ?,  ?, ?, ?, ?, ?)
-            ON CONFLICT(slug) DO UPDATE SET name = excluded.name""",
+                      ?, ?, ?, ?, ?,  ?, ?, ?, ?, ?,  ?)
+            ON CONFLICT(slug) DO UPDATE SET
+                name = excluded.name,
+                culture_data = excluded.culture_data""",
             (slug, defaults["name"],
              defaults["stat_ag"], defaults["stat_co"], defaults["stat_me"],
              defaults["stat_re"], defaults["stat_sd"], defaults["stat_em"],
@@ -48,10 +57,11 @@ def _seed_race(slug: str = "dwarves", **overrides) -> dict:
              defaults["rr_ess"], defaults["rr_chan"], defaults["rr_ment"],
              defaults["rr_pois"], defaults["rr_dis"], defaults["bg_opts"],
              defaults["body_dev_prog"], defaults["chan_pp_prog"],
-             defaults["ess_pp_prog"], defaults["ment_pp_prog"]),
+             defaults["ess_pp_prog"], defaults["ment_pp_prog"],
+             culture_data),
         )
         conn.commit()
-    return {"slug": slug, **defaults}
+    return {"slug": slug, "culture_data": culture_data, **defaults}
 
 
 def _create_character(client, name: str = "Test") -> int:
@@ -197,3 +207,43 @@ def test_endpoints_require_auth(anon_client, method: str, path: str, body) -> No
     kwargs = {"json": body} if body is not None else {}
     r = anon_client.request(method, path, **kwargs)
     assert r.status_code == 401, f"{method} {path} expected 401, got {r.status_code}"
+
+
+# ---------------------------------------------------------------------------
+# culture_data round-trip
+# ---------------------------------------------------------------------------
+
+def test_race_response_includes_culture_data(client) -> None:
+    """A race seeded with a non-empty culture_data JSON returns the parsed
+    object on /api/v1/races, with each key/value preserved."""
+    import json
+    culture = {
+        "build": "Short, stocky, strong.",
+        "weapons": "Dagger, handaxe, short sword.",
+        "religion": "Most Dwarves revere a single deity.",
+    }
+    _seed_race("dwarves", culture_data=json.dumps(culture))
+    r = client.get("/api/v1/races")
+    assert r.status_code == 200
+    dwarves = next(race for race in r.json() if race["slug"] == "dwarves")
+    assert dwarves["culture_data"] == culture
+
+
+def test_race_response_empty_culture_data_when_unseeded(client) -> None:
+    """A race seeded with the default empty culture_data shows {} on the
+    API (matches the schema column default for races without a PDF entry)."""
+    _seed_race("common_men", name="Common Men")
+    r = client.get("/api/v1/races")
+    assert r.status_code == 200
+    cm = next(race for race in r.json() if race["slug"] == "common_men")
+    assert cm["culture_data"] == {}
+
+
+def test_race_response_handles_malformed_culture_data(client) -> None:
+    """If culture_data isn't valid JSON (corruption / older row), the API
+    falls back to {} rather than 500-ing."""
+    _seed_race("urbanmen", name="Urbanmen", culture_data="this isn't json")
+    r = client.get("/api/v1/races")
+    assert r.status_code == 200
+    um = next(race for race in r.json() if race["slug"] == "urbanmen")
+    assert um["culture_data"] == {}

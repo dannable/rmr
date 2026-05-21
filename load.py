@@ -16,6 +16,8 @@ CRIT_TABLES_DIR = ROOT / "data" / "crit_tables"
 FUMBLE_TABLES_DIR = ROOT / "data" / "fumble_tables"
 SPELL_LISTS_DIR = ROOT / "data" / "spell_lists"
 RACES_DIR = ROOT / "data" / "chargen" / "races"
+CULTURES_DIR = ROOT / "data" / "chargen" / "cultures"
+ADOLESCENCE_FILE = ROOT / "data" / "chargen" / "adolescence_ranks.txt"
 
 CELL_RE = re.compile(r"^(\d{1,3})([A-F])([GKPSTU])?$")  # severity-only crit_type optional; F is the special dual-crit code on table 3.10
 
@@ -841,6 +843,146 @@ def insert_races(conn: sqlite3.Connection) -> int:
     return n
 
 
+# ---------------------------------------------------------------------------
+# culture-data loader (rich per-race fields from Cultures and Races appendix)
+# ---------------------------------------------------------------------------
+
+# Known structured field labels carried in cultures/*.txt as @<slug>: <value>.
+# These map 1:1 to keys in the race.culture_data JSON object.
+_CULTURE_FIELDS: tuple[str, ...] = (
+    "starting_languages", "allowed_adolescence_development", "extra_languages",
+    "standard_hobby_skills", "everyman", "restricted",
+    "weapons", "armor", "money",
+    "extra_money", "special_items", "talents",
+    "prejudices", "professions", "demeanor",
+    "build", "coloring", "endurance", "height", "lifespan",
+    "resistance", "special_abilities",
+    "clothing_decoration", "fears_inabilities", "lifestyle",
+    "marriage_pattern", "religion",
+)
+
+
+def parse_culture_file(path: Path) -> dict:
+    """Parse a data/chargen/cultures/<slug>.txt file.
+
+    Returns {"slug": ..., "fields": {field_key: text, ...}} for the @-fields
+    we know about. Unknown @-keys are ignored. @@-blocks (raw section text)
+    are NOT carried into culture_data — the JSON stays focused on the
+    parsed structured fields. (If the SPA later wants raw narrative, we
+    can revisit.)
+    """
+    fields: dict[str, str] = {}
+    slug = ""
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.startswith("@") or line.startswith("@@"):
+            continue
+        # @key: value form. Allow extra leading spaces in value (the file
+        # uses a 25-char fixed key width like "@build                    Heavy...").
+        body = line[1:]
+        # First whitespace separates key from value (no colon required
+        # because the file uses fixed-column layout for @-fields).
+        if ":" in body.split(None, 1)[0]:
+            key, _, value = body.partition(":")
+            key = key.strip()
+            value = value.strip()
+        else:
+            parts = body.split(None, 1)
+            key = parts[0].strip()
+            value = parts[1].strip() if len(parts) > 1 else ""
+        if key == "slug":
+            slug = value
+        elif key in _CULTURE_FIELDS:
+            fields[key] = value
+    return {"slug": slug, "fields": fields}
+
+
+def insert_culture_data(conn: sqlite3.Connection) -> int:
+    """Walk data/chargen/cultures/*.txt and update race.culture_data with
+    the parsed structured fields as JSON. Races without a matching culture
+    file keep culture_data = '{}'."""
+    if not CULTURES_DIR.exists():
+        return 0
+    import json
+    n = 0
+    for f in sorted(CULTURES_DIR.glob("*.txt")):
+        data = parse_culture_file(f)
+        if not data["slug"]:
+            continue
+        culture_json = json.dumps(data["fields"], ensure_ascii=False)
+        cur = conn.execute(
+            "UPDATE race SET culture_data = ? WHERE slug = ?",
+            (culture_json, data["slug"]),
+        )
+        if cur.rowcount:
+            n += 1
+    return n
+
+
+# ---------------------------------------------------------------------------
+# adolescence rank table T-1.6 loader
+# ---------------------------------------------------------------------------
+
+def insert_adolescence_ranks(conn: sqlite3.Connection) -> int:
+    """Load data/chargen/adolescence_ranks.txt into adolescence_rank.
+
+    The .txt is tab-separated: header row = culture names, body rows =
+    skill label + 16 values. The skill-DP allocator joins on (skill,
+    culture_slug) to look up a character's starting rank for a given
+    skill once race + culture is chosen.
+
+    Some skill labels appear multiple times in the source (e.g.
+    "1 Weapon Based on Culture/Race ‡" sits under each Weapon category).
+    We prefix each leaf-skill row with its most-recent "category" row so
+    the (skill, culture) primary key stays unique while preserving the
+    user-meaningful label.
+    """
+    if not ADOLESCENCE_FILE.exists():
+        return 0
+    conn.execute("DELETE FROM adolescence_rank")
+    lines = [
+        ln for ln in ADOLESCENCE_FILE.read_text(encoding="utf-8").splitlines()
+        if ln and not ln.startswith("#")
+    ]
+    if not lines:
+        return 0
+    header = lines[0].split("\t")
+    if header[0] != "skill":
+        raise ValueError(f"adolescence_ranks.txt: header must start with 'skill', got {header[0]!r}")
+    culture_slugs = [
+        re.sub(r"[^a-z0-9]+", "_", name.lower()).strip("_") for name in header[1:]
+    ]
+    n = 0
+    last_category: str | None = None
+    for raw in lines[1:]:
+        parts = raw.split("\t")
+        if len(parts) != len(header):
+            continue
+        skill = parts[0].strip()
+        is_category = "skill category" in skill
+        if is_category:
+            last_category = skill
+            display = skill
+        else:
+            # Disambiguate duplicate leaf-skill labels by tagging with the
+            # last seen category. The display string keeps both ("[Weapon
+            # • Missile] 1 Weapon Based on Culture/Race ‡") so end-users
+            # see context; PK uniqueness is preserved.
+            if last_category and any(
+                skill == "1 Weapon Based on Culture/Race ‡"
+                for _ in [1]   # only the known duplicate row needs the prefix
+            ):
+                display = f"[{last_category}] {skill}"
+            else:
+                display = skill
+        for i, value in enumerate(parts[1:]):
+            conn.execute(
+                "INSERT INTO adolescence_rank (skill, culture_slug, value) VALUES (?, ?, ?)",
+                (display, culture_slugs[i], value.strip()),
+            )
+            n += 1
+    return n
+
+
 # Tables that hold REFERENCE data (loaded from data/). Safe to wipe-and-reload.
 # Order matters: child tables before parents for the DELETE pass.
 REF_TABLES_DELETE_ORDER: tuple[str, ...] = (
@@ -863,6 +1005,11 @@ REF_TABLES_DELETE_ORDER: tuple[str, ...] = (
     "spell_list",
     "spell_class",
     "spell_realm",
+    # Adolescence rank matrix — wipe+reload each pass since it's tabular
+    # reference data; the loader inserts fresh rows from the .txt source.
+    # NOT including `race` here because race rows carry stable IDs that
+    # characters FK to; the race loader uses ON CONFLICT(slug) DO UPDATE.
+    "adolescence_rank",
 )
 
 # Columns that newer deployments need but pre-existing DBs may lack. Applied
@@ -882,6 +1029,11 @@ _REQUIRED_COLUMNS: tuple[tuple[str, str, str], ...] = (
         "character",
         "race_id",
         "ADD COLUMN race_id INTEGER REFERENCES race(race_id) ON DELETE SET NULL",
+    ),
+    (
+        "race",
+        "culture_data",
+        "ADD COLUMN culture_data TEXT NOT NULL DEFAULT '{}'",
     ),
 )
 
@@ -988,12 +1140,18 @@ def main() -> None:
 
     spell_stats = insert_spell_lists(conn)
     races_loaded = insert_races(conn)
+    cultures_loaded = insert_culture_data(conn)
+    adolescence_cells = insert_adolescence_ranks(conn)
 
     conn.commit()
     conn.close()
 
     if races_loaded:
         print(f"Races: {races_loaded} loaded")
+    if cultures_loaded:
+        print(f"Culture data: {cultures_loaded} races enriched")
+    if adolescence_cells:
+        print(f"Adolescence ranks: {adolescence_cells} cells")
 
     print(f"DB written: {DB_PATH}")
     if crit_loaded:

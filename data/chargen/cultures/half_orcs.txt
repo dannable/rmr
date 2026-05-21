@@ -20,6 +20,34 @@
 # Block ordering: Col L (PHYSICAL / CULTURE / OTHER FACTORS) then
 # Col R (Languages, Prejudices, Professions, OUTFITTING, BACKGROUND).
 #
+# Structured field extraction (regex on bold labels)
+@armor                    Any. Chain and plate armor are made of utilitarian steel.
+@build                    Half-orcs are akin to Greater Orcs, but look more like dark Men. Males average 150 pounds; females, 135 pounds.
+@clothing_decoration      Varies, but leather and metal armor is standard with other clothing being depend upon the Orcish or Mannish group they are currently associated with.
+@coloring                 Black or grey hair, black or reddish-brown eyes.
+@demeanor                 Half-orcs are normally cruel, jealous, petty, ambitious, selfish, and suspicious.
+@endurance                They can travel for 2 days without sleep. +10 to exhaustion points (see Section 22.3).
+@everyman                 none
+@extra_languages          In addition to the tongues listed above: Northspeech (S8/S8), and Wood-speech (S8/W8).
+@extra_money              Coinage, gems, and weapons.
+@fears_inabilities        They perfer to avoid bright sunlit places, but they are not adversely affected by sunlight..
+@height                   Males average 5'8"; females, 5'5".
+@lifespan                 Normally 250-500 years.
+@lifestyle                Individual Half-orcs respect power and terror above all things. Their lifestyle is dependent upon the Orcish or Mannish group they are currently associated with. .
+@marriage_pattern         This is normally dependent upon the Orcish or Mannish group they are currently associated with.
+@money                    20 silver pieces.
+@prejudices               Half-orcs dislike most races, but they particularily despise Elves and High Men.
+@professions              No special notes.
+@religion                 Most Half-orcs worship Darkness and power.
+@resistance               +15 DB and RR bonuses versus heat and cold attacks.
+@restricted               none.
+@special_abilities        Half-orcish vision in most darkness is at least 300'. When there is barely any light (cloudy, moonless nights; upper caverns, dungeons), Half-orcs can see at least 25' perfectly and fairly well up to 50'. In absolute darkness, they can still see 5'.
+@special_items            All available. Most Half-orcs are equipped from the armories of their evil lords and thus have some of the finest gear.
+@standard_hobby_skills    Acting, Ambush, Animal Handling, Appraisal, any Armor skills, Attunement, Body Development, Bribery, Caving, Climbing, Directed Spells, Disarming Traps, Fletching, Gambling, Hiding, Jumping, Languages, Leadership, Leather-crafts, Metal-crafts, Military Organization, Observation, Picking Locks, Rappelling, Region Lore, Riding, Scaling, Seduction, Signaling, Sprinting, Stalking, Swimming, Tactics, Tale Telling, Tracking, Trap-building, Trickery, any Weapon skills, Weaving, Wood-crafts.
+@starting_languages       Common-speech (S8/W4), Orcish (S8/W4), Black-speech (S4/W3). Allowed Adolescence. Development: Common-speech (S10/W8), Orcish (S10/W8), Black-speech (S8/W8), Hill-speech (S6/W6).
+@talents                  All available.
+@weapons                  Broadsword, club, dagger, handaxe, long bow, mace, morning star, scimitar, short bow, short sword, spear, war hammer, whip, clawed club or clawed mace (use morning star table), long sword, harpoon, poisoned arrows.
+#
 @@ half_orcs
 Half-orcs are a hideous creation, born of Man and Orc. They are often confused with Greater Orcs, but are a distinct race, small in number but capable and deadly. Half-orcs normally have Hillman blood in them and some are capable of blending into Hillmen societies.
 

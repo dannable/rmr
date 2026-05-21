@@ -156,6 +156,11 @@ export interface Race {
   chan_pp_prog: string;
   ess_pp_prog: string;
   ment_pp_prog: string;
+  // Rich culture data extracted from the RMSS Cultures & Races appendix.
+  // Keys vary by race; Common Men + Mixed Men have an empty object since
+  // the source PDF doesn't cover them. See bottom of RacePicker for the
+  // canonical field-key catalog.
+  culture_data: Record<string, string>;
 }
 
 export const fetchRaces = () => api<Race[]>("/api/v1/races");

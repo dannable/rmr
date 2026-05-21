@@ -20,6 +20,35 @@
 # Block ordering: Col L (PHYSICAL / CULTURE / OTHER FACTORS) then
 # Col R (Languages, Prejudices, Professions, OUTFITTING, BACKGROUND).
 #
+# Structured field extraction (regex on bold labels)
+@allowed_adolescence_developmentGrey-elvish (S10/W10), Common-speech (S10/W10), High-elvish (S10/W10), Highspeech (S4/W4), Plains-speech (S8/W8), Wood-speech (S8/ W8).
+@armor                    Any. Wood Elves are a varied group. Some prefer enchanted leather armor, while others favor no protective garb, and guard themselves instead with spells.
+@build                    Most are slight of build, and all are thin by mannish standards. Males average 150 lbs; females, 125 lbs.
+@clothing_decoration      Their preferred clothes are usually forest green, grey, or brown, and range from functional designs to fanciful expressions of individual creativity.
+@coloring                 Ruddy of complexion, with sandy hair and blue or green eyes. Generalizations are difficult, however, since they are many kindreds.
+@demeanor                 They are a fun-loving but guarded folk. Outward mirth often hides their grim intentions.
+@endurance                They are capable of traveling 16-20 hours a day. See the general Elf description in Section A-3.0.
+@everyman                 Music, Play Instrument, Trickery, Wood-crafting
+@extra_languages          In addition to the tongues listed above: Highspeech (S8/W8), South-speech (S6/W6), Black-speech (S6/ W6).
+@extra_money              Gems (aquamarine, black opal, bloodstone, carnelian, garnet, fire opal, blue topaz, jade, star sapphire).
+@fears_inabilities        Nothing special.
+@height                   Males average 6'0"; females, 5'9".
+@lifespan                 They are immortal and will only die due to violence or if they weary of life and lose the will to live.
+@lifestyle                The culture of the Wood Elves is best characterized as unstructured and rustic by Elven standards, but rich and relatively advanced when compared to the ways of Men. They are independent, but many have settled in kingdoms ruled by the High Elves or Grey Elves. Still, all the Wood Elf folk enjoy a good journey or adventure and most look at life much as a game to be played. Music and trickery are their favorite pastimes. The Wood Elves are also masters of the wood and know much of wood-craft and wood-lore.
+@marriage_pattern         Monogamous and for life.
+@money                    Possessions to be bartered or sold: Elven rope (100' worth 20 sp; holds up 500 lbs., weighs only 3 lbs.), Elven silk (length of 3 yards worth 2 gp), or an assortment of precious stones (lapis lazuli, malachite, agate, turquoise, onyx, amber) worth 2 gp.
+@prejudices               The Wood Elves readily seclude themselves, for they have a less friendly history of relations with Men. They despise Orcs, dislike Dwarves, and are suspicious of Men.
+@professions              No special notes.
+@religion                 Informal and centered around communal celebration and personal meditation.
+@resistance               They cannot become sick or scarred and are virtually immune to disease. +10 DB and RR bonuses versus cold attacks.
+@restricted               none.
+@special_abilities        See the general Elf description in Section A3.0. The Wood Elf folk are superb musicians and have tremendous hearing, even for Elves (they get a special +10 bonus to Base Spell attacks from Bard spell lists). They get a special +10 bonus to their Trickery skill and their Stalking, and Hiding skill.
+@special_items            All available. Due to the Wood Elf fondness for woodland, many items should be fashioned from fine or enchanted wood, even weaponry typically metal in other cultures.
+@standard_hobby_skills    Armor • Light skills, Acrobatics, Acting, Ambush, Animal Handling, Attunement, Boat Piloting, Climbing, Cooking, Directed Spells, Fauna Lore, First Aid, Fletching, Flora Lore, Foraging, Hiding, Languages, Leathercrafting, Meditation, Observation, Play Instruments, Rappelling, Rope Mastery, Signaling, Singing, Skating, Skiing, Spell Lists, Spinning, Stalking, Star-gazing, Surfing, Swimming, Tracking, any Weapon skills, Weather-watching, Weaving [Crafts], Wood-crafting.
+@starting_languages       Elvish (S10/W10), Grey-elvish (S8/W6), Common-speech (S8/W6), High-elvish (S4/W4).
+@talents                  All available. For one background option a Wood Elf may select the following talent: special affinity with trees and woodland foliage; all physical activities performed by the character get a special +15 bonus when in forested terrain.
+@weapons                  Dagger, handaxe, broadsword, short sword, whip, bola, long bow, short bow, quarterstaff, two-handed sword, javelin, spear, main gauche, shang, rapier, gé, kynac, boomerang, net, boar spear.
+#
 @@ woodelves
 Wood Elves are more numerous and “rustic” than their brethren, the High Elves and the Grey Elves. They live in the safety of the woods, forests, and mountains.
 

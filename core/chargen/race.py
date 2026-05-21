@@ -25,7 +25,7 @@ _PROG_COLS: tuple[str, ...] = (
     "body_dev_prog", "chan_pp_prog", "ess_pp_prog", "ment_pp_prog",
 )
 _RACE_COLS = ("race_id", "slug", "name") + _STAT_COLS + _RR_COLS \
-    + ("bg_opts",) + _PROG_COLS
+    + ("bg_opts",) + _PROG_COLS + ("culture_data",)
 
 _RACE_SELECT = "SELECT " + ", ".join(_RACE_COLS) + " FROM race"
 

@@ -20,6 +20,35 @@
 # Block ordering: Col L (PHYSICAL / CULTURE / OTHER FACTORS) then
 # Col R (Languages, Prejudices, Professions, OUTFITTING, BACKGROUND).
 #
+# Structured field extraction (regex on bold labels)
+@allowed_adolescence_developmentPlains-speech (S10/W10), Common-speech (S10/W10), Southspeech (S6/W6), Black-speech (S6/W6).
+@armor                    None but shield and helm.
+@build                    Compact and agile. Men average 135 pounds; women, 95 pounds.
+@clothing_decoration      Colorful linen cloaks, woolen tunics, leather pants, and lower leg protectors. They . also wear fur hats with ear flaps, or fur-covered pot helms. Some groups paint their upper bodies and faces.
+@coloring                 Swarthy, with a tan or yellowish/tan quality.
+@demeanor                 Cold, determined, brave to the point of foolhardiness. They relish, or are at the least unconcerned with, death in r battle. 
+@endurance                Normal, although they can ride horses, wagons, or chariots for long periods without exhaustion (accumulate only half normal exhaustion in these conditions).
+@everyman                 Mounted Combat skill and all Outdoor • Animal skills involving horses (unless Profession cost is cheaper)
+@extra_languages          In addition to the tongues listed above: Southspeech (S8/W8), Black-speech (S8/W8), North-speech (S6/ W6), Orcish (S6/W6), and Elvish (S6/W6).
+@extra_money              Livestock and possibly a wain (wagon) or a war chariot (draft-kine, 20 sp each; light horse, 45 sp each; wain, 6 gp; war chariot, 25 gp).
+@fears_inabilities        Darkness and thunderstorms.
+@height                   Short to medium. Men average 5'6"; women, 5'1".
+@lifespan                 Short, about 40-65 years.
+@lifestyle                They are nomads who live in mobile camps and move their camps using great wagons (wains). Warriors all, they also. herd horses and cattle. The leaders travel in, and fight from, rugged war chariots.
+@marriage_pattern         Men may take more than one wife, but this is rare and costly since they must pay a bride-price. The line is. traced through the male.
+@money                    Draft-kine worth 20 sp.
+@prejudices               Nomads have little regard for anyone except their own people. They hate the High Men.
+@professions              No special notes.
+@religion                 Superstitious rituals concerning nature spirits and heroic ancestral deities. Many worship Darkness. . O F
+@resistance               Normal.
+@restricted               none.
+@special_abilities        They are superb with riding animals and produce fabulous horsemen. They get a special +20 bonus for Mounted Combat and all Outdoor • Animal skills.
+@special_items            All available. Nomad crafts involve shapely creations from bone, leather, iron and bronze.
+@standard_hobby_skills    Acrobatics, Ambush, Animal Handling, Attunement, Body Development, Painting (body painting), Bone-carving [Crafts], Contortions, Crewelwork [Crafts], Directed Spells, Fauna Lore, Fletching, Foraging, Hiding, Leather-crafting, Military Organization, Observation, Riding, Signaling, Spell Lists, Stalking, Star-gazing, Tactics,Tale Telling, Thrown and Missile Weapon skills, Tracking, any Weapon skills, Weather-watching.
+@starting_languages       Plains-speech (S8/W6), Common-speech (S4/W4).
+@talents                  All available. Animal Empathy (Minor Talent) may be chosen with no flaw for only one background option.
+@weapons                  Bola, dagger, javelin, scimitar, short bow, short sword, sling, long sword, usriev (8-foot long cross between a lance and a long, thin two-handed sword—razor-sharp 4-foot blade—use two-handed sword table, changing Krush crits to Puncture crits).
+#
 @@ nomads
 This term refers to the many nomadic peoples who live in the plains and steppes. These nomadic tribes and confederations are ever in search of territory and wealth and have been known to invade the lands of their neighbors. Each group has its own subculture and dialect, although most are related—the following descriptions are a general view of an “average” tribe.
 

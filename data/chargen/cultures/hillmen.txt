@@ -20,6 +20,35 @@
 # Block ordering: Col L (PHYSICAL / CULTURE / OTHER FACTORS) then
 # Col R (Languages, Prejudices, Professions, OUTFITTING, BACKGROUND).
 #
+# Structured field extraction (regex on bold labels)
+@allowed_adolescence_developmentHill-speech (S10/W10), Commonspeech (S10/W10), Plains-speech (S8/W8).
+@armor                    None or soft leather. Some elite warriors fight naked.
+@build                    They are of medium to stocky build and rugged, with little body hair. Men average 175 pounds; women, 135 pounds.
+@clothing_decoration      Crude wool and hide tunics with leggings. They also wear rough over-coats, short cloaks, and fur hats. The woolens are woven in bright plaids, the colors indicating the wearer’s family lines and clan. Ritual tattooing is widespread.
+@coloring                 They have a tanned or ruddy complexion and brown hair.
+@demeanor                 Suspicious and self-centered, yet vocal and animated. They love to talk, laugh, sing, and scream.
+@endurance                They are superb mountaineers and handle tough terrain with little additional effort.
+@everyman                 Driving, Herding, Horticulture, Hunting, Play Instrument, Poetic Improvisation, Singing, Tale Telling
+@extra_languages          In addition to the tongues listed above: Plains-speech (S10/W10) and North-speech (S8/W8).
+@extra_money              A selection of pelts (black fox, 5 gp; marten, 8 gp; black sable, 10 gp; ermine, 13 gp; golden sable, 15 gp; mink, 11 gp; red sable, 12 gp; white fox, 7 gp) or a selection of herbs worth 1-200 gp.
+@fears_inabilities        Numerous superstitions, notably a fear of Darkness centering around the spirits in the earth and plants (which come forth at night). .
+@height                   Men average 5'10"; women, 5'6".
+@language                 Languages: Starting Hill-speech (S8/W4), Common-speech (S8/W4). Written Hill-speech is rare, for a premium is placed on oration and the performing arts.
+@lifespan                 Short; about 50-80 years.
+@lifestyle                Hillmen are herders, hunters, and gatherers who live in extended families and reside in villages and fortified clanholds. They use chariots. Extremely theatric, they are gifted poets, musicians, singers, and storytellers. Pugnacious, they often settle disputes by raiding, fighting, or even warring on one another (and of course others).. . . r 
+@marriage_pattern         Monogamous, but one must marry outside the family. Political marriages common. Line traced through the female.
+@money                    Goods to be bartered or exchanged for coinage: 10 deerskins, finely worked, worth 2 sp each; 5 skunk pelts worth 4 sp each; 4 red fox pelts worth 5 sp each; a bale of carded wool worth 20 sp.
+@prejudices               Hillmen generally hate the Nomads; many also despise the High Men, Dwarves, and Orcs.
+@professions              No special notes.
+@religion                 Superstitious rituals devoted to a complex grouping of vengeful petty deities. Many are vaguely based on the Hillmen’s peculiar interpretations of the “True Gods.” Oral traditions are crucial to the keeping of histories and law. Sacrifices are widespread and the clergy are both revered and feared.
+@resistance               Normal.
+@restricted               none.
+@special_abilities        They get a special +20 bonus for Scaling skill, Acrobatics skill, Public Speaking skill, and Acting skill.
+@special_items            All available. Hillmen workmanship is rather crude, although it has aesthetic appeal to those with rustic tastes; it is usually of materials that do not long endure (bronze, copper, tin, leather, yarn, wood).
+@standard_hobby_skills    Acrobatics, Acting, Ambush, Animal Handling, any Armor • Light skills, Attunement, Body Development, Painting (body painting), Brawling, Caving, Climbing, Directed Spells, Foraging, Hiding, History (Hillmen), Jumping, Leather-crafting, Metal-crafting, Observation, Play Instrument, Poetic Improvisation, Public Speaking, Region Lore (local) , Riding, Scaling, Singing, Spell Lists, Sprinting, Stalking, Star-gazing, Swimming, Tale Telling, Tattooing [Craft], Tracking, any Weapon skills, Weather-watching.
+@talents                  All available.
+@weapons                  Broadsword, club, dagger, handaxe, javelin, short bow, spear, cudgel, baw, cabis.
+#
 @@ hillmen
 This group of Common Men traditionally lives in the hills and highlands. Many have become settled farmers and herders and make up majority populations in many rural areas. Others remain pure and live in the foothills and mountain vales.
 

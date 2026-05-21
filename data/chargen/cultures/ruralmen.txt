@@ -20,6 +20,34 @@
 # Block ordering: Col L (PHYSICAL / CULTURE / OTHER FACTORS) then
 # Col R (Languages, Prejudices, Professions, OUTFITTING, BACKGROUND).
 #
+# Structured field extraction (regex on bold labels)
+@allowed_adolescence_developmentCommon-speech (S10/W10), High Man (S6/W6), Small-speech (S6/W6).
+@armor                    Leather or no armor.
+@build                    All types, but normally medium. Men average 160 pounds; women, 125 pounds.
+@clothing_decoration      Practical wool and linen garb, including cloaks, boots, etc. Tunics are worn in warmer areas; shirts belted over pants or skirts and leggings predominate in cooler locales.
+@coloring                 Variations of fair to tan or olive skin. All colors of hair and eyes.
+@demeanor                 Practical, hard-working, quiet, loyal, and often shy.
+@endurance                Average.
+@everyman                 none; none.
+@extra_languages          In addition to the tongues listed above: High-speech (S8/W8), Small-speech (S8/W8), and Hillspeech (S8/W8).
+@extra_money              Silver and bronze pieces.
+@fears_inabilities        Nothing special, aside from local superstitions.
+@height                   Males average 5'10", women 5'4".
+@lifespan                 Moderate, averaging 60-80 years.
+@lifestyle                These rural folk are mostly farmers and herders with little contact areas outside their village or region.
+@marriage_pattern         Monogamous. The line is traced through either the male or female.
+@money                    Livestock which may be sold for coinage: a milk cow (20 sp), a pair of sheep (10 sp each), four goats (5 sp each), or ten geese (2 sp each).
+@prejudices               Ruralmen are suspicious of most outsiders and might be in awe of some. They hate no race, aside from the Orcs.
+@professions              No special notes.
+@religion                 Variations of subdued rituals. Most have reverence for local spirits, although the principal worship focuses on the “True Gods.”
+@resistance               Normal.
+@special_abilities        None.
+@special_items            All available. Weapons and tools made by these rural folk are usually crude, but serviceable. Wood, bronze, iron, leather, wool, and linen are the most abundant materials.
+@standard_hobby_skills    Armor • Light skills, Acrobatics, Animal Handling, Caving, Climb, Cooking, Dancing, Foraging, Hiding, Leather-crafting, Observation, Rope Mastery, Scaling, Stalking, Star-gazing, Swimming, Tracking, any Weapon skills, Weather-watching, Woodcrafting.
+@starting_languages       Common-speech (S8/W6).
+@talents                  All available.
+@weapons                  Dagger, handaxe, club, throwing dagger, sling, quarterstaff, fishing spear (treat as -5 javelin).
+#
 @@ ruralmen
 This is a generalized label for the rural folk of the northern and southern empires. Ruralmen contain varying degrees of Hillman, Nomad, Woodman, and High Man blood. This catagory represents men born and raised on farms, on grazing lands, and in small hamlets.
 

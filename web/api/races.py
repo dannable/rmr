@@ -7,6 +7,8 @@ other character-builder route.
 
 from __future__ import annotations
 
+import json
+
 from fastapi import APIRouter
 from pydantic import BaseModel
 
@@ -33,7 +35,15 @@ class RaceRRMods(BaseModel):
 
 class Race(BaseModel):
     """One playable race. Mods are pre-projected onto the 9 RR categories
-    the StatsEditor uses so the SPA doesn't need to re-implement T-1.1."""
+    the StatsEditor uses so the SPA doesn't need to re-implement T-1.1.
+
+    `culture_data` holds the rich text fields extracted from the RMSS
+    Cultures & Races appendix — languages, hobby skills, weapons, armor,
+    money, professions, demeanor, religion, etc. Keys are stable slugs
+    (e.g. `starting_languages`, `hobby_skills`); values are plain strings.
+    Missing keys mean that field wasn't in the source for this race
+    (Common Men + Mixed Men currently have an empty object).
+    """
     slug: str
     name: str
     stat_mods: dict[StatCode, int]
@@ -43,9 +53,19 @@ class Race(BaseModel):
     chan_pp_prog: str
     ess_pp_prog: str
     ment_pp_prog: str
+    culture_data: dict[str, str] = {}
 
 
 def _row_to_race(row: dict) -> Race:
+    # culture_data is stored as JSON-encoded TEXT; default to '{}' if NULL
+    # (older deployments before the migration applied the column DEFAULT).
+    raw = row.get("culture_data") or "{}"
+    try:
+        culture = json.loads(raw)
+        if not isinstance(culture, dict):
+            culture = {}
+    except (TypeError, ValueError):
+        culture = {}
     return Race(
         slug=row["slug"],
         name=row["name"],
@@ -56,6 +76,7 @@ def _row_to_race(row: dict) -> Race:
         chan_pp_prog=row["chan_pp_prog"],
         ess_pp_prog=row["ess_pp_prog"],
         ment_pp_prog=row["ment_pp_prog"],
+        culture_data=culture,
     )
 
 
