@@ -79,6 +79,28 @@ export const updateCharacterRace = (id: number, slug: string | null) =>
     body: JSON.stringify({ slug }),
   });
 
+// ---- adolescence (starting skill ranks from RMSS T-1.6) ----------------
+
+export interface AdolescenceSkill {
+  name: string;
+  value: string;
+}
+
+export interface AdolescenceGroup {
+  category: string;
+  value: string;
+  skills: AdolescenceSkill[];
+}
+
+export interface CharacterAdolescence {
+  culture_slug: string | null;
+  culture_name: string | null;
+  groups: AdolescenceGroup[];
+}
+
+export const fetchCharacterAdolescence = (id: number) =>
+  api<CharacterAdolescence>(`/api/v1/characters/${id}/adolescence-ranks`);
+
 // ---- character stats ---------------------------------------------------
 
 export type StatCode = "Ag" | "Co" | "Me" | "Re" | "SD" | "Em" | "In" | "Pr" | "Qu" | "St";

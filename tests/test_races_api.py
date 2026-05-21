@@ -249,9 +249,100 @@ def test_stats_after_clearing_race_is_back_to_baseline(client) -> None:
 # Auth gating
 # ---------------------------------------------------------------------------
 
+def _seed_adolescence_rows() -> None:
+    """Seed a minimal adolescence_rank fixture: 2 categories + 3 leaves for
+    Dwarves, enough to validate grouping + ordering through the API."""
+    from web.db import connect_rw
+    rows = [
+        ("Armor • Light skill category",   "dwarves", "0"),
+        ("Soft Leather skill",             "dwarves", "0"),
+        ("Rigid Leather skill",            "dwarves", "1"),
+        ("Athletic • Brawn skill category","dwarves", "1"),
+        ("Climbing skill",                 "dwarves", "5"),
+        # Summary row
+        ("Hobby Ranks (see Section 13.0) ‡", "dwarves", "12"),
+    ]
+    with connect_rw() as conn:
+        conn.execute("DELETE FROM adolescence_rank WHERE culture_slug = 'dwarves'")
+        for skill, slug, val in rows:
+            conn.execute(
+                "INSERT INTO adolescence_rank (skill, culture_slug, value) VALUES (?, ?, ?)",
+                (skill, slug, val),
+            )
+        conn.commit()
+
+
+# ---------------------------------------------------------------------------
+# GET /api/v1/characters/{id}/adolescence-ranks
+# ---------------------------------------------------------------------------
+
+def test_adolescence_empty_when_no_race(client) -> None:
+    cid = _create_character(client)
+    r = client.get(f"/api/v1/characters/{cid}/adolescence-ranks")
+    assert r.status_code == 200
+    body = r.json()
+    assert body == {"culture_slug": None, "culture_name": None, "groups": []}
+
+
+def test_adolescence_returns_grouped_ranks_for_race(client) -> None:
+    _seed_race("dwarves")
+    _seed_adolescence_rows()
+    cid = _create_character(client)
+    client.put(f"/api/v1/characters/{cid}/race", json={"slug": "dwarves"})
+
+    r = client.get(f"/api/v1/characters/{cid}/adolescence-ranks")
+    assert r.status_code == 200
+    body = r.json()
+    assert body["culture_slug"] == "dwarves"
+    assert body["culture_name"] == "Dwarves"
+
+    # Three groups: Armor • Light (2 leaves), Athletic • Brawn (1 leaf),
+    # Summary (1 row).
+    cats = [g["category"] for g in body["groups"]]
+    assert cats == [
+        "Armor • Light skill category",
+        "Athletic • Brawn skill category",
+        "Summary",
+    ]
+
+    armor = body["groups"][0]
+    assert armor["value"] == "0"
+    assert [(s["name"], s["value"]) for s in armor["skills"]] == [
+        ("Soft Leather skill", "0"),
+        ("Rigid Leather skill", "1"),
+    ]
+
+    athletic = body["groups"][1]
+    assert athletic["value"] == "1"
+    assert athletic["skills"] == [{"name": "Climbing skill", "value": "5"}]
+
+    summary = body["groups"][2]
+    assert summary["category"] == "Summary"
+    assert summary["skills"] == [
+        {"name": "Hobby Ranks (see Section 13.0) ‡", "value": "12"},
+    ]
+
+
+def test_adolescence_404_for_other_users_character(client, other_user) -> None:
+    from web.db import connect_rw
+    from datetime import datetime, timezone
+    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    with connect_rw() as conn:
+        cur = conn.execute(
+            "INSERT INTO character (owner_user_id, name, level, created_at, updated_at) "
+            "VALUES (?, 'Theirs', 1, ?, ?) RETURNING character_id",
+            (other_user["user_id"], now, now),
+        )
+        their_id = cur.fetchone()["character_id"]
+        conn.commit()
+    r = client.get(f"/api/v1/characters/{their_id}/adolescence-ranks")
+    assert r.status_code == 404
+
+
 @pytest.mark.parametrize("method,path,body", [
     ("GET", "/api/v1/races", None),
     ("PUT", "/api/v1/characters/1/race", {"slug": "dwarves"}),
+    ("GET", "/api/v1/characters/1/adolescence-ranks", None),
 ])
 def test_endpoints_require_auth(anon_client, method: str, path: str, body) -> None:
     kwargs = {"json": body} if body is not None else {}

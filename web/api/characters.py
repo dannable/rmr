@@ -32,6 +32,7 @@ from core.chargen.race import (
     race_rr_mods,
     apply_stat_mods,
 )
+from core.chargen.adolescence import grouped_ranks
 
 from ..auth.deps import CurrentUser
 from ..db import connect_rw
@@ -119,6 +120,29 @@ class StatUpdate(BaseModel):
 
 class CharacterStatsUpdate(BaseModel):
     stats: list[StatUpdate] = Field(..., min_length=10, max_length=10)
+
+
+# ---- adolescence-ranks sub-resource ----
+
+class AdolescenceSkill(BaseModel):
+    name: str
+    value: str
+
+
+class AdolescenceGroup(BaseModel):
+    category: str          # e.g. "Armor • Light skill category", or "Summary"
+    value: str             # category-level rank (often empty for synthetic groups)
+    skills: list[AdolescenceSkill]
+
+
+class CharacterAdolescence(BaseModel):
+    """Starting skill ranks granted to a character during adolescence,
+    derived from RMSS T-1.6 by their race/culture. Empty groups list when
+    no race is set yet — the SPA shows a "pick a race" empty state.
+    """
+    culture_slug: str | None      # None when character is unraced
+    culture_name: str | None
+    groups: list[AdolescenceGroup]
 
 
 # ---------------------------------------------------------------------------
@@ -387,6 +411,29 @@ def update_character_stats(
 # ---------------------------------------------------------------------------
 # race sub-resource
 # ---------------------------------------------------------------------------
+
+@router.get("/{character_id}/adolescence-ranks", response_model=CharacterAdolescence)
+def get_character_adolescence(
+    character_id: int,
+    user: dict = CurrentUser,
+) -> CharacterAdolescence:
+    """Look up the starting skill ranks for the character's race/culture.
+
+    Empty groups when the character has no race set yet — the SPA renders
+    a "pick a race to see starting ranks" empty state in that case.
+    """
+    with connect_rw() as conn:
+        _assert_owned(conn, character_id, user["user_id"])
+        race = _load_character_race(conn, character_id)
+        if race is None:
+            return CharacterAdolescence(culture_slug=None, culture_name=None, groups=[])
+        groups = grouped_ranks(conn, race["slug"])
+    return CharacterAdolescence(
+        culture_slug=race["slug"],
+        culture_name=race["name"],
+        groups=[AdolescenceGroup(**g) for g in groups],
+    )
+
 
 @router.put("/{character_id}/race", response_model=Character)
 def update_character_race(

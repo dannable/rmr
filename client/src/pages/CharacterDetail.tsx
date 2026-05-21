@@ -7,6 +7,7 @@ import {
   HttpError,
   type Character,
 } from "../api";
+import { AdolescenceRanks } from "../components/AdolescenceRanks";
 import { RacePicker } from "../components/RacePicker";
 import { StatsEditor } from "../components/StatsEditor";
 
@@ -89,6 +90,10 @@ function CharacterDetail({ characterId }: { characterId: number }) {
       <hr />
 
       <StatsEditor characterId={c.character_id} />
+
+      <hr />
+
+      <AdolescenceRanks characterId={c.character_id} raceSlug={c.race_slug} />
 
       <hr />
 
