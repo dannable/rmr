@@ -23,6 +23,10 @@ from .race import (
     race_rr_mods,
     apply_stat_mods,
 )
+from .adolescence import (
+    adolescence_ranks,
+    grouped_ranks,
+)
 
 __all__ = [
     "STAT_CODES",
@@ -39,4 +43,6 @@ __all__ = [
     "race_stat_mods",
     "race_rr_mods",
     "apply_stat_mods",
+    "adolescence_ranks",
+    "grouped_ranks",
 ]
