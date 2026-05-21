@@ -163,7 +163,7 @@ function TableBlock({ table }: { table: SkillTable }) {
                   padding: "3px 6px", color: "#333",
                   verticalAlign: "top", fontVariantNumeric: "tabular-nums",
                 }}>
-                  {(row as Record<string, string | null>)[c] ?? ""}
+                  {(row as unknown as Record<string, string | null>)[c] ?? ""}
                 </td>
               ))}
             </tr>
