@@ -18,6 +18,7 @@ SPELL_LISTS_DIR = ROOT / "data" / "spell_lists"
 RACES_DIR = ROOT / "data" / "chargen" / "races"
 SKILLS_DIR = ROOT / "data" / "skills"
 CULTURES_DIR = ROOT / "data" / "chargen" / "cultures"
+PROFESSIONS_DIR = ROOT / "data" / "chargen" / "professions"
 ADOLESCENCE_FILE = ROOT / "data" / "chargen" / "adolescence_ranks.txt"
 
 CELL_RE = re.compile(r"^(\d{1,3})([A-F])([GKPSTU])?$")  # severity-only crit_type optional; F is the special dual-crit code on table 3.10
@@ -1178,6 +1179,283 @@ def insert_culture_data(conn: sqlite3.Connection) -> int:
 
 
 # ---------------------------------------------------------------------------
+# profession loader (RMSS Character Law professions, decoded from ERA)
+# ---------------------------------------------------------------------------
+
+# Sections inside data/chargen/professions/<slug>.txt. Lines under each
+# section header until the next @section continue the list.
+_PROFESSION_LIST_SECTIONS: tuple[str, ...] = (
+    "group_bonuses",
+    "category_bonuses",
+    "category_costs",
+    "skill_cost_modifiers",
+    "favorite_skills",
+)
+
+
+def parse_profession_file(file_path: Path) -> dict:
+    """Parse data/chargen/professions/<slug>.txt into structured form.
+
+    Header @keys (single-line): @name, @slug, @realms, @prime_stats.
+    The @description value spans multiple lines, indented under
+    `@description:` like the skills/races files.
+
+    Body sections (each is a @<section>: marker followed by one
+    "key: value" line per entry until the next @-marker or EOF):
+      - group_bonuses:        "Group Name: <int>"
+      - category_bonuses:     "Group/Category: <int>"
+      - category_costs:       "Group/Category: <cost string>"
+      - skill_cost_modifiers: "Group/Category/Skill (Classification): <float>"
+      - favorite_skills:      "Group/Category/Skill (Classification)"  (no value)
+
+    The "Group/Category(/Skill)" path uses '/' as a separator everywhere
+    EXCEPT for ERA-source group names that intrinsically contain a slash
+    ("Science/Analytic", "Technical/Trade"). To avoid ambiguity we
+    rsplit on the LAST '/' when the line has a clear "(value): N"
+    trailing chunk; for category-style entries we keep ERA's verbatim
+    string and rely on the build script having produced clean output.
+    """
+    meta: dict[str, str] = {}
+    sections: dict[str, list[str]] = {s: [] for s in _PROFESSION_LIST_SECTIONS}
+
+    current_section: str | None = None
+    in_description = False
+    description_lines: list[str] = []
+
+    for raw in file_path.read_text(encoding="utf-8").splitlines():
+        line = raw.rstrip()
+        if not line or line.lstrip().startswith("#"):
+            continue
+
+        # Multi-line continuation under @description: any leading-space line
+        # that isn't itself a @-marker.
+        if (in_description and line.startswith(" ")
+                and not line.lstrip().startswith("@")):
+            description_lines.append(line.strip())
+            continue
+
+        if line.startswith("@"):
+            # Hitting a new @-marker closes the description block.
+            in_description = False
+            key, _, value = line[1:].partition(":")
+            key = key.strip()
+            value = value.strip()
+            if key == "description":
+                in_description = True
+                current_section = None
+                if value:
+                    description_lines.append(value)
+                continue
+            if key in _PROFESSION_LIST_SECTIONS:
+                current_section = key
+                continue
+            # Single-line header field.
+            current_section = None
+            meta[key] = value
+            continue
+
+        # Body line inside a list section.
+        if current_section is not None:
+            sections[current_section].append(line)
+
+    description = " ".join(description_lines).strip()
+
+    def _split_bonus_line(s: str) -> tuple[str, str]:
+        """Split a 'Group/.../...: value' line on the LAST colon so the
+        path keeps any colons that may appear in section labels."""
+        idx = s.rfind(":")
+        if idx < 0:
+            return s, ""
+        return s[:idx].strip(), s[idx + 1:].strip()
+
+    def _split_path(path_str: str, parts: int) -> list[str]:
+        """Split a 'Group/Category(/Skill)' string into `parts` pieces.
+
+        ERA's group names include "Science/Analytic" and "Technical/Trade"
+        which collide with our '/' separator. We split from the RIGHT so
+        the rightmost N-1 '/' characters are treated as separators,
+        leaving the group name (with any internal slashes) on the left.
+        """
+        bits = path_str.rsplit("/", parts - 1)
+        # Pad with empty strings if the input was malformed.
+        while len(bits) < parts:
+            bits.append("")
+        return [b.strip() for b in bits]
+
+    def _split_skill_path(path_with_class: str) -> tuple[str, str, str, str]:
+        """Pull "(Classification)" off the tail, then split the path into 3."""
+        m = re.match(r"^(.+?)\s*\(([^)]+)\)\s*$", path_with_class)
+        if not m:
+            # No classification — keep classification empty.
+            g, c, s = _split_path(path_with_class, 3)
+            return g, c, s, ""
+        path_only = m.group(1).strip()
+        classification = m.group(2).strip()
+        g, c, s = _split_path(path_only, 3)
+        return g, c, s, classification
+
+    group_bonuses: list[tuple[str, int]] = []
+    for line in sections["group_bonuses"]:
+        path, val = _split_bonus_line(line)
+        try:
+            group_bonuses.append((path, int(val)))
+        except ValueError:
+            raise ValueError(f"{path}: bad group_bonus int {val!r} on {line!r}")
+
+    category_bonuses: list[tuple[str, str, int]] = []
+    for line in sections["category_bonuses"]:
+        path, val = _split_bonus_line(line)
+        g, c = _split_path(path, 2)
+        try:
+            category_bonuses.append((g, c, int(val)))
+        except ValueError:
+            raise ValueError(f"bad category_bonus int {val!r} on {line!r}")
+
+    category_costs: list[tuple[str, str, str]] = []
+    for line in sections["category_costs"]:
+        path, val = _split_bonus_line(line)
+        g, c = _split_path(path, 2)
+        category_costs.append((g, c, val))
+
+    skill_cost_mods: list[tuple[str, str, str, str, float]] = []
+    for line in sections["skill_cost_modifiers"]:
+        path, val = _split_bonus_line(line)
+        g, c, s, klass = _split_skill_path(path)
+        try:
+            mod = float(val)
+        except ValueError:
+            raise ValueError(f"bad skill modifier {val!r} on {line!r}")
+        skill_cost_mods.append((g, c, s, klass, mod))
+
+    favorites: list[tuple[str, str, str, str]] = []
+    for line in sections["favorite_skills"]:
+        # No "key: value" split; the whole line is "Group/.../Skill (Class)"
+        g, c, s, klass = _split_skill_path(line)
+        favorites.append((g, c, s, klass))
+
+    def _split_csv(s: str) -> list[str]:
+        return [x.strip() for x in s.split(",") if x.strip() and x.strip() != "-"]
+
+    return {
+        "name": meta.get("name", ""),
+        "slug": meta.get("slug") or file_path.stem,
+        "description": description,
+        "realms":      _split_csv(meta.get("realms", "")),
+        "prime_stats": _split_csv(meta.get("prime_stats", "")),
+        "group_bonuses": group_bonuses,
+        "category_bonuses": category_bonuses,
+        "category_costs": category_costs,
+        "skill_cost_modifiers": skill_cost_mods,
+        "favorite_skills": favorites,
+    }
+
+
+def insert_profession(conn: sqlite3.Connection, data: dict) -> int:
+    """Upsert one profession by slug. Returns its (stable) profession_id.
+
+    The pattern mirrors insert_race: ON CONFLICT(slug) DO UPDATE keeps
+    profession_id stable across `--reload-ref`, so character.profession_id
+    survives a reload. Child rows (realms, prime stats, bonuses, costs,
+    favorites) are wiped + re-inserted from the file each time."""
+    slug = data["slug"]
+    if not slug:
+        raise ValueError(f"profession data has no slug: {data.get('name')!r}")
+
+    img_path = PROFESSIONS_DIR / "img" / f"{slug}.png"
+    portrait = f"data/chargen/professions/img/{slug}.png" if img_path.exists() else None
+
+    conn.execute(
+        """INSERT INTO profession (slug, name, description, portrait_path)
+                VALUES (?, ?, ?, ?)
+           ON CONFLICT(slug) DO UPDATE SET
+                name          = excluded.name,
+                description   = excluded.description,
+                portrait_path = excluded.portrait_path""",
+        (slug, data["name"], data["description"], portrait),
+    )
+    profession_id = conn.execute(
+        "SELECT profession_id FROM profession WHERE slug = ?", (slug,)
+    ).fetchone()[0]
+
+    # Wipe child tables and re-insert.
+    for tbl in (
+        "profession_realm",
+        "profession_prime_stat",
+        "profession_group_bonus",
+        "profession_category_bonus",
+        "profession_category_cost",
+        "profession_skill_cost_modifier",
+        "profession_favorite_skill",
+    ):
+        conn.execute(f"DELETE FROM {tbl} WHERE profession_id = ?", (profession_id,))
+
+    for realm in data["realms"]:
+        conn.execute(
+            "INSERT INTO profession_realm (profession_id, realm_name) VALUES (?, ?)",
+            (profession_id, realm),
+        )
+    for stat in data["prime_stats"]:
+        conn.execute(
+            "INSERT INTO profession_prime_stat (profession_id, stat_code) VALUES (?, ?)",
+            (profession_id, stat),
+        )
+    for group_name, bonus in data["group_bonuses"]:
+        conn.execute(
+            "INSERT INTO profession_group_bonus (profession_id, group_name, bonus) "
+            "VALUES (?, ?, ?)",
+            (profession_id, group_name, bonus),
+        )
+    for g, c, b in data["category_bonuses"]:
+        conn.execute(
+            "INSERT INTO profession_category_bonus "
+            "(profession_id, group_name, category_name, bonus) "
+            "VALUES (?, ?, ?, ?)",
+            (profession_id, g, c, b),
+        )
+    for g, c, cost in data["category_costs"]:
+        conn.execute(
+            "INSERT INTO profession_category_cost "
+            "(profession_id, group_name, category_name, cost) "
+            "VALUES (?, ?, ?, ?)",
+            (profession_id, g, c, cost),
+        )
+    for g, c, s, klass, mod in data["skill_cost_modifiers"]:
+        conn.execute(
+            "INSERT INTO profession_skill_cost_modifier "
+            "(profession_id, group_name, category_name, skill_name, "
+            " classification, modifier) "
+            "VALUES (?, ?, ?, ?, ?, ?)",
+            (profession_id, g, c, s, klass, mod),
+        )
+    for i, (g, c, s, klass) in enumerate(data["favorite_skills"]):
+        conn.execute(
+            "INSERT INTO profession_favorite_skill "
+            "(profession_id, group_name, category_name, skill_name, "
+            " classification, sort_order) "
+            "VALUES (?, ?, ?, ?, ?, ?)",
+            (profession_id, g, c, s, klass, i),
+        )
+
+    return profession_id
+
+
+def insert_professions(conn: sqlite3.Connection) -> int:
+    """Load every data/chargen/professions/<slug>.txt into the profession
+    table + its child tables. Returns the count loaded."""
+    if not PROFESSIONS_DIR.exists():
+        return 0
+    n = 0
+    for f in sorted(PROFESSIONS_DIR.glob("*.txt")):
+        data = parse_profession_file(f)
+        # The file's own @slug is canonical; fall back to the stem if absent.
+        if not data["slug"]:
+            data["slug"] = f.stem
+        insert_profession(conn, data)
+        n += 1
+    return n
+
+
+# ---------------------------------------------------------------------------
 # adolescence rank table T-1.6 loader
 # ---------------------------------------------------------------------------
 
@@ -1312,6 +1590,12 @@ _REQUIRED_COLUMNS: tuple[tuple[str, str, str], ...] = (
         "ADD COLUMN updated_by_user_id INTEGER REFERENCES app_user(user_id) "
         "ON DELETE SET NULL",
     ),
+    (
+        "character",
+        "profession_id",
+        "ADD COLUMN profession_id INTEGER REFERENCES profession(profession_id) "
+        "ON DELETE SET NULL",
+    ),
 )
 
 
@@ -1420,6 +1704,7 @@ def main() -> None:
     cultures_loaded = insert_culture_data(conn)
     adolescence_cells = insert_adolescence_ranks(conn)
     skill_stats = insert_skills(conn)
+    professions_loaded = insert_professions(conn)
 
     conn.commit()
     conn.close()
@@ -1428,6 +1713,8 @@ def main() -> None:
         print(f"Races: {races_loaded} loaded")
     if cultures_loaded:
         print(f"Culture data: {cultures_loaded} races enriched")
+    if professions_loaded:
+        print(f"Professions: {professions_loaded} loaded")
     if skill_stats[0]:
         ng, nc, ns, nt = skill_stats
         print(f"Skills: {ng} groups, {nc} categories, {ns} skills, {nt} tables")

@@ -8,6 +8,7 @@ import {
   type Character,
 } from "../api";
 import { AdolescenceRanks } from "../components/AdolescenceRanks";
+import { ProfessionPicker } from "../components/ProfessionPicker";
 import { RacePicker } from "../components/RacePicker";
 import { StatsEditor } from "../components/StatsEditor";
 
@@ -63,6 +64,7 @@ function CharacterDetail({ characterId }: { characterId: number }) {
       <p style={{ color: "#666" }}>
         Level {c.level}
         {c.race_name && <span style={{ marginLeft: 8 }}> · {c.race_name}</span>}
+        {c.profession_name && <span style={{ marginLeft: 8 }}> · {c.profession_name}</span>}
       </p>
 
       <hr />
@@ -89,6 +91,10 @@ function CharacterDetail({ characterId }: { characterId: number }) {
 
       <hr />
 
+      <ProfessionPicker character={c} />
+
+      <hr />
+
       <StatsEditor characterId={c.character_id} />
 
       <hr />
@@ -98,7 +104,7 @@ function CharacterDetail({ characterId }: { characterId: number }) {
       <hr />
 
       <p style={{ color: "#888", fontSize: 13 }}>
-        Next: culture + profession picker. Skill DP allocator after that.
+        Next: skill DP allocator using the profession's per-category costs.
       </p>
 
       <div style={{ marginTop: 24 }}>
