@@ -1,0 +1,57 @@
+{
+  "skills": {
+    "Attunement": {
+      "optional_stats": "Em/In/Pr",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The GM may wish to allow characters to attune to locations or people rather than just items. This might allow the character to determine the approximate power (or potential for power) of a person, or whether or not a location is cursed.",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {}
+    },
+    "Divination": {
+      "optional_stats": "Em/In/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "A successful Divination maneuver gives the diviner a symbolic representation of the future. The results are invariably vague and imprecise. The GM should study horoscopes, fortune cookies, or Nostradamus for inspiration. In general, it is important that the GM not reveal any specific information. (For example, it is not appropriate to tell the diviner that he will travel to Burnwood tomorrow. Rather, the GM might indicate that the diviner sees a journey in the near future. There are ashes and a branch present. In this way, if the players do not go to Burnwood, the GM can reinterpret the divination such that it comes true anyway. For more detail see GM Law and the Mentalism Companion .) The difficulty of the maneuver is based on the span of time to be divined. Note that the divination result need only relate to the span of time divined in some way. The events divined, may actually occur at any time; divination is an imprecise art at best.",
+      "specialties": [
+        "Any specific individual (e.g., the king, one's self, etc.)."
+      ],
+      "example_difficulties": {}
+    },
+    "Power Perception": {
+      "optional_stats": "Em/In/Pr",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of this maneuver depends on the power of the magic. Extremely powerful dweomers (enchantments) may be so overwhelming that it is difficult not to notice the presence of the spell. The distance from the location (center) of the spell, diminishes one's ability to detect the spell. Note that this skill reveals nothing about the level of the spell or effect.",
+      "specialties": [
+        "Any specific realm."
+      ],
+      "example_difficulties": {
+        "Routine": "Deific magic.",
+        "Easy": "50th level or higher spell/effect.",
+        "Light": "37th - 49th level spell/effect.",
+        "Medium": "26th - 36th level spell/effect.",
+        "Hard": "17th - 25th level spell/effect.",
+        "Very Hard": "10th - 16th level spell/effect.",
+        "Extremely Hard": "5th - 9th level spell/effect.",
+        "Sheer Folly": "2nd - 4th level spell/effect.",
+        "Absurd": "1st level spell/effect."
+      }
+    },
+    "Read Runes": {
+      "optional_stats": "Em/In/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {}
+    }
+  },
+  "source": "sohk",
+  "book": "School of Hard Knocks (book 5808)",
+  "group_notes": "These skills all come from the following skill categories: Directed Spells, Power Awareness, Power Manipulation, Power Point Development, and Spells. Most Power maneuvers require one minute to complete. For every round less than this devoted to the skill, the maneuver roll should be reduced by -20. This cannot be reduced to less than a single round (-100). This allows characters a desperate chance to attune to a new item while in combat. Note that spell casting requires the expenditure of exhaustion points. Casting a spell drains one exhaustion point every two rounds. Concentration drains one exhaustion point every six rounds (one minute). If a character desires to maintain concentration for an extended time, he should develop the Meditation skill, which allows him to concentrate without spending exhaustion points."
+}

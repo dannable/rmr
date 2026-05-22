@@ -1,0 +1,127 @@
+{
+  "skills": {
+    "Foraging": {
+      "optional_stats": "SD/In/Em",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is crucial to wilderness survival. Combined with the Survival skill, a character can survive indefinitely in the wilderness. This skill provides a character with a supply of water and vegetables (plants). Fishing and clamming are also covered by this skill. Set Traps and Hunting are more useful for obtaining meat. The difficulty of this maneuver depends on the amount of food and water that is readily available. The maneuver is also modified by the number of people that need to be fed. These examples assume that only one person is being fed (and that one strategic turn, 4 hours is spent gathering). Each additional person increases the difficulty by one.",
+      "specialties": [
+        "Any specific climate/terrain."
+      ],
+      "example_difficulties": {
+        "Routine": "Finding water in a rain forest.",
+        "Easy": "Finding water in a temperate or moist area.",
+        "Light": "Finding food in a forest, jungle, or coast.",
+        "Medium": "Finding food in a grassy plain or swamp. Finding water along a salt-water coast.",
+        "Hard": "Finding food and water in a savanna.",
+        "Very Hard": "Finding food and water while above the timber line.",
+        "Extremely Hard": "Finding water during the dry season of an area whose climate alternates between monsoons and droughts.",
+        "Sheer Folly": "Finding food and water in a desert (this includes a tundra setting).",
+        "Absurd": "Finding food and water in a desert of dust."
+      }
+    },
+    "Hunting": {
+      "optional_stats": "SD/In/Em",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is used to find game and maneuver it into a position where it is within range of the hunter. This skill does not include bringing down the game, or trapping the game, merely identifying good hunting locations. If the maneuver roll is successful, the hunter has found game at long range (roughly 200'-300'). Every 50' difference modifies the maneuver by one difficulty level (to a maximum of 2). The hunter can try once every strategic turn (4 hours). A successful maneuver indicates that the hunter has found enough game to feed 4 people (if he can kill it). Results above or below Success indicate more plentiful/larger or less plentiful/smaller game.",
+      "specialties": [
+        "Any specific climate/region."
+      ],
+      "example_difficulties": {
+        "Routine": "Finding game in a stocked preserve.",
+        "Easy": "Finding game in an area where most of the natural predators have been killed.",
+        "Light": "Finding game in a young forest.",
+        "Medium": "Finding game in a mature forest; the lack of undergrowth limits the supply of food.",
+        "Hard": "Finding game in a plains.",
+        "Very Hard": "Finding game in an area that has been hunted heavily (or the game scared off by impending danger).",
+        "Extremely Hard": "Finding game in a tundra or other sparsely populated region.",
+        "Sheer Folly": "Finding game in a normal desert.",
+        "Absurd": "Finding game in an especially arid desert."
+      }
+    },
+    "Star-gazing": {
+      "optional_stats": "SD/In/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is commonly used to provide a subsequent maneuver bonus to Navigation or Orienteering. In addition, this skill can be used to recognize constellations, tell time, or provide a bonus to Astrology. This skill cannot be used if there is significant cloud cover, and does not provide nearly the detail provided by Astronomy.",
+      "specialties": [
+        "Any specific season."
+      ],
+      "example_difficulties": {
+        "Routine": "Recognizing major constellations.",
+        "Easy": "Recognizing major stars and planets.",
+        "Light": "Identifying a specific direction.",
+        "Medium": "Recognizing nearly all constellations.",
+        "Hard": "Determining the current time.",
+        "Very Hard": "Recognizing minor stars.",
+        "Extremely Hard": "Determining one's location on the planet.",
+        "Sheer Folly": "Knowledge of when to expect meteor showers, comets, etc.",
+        "Absurd": "Identifying all named stars."
+      }
+    },
+    "Survival": {
+      "optional_stats": "SD/In/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of a Survival maneuver depends on the harshness of the environment. The more dangerous the environment, the more frequently the character must make a maneuver to avoid taking damage. This maneuver should be made at least once a week, and no more frequently than once an hour.",
+      "specialties": [
+        "Any specific region."
+      ],
+      "example_difficulties": {
+        "Routine": "The climate is uncomfortable, but not dangerous.",
+        "Easy": "The climate is only dangerous after extended exposure. This might include a warm or cool climate that has more extreme temperatures at noon or midnight. (A maneuver roll should be made once each week.)",
+        "Light": "The climate is warm or cool and wet or dry. The difficulties of such an environment include insects, exposure, etc. (A maneuver roll should be made once each week.)",
+        "Medium": "The climate is hot or cold, but there is an appropriate amount of water. Threats might include dangerous plants, exposure, etc. (A maneuver roll should be made once a day.)",
+        "Hard": "The climate is hot or cold and wet or dry (jungle, desert, tundra, etc.). Threats include any of the above, plus dangerous terrain (like sinkholes, quicksand, etc.). (A maneuver roll should be made once a day.)",
+        "Very Hard": "The climate is harsh. If the character does not have adequate shelter and clothing, death is certain. (A maneuver roll should be made once each strategic turn.)",
+        "Extremely Hard": "The climate is harsh and the terrain is dangerous. (A maneuver roll should be made once each strategic turn.)",
+        "Sheer Folly": "Survival is not normally possible. The climate of the polar regions or harshest deserts qualify. (A maneuver should be made once an hour.)",
+        "Absurd": "The climate/terrain exceeds human capabilities. Extreme circumstances must exist (e.g., an elemental plane, a vacuum, etc.). The character has only limited survival equipment. (A maneuver should be made once an hour.)"
+      }
+    },
+    "Weather Watching": {
+      "optional_stats": "SD/In/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of Weather Watching depends on how far into the future the character wants to forecast. Note that even if the maneuver is successful, the character will often not get specific information. The GM may decide to inform the player of the percentage chance of rain when making long-term predictions, rather than when it will rain.",
+      "specialties": [
+        "Any specific area."
+      ],
+      "example_difficulties": {
+        "Routine": "1 hour.",
+        "Easy": "6 hours.",
+        "Light": "1 day.",
+        "Medium": "2 days.",
+        "Very Hard": "4 days.",
+        "Extremely Hard": "5 days.",
+        "Sheer Folly": "6 days.",
+        "Absurd": "1 week."
+      }
+    },
+    "Caving": {
+      "optional_stats": "SD/In/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The Caving skill allows the spelunker to maneuver safely in caves and caverns. This includes identifying dangers, determining one's location, finding an exit, etc. A maneuver should be made once for every cavern (and adjoining caves) while exploring. This maneuver should be made every 4 hours while traveling underground. A successful roll indicates that the inherent dangers of the area have been avoided and that the spelunker has not gotten lost. If the maneuver fails, the spelunker may become lost and/or injured. Partial Success and Near Success provide the spelunker with a chance to recover before becoming lost. Getting lost is more likely while traveling, damage is more likely while exploring.",
+      "specialties": [
+        "Any specific cave system.",
+        "Avoiding: Cave-ins, Getting lost, Sink-holes."
+      ],
+      "example_difficulties": {
+        "Routine": "Traversing through a well-known and well-maintained underground passage with minimal turns and intersections.",
+        "Easy": "Exploring a cavern that is safe. The only dangers present are loose footing and uneven floors.",
+        "Light": "Traversing through a well-maintained, but unfamiliar underground passage with some turns and intersections.",
+        "Medium": "Finding one's way out of a small cavern complex (provided that the spelunker never got lost). Exploring a cavern that has some hidden dangers such as sink holes or sudden ledges.",
+        "Hard": "Identifying one's depth below ground, and whether or not the ground is level. Traversing a poorly maintained underground passage with many twists and turns, as well as some obstacles (rivers, chasms, etc.).",
+        "Very Hard": "Determining the size of a large cavern by testing the echoes. Identifying unnatural disturbances, which might indicate the presence of sentient beings. Exploring a cavern rife with dangers.",
+        "Extremely Hard": "Finding one's way out of a large cavern complex or labyrinth after getting lost. This might include such techniques as following air drafts and always moving to higher ground. Traversing a poorly maintained underground passage with which the spelunker has no experience. The passage may have numerous turns and branches as well as frequent obstacles.",
+        "Sheer Folly": "Exploring a cavern on the verge of collapse. If this maneuver is not successful, the spelunker triggers the collapse of the cavern and should begin praying.",
+        "Absurd": "Traversing the tunnels of an active volcano, in which many of the tunnels are still filled with molten lava."
+      }
+    }
+  },
+  "source": "sohk",
+  "book": "School of Hard Knocks (book 5808)",
+  "group_notes": "Many Outdoor maneuvers must be resolved every strategic turn. Due to the variety of maneuvers in these categories, the GM must determine the amount of time required to complete a given maneuver. Many of the animal skills resemble skills in other categories, which can be referenced for guidelines. If the maneuver involves an animal, the following modifiers apply:\n\nCondition | Modification\nNon-intelligent | -50\nLow-intelligence | -10\nAnimal intelligence | 0\nWild/Untamed | -20\nBefriended/Raised from birth | +30\nAmphibians | -10\nArthropods (insects) | -50\nAvian (birds) | -20\nBovine (cattle, buffalo, deer, etc.) | 0\nCanine (dogs, wolves, foxes, etc.) | +10\nCetacean (all sea mammals) | -20\nCivets (skunks, badgers, etc) | -10\nCoelentrate Uellyfish, etc) | -10\nEquine (all horse types) | +10\nFeline (all cats) | -10\nFish (all fish with bones, scales, fins) | -30\nMollusca (snails, clams, squids, etc) | -40\nMustelids (ferrets, weasels, etc) | 0\nPacyderm (elephants, rhinoceros, etc) | 0\nRodents (rats, beavers, rabbits, etc) | 0\nSaurians (dry-land, legged reptiles) | -10\nSerpentine (all snakes and serpents) | -10\nSimians (apes, monkeys, gorillas) | +50\nSwine (pigs, boars, etc) | 0\nUrsine (bears, wolverines, pandas, etc) | 0"
+}

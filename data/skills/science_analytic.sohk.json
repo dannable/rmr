@@ -1,0 +1,162 @@
+{
+  "skills": {
+    "Basic Math": {
+      "optional_stats": "Re/Me/Re",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The goal of this skill is the correct application of mathematics to an actual problem. Such a problem may originate from accounting, drafting or splitting the bar tab. Note that these maneuvers assume that the mathematician has some writing implement. If not, the GM may want to increase the difficulty by one or two levels. In a medieval setting, basic mathematics may not be widely understood. Without skill in basic mathematics, a character can count using his fingers (and toes), but little more.",
+      "specialties": [
+        "Geometry, calculation, accounting, etc."
+      ],
+      "example_difficulties": {
+        "Routine": "Counting beyond one's fingers and toes. Single digit addition and subtraction.",
+        "Easy": "Addition and subtraction. Basic accounting.",
+        "Light": "Multiplication. Complex accounting.",
+        "Medium": "Integer division. Simple geometry (e.g., squares and triangles). Calculating the area of a rectangular space.",
+        "Hard": "Fractions and ratios. Intermediate geometry (e.g., circles and trapezoids). Triangulation: calculating a person's location based on his distance from three distinct points.",
+        "Very Hard": "Advanced geometry (e.g., ellipses and solids). Calculating the volume of a fireball.",
+        "Extremely Hard": "Basic algebra. Solving simple time-dependent relationships.",
+        "Sheer Folly": "Intermediate algebra. Solving non-linear algebraic equations, like a trajectory.",
+        "Absurd": "Advanced algebra. Determining a solution that is dependent (in terms of) one or more other variables. (Thus preventing the need to solve the same problem numerous times.)"
+      }
+    },
+    "Research": {
+      "optional_stats": "Re/Me/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill can only be used to research information that already exists. Except for spell lists, this skill cannot be used to generate new knowledge. Some other Science/Analytic skill must be used for that. The difficulty of a Research maneuver depends on the difficulty of the Lore maneuver being researched. Whereas Lore skills produce results much more quickly, a good researcher need learn only one skill (provided he has access to a good reference library). When researching new spells or spell lists, the difficulty of the maneuver depends on the similarity of the attempt to what the researcher already knows. A significant amount of time and materials will also be necessary. (See Spell Law .)",
+      "specialties": [
+        "Any specific Lore maneuver.",
+        "Any specific Spell List."
+      ],
+      "example_difficulties": {
+        "Routine": "Researching a modification to a known spell.",
+        "Easy": "Researching a spell that will exist on a spell list the character has.",
+        "Light": "Researching a spell from another list to be inserted into a spell list the character has.",
+        "Medium": "Researching a new spell that will exist independent of any spell list.",
+        "Hard": "Researching a new spell whose effects are very dissimilar from anything with which the researcher is familiar.",
+        "Very Hard": "Researching a spell list that is a modification of a known spell list.",
+        "Extremely Hard": "Researching a spell list that would be classified as a Base List for the character's profession.",
+        "Sheer Folly": "Researching a new spell list within the character's realm.",
+        "Absurd": "Researching a new spell list of a different realm."
+      }
+    },
+    "Advanced Math": {
+      "optional_stats": "Re/Me/Re",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The goal of this skill is the correct application of mathematical theory to an actual problem. Such a problem may originate from physics, magical inquiry, encryption, etc. The mathematician applies the tools and tricks of mathematics to convert the complex into the mundane. Difficult problems are broken down into several easier problems until each sub-problem is trivial. In a medieval setting, mathematics and physics were wholly intertwined. In a fantasy setting, mathematics and magic can also easily be intertwined. (Read any Jack Chalker novel as an example.) In any event, however, mathematics is rarely pursued for the sake of mathematics. In most cases, the mathematical solution must be converted to a real solution. (For example, a mathematician can calculate a parabolic trajectory, but a siege engineer is needed to shoot a catapult.)\n\nNote: If a successful Advance Math maneuver is requiredfor a subsequent maneuver, the GM may want to double the skill bonus provided by Advanced Math for the subsequent maneuver. See Section 2.5 for more details.\n\nNote: The following examples assume one dimension or variable. Every time the number of variables doubles, an additional penalty of -10 should be assessed. 1 variable: 0 2-3 variables: -10 4-7 variables: -20 8-15 variables: -30 etc. etc.",
+      "specialties": [
+        "Calculus, physics, probability, algebra, etc.",
+        "Any specific application."
+      ],
+      "example_difficulties": {
+        "Routine": "Calculating a limit. Limits allow mathematicians to study the behavior of a function at a specific value, without actually reaching that value. If the laws of magic are governed by the principles of mathematics, then the successful application of the limit may allow a magical researcher to perform research more safely (e.g., study the effects of fire by getting very close to the flame, but not entering).",
+        "Easy": "Calculating a linear derivative. Derivatives are important in calculating the effects of gravity on an object, or in any parabolic trajectory. Derivatives also measure rates of change (acceleration, growth, etc.) and help in identifying maximums and minimums. A successful application of the derivative may alIow a mathematician to identify a maximally (or minimally) disruptive social change. The derivative is also crucial to siege engineering.",
+        "Light": "Calculating basic probabilities. Basic probability is important to gamblers and experimenters alike. The basic laws of probability allow the mathematician to deal with results that are not mutually exclusive, and provide him with powerful counting methods. These tools allow the mathematician to predict distributions and likely outcomes. For example, after careful research, a mathematician could use the laws of probability to determine how long (on average) it takes for a magic item to recharge. In addition, he can calculate how likely it is for the recharging process to take twice as long (as normal). Probability is also the basis for every casino.",
+        "Medium": "Calculating an integral. The integral is the opposite of the derivative; their uses are similar. The integral can be used to calculate the area or volume of an irregular object. When the integral is applied to multiple dimensions, the effects of torque and torsion can be understood. The integral measures cumulative effects over time (force, growth, etc.) and helps to identify balance points.",
+        "Hard": "Calculating advanced statistics/probabilities. Advanced probability is important largely to experimenters. Using the techniques of advanced statistics, a mathematician can determine not only the average and extreme behavior of a model (or event), but also the probability of his answers being correct. In addition, these methods allow a mathematician to combine several people's work and merge the results into a single result (which will necessarily be more accurate than each individual result). Advanced statistics can be used to study the effects of social policy on behavior. These results can then help modify the behavior of a population (although the number of variables should put the mathematician at a severe penalty).",
+        "Very Hard": "Calculating differential equations. These equations are sophisticated applications of the integral and derivative. Differential equations allow the rate of change to depend on the rate of change as well as time (e.g., population growth increases as time progresses, but decreases as population growth increases). These conundrums can only be solved with a differential equation. Problems that involve differential equations are common in architecture and dynamic physical structures (complex machines rather than simple machines).",
+        "Extremely Hard": "The successful application of the integral may help the mathematician determine the cumulative effects of casting Calculations in any branch of mathematics that has not yet been discovered. Examples (in a fantasy setting) might be applying the same spell multiple times on the same target. The integral is particularly crucial to most physics applications including quantum mechanics, relativity, etc.",
+        "Sheer Folly": "Applying any mathematics techniques (Medium or easier) to a dimension/plane with different laws of nature, or rules of mathematics.",
+        "Absurd": "Applying any mathematics techniques (Hard or worse) to a dimension/plane with different laws of nature, or rules of mathematics."
+      }
+    },
+    "Anthropology": {
+      "optional_stats": "Re/Me/Em",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Anthropology allows a character to identify the customs and trends of a culture based on either archeological remains, or prior experience. As a general rule, an anthropologist is familiar with one race for every rank of this skill. This skill studies extinct cultures and peoples. The study of living cultures is Culture Lore (or Influence skills). The difficulty of this skill is dependent on the amount of information that has survived to the present day. The more infrequently a given practice was performed, the less information there will be. Many natural disasters will destroy or obscure archaeological information, but some (e.g., ash eruptions) may preserve the remains for an extended time.",
+      "specialties": [
+        "Any specific culture/race.",
+        "A specific site or time period."
+      ],
+      "example_difficulties": {
+        "Routine": "Identifying the daily practices of a culture that left written documentation in the form of pictograms or hieroglyphs.",
+        "Easy": "Identifying the rites and beliefs of a culture that left written documentation in the form of pictograms or hieroglyphs.",
+        "Light": "Identifying the daily practices of a culture when there is ample archaeological evidence or very sparse written documentation.",
+        "Medium": "Identifying the rites and beliefs of a culture when there is ample archaeological evidence or very sparse written documentation.",
+        "Hard": "Predicting the location of specific remains (e.g., a tomb) based on the practices of a familiar culture.",
+        "Very Hard": "Identifying particular remains as belonging to a race or culture with which the anthropologist is familiar. (\"Yes, yes, these coffins certainly remind me of the ancient desert people renowned for their advanced mummification process.\") Identifying the daily practices of a culture when there is little archaeological evidence.",
+        "Extremely Hard": "Identifying the rites and beliefs of a culture when there is little archaeological evidence.",
+        "Sheer Folly": "Identifying the practices of a culture whose behavior was contrary to the location and time period (e.g., Atlantis).",
+        "Absurd": "Identifying the practices of a culture from another planet/dimension based on the evidence gathered from visitation sites."
+      }
+    },
+    "Alchemy": {
+      "optional_stats": "Re/Me/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The creation or idetification of an alchemical compound is the alchemist's goal. The more general the results, the easier it is to create or identify a given compound. It is more difficult to invent a new compound than it is to recreate an existing one. For example, there are many acids capable of devouring most metals that can be stored in glass. It is more difficult to design an acid that destroys only steel, but leaves iron untouched, or to design an agent that causes steel to revert to iron.",
+      "specialties": [
+        "Any specific type of compound (acids, oils, etc.).",
+        "Any specific element."
+      ],
+      "example_difficulties": {
+        "Routine": "Extracting a dissolved compound from solution (e.g., extracting the salt from salt water).",
+        "Easy": "Separating a non-acidic liquid from a solid (e.g., separating wood into an oil and charcoal).",
+        "Light": "Purifying a common element (or compound).",
+        "Medium": "Recreating a known compound that produces general results (e.g., an acid).",
+        "Hard": "Identifying a compound that contains no obscure elements.",
+        "Very Hard": "Creating a new compound that produces general results (e.g., a toxin that kills fungi, a flame suppressant).",
+        "Extremely Hard": "Recreating a known compound that produces specific results (e.g., aqua regia, which dissolves gold and platinum).",
+        "Sheer Folly": "Identifying a compound that contains obscure elements (e.g., xylene, a powerful solvent).",
+        "Absurd": "Creating a compound that produces specific results (e.g., a powder that causes Elves to belch uncontrollably)."
+      }
+    },
+    "Astronomy": {
+      "optional_stats": "Re/Me/Pr",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The goal of this skill is the accurate study of celestial bodies and their motions. Depending on the setting, the character's home world may circle the sun, or vice versa. It is the astronomer's job to determine which is true. Through the use of astronomy, a character can determine his latitude and the current time. By constantly measuring the movemnts of celestial bodies, the astronomer can identify anomalies and propose forces to explain these anomalies.",
+      "specialties": [
+        "Astrology (and its effects on personality, not divination), planetary motion, comets, etc."
+      ],
+      "example_difficulties": {
+        "Routine": "Identifying the major constellations.",
+        "Easy": "Predicting when a constellation will rise or set.",
+        "Light": "Predicting when a planet will rise or set.",
+        "Medium": "Determining the time of night, based on latitude. Determining latitude, based on time of night.",
+        "Hard": "Predicting the next lunar eclipse. Plotting the path of one or more planets.",
+        "Very Hard": "Determining both time of night and latitude.",
+        "Extremely Hard": "Predicting the next solar eclipse. Plotting the path of multiple constellations.",
+        "Sheer Folly": "Predicting the approach of a comet.",
+        "Absurd": "Inventing a revolutionary new approach to astronomy. (You know, the moon does look like green cheese!)"
+      }
+    },
+    "Biochemistry": {
+      "optional_stats": "Re/Me/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The most common goal of biochemistry is breeding. The biochemist is interested in producing animals/plants that exhibit specific (desirable) traits. The result is generally considered to be a distinct sub-species (e.g., Labrador Retriever, German Shepherd, etc.). In some cases, the biochemist may desire to create a hybrid creature, the result of mating animals/plants of two different species. The resulting offspring is usually sterile (unless the biochemist rolls an Absolute Success or unmodified 100).",
+      "specialties": [
+        "Any specific species or trait."
+      ],
+      "example_difficulties": {
+        "Routine": "Breeding a pure member of a sub-species from pure parents.",
+        "Easy": "Generating a new strain of plant that is a modification of a current strain. For example, breeding an apple tree that produces smaller apples of the same variety.",
+        "Light": "Analyzing a family tree to determine the likelihood of an unborn child exhibiting specific traits.",
+        "Medium": "Generating a new sub-species that exhibits traits common to the creature. For example, breeding a longhaired housecat whose fur is generally black with white features.",
+        "Hard": "Determining a person's parents based on a pool of likely candidates.",
+        "Very Hard": "Generating a new sub-species that exhibits traits that are rarely exhibited by the creature, but do occur naturally. For example, breeding a horse that can instinctually walk backwards.",
+        "Extremely Hard": "Identifying if two creatures are genetically compatible (i.e., can produce viable offspring).",
+        "Sheer Folly": "Generating a new sub-species that exhibits one or more traits of a different species. For example, breeding a peach that has the rind of an orange.",
+        "Absurd": "Generating a new sub-species that combines two (or more) creatures into one. For example, breeding a winged horse. (The GM may require the biochemist to use magic to facilitate this combination.)"
+      }
+    },
+    "Psychology": {
+      "optional_stats": "Re/Me/Pr",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "See Healing, Section 4.0.",
+      "specialties": [
+        "Any specific race.",
+        "Any specific disorder."
+      ],
+      "example_difficulties": {}
+    }
+  },
+  "source": "sohk",
+  "book": "School of Hard Knocks (book 5808)",
+  "group_notes": "The length of time required to complete a Science/ Analytic maneuver depends on the difficulty of the maneuver. Note that some maneuvers may take longer (e.g., Biochemistry) and others may take less time (e.g., Basic Math).\n\nDifficulty | Time Required\nRoutine | 1 round\nEasy | 1 minute\nLight | 10 minutes\nMedium | 1 hour\nHard | 6 hours\nVery Hard | 12 hours\nExtremely Hard | 24 hours\nSheer Folly | 1 week\nAbsurd | 1 month\n\nUse of a Science/Analytical skill assumes that the character has the necessary materials and tools to complete the maneuver. The cost of such materials can vary widely, and must be determined on a case-by-case basis. The quality of these tools may provide the scientists with a bonus or penalty range from -20 to +20. A Science/Analytic maneuver roll cannot be made until the task is completed. The scientist has no way of knowing how successful he will be until this time."
+}

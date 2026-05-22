@@ -1,0 +1,77 @@
+{
+  "skills": {
+    "Language": {
+      "optional_stats": "Re/Me/Em",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of a language maneuver on how many ranks the character is trying to provide to the listener. If the listener has no ranks, this is automatically an Absurd maneuver.",
+      "specialties": [
+        "Rhetoric, exposition, technical writing, etc."
+      ],
+      "example_difficulties": {
+        "Routine": "0 ranks.",
+        "Easy": "1 rank.",
+        "Light": "2 ranks.",
+        "Medium": "3 ranks.",
+        "Hard": "4 ranks.",
+        "Very Hard": "5 ranks.",
+        "Extremely Hard": "6 ranks.",
+        "Sheer Folly": "7-8 ranks.",
+        "Absurd": "9-10 ranks."
+      }
+    },
+    "Lip Reading": {
+      "optional_stats": "Re/Me/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This difficulty of a Lip Reading maneuver depends on the amount of lip movement the lip reader is able to observe. It is interesting to note that one must enunciate to be understood while whispering.",
+      "specialties": [
+        "Any specific individual."
+      ],
+      "example_difficulties": {
+        "Routine": "The speaker is deliberately directing his words towards the lip reader.",
+        "Easy": "The speaker is a trained actor enunciating perfectly.",
+        "Light": "The speaker is speaking crisply or whispering.",
+        "Medium": "Normal conversation.",
+        "Hard": "The speaker stutters.",
+        "Very Hard": "The speaker is mumbling.",
+        "Extremely Hard": "The speaker's lips make meaningless motions when he is not speaking.",
+        "Sheer Folly": "The speaker's lips rarely move (e.g., the speaker is under the influence of a narcotic).",
+        "Absurd": "The speaker is throwing his voice."
+      }
+    },
+    "Magical Languages": {
+      "optional_stats": "Re/Me/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Magical languages enable spell users to enhance the effects of their spells. The difficulty of such a maneuver depends on how powerful an effect the spell user desires to attain. Each magical language can affect a specific category of spell lists whose effects are similar (e.g., detection spells, scrying spells, movement spells, etc.). In addition to the suggestions below, there are two standard uses of magical languages that a GM can utilize:\n\nBefore making a spell casting static maneuver roll, the caster can make an appropriate Magical Languages maneuver. Any resulting subsequent maneuver modifier is applied to the following spell casting static maneuver (i.e., +10 for Near Success, +20 for Success, +30 for Absolute Success).\n\nModify a Spell Mastery maneuver by +1 for each appropriate Magical Languages skill rank.",
+      "specialties": [
+        "Any specific spell list."
+      ],
+      "example_difficulties": {
+        "Routine": "+1 to a BAR or +5 to an EAR.",
+        "Easy": "Increasing a spell's effective level by 1 (for RRs, durations, etc.).",
+        "Light": "+2 to a BAR or +10 to an EAR.",
+        "Medium": "Increasing a spell's effective level by 2.",
+        "Hard": "Modifying the target's RR by -10.",
+        "Very Hard": "Increasing a spell's effective level by 3. +3 to a BAR or +15 to an EAR.",
+        "Extremely Hard": "Modifying the target's RR by -20.",
+        "Sheer Folly": "Increasing a spell's effective level by 5.",
+        "Absurd": "Increasing a spell's effective level by 10."
+      }
+    },
+    "Signaling": {
+      "optional_stats": "Re/Me/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Treat this skill as a language, subject to the following modifications:",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {}
+    }
+  },
+  "source": "sohk",
+  "book": "School of Hard Knocks (book 5808)",
+  "group_notes": "A maneuver roll is generally not necessary when communicating, especially when player characters are communicating with other player characters. In most cases, a player should restrict his vocabulary to that of his character. A maneuver roll is necessary if information must be communicated. Partial and Near Successes indicate that some of the information is not communicated. A maneuver roll is also necessary whenever a player wants to temporarily increase another character's linguistic skill (i.e. tell him what to say). Note that all participants have their skill temporarily increased, so this option cannot be used to increase another player character's linguistic skill in order to communicate with someone else in secret. The length of time required to complete a Communications maneuver depends on the length of the communication. Game time and real time transpire at equal rates while communicating."
+}

@@ -1,0 +1,186 @@
+{
+  "skills": {
+    "Acting": {
+      "optional_stats": "Pr/Em/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The goal of acting is the creation of a (fake) persona that facilitates the viewer's suspension of disbelief. The more complex or fantastic the persona, the more difficult the attempt. If the skill roll is successful, the actor has convincingly portrayed the persona he is acting. (This may result in nothing more than a laugh or tear, depending on the difficulty of the maneuver.) It is relatively simple to remove a specific component of one's own demeanor; it is much more difficult to portray a believable character replete with idiosyncrasies and intricate emotions. Humor is also easier to portray, since plausibility is not a factor. When attempting to fool a target, the target may be entitled to an Alertness roll.",
+      "specialties": [
+        "Comedy, Tragedy, etc.",
+        "A specific individual, race or character.",
+        "A specific emotion or characteristic."
+      ],
+      "example_difficulties": {
+        "Routine": "Hiding a specific brief response. Success indicates that the actor has replaced his natural response with one chosen by him. This is particularly useful when receiving Winter Solstice gifts from great aunts and uncles.",
+        "Easy": "Hiding one characteristic trait for an extended period of time. Each time the characteristic trait would have been exhibited, the actor makes a roll to hide it. Each consecutive Partial Success increases the chance of detection by +10. Any Absolute Success reduces the chance of detection by -10 until a failure is rolled.",
+        "Light": "Adding one characteristic trait for an extended period of time. Each time the characteristic trait is exhibited, the actor makes a roll. See above for modifiers. (For example, an evil Doppelganger is pretending that he worships the Lord of Light. Every week he must roll while attending mass to convince his companions that he is devout.)",
+        "Medium": "Portraying a simple character. The character has no emotional depth and is plausible only for a short time. Most minor theatrical roles fall into this category.",
+        "Hard": "Portraying a specific individual to an audience or target who has only heard of the individual. (For example, the evil Doppelganger has assassinated the ambassador of Sherib while en route to Salin. The ambassador has never been to Salin, but has a definite reputation.)",
+        "Very Hard": "Portraying a complex character. The character has real emotional depth and is plausible for an extended time. Most main and supporting roles fall into this category.",
+        "Extremely Hard": "Portraying a specific individual to an audience or target who is familiar with the individual, but not a close friend or family member. The actor could, for example, portray the king at official functions to thwart assassination attempts. Portraying a complex character whose ethos is antithetical to that of the actor's. Many actors simply refuse such roles, due to the difficulty of the task.",
+        "Sheer Folly": "Portraying a specific individual to that individual's close family and friends. Note that this implies that the individual has spent a great deal of time with the target. A person's own wife may not know her husband if he is always at war (but the generals would certainly recognize an impostor immediately).",
+        "Absurd": "Portraying a specific individual whose ethos is antithetical to that of the actor's. Any attempt to fool magical detection would also fall into this category."
+      }
+    },
+    "Dancing": {
+      "optional_stats": "Pr/Em/Ag",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The goal of the dancer is a work of art. Towards this end. many maneuvers are performed. many of which may be very athletic. However. art is stressed over athleticism. Self control. elegance and grace are all characteristicsthat influence the quality of the art. Many dances also attempt to convey a story or emotion. The difficulty of such an attempt depends on the style of the dance. Sensuality is expressed by ballet. power or anger by tap. The extent to which a dancer can entertain (or influence) his audience depends on the difficulty of the maneuvers he performs and the grace with which he performs those maneuvers. In general. however. the greater levels of entertainment are only possible if more difficult maneuvers are attempted.",
+      "specialties": [
+        "Any specific style of dance (e.g., ballet. folk. ball-room. etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "Warming up. Ballet: Moving through the positions. A plait (or bend). Tap: A flap (heel-toe-heel).",
+        "Easy": "Portraying sensuality in ball-room dance. Ballet: A glissade (or glide). Tap: Keeping a flat-footed rhythm. Trenches (like a goose step).",
+        "Light": "Portraying power or anger in tap. Tap: Keeping a toe rhythm.",
+        "Medium": "Portraying grace/sensuality in ballet. Ballet: A pirouette (or turn); a grand j'ete (or grand leap).",
+        "Hard": "Telling a story in ballet. Portraying joy. Ballet: A tour ch'ete (or kick wi half-turn). Tap: Wings (using the side of the feet).",
+        "Very Hard": "Portraying a simple emotion (fear. anger. sorrow). Ballet: Consecutive pirouettes.",
+        "Extremely Hard": "Portraying a complex emotion (such as jealousy). Ballet: A controlled kick/extension. A lift.",
+        "Sheer Folly": "Portraying a logical sequence of emotions within a story. Ballet: A leap compounded with a roll.",
+        "Absurd": "Portraying an emotion that is antithetical to a particular style of dance (e.g., portraying despair via tap)."
+      }
+    },
+    "Mimery": {
+      "optional_stats": "Pr/Em/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Mimery is often used for entertainment purposes. It can also be used to communicate with people with whom a character has no language in common. The difficulty of either maneuver depends on the complexity of the information being conveyed. In general, the maneuver will automatically fail if the audience is not familiar with the information.",
+      "specialties": [
+        "Any specific routine (e.g., climbing a rope, trapped in a box, etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "Any stock routine (e.g., walking into the wind, trapped in a box, etc.).",
+        "Easy": "Conveying a simple idea (e.g., riding a horse, fighting, etc.).",
+        "Light": "Conveying specific information (e.g., a color, name, etc.). Think charades.",
+        "Medium": "Communicating with the equivalent of 2 ranks of language.",
+        "Hard": "Conveying a complex idea (e.g., an interaction, a battle plan).",
+        "Very Hard": "Communicating with the equivalent of 3 ranks of language.",
+        "Extremely Hard": "Conveying a theoretical idea (e.g., knowledge, philosophy).",
+        "Sheer Folly": "Communicating with the equivalent of 4 ranks of language.",
+        "Absurd": "Communicating with the equivalent of 5 ranks of language."
+      }
+    },
+    "Mimicry": {
+      "optional_stats": "Pr/Em/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of a Mimicry maneuver depends on how easily a human voice can imitate the sound. The familiarity the audience has with the sound also modifies the difficulty. It is easier to convince a general audience that you sound like the king; it is much more difficult to convince the queen.",
+      "specialties": [
+        "Any specific sound.",
+        "Any individual."
+      ],
+      "example_difficulties": {
+        "Routine": "Whistling.",
+        "Easy": "Simple sounds (one note/tone).",
+        "Light": "Animal sounds (e.g., a bear or dog).",
+        "Medium": "Multi-tone sounds (birds trilling, etc.).",
+        "Hard": "Very complex (comprehensive words).",
+        "Very Hard": "Imitate another's vocal patterns.",
+        "Extremely Hard": "Simple inanimate sounds. Multi-sided conversations.",
+        "Sheer Folly": "Complex inanimate sounds.",
+        "Absurd": "Alien sounds. Convincing a target that is intimately familiar with the vocal pattern."
+      }
+    },
+    "Play Instrument": {
+      "optional_stats": "Pr/Em/Ag",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill can be used either to reproduce a piece of music or to improvise a melody. The difficulty of a performance maneuver depends on the greatness of the composition (see Music). A Play Instrument (performance) maneuver is equal to the difficulty of writing the work (when reproducing a composition). An Play Insturment (improvisation) maneuver depends on the complexity of the chord progression or melody. Each Partial Success reduces the resulting fame by 20%, each Near Success, by 10%. An Absolute Success increases the fame by 20%. (See Section 5.1). This skill must be developed separately for each style of music to be learned. Examples include classical, baroque, romantic, jazz, rock, etc.",
+      "specialties": [
+        "Any specific composer.",
+        "Any specific style of music."
+      ],
+      "example_difficulties": {
+        "Routine": "A scale.",
+        "Easy": "Improvising off of a simple melody.",
+        "Light": "Improvising from a common major chord progression.",
+        "Medium": "Improvising off of a common melody.",
+        "Hard": "Improvising from a known chord progression (e.g., minor, blues, etc.).",
+        "Very Hard": "Improvising off of a melody just heard (used in dueling instruments).",
+        "Extremely Hard": "Improvising from an unfamiliar chord progression.",
+        "Sheer Folly": "Improvising a new chord progression.",
+        "Absurd": "Improvising a complete work."
+      }
+    },
+    "Poetic Improvisation": {
+      "optional_stats": "Pr/Em/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is used by bards and historians to entertain royal courts, by Elves to praise one another, and by romantics wooing their lovers. The difficulty of the maneuver depends on the length of the poem being recited, or improvised. When reciting poetry, a strong meter and rhyme pattern reduces the difficulty by one level. When improvising, attempting to maintain both meter and rhyme increases the difficulty by one level. Each rank of poetic improvisation indicates knowledge of one epic poem or equivalent amount of shorter material. Master bards can recite any number of epic poems.",
+      "specialties": [
+        "Any specific type of poem (e.g., humorous, epic, tragic, etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "A limerick.",
+        "Easy": "A sonnet or short series of heroic couplets.",
+        "Light": "A short poem (2 or 3 verses).",
+        "Medium": "An average length poem (4 to 6 verses, plus a possible chorus).",
+        "Hard": "A long poem (7 or more verses).",
+        "Very Hard": "A (relatively) short epic.",
+        "Extremely Hard": "A full epic.",
+        "Absurd": "Improvising an epic."
+      }
+    },
+    "Singing": {
+      "optional_stats": "Pr/Em/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "A singer attempts to reproduce, faithfully and emotionally, a piece of music. The intensity of the emotion and musical complexity of the song determines the difficulty of the maneuver. The impact of the performance is limited by the greatness of the composition, although a talented singer can increase the impact of even a simple song. Each Partial Success reduces the resulting fame by 20%, each Near Success, by 10%. An Absolute Success increases the fame by 20%. (See Section 5.1). This skill must be developed separately for each style of music to be learned. Examples include classical, baroque, romantic, jazz, rock, etc.",
+      "specialties": [
+        "Any specific composer.",
+        "Any specific style of music."
+      ],
+      "example_difficulties": {
+        "Routine": "A scale.",
+        "Easy": "A simple melody or air. A jingle or ditty.",
+        "Light": "A piece with limited appeal. Music with technical flair, but no emotion.",
+        "Medium": "A good piece of music. The audience is entertained, but not moved.",
+        "Hard": "A piece that appeals to those who enjoy the particular style. A single emotion or idea can be communicated.",
+        "Very Hard": "A performance with broad appeal. Complex emotions or multiple ideas can be conveyed.",
+        "Extremely Hard": "A performance that will be considered great many years from now. A masterpiece that conveys an entire story or emotional interaction.",
+        "Sheer Folly": "A performance that reinterprets a masterpiece.",
+        "Absurd": "A performance that gains immediate recognition world-wide."
+      }
+    },
+    "Tale Telling": {
+      "optional_stats": "Pr/Em/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is used for entertaining an audience. The ultimate goal is successfully conveying a story in an entertaining manner. Longer, less exciting stories are more difficult to tell. Only a true showman can make a lecture about genealogy interesting. A character can generally memorize one epic adventure for every skill rank of Tale Telling.",
+      "specialties": [
+        "Any specific story."
+      ],
+      "example_difficulties": {
+        "Routine": "Retelling an epic tale, full of \"fencing, fighting, torture, poison, true love, hate, revenge, giants, hunters, bad men, good men, beautiful ladies, snakes, spiders, beasts of all natures and descriptions, pain, death, brave men, coward men, strong men, chases, escapes, lies, truths, passion, and miracles.\"",
+        "Easy": "Telling a bar of revelers about an adventurer's latest heroics.",
+        "Light": "Telling an abbreviated first-hand account of an adventure (particularly useful when talking to one's parents).",
+        "Medium": "Narrating a tale with occasional slow points.",
+        "Hard": "Telling someone else's story with a complicated plot.",
+        "Very Hard": "Relating an epic tale, full of the usual redundancies and long lists of places visited or people met.",
+        "Extremely Hard": "Telling a story concerning mundane activities.",
+        "Sheer Folly": "Enriching a legal or philosophical treatise.",
+        "Absurd": "Reciting a genealogical list in an entertaining manner."
+      }
+    },
+    "Ventriloquism": {
+      "optional_stats": "Pr/Em/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of a Ventriloquism maneuver depends on the volume of the noises being thrown. This skill is often used with Mimicry in order to carryon a two-way conversation with oneself.",
+      "specialties": [
+        "Any specific voice or character."
+      ],
+      "example_difficulties": {
+        "Easy": "Normal conversation.",
+        "Medium": "Whisper.",
+        "Very Hard": "Loud conversation.",
+        "Sheer Folly": "Scream or other loud noise."
+      }
+    }
+  },
+  "source": "sohk",
+  "book": "School of Hard Knocks (book 5808)",
+  "group_notes": "There are two types of artistic skills: passive and active. The goal of an artistic maneuver is the same, regardless of the category. The artist seeks to design a work of art, an object or performance of beauty and emotion. The artist expresses himself by presenting his work to the audience (in the gallery, on stage, or in the library). The goal of an artistic maneuver is not the accumulation of wealth, although many artists would welcome fame and the accompanying wealth. Indeed, the greatness of an artist depends in large part on his audience's perception. The difficulty of an artistic maneuver generally captures the depth or significance of the subject matter. The maneuver roll then indicates the beauty and elegance of the art. If the product of these two factors is determined, one can approximate the greatness of the result. In more specific terms, the following formula indicates how widely known a given piece of art is generally recognized. Within this radius, the art can be considered part of the local culture. Beyond this radius, the public's familiarity with the piece of art diminishes until only serious collectors and fans are familiar with the art.\n\nExample: onya performs at the local pub. She is a fairly gifted flautist who attempts a Hard (DL = 5) maneuver. The maneuver roll results in a 165 after modifications. This impressive feat is mentioned as much as 264 miles away (= [5 × (165-100) ÷ 20) 2 ).\n\nAn artist's fame grows and shrinks more slowly than the fame of a specific piece or performance. Each time the artist produces a work, his sphere of fame increases by one tenth of the difference or decreases by one twentieth of the difference, as appropriate.\n\nExample: If Sonya had a sphere of fame equal to 100 miles, her fame would increase by 16.5 miles (= (265 - 100) ÷ 10). If she previously had a sphere offame of 400 miles (Wow!), her sphere would shrink by 7 miles (= (265 - 400) ÷ 20).\n\nOver time, an artist's fame will be roughly equal to that of his works. Once the artist dies, his work may still gain fame, provided there is some way for future generations to enjoy the work (i.e., the art is passive, not active). If the artist had more than 10 ranks in his art, his reputation's sphere of fame will grow by a percentage equal to the number of ranks above 10, each decade. If the artist had fewer than 10 ranks, the sphere of fame will shrink by a percentage equal to the number of ranks fewer than 11, every five years. Note that an artist does not necessarily need to die for this to occur, he merely needs to stop producing work for five or more years. The amount of time required to complete an artistic maneuver depends largely on the size (or length) of the artistic piece. In general, an artist can complete a piece of art of average size (depending on the medium) in 6 months to a year. This should be modified by the difficulty of the artistic maneuver. A simple sketch might take only a few minutes to complete, whereas a complete masterpiece might require years of effort. The GM might allow the artist to roll the maneuver after spending one fourth of the time required. At this point, the artist can decide whether or not to continue."
+}

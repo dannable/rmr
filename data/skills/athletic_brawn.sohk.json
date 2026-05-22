@@ -1,0 +1,96 @@
+{
+  "skills": {
+    "Athletic Games (Brawn)": {
+      "optional_stats": "St/Co/Ag",
+      "ep_cost": "3",
+      "distance_multiplier": "4 every 3 rounds",
+      "notes": "Arterion (fictitious) ; This game is similar to modern dodge ball. There are two teams, each of which begin with two small leather balls, roughly the size of softballs. The goal of the game is to be the only team with players remaining on the field. When a ball strikes a player with sufficient force to knock him down, he must leave the field. When a player is holding a ball, he cannot move his feet. Players without a ball may move freely. There are a number of possible maneuvers:",
+      "specialties": [
+        "Throwing, catching, standing, etc."
+      ],
+      "example_difficulties": {
+        "Routine": "Tossing a ball to a teammate.",
+        "Easy": "Striking an immobile player with a ball. Retrieving a downed ball.",
+        "Light": "Remain standing when struck by one ball.",
+        "Medium": "Catching a toss. Striking a mobile player with a ball.",
+        "Hard": "Remain standing when struck by two balls.",
+        "Very Hard": "Striking a mobile player while simultaneously catching a toss.",
+        "Extremely Hard": "Remain standing when struck by three balls.",
+        "Sheer Folly": "Striking a mobile player while being struck by one or more balls.",
+        "Absurd": "Remain standing when struck by four balls."
+      }
+    },
+    "Jumping": {
+      "optional_stats": "St/Co/Ag",
+      "ep_cost": "1 every round (not modified by pace)",
+      "distance_multiplier": "",
+      "notes": "",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {
+        "Routine": "Base Jump x 1",
+        "Easy": "Base Jump x 1.5",
+        "Light": "Base Jump x 2",
+        "Medium": "Base Jump x 2.5",
+        "Hard": "Base Jump x 3",
+        "Very Hard": "Base Jump x 3.5",
+        "Sheer Folly": "Base Jump x 4.5",
+        "Absurd": "Base Jump x 5"
+      }
+    },
+    "Power-striking": {
+      "optional_stats": "St/Co/St",
+      "ep_cost": "1 every round",
+      "distance_multiplier": "0",
+      "notes": "The difficulty of the maneuver depends only on the amount of extra OB sought.",
+      "specialties": [
+        "Any specific weapon."
+      ],
+      "example_difficulties": {
+        "Routine": "+1 OB modification.",
+        "Easy": "+4 OB modification.",
+        "Light": "+7 OB modification.",
+        "Medium": "+10 OB modification.",
+        "Hard": "+20 OB modification.",
+        "Very Hard": "+30 OB modification.",
+        "Extremely Hard": "+40 OB modification.",
+        "Sheer Folly": "+50 OB modification.",
+        "Absurd": "+60 OB modification."
+      }
+    },
+    "Power-throwing": {
+      "optional_stats": "St/Co/St",
+      "ep_cost": "1 every round",
+      "distance_multiplier": "",
+      "notes": "If a large item is thrown as a weapon, the attack is resolved as a Fall/Crush attack (see RMFRP p. 226 or AL p. 75) with an OB of +1/10 pounds. The range modifier depends on the difficulty of the Power-throwing maneuver. The maximum distance an object can be thrown is 1 foot for every 2 unused pounds of lifting capacity (see Weight-lifting).",
+      "specialties": [
+        "Any specific weapon."
+      ],
+      "example_difficulties": {
+        "Routine": "-5 OB / foot.",
+        "Easy": "-3 OB / foot.",
+        "Light": "-2 OB / foot.",
+        "Medium": "-1 OB / foot+10% range.",
+        "Hard": "-1 OB / 2 feet+25% range.",
+        "Very Hard": "-1 OB / 3 feet+50% range.",
+        "Extremely Hard": "-1 OB / 5 feet+75% range.",
+        "Sheer Folly": "-1 OB / 10 feet+100% range.",
+        "Absurd": "-1 OB / 20 feet+125% range."
+      }
+    },
+    "Weight-lifting": {
+      "optional_stats": "St/Co/St",
+      "ep_cost": "1 every round",
+      "distance_multiplier": "",
+      "notes": "In order to calculate the amount of weight a character can lift from the ground to above his head use the following formula (Treat non-postive St bonuses as one.):\n\nMax Lift = (body wt. ÷ 2) + (temp Strength stat x Strength stat bonus) ÷ 5 Thus, an average human (with a strength of 50 who weighs 200 lbs.) can lift 110 lbs. An exceptional human (with a strength of 90) can lift 190 lbs. An incredible human (with a strength of 100) can lift 300 lbs. With a good Weight-lifting maneuver, that person would be an Olympic contender. Combined with Power-throwing, this skill allows characters to use any large object as a weapon.",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {}
+    }
+  },
+  "source": "sohk",
+  "book": "School of Hard Knocks (book 5808)",
+  "group_notes": "The Moving Maneuver Table can be used in a number of ways. The result from the table is often a number, which can be interpreted in a number of ways. Allor Nothing: An all or nothing maneuver is a maneuver that either succeeds completely, or fails utterly. Examples include attempting to lift a great weight, and attempting to stop while skiing. The player must roll a second time and add the number from the chart. If the result is over 100, the maneuver succeeds. Percentage: For these maneuvers, it is possible to succeed partially. This is definitely the case when attempting to maneuver a certain distance. Both: Some.maneuvers may involve both of these options; these maneuvers are dangerous. There should be an obvious risk to the character to justify using this option. Examples might include climbing or tightrope walking. The danger of falling is very real. Athletic maneuvers require the expenditure of exhaustion points (EPs). Each such skill description includes the exhaustion point cost of the maneuver. This indicates the number of EPs that must be expended each round. The normal exhaustion point modifiers also apply. In addition, there is an exhaustion point modifier based on pace:\n\nPace | Exh. Pt. Modifier\nWalk | x1\nJog | x2\nRun | x5\nSprint | x120\nFast Sprint | x360\nDash | x3000\n\nExample: Normally, acrobatics requires 1 exhaustion point every 6 rounds. An acrobatics maneuver performed at a sprint pace (x120) would cost 20 exhaustion points per round. This increases to 40 exhaustion points per round ifthe temperature is above 100°F\n\nFor every 5 exhaustion points spent, the character's pool of available exhaustion points is reduced by one. This reflects the effects of prolonged exertion. This effect lasts until the character sleeps (or drowses, see Drawsing). The character also loses one point from his pool of exhaustion points for every hour of consciousness.\n\nExample: A charader with 40 exhaustion points fast sprints (6 EPs every round) for 5 rounds. This costs 30 exhaustion points. His pool of exhaustion points drops from 40 to 34; he currentlyhas 10 exhaustion points. After resting for a few minutes, he has recovered all of his available exhaustion points. However, until he sleeps, he cannot have more than 34 exhaustion points.\n\nMost athletic skills also have a distance multiplier indicated. A character can normally maneuver a distance equal to his base movement rate each turn. The distance multiplier modifies this rate. Hence, skills like Climbing and Tightrope-walking are slow and methodical. Skills like Skiing and Flying can be quite rapid. In addition, a character can increase this rate by increasing his pace. This costs more exhaustion points and may increase the difficulty of the maneuver. Most skills are ideally performed while walking, but some (like Jumping) require a different pace. Each pace category faster (or slower) than the ideal pace increases the difficulty by one. The amount of weight carried also increases the difficulty of a maneuver:\n\nWt. Penalty (before St mod.) | Modification\n0 | -1 difficulty level\n-1 — -10 | no modifier\n-11 — -25 | +1 difficulty level\n-26 — -40 | +2 difficulty levels\n-41 — -65 | +3 difficulty levels\n-66 — -100 | +4 difficulty levels\n-101 and worse | +5 difficulty levels\n\nNote that the weight penalty also modifies a character's maximum pace. Even though this penalty can be offset by a character's Strength, wearing armor and carrying equipment greatly reduces a character's mobility. In addition, a character's Moving Maneuver Penalty will modify all moving maneuvers. Athletic maneuvers must be resolved every round or every strategic turn. The maneuver is not complete until the character decides to stop maneuvering.\n\n\n[5.3 AWARENESS SKILLS]\n\nMost Awareness skills are based on visual observation. As a result, most Awareness maneuvers are modified by the lighting. Other obstructions (like fog or smoke) increase the difficulty of the maneuver.\n\nLighting | Modifier\nDirect bright light | -10\nIndirect bright light | +10\nMedium light | 0\nTwilight | -10\nTorchlight or Moonlight | -25\nCandlelight or Starlight | -50\nNo light | -100 (at best)\n\nRaces with excellent night vision can ignore these penalties, provided there is some source of light (like the moon). Races with dark vision (like Dwarves) can ignore these penalties within the range of their dark vision. Maneuvers that rely on other senses have the difficulty level of the maneuver modified by the background interference. There are no general modifiers. Awareness maneuvers can be performed whenever the GM or character deem a maneuver roll to be appropriate. It usually takes a single round to complete an Awareness maneuver in a single direction (60° field of vision) or one minute to complete an Awareness maneuver in all directions. An Awareness maneuver might take longer if a significant area must be searched (roughly one round for every 10' x 10' area examined closely enough to notice small objects).\n\nExample: Searching one square mile for the prince's missing knife would require 775 man-hours = 32 days. A search o f this scope requires multiple people."
+}

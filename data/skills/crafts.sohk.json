@@ -1,0 +1,286 @@
+{
+  "skills": {
+    "Cooking": {
+      "optional_stats": "Ag/Me/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The ultimate goal of the cook is the preparatopm of some food. The difficulty of the maneuver is dependent on how elaborate or exotic the food is to be. This stems from the difficulty in. obtaining fresh ingredients. Note that exotic is dependent on one's culture. Asian food is not exotic in Asia.",
+      "specialties": [
+        "Any specific recipe"
+      ],
+      "example_difficulties": {
+        "Routine": "Preparing a simple dish (e.g., a sandwich).",
+        "Easy": "Determining if an ingredient has gone bad (provided it is not obvious).",
+        "Light": "Preparing a dish when all of the ingredients are readily available and fresh.",
+        "Medium": "Preserving a food. Brewing normal beer (I.e., without any extra ingredients).",
+        "Hard": "Selecting the wine most appropriate for a given meal. Preparing a dish when some of the ingredients must be substituted. Inventing a new dish that uses a specific ingredient. The remaining ingredients must be readily available.",
+        "Very Hard": "Preserving meat while in a makeshift camp. Preparing an exotic dish when there is a ready supply of dried (or preserved) ingredients.",
+        "Extremely Hard": "Brewing a beer that has a very specific flavor.",
+        "Sheer Folly": "Inventing a new dish that uses a specific collection of ingredients (e.g., a recently slain Wyvern and a handful of wild mushrooms and berries).",
+        "Absurd": "Preparing an extremely exotic dish when nearly all of the ingredients must be substituted for other ingredients."
+      }
+    },
+    "Drafting": {
+      "optional_stats": "Ag/Me/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Drafting has two main applications: generating a detailed and accurate representation of an actual object and generating a blueprint from which an object can be designed. Difficulties arise when the object is highly irregular or complex. When Drafting is used to generate a blueprint for the creation of some object, the Drafting skill is only useful in generating the blueprint. The actual design of the object requires some other skill (e.g., Architecture, Engineering, Gimmickry or Machination). If the blueprint is accurate, the object can be designed with a minimum of flaws. Partial and Near Successes introduce flaws that must be adjusted for by the carpenter.",
+      "specialties": [
+        "Buildings, vehicles, siege engines, etc."
+      ],
+      "example_difficulties": {
+        "Routine": "Drawing basic geometric shapes.",
+        "Easy": "Drawing advanced geometric shapes (e.g., ellipses, cones, etc.).",
+        "Light": "Drawing the layout of a simple dwelling (i.e., the building exists, the drafter is generating an accurate map of the building).",
+        "Medium": "Generating the blueprints for a simple dwelling.",
+        "Hard": "Drafting a simple object with a small number of moving pieces.",
+        "Very Hard": "Generating the design of a simple object or average dwelling. This might include a house or catapult.",
+        "Extremely Hard": "Drafting an object with multiple moving pieces that interact with one another. For example, a clock.",
+        "Sheer Folly": "Generating the blueprints for a complex object or dwelling. Examples include a fortress built on a slope or a ballista that reloads itself.",
+        "Absurd": "Generating the blueprints for an extremely complex object. A building might have secret passages that cross on multiple levels and rooms that span partial stories (creating crawlways and other access tunnels)."
+      }
+    },
+    "Fletching": {
+      "optional_stats": "Ag/Me/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The goal of Fletching is the production of one or more arrows. The difficulty of this maneuver is dependent on how specialized the arrow is supposed to be. The skill is further modified by how straight the shaft must be. There will always be some variation, but high- quality arrows minimize this quantity. It is also very difficult to fashion an arrow that serves multiple purposes since one function (e.g., armor piercing) comes at the expense of some other feature (e.g., an edged arrowhead that causes maximum damage).",
+      "specialties": [
+        "Any specific type of arrow."
+      ],
+      "example_difficulties": {
+        "Routine": "Fashioning an arrow that flies half as far as a normal arrow (ranges are halved).",
+        "Easy": "Fashioning an arrow designed for target practice. (This arrow inflicts Krush criticals of two less severity.)",
+        "Light": "Fashioning a poor-quality arrow (-5 OB). Medium: Fashioning a normal arrow.",
+        "Hard": "Fashioning an armor-piercing (+5 vs. AT 13-20) or hunting (+5 vs. AT 3-12) arrow. (These arrow- heads are -5 vs. all other armor types.)",
+        "Very Hard": "Fashioning an arrow that spins while it flies (due to curved feathers). (This arrow increases the severity of any critical by one, and can be combined with an armor-piercing or hunting arrow.)",
+        "Extremely Hard": "Fashioning a superior arrow that flies 50% farther than a normal arrow (-5 OB). Fashioning an arrow with a hollow-tip. This can be filled with poison or modified to cause the arrow to whistle while in flight.",
+        "Sheer Folly": "Fashioning an arrow that flies twice as far as a normal arrow. (-5 OB).",
+        "Absurd": "Fashioning an arrow that is designed to be shot with a second arrow, thereby allowing an archer to shoot at two targets."
+      }
+    },
+    "Horticulture": {
+      "optional_stats": "Ag/Me/Em",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill combines elements of gardening and farming. T h e character is able to maintain a garden or crop using this skill. The difficulty of the maneuver depends on the hardiness of the plant in the local climate. (Grass is a resilient plant, but not in a desert.) Plants that are not native to the area are more difficult to care for.",
+      "specialties": [
+        "Any specific type of plant (e.g., corn, oak trees, bonsai, etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "Growing plants that are native to the area and require no special attention (e.g., grass).",
+        "Easy": "Growing wild-flowers or fruit in a controlled manner. Such plants tend to overpower their competitors for nutrients and water (e.g., raspberries).",
+        "Light": "Growing flowers that are native to the area that require some special attention (e.g., regular watering, fertilizing, etc.).",
+        "Medium": "Growing a cash crop under normal conditions. This includes watering, fertilizing, weeding, and harvesting the crop.",
+        "Hard": "Growing a magical herb in natural conditions. The herb must be native to the area. The yield of salable product is generally quite low.",
+        "Very Hard": "Growing a plant from a different climate/region in a controlled environment (e.g., a greenhouse).",
+        "Extremely Hard": "Maintaining a garden that is always in bloom (by mixing plants of different types whose reproductive cycles differ). Kings pay handsomely for such gardens.",
+        "Sheer Folly": "Growing a magical herb under unnatural condition (e.g., indoors).",
+        "Absurd": "Growing a plant that requires bizarre conditions. For example, a flower that requires nitrous oxide to mature."
+      }
+    },
+    "Leather-crafts": {
+      "optional_stats": "Ag/Me/SD",
+      "ep_cost": "N/A",
+      "distance_multiplier": "N/A",
+      "notes": "The difficulty of leather-working depends on the number of pieces of leather involved, and the intricacy of the stitching or other work required. Like many crafts skills, this skill assumes that the craftsman has an adequate supply of tools. Without the necessary implements, there is little a craftsman can do. (Increase all maneuvers by at least 3 difficulty levels.)",
+      "specialties": [
+        "Any specific object."
+      ],
+      "example_difficulties": {
+        "Routine": "Cutting a piece of leather into a simple shape.",
+        "Easy": "Sewing an object that requires a single piece of leather (e.g., a pouch or hood).",
+        "Light": "Dying a piece of leather. Tanning a hide into soft leather.",
+        "Medium": "Sewing an object that requires only a few pieces of leather (e.g., a shoe or vest).",
+        "Hard": "Boiling a hide to produce hard leather. Adding weaving to a simple garment.",
+        "Very Hard": "Sewing an object that requires multiple pieces of leather (e.g., a full suit of armor or a saddle).",
+        "Extremely Hard": "Sewing an object that incorporates hard and soft leather flawlessly (e.g., a breastplate and cape).",
+        "Sheer Folly": "Sewing an object that requires multiple pieces of leather that is waterproof (i.e., can be worn underwater).",
+        "Absurd": "Incorporating leather with some magical substance (like laen). Note that an Alchemist would have to fashion the laen first."
+      }
+    },
+    "Metal-crafts": {
+      "optional_stats": "Ag/Me/In",
+      "ep_cost": "N/A",
+      "distance_multiplier": "N/A",
+      "notes": "The difficulty of metal-working depends on the intricacy of the final product. Even a large, bulky product might require very detailed workmanship in order to function properly (e.g., a clock). Like many crafts skills, this skill assumes that the craftsman has an adequate supply of tools. Without the necessary implements, there is little a craftsman can do. (Increase all maneuvers by at least 3 difficulty levels.)",
+      "specialties": [
+        "Any specific object."
+      ],
+      "example_difficulties": {
+        "Routine": "Making a crude object (e.g., a nail or spike).",
+        "Easy": "Making an object that requires bending a single piece of metal (e.g., a horseshoe or ring).",
+        "Light": "Designing a crude weapon (e.g., a simple Roman or Viking sword).",
+        "Medium": "Smelting a metal. Producing a simple cast (required for many items).",
+        "Hard": "Designing an average weapon or shield. Incorporating ornamentation.",
+        "Very Hard": "Making an object that requires multiple pieces of metal and very careful precision (e.g., a suit of plate armor, a clock).",
+        "Extremely Hard": "Designing an exquisite weapon (e.g., a katana or ornate rapier).",
+        "Sheer Folly": "Designing a miniature object (e.g., a watch, armor for a fairy, etc.).",
+        "Absurd": "Making an object whose technology is well be- yond the current level. The craftsman must have access to the appropriate design skills (e.g., Gimmickry)."
+      }
+    },
+    "Rope Mastery": {
+      "optional_stats": "Ag/Me/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill covers any maneuver attempted with a rope that does not involve the character moving. Such maneuvers are covered by Climbing or Acrobatics. The skill is useful for securing prisoners or tying a boat to a dock.",
+      "specialties": [
+        "Any specific knot."
+      ],
+      "example_difficulties": {
+        "Routine": "Tying shoes or boots.",
+        "Easy": "Braiding three ropes together.",
+        "Light": "Securing an inanimate object.",
+        "Medium": "Tying two ropes together to increase their length without decreasing the amount of load that can be suspended.",
+        "Hard": "Securing a person or creature (provided they are unconscious or otherwise subdued).",
+        "Very Hard": "Attaching two ropes of different sizes. Splicing two ropes together.",
+        "Extremely Hard": "Securing an animate target using a lasso (the target gets an RR: level vs. number of ranks of Rope Mastery).",
+        "Sheer Folly": "Attaching two cables to one another.",
+        "Absurd": "Securing an animate target using a chain."
+      }
+    },
+    "Scribing": {
+      "optional_stats": "Ag/Me/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of a Scribing maneuver may depend on a number of factors: the clarity of the work being copied, the clarity of the speaker (dictation), the intricacy of the lettering being used, and the scribe's familiarity with the language.",
+      "specialties": [
+        "Dictation, illumination, calligraphy, etc."
+      ],
+      "example_difficulties": {
+        "Routine": "Copying a printed page.",
+        "Easy": "Generating a barely legible work.",
+        "Light": "Dictation from a slow, precise speaker.",
+        "Medium": "Copying a work written neatly, by hand. Hard: Generating a neat, clear work with crisp lettering.",
+        "Very Hard": "Dictation from a speaker who mumbles, stutters, or rephrases things frequently.",
+        "Extremely Hard": "Generating a work with ornate illumination.",
+        "Sheer Folly": "Copying a text that has been severely damaged by time and was poorly written originally.",
+        "Absurd": "Dictation in a language with which the scribe is not familiar. A phonetic representation of the words is produced."
+      }
+    },
+    "Service": {
+      "optional_stats": "Ag/Me/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of a service maneuver depends on the demeanor of the person being served. Cheerful people are much easier to please than are cranky codgers. Note that a maneuver is made only if the server is interested in pleasing the target. Otherwise, treat the maneuver as an automatic failure.",
+      "specialties": [
+        "Any specific culture.",
+        "Any specific duty (e.g., retail, food service, etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "Serving an optimist.",
+        "Easy": "Serving a cheerful person.",
+        "Light": "Serving someone having a bad day.",
+        "Medium": "Serving an average person, such that the person is pleased with the service.",
+        "Hard": "Serving someone having a really, really bad day.",
+        "Very Hard": "Serving a dour or cranky person.",
+        "Extremely Hard": "Serving a pessimist.",
+        "Sheer Folly": "Serving a condescending noble.",
+        "Absurd": "Serving a Demon."
+      }
+    },
+    "Sewing/Weaving": {
+      "optional_stats": "Ag/Me/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of a Sewing/Weaving maneuver depends on the intricacy of the final product. The durability of the garment also modifies the difficulty of the maneuver.",
+      "specialties": [
+        "Any specific type of garment."
+      ],
+      "example_difficulties": {
+        "Routine": "Replacing a button.",
+        "Easy": "Darning a sock.",
+        "Light": "Sewing a familiar, simple pattern (e.g., a tunic or surcoat).",
+        "Medium": "Sewing a familiar pattern (e.g., a shirt or jacket).",
+        "Hard": "Sewing a familiar, complex pattern (e.g., a formal gown or ceremonial garb).",
+        "Very Hard": "Sewing an unfamiliar pattern. Designing a new pattern (e.g., a shirt that contains a hidden pouch).",
+        "Extremely Hard": "Designing a complex pattern (e.g., a ceremonial robe whose encumbering pieces can easily be removed by ripping them off, for example to facilitate fighting).",
+        "Sheer Folly": "Sewing with unconventional materials (e.g., metal, plastic, etc.).",
+        "Absurd": "Designing clothing for a creature that has never been seen by the designer."
+      }
+    },
+    "Skinning": {
+      "optional_stats": "Ag/Me/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "his skill is used either to remove a skin in order to turn it into leather or to remove a pelt intact for direct sale. The difficulty of the former depends on the toughness of the hide. The difficulty of a Skinning maneuver depends on the frailty of the hide and the amount of the pelt to be preserved.",
+      "specialties": [
+        "Any specific animal."
+      ],
+      "example_difficulties": {
+        "Routine": "Obtaining an intact tail.",
+        "Easy": "Skinning a cow or pig.",
+        "Light": "Obtaining an intact pelt from a poisoned animal.",
+        "Medium": "Skinning a deer.",
+        "Hard": "Obtaining an intact pelt that includes the head.",
+        "Very Hard": "Skinning an alligator or snake.",
+        "Extremely Hard": "Obtaining an intact pelt ready for stuffing.",
+        "Sheer Folly": "Skinning a Dragon.",
+        "Absurd": "Obtaining an intact Dragon pelt."
+      }
+    },
+    "Stone-crafts": {
+      "optional_stats": "Ag/Me/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of stone-working depends on the intricacy of the final product. Even a large, bulky product might require very detailed workmanship in order to function properly (e.g., an ornate carving). Like many Crafts skills, this skill assumes that the craftsman has an adequate supply of tools. Without the necessary implements, there is little a craftsman can do. (Increase all maneuvers by at least 3 difficulty levels.)",
+      "specialties": [
+        "Any specific object."
+      ],
+      "example_difficulties": {
+        "Routine": "Making a crude object (e.g., a brick).",
+        "Easy": "Making an object that requires a single stone, and no detailed crafting (e.g., quarrying).",
+        "Light": "Cutting a stone into a shape with nonright angles (e.g., a triangle).",
+        "Medium": "Building a simple stone wall.",
+        "Hard": "Cutting a gem stone into a basic shape (this does not add any value to the stone).",
+        "Very Hard": "Building a structure that has many arches, domes or other challenging portions.",
+        "Extremely Hard": "Cutting a gem stone into an exquisite shape in order to increase its value.",
+        "Sheer Folly": "Building an architect's masterpiece that includes dramatic curves and careful attention to detail.",
+        "Absurd": "Cutting a magical or enchanted gem stone (like laen)."
+      }
+    },
+    "Trapping": {
+      "optional_stats": "Ag/Me/Em",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is similar to Hunting. The character uses this skill to identify good locations in which to trap animals whose fur can be sold for profit. A successful maneuver indicates that the trapper has found a suitable location; a Setting Traps maneuver is necessary to actually trap the animals. As a general rule, a trapper can obtain enough food for one person for one day every strategic turn. If the trapper is interested in a specific pelt, he will obtain one pelt every week of salable quality for every strategic turn he spends checking his traps each day. (Thus, a trapper that spends 8 hours a day working will obtain 2 pelts per week.)",
+      "specialties": [
+        "Any specific climate/region."
+      ],
+      "example_difficulties": {
+        "Routine": "Finding animals in a stocked preserve.",
+        "Easy": "Finding animals in an area where most of the natural predators have been killed.",
+        "Light": "Finding animals in a young forest.",
+        "Medium": "Finding animals in a mature forest; the lack of undergrowth limits the supply of food.",
+        "Hard": "Finding animals in plains.",
+        "Very Hard": "Finding animals in an area that has been hunted heavily (or the game scared off by impending danger).",
+        "Extremely Hard": "Finding animals in a tundra or other sparsely populated region.",
+        "Sheer Folly": "Finding animals in a normal desert.",
+        "Absurd": "Finding animals in an especially arid desert."
+      }
+    },
+    "Wood-crafts": {
+      "optional_stats": "Ag/Me/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of Wood-crafts depends on the intricacy of the final product. An ornate carving is more difficult than a simple dwelling. Like many Crafts skills, this skill assumes that the craftsman has an adequate supply of tools. Without the necessary implements, there is little a craftsman can do. (Increase all maneuvers by at least 3 difficulty levels.)",
+      "specialties": [
+        "Any specific object."
+      ],
+      "example_difficulties": {
+        "Routine": "Making a crude object (e.g., a staff or club).",
+        "Easy": "Making an object that requires a single piece of wood and no real craftsmanship (e.g., a shovel).",
+        "Light": "Fashioning a simple object that requires multiple pieces of wood (e.g., a box or crate).",
+        "Medium": "Building a simple wooden palisade.",
+        "Hard": "Making a simple wood carving whose features are more symbolic than realistic (e.g., an artificial arm).",
+        "Very Hard": "Building a dwelling with multiple rooms.",
+        "Extremely Hard": "Making a realistic wood carving.",
+        "Sheer Folly": "Building an architect's masterpiece that includes dramatic curves and careful attention to detail.",
+        "Absurd": "Making a life-like carving out of enchanted wood."
+      }
+    }
+  },
+  "source": "sohk",
+  "book": "School of Hard Knocks (book 5808)",
+  "group_notes": "The goal of a crafter is the creation of some item. The difficulty of this attempt depends on the complexity of the object to be created, not on the size of the object. On the other hand, the size of the object to be created is the single most important factor when determining how long it will take to complete a project. Note that more difficult projects will automatically take longer than easier ones simply due to the fact that partial successes are more likely. The average amount of time required to complete many common items is listed in RMFRP and Gamemaster Law . Other production times can be extrapolated from there; The length of time required to construct a building is described in Castles & Ruins . A maneuver roll should not be made until the item is at least half finished. At this time, the GM may wish to allow the player to make the maneuver roll before deciding whether or not to finish the project. Note that all craftsmen require tools and supplies. A complete set of tools generally costs from 10 silver pieces (sp) to 1000 sp depending on the size of the workshop. In addition, the craftsman must purchase raw materials. These generally cost half as much as the item. It takes years for a craftsman to become rich. Finally, many cities require craftsmen to belong to the appropriate guild, which will invariably require the craftsman to pay yearly dues of 1-10 sp. However, the craftsman is more likely to receive work when he belongs to a guild, and he can usually get a discount on raw materials (5-10%)."
+}

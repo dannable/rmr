@@ -483,12 +483,32 @@ export interface SkillCategory {
   parent_group: string | null;
   classification: string | null;
   description: string | null;
+  /**
+   * Category-specific notes from "School of Hard Knocks" (book 5808).
+   * Reserved for future use; SOHK's Section 5 prose currently lives at
+   * the group level on `SkillGroupDetail.sohk_notes`.
+   */
+  sohk_notes: string;
+}
+
+/**
+ * Per-skill supplemental data from "School of Hard Knocks". All
+ * fields default to empty when SOHK doesn't elaborate this skill.
+ */
+export interface SOHKData {
+  optional_stats: string;
+  ep_cost: string;
+  distance_multiplier: string;
+  notes: string;
+  specialties: string[];
+  example_difficulties: Record<string, string>;
 }
 
 export interface SkillEntry {
   name: string;
   stat: string | null;
   description: string | null;
+  sohk_data: SOHKData;
 }
 
 export interface SkillTableRow {
@@ -518,6 +538,12 @@ export interface SkillGroupDetail {
   name: string;
   page_div: number;
   page_content: number;
+  /**
+   * Group-level prose from "School of Hard Knocks" Section 5 — general
+   * rules / GM guidance that applies to the whole category family.
+   * Empty when SOHK doesn't cover this group.
+   */
+  sohk_notes: string;
   categories: SkillCategory[];
   skills: SkillEntry[];
   tables: SkillTable[];

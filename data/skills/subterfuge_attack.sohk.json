@@ -1,0 +1,48 @@
+{
+  "skills": {
+    "Ambush": {
+      "optional_stats": "Ag/SD/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of an ambush maneuver is dependent on two factors. Small, blunt objects are the most useful when attempting to subdue. Small, sharp objects are the most useful when attempting to kill. In addition, the ambusher needs access to the target's head (or other weak point). For each difference in size, the difficulty level is increased by one. For example, a Halfling is attempting to ambush a large Ogre. Since the Ogre is two sizes larger, the maneuver is increased by two levels of difficulty.",
+      "specialties": [
+        "Any specific race.",
+        "Any specific weapon (GM approval)."
+      ],
+      "example_difficulties": {
+        "Routine": "Attacking to subdue or kill while invisible, or otherwise undetectable (beyond the abilities of Stalking or Hiding).",
+        "Easy": "Attacking to subdue with a blackjack, garrote, or other small subdual weapon.",
+        "Light": "Attacking to subdue with the pommel of a weapon. Attacking to kill with a small, sharp weapon (e.g., dagger).",
+        "Medium": "Attacking to subdue with a medium sized blunt weapon (e.g., club, mace, etc.). Attacking to kill with a medium sized sharp weapon (e.g., axe, long sword).",
+        "Hard": "Attacking to subdue with a large, blunt weapon (e.g., war mattock, staff, etc.) or a sharp weapon. Attacking to kill with a large, sharp weapon (e.g., battle axe, bastard sword, etc.).",
+        "Very Hard": "Attacking to subdue with a large, sharp weapon. Attacking to kill with a chain weapon (e.g., morning star, flail, etc.).",
+        "Extremely Hard": "Attacking to subdue with a chain weapon.",
+        "Sheer Folly": "Attacking to kill with a ranged weapon.",
+        "Absurd": "Attacking to subdue with a ranged weapon."
+      }
+    },
+    "Silent Attack": {
+      "optional_stats": "Ag/SD/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of a Silent Attack maneuver depends on how armored the attacker and victim are. It is also facilitated by a cushioned surface.",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {
+        "Routine": "Neither party is wearing armor; the floor has pillows or thick carpeting.",
+        "Easy": "The attacker is wearing leather armor.",
+        "Light": "The victim is wearing leather armor.",
+        "Medium": "Both the attacker and victim are wearing leather armor.",
+        "Hard": "The attacker is wearing metal armor.",
+        "Very Hard": "The victim is wearing chain armor.",
+        "Extremely Hard": "The victim is wearing plate armor.",
+        "Sheer Folly": "Both the attacker and victim are wearing metal armor.",
+        "Absurd": "The victim is a construct or other automaton."
+      }
+    }
+  },
+  "source": "sohk",
+  "book": "School of Hard Knocks (book 5808)",
+  "group_notes": "Subterfuge skills are generally used to prevent others from noticing some misdeed. The difficulty of such a maneuver should not depend on the skill of potential observers. The difficulty of Subterfuge maneuvers depends only on the nature of the maneuver itself. In addition, lighting conditions thwart vision, they do not make Subterfuge maneuvers more simple. In fact, it might be quite difficult to find a hiding place in the dark, but harder still to find the person hiding. Whenever a Subterfuge maneuver is made, the GM should note the level of success attained by the character (e.g., Partial Success, Success, Failure, etc.). Intentional attempts to discover the Subterfuge maneuver (using an Awareness • Searching skill) requires a maneuver roll at least as successful as the Subterfuge maneuver. For example, if a thief attempted a Stealth maneuver and got a 159 (Success), an observer needs to roll a 111-175 (Success) to discover the hiding person. If the observer's result is a Partial Success or better, the observer might become suspicious even if the hiding person was not located. If the observer is relying on unconscious Awareness skills (Awareness • Senses or Alertness), his result must exceed that of the hiding person. In the above example, the observer would need a 176 or better (Absolute Success) to locate the hiding person. If the maneuver result is equal to that of the Subterfuge maneuver, and the Awareness maneuver is a Partial Success or better, the observer might become suspicious. Subterfuge • Stealth and Subterfuge • Attack maneuver rolls are required every round. These tasks take at most a single round, and occasionally less. Subterfuge • Mechanics maneuvers generally take one round times the difficulty level, squared. Notable exceptions include Forgery and Trap Building, which take longer."
+}

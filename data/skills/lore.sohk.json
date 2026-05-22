@@ -1,0 +1,471 @@
+{
+  "skills": {
+    "Fauna Lore": {
+      "optional_stats": "Me/Re/Em",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill provides a character with information about animals, their abilities and their activities. Successful use of this skill may allow a player to read certain portions of Creatures & Monsters (or at least receive a summary from the GM). This skill is useful in determining what animals can be found in a particular area and in providing information about those animals.",
+      "specialties": [
+        "Any specific species.",
+        "Any specific region/climate."
+      ],
+      "example_difficulties": {}
+    },
+    "Flora Lore": {
+      "optional_stats": "Me/Re/Em",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill provides a character with information about plants, their abilities and their activities. Successful use of this skill may allow a player to read certain portions of Creatures & Monsters (or at least receive a summary from the GM). This skill is useful in determining what plants can be found in a particular area and in providing information about those plants.",
+      "specialties": [
+        "Any specific species.",
+        "Any specific region/climate."
+      ],
+      "example_difficulties": {}
+    },
+    "Heraldry": {
+      "optional_stats": "Me/Re/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill allows a character to gain knowledge about the heraldic crests of a specific region/culture. The GM may want to provide the player with specific information before play begins. Knowledge of heraldry also implies a general understanding of politics. Crests are used to identify friend from foe. Thus, a herald can identify his enemies and allies if they are displaying a banner. In addition, coats-of-arms are used to trace lineage. As families branch and merge, their symbols also evolve. A herald is familiar with the genealogy of an area. Common crests are those displayed by lords and rulers. Uncommon crests are worn by organizations and merchant families. Personal crests are unique to a family name, but families that are closely connected will have similar crests.",
+      "specialties": [
+        "Any specific family, country, group, etc."
+      ],
+      "example_difficulties": {
+        "Routine": "Identifying a common crest as local. Recognizing the king's crest.",
+        "Easy": "The ability to reproduce the most common crests in the area.",
+        "Light": "Knowledge of the rulers that use a specific common crest.",
+        "Medium": "The ability to reproduce all common crests and some rare crests. Identifying the general alignment of a group based on the crest they display.",
+        "Hard": "Identifying uncommon crests and knowledge of those groups' affiliations.",
+        "Very Hard": "The ability to reproduce an uncommon crest.",
+        "Extremely Hard": "Identifying a personal crest and knowledge of the family-head that uses that crest.",
+        "Sheer Folly": "Identifying an individual by his crest.",
+        "Absurd": "Identifying the coat-of-arms of a foreign family that visited the area years ago."
+      }
+    },
+    "History": {
+      "optional_stats": "Me/Re/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill provides characters with historical information. The GM may want to provide some information prior to play. This information is useful in understanding current affairs, identifying historical landmarks and points of interest, and successful time travel. In order to determine the difficulty of a History maneuver, the significance of the event in question must first be determined. A character with an equivalent knowledge level is familiar with the event. The amount of additional information the character is aware of depends on the maneuver attempted. For example, a character with knowledge level 4 is able to attempt a Medium maneuver about an event with significance 5 (e.g., a minor war), and can attempt a Light maneuver (difficulty 3) in order to determine the cause of the conflict.",
+      "specialties": [
+        "Wars, politics, inventions, etc."
+      ],
+      "example_difficulties": {
+        "Routine": "Familiarity with an event within the area of study (e.g., a nation's birth, wars, etc.).",
+        "Easy": "Familiarity with the most famous people involved in an event (e.g., kings, generals, etc.).",
+        "Light": "Knowledge of the events that influenced and shaped an event (e.g., how a war started, major battles, etc.).",
+        "Medium": "Insight into the interrelations between events (e.g., a depression influencing a leader's decision to declare war).",
+        "Hard": "Knowledge of the minor characters' involvement in the event (e.g., aides, heroes, etc.).",
+        "Very Hard": "Relating historical events to current affairs in order to gain insight into problem resolution or behavior prediction.",
+        "Extremely Hard": "Knowledge of the details of an event (e.g., troop movements).",
+        "Sheer Folly": "Accurately and concisely integrating all aspects of an event into a useful summary such that others can share the insight.",
+        "Absurd": "Knowledge of the minutiae of an event (e.g., which individuals were where on a battlefield)."
+      }
+    },
+    "Philosophy": {
+      "optional_stats": "Me/Re/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Philosophy is the study of thought. There are many branches of philosophy. all of which strive for enlightenment and truth through the application of logic. (Even though logic itself is a philosophical field.) At the core of most doctrines is the search for morality. that which should be done for its own sake. The difficulty of a Philosophy maneuver depends on the amount of logic and faith to be applied to a given situation. Memorizing the tenets of a philosophy is much easier than applying those maxims accurately. Note that different philosophies will find different situations difficult. Most schools of philosophy fall into three major categories:",
+      "specialties": [
+        "Any school of thought."
+      ],
+      "example_difficulties": {
+        "Routine": "Reciting the major tenets of a doctrine.",
+        "Easy": "Memorizing examples that demonstrate the major tenets.",
+        "Light": "Applying a philosophical belief to a simple situation (i.e., one in which there is an obvious correct answer). For example, demonstrating that it is wrong to cheat on a test.",
+        "Medium": "Knowledge of more subtle facets of a philosophy. This includes a critical analysis of its weaknesses.",
+        "Hard": "Applying a philosophical belief to a complex situation (i.e., one in which multiple parties have valid cases).",
+        "Very Hard": "Familiarity with classic examples of conundrums that have been solved. (Is it wrong to tell a murderer that the person he is hunting is not in your house to protect the potential victim. even though you are lying?)",
+        "Extremely Hard": "Resolving an untenable position. For example, finding a resolution (from a situational view) to a set of circumstances in which no alternative maximizes the outcome.",
+        "Sheer Folly": "Producing a new school of philosophical thought that resolves one or more dilemmas. (New dilemmas will inevitably arise.)",
+        "Absurd": "Demonstrating that all possible situations have been addressed. without contradiction."
+      }
+    },
+    "Region Lore": {
+      "optional_stats": "Re/Me/Re",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill provides characters and players with information about a single region. This allows the character to identify landmarks and other significant features {like havens, etc.). This skill is useful for determining which location best meets certain criteria. All characters begin with a rudimentary knowledge of their home region, enough to identify major landmarks.",
+      "specialties": [
+        "Any specific area within the region."
+      ],
+      "example_difficulties": {
+        "Routine": "Identifying the major cities in an area.",
+        "Easy": "Identifying the most important landmarks.",
+        "Light": "Identifying the significance of medium-sized cities.",
+        "Medium": "Identifying the historical significance of an area. Identifying a location that matches a general set of criteria (e.g., Where is there a good inn?).",
+        "Hard": "Identifying small towns including their most prominent features.",
+        "Very Hard": "Identifying minor landmarks.",
+        "Extremely Hard": "Identifying a location that matches a very specific set of criteria (e.g., Where is there an inn that has a secret chamber and a back door?).",
+        "Sheer Folly": "Identifying every feature of the GM's map, including details of such locations.",
+        "Absurd": "Knowledge of most buildings larger than an abode in the region."
+      }
+    },
+    "Religion": {
+      "optional_stats": "Me/Re/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill provides characters with knowledge of one or more religions. The GM may want to provide the player with some information prior to play. Knowledge of religion is useful in understanding motivations and beliefs, which can be heavily influenced by religion. A successful Religion maneuver might provide a character with insight into a religious leader's reaction to an event, or how to motivate a congregation into action. This skill can also be used to defend the tenets of a faith within a certain context. (If God is good, why is there evil in the world?) Note that this skill is used to defend a belief, not create it.",
+      "specialties": [
+        "Any specific religion."
+      ],
+      "example_difficulties": {
+        "Routine": "Simple faith.",
+        "Easy": "Knowledge of common beliefs and rituals.",
+        "Light": "Understanding of how a person should live one's life, based on the tenets of a faith. Predicting the behavior of a fanatic or zealot.",
+        "Medium": "Resolving common religious dilemmas (e.g., can a peaceful person defend himself?).",
+        "Hard": "Knowledge of uncommon rituals and an understanding of how the beliefs relate to one another.",
+        "Very Hard": "Intimate understanding of how the religion fits into a cultural and historical context. Predicting the behavior of a highly spiritual person.",
+        "Extremely Hard": "Resolving difficult religious dilemmas (e.g., when can a peaceful faith declare war?).",
+        "Sheer Folly": "Predicting the behavior of a devout follower. Creating a new religious doctrine that incorporates aspects of one or more other doctrines.",
+        "Absurd": "Predicting the behavior of the common follower whose decisions are only slightly modified by his beliefs."
+      }
+    },
+    "Artifact Lore": {
+      "optional_stats": "Me/Re/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill provides characters (and players) with information about magic items they encounter or with which they are familiar. This skill is only useful if some source of information exists about the item in question. This may include legends, bardic recitations, word of mouth, reputation, etc. The potency of magic items that can be identified with this skill is dependent on the amount of magic in the campaign. In a standard fantasy game, this skill can only identify those items that require an Alchemist of at least 11th level. The item must also have specific abilities (e.g., a scholar may recognize Celebtil, sword of the High Elves, but could not identify a +20 magical blade). The maneuver is one difficulty level harder if the scholar is attempting to identify an item from its description and cannot see the item.",
+      "specialties": [
+        "Any specific type of item (potions, swords, etc.).",
+        "Items crafted by a specific individual."
+      ],
+      "example_difficulties": {
+        "Routine": "Identifying an object created by one or more divine entities (gods) about which ballads are sung. Identifying the purpose of such an object.",
+        "Easy": "Identifying an object of divine origin. Identifying the general function of such an object.",
+        "Light": "Identifying an object of great historical significance (e.g., Rolan's sword). Getting a general description of the most powerful abilities of such an object.",
+        "Medium": "Identifying an object that requires an Alchemist of at least 26th level. Getting a general description of the abilities of such an object.",
+        "Hard": "Identifying an object that requires an Alchemist of at least 21st level. Getting a general idea of how to destroy or counter such an object.",
+        "Very Hard": "Identifying an object that requires an Alchemist of at least 16th level. Getting a general idea of how to destroy or counter such an object.",
+        "Extremely Hard": "Identifying an object that requires an Alchemist of at least 11th level. Getting a specific description of the abilities of such an object (including charges, ranges, etc.).",
+        "Sheer Folly": "Identifying the steps involved in creating a magical item. Getting a general idea of the location (if lost or missing) of such an object.",
+        "Absurd": "Identifying nearly every aspect of a magical item's history. Getting a specific idea of the location (if lost or missing) of such an object."
+      }
+    },
+    "Circle Lore": {
+      "optional_stats": "Me/Re/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Circles are typically used to provide protection from Demons, spirits, or other ethereal beings. This skill allows a character to identify the circles produced by others (either magical or protective). A character may also be able to design and implement his own circles. If this is the case, the difficulty of the maneuver determines the maximum level of spirit that can be prevented from entering the circle. If the spirit's name is known, the protective circle will be more effective. If the GM is using other magical circles, the character may be able to glean more information from the circle. If Essence Companion is being used, an essence spell-caster can produce a circle even if he doesn't know the spell being imbedded if he has studied another spell-caster's circle. A spell user automatically knows a number of circle spells equal to the number of ranks he has in Circle Lore squared. Additional circles must be encountered and studied.\n\nOption: If the GM is not using Essence Companion , allow Symbol Lore to be used to create a circle or a symbol.",
+      "specialties": [
+        "Any specific type of protective circle (e.g., vs. Man-Demons, vs. Sidhe, etc.).",
+        "Circles pertaining to a specific spell list (see the Essence Companion )."
+      ],
+      "example_difficulties": {
+        "Routine": "Identifying which creature a protective circle is designed to be used against.",
+        "Easy": "Identifying the approximate power of a circle (i.e., how difficult it was (or would be) to create). Designing a minor protective circle, which blocks the appro: priate 1st level spirit).",
+        "Light": "Identifying the skill of the person who designed the circle. Designing a lesser protective circle, which blocks the appropriate 2nd or 3rd level spirit).",
+        "Medium": "Identifying the realm of a spell circle. Designing a greater protective circle, which blocks the appropriate 4th-8th level spirit). Learning a very low level (1-5) circle spell.",
+        "Hard": "Identifying from which spell list the spell imbedded in a circle originated. Designing a major protective circle, which blocks the appropriate 9th-15th level spirit). Learning a low level (6-10) circle spell.",
+        "Very Hard": "Identifying the individual who designed a circle, provided his work has been encountered by the character before. Designing a powerful protective circle, which blocks the appropriate 16th-24th level spirit. Learning a medium level (11-15) circle spell.",
+        "Extremely Hard": "Identifying which spell is imbedded in a circle. Designing a very powerful protective circle, which blocks the appropriate 25th-35th level spirit. Learning a high level (16-20) circle spell.",
+        "Sheer Folly": "Identifying the level of a spell imbedded in a spell circle. Designing a very powerful protective circle, which blocks the appropriate 26th-50th level spirit. Learning a very high level (21-50) circle spell.",
+        "Absurd": "Identifying a circle that contains an unknown spell or protects against an unknown spirit. Learning an extremely high level (51+) circle spell."
+      }
+    },
+    "Planar Lore": {
+      "optional_stats": "Me/Re/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill provides characters with knowledge about other planes of existence. The GM should discuss the extent of the character's knowledge with the player before play. The skill offers an understanding of how the planes of existence connect, how to travel from one to another, and how to survive on a plane whose environment is hostile or alien. During play, a character may use this skill to identify the quickest way home (if one exists), determine where a gate most likely leads, or recognize a multi-dimensional item. The difficulty of the maneuver depends on the proximity of the plane to the character's own.",
+      "specialties": [
+        "Any specific plane."
+      ],
+      "example_difficulties": {
+        "Routine": "Belief that other planes of existence are real. Easy: Knowledge that other planes of existence are real.",
+        "Light": "Knowledge of an adjacent plane (e.g., the ethereal). In most cases, this allows the character to identify the plane, how it relates to his plane, and basic survival techniques.",
+        "Medium": "Identifying ways of entering and exiting an adjacent plane.",
+        "Hard": "Knowledge of a plane two realms removed (Le., the plane borders on the ethereal, but not this reality).",
+        "Very Hard": "Identifying ways of entering and exiting a plane two realms removed.",
+        "Extremely Hard": "Knowledge of a plane more than two realms removed.",
+        "Sheer Folly": "Identifying planes that exist beyond reality (e.g., the home of the Chaos Demons). This knowledge invariably leads to insanity.",
+        "Absurd": "Knowledge of havens in insanely dangerous, planes of existence (e.g., hell)."
+      }
+    },
+    "Symbol Lore": {
+      "optional_stats": "Me/Re/Em",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Symbol Lore is used to identify the spell imbedded in a symbol by another caster. The GM might also allow this skill to be used to design new symbols. Reduce the difficulty level by one if the caster is attempting to identify the spell, not learn it. Note that a caster can memorize one symbol for every rank of Symbol Lore, plus his Memory bonus. (For example, if T'mar has an Memory bonus of +4 and 5 ranks of Symbol Lore, he could memorize 9 different symbols.)",
+      "specialties": [
+        "Symbols from a specific spell list."
+      ],
+      "example_difficulties": {
+        "Routine": "Recognizing a symbol as magical.",
+        "Easy": "Identifying the approximate power of a symbol.",
+        "Light": "Identifying the realm of a symbol.",
+        "Medium": "Learning a very low level (1-5) symbol.",
+        "Hard": "Learning a low level (6-10) symbol. Identifying a symbol's trigger.",
+        "Very Hard": "Learning a medium level (11-15) symbol.",
+        "Extremely Hard": "Learning a high level (16-20) symbol.",
+        "Sheer Folly": "Learning a very high level (21-50) symbol.",
+        "Absurd": "Learning an extremely high level (51+) symbol."
+      }
+    },
+    "Undead Lore": {
+      "optional_stats": "Me/Re/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill provides a character with information about Undead, their abilities and their activities. Successful use of this skill may allow a player to read certain portions of Creatures & Monsters (or at least receive a summary from the GM). This skill is useful in identifying Undead and their motivations, attack patterns, etc. A scholar may even be able to recognize Undead activity from indirect evidence (e.g., an increase in physical illness).",
+      "specialties": [
+        "Any specific type of Undead (e.g., Vampires, Wraiths, etc.).",
+        "Undead activity in a specific region."
+      ],
+      "example_difficulties": {}
+    },
+    "Warding Lore": {
+      "optional_stats": "Me/Re/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Warding Lore is used to identify the spell imbedded in a ward by another caster. The GM might also allow this skill to be used to design new wards. Reduce the difficulty level by one if the caster is attempting to identify the spell, not learn it. Note that a caster can memorize one ward for every rank of Warding Lore, plus his Memory bonus.",
+      "specialties": [
+        "Wards from a specific Spell List."
+      ],
+      "example_difficulties": {
+        "Routine": "Recognizing a ward as magical.",
+        "Easy": "Identifying the approximate power of a ward.",
+        "Light": "Identifying the realm of a ward.",
+        "Medium": "Learning a very low level (1-5) ward.",
+        "Hard": "Learning a low level (6-10) ward. Identifying a ward's trigger.",
+        "Very Hard": "Learning a medium level (11-15) ward.",
+        "Extremely Hard": "Learning a high level (16-20) ward.",
+        "Sheer Folly": "Learning a very high level (21-50) ward.",
+        "Absurd": "Learning an extremely high level (51+) ward."
+      }
+    },
+    "Demon/Devil Lore": {
+      "optional_stats": "Me/Re/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill provides a character and player with information about Demons. their abilities and their activities. Successful use of this skill may allow a player to read certain portions of Creatures & Monsters (or at least receive a summary from the GM). This skill is useful in identifying Demons and their motivations. attack patterns. etc. A scholar may even be able to recognize Demonic activity from indirect evidence (e.g., an increase in mental illness).",
+      "specialties": [
+        "Any specific type of Demon (e.g., Man-Demons. Elf-Demons. etc.) Demonic activity in a specific region."
+      ],
+      "example_difficulties": {
+        "Routine": "Identifying a creature as a Demon in its true form.",
+        "Easy": "Knowledge of the major types of Demons and their general differences. This includes Demon lords.",
+        "Light": "Identifying a specific type of Demon in its true form. Knowledge of most Demons general abilities.",
+        "Medium": "Knowledge of each type of Demon's specific apilities. Knowledge of Demon hierarchy; status is roughly approximate to a Demon's type.",
+        "Hard": "Knowledge of the structure of Demon society and which Demons are likely to be encountered in each other's presence. This includes knowledge of who the Demon generals are (those Demons who work closely with the Demon lords).",
+        "Very Hard": "Knowledge of which Demons bear enmity towards other Demons. This might allow one actually \"to survive an encounter with a large number of Demons (while in the Pale, for example).",
+        "Extremely Hard": "Knowledge of Demonic history as well as all of the major Demons, including their names and personalities.",
+        "Sheer Folly": "A complete understanding of the intricacies of Demonic culture, goals, and habits. This level of understanding might threaten a character's sanity.",
+        "Absurd": "Knowledge of a specific minor Demon, by name alone."
+      }
+    },
+    "Dragon Lore": {
+      "optional_stats": "Me/Re/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill provides a character with information about Dragons, their abilities and their activities. Successful use of this skill may allow a player to read certain portions of Creatures & Monsters (or at least receive a summary from the GM). This skill is useful in identifying Dragons and their motivations, attack patterns, etc. A scholar may even be able to recognize Draconic activity from indirect evidence (e.g., a slow decline in the wealth of an area).",
+      "specialties": [
+        "Any specific type of Dragon (e.g., Cave Drake, Fire Drake, etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "Identifying whether a creature is a Great, Lesser, or Minor drake.",
+        "Easy": "Identifying the approximate age of a Great Drake. Knowledge of the abilities common to each of the major classifications of Dragons (Great, Lesser and Minor).",
+        "Light": "Identifying a specific type of Dragon. Knowledge of most Dragons' general abilities (e.g., the petrifaction ability of a Basilisk) including its preferred climate and terrain.",
+        "Medium": "Knowledge of each type of Dragon's specific abilities. This includes the frequency with which a Dragon can use its abilities. Knowledge of Dragon culture, religion, and status.",
+        "Hard": "Specific knowledge pertaining to Dragon society and customs. This includes the appropriate protocols to prevent a Dragon from eating you on sight.",
+        "Very Hard": "Knowledge of Dragon sub-cultures and conflicts. This provides a character with an understanding of Draconic motivation.",
+        "Extremely Hard": "Knowledge of Draconic history as well as all of the major Dragons, including their names and personalities.",
+        "Sheer Folly": "A complete understanding of the intricacies of Draconic culture, goals, and habits. This level of familiarity with Dragons might enable a scholar to predict a Dragon's reaction to a certain situation.",
+        "Absurd": "Complete knowledge of a Dragon given its name."
+      }
+    },
+    "Faerie Lore": {
+      "optional_stats": "Me/Re/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill provides a character with information about Faeries, their abilities and their activities. Successful use of this skill may allow a player to read certain portions of Creatures & Monsters (or at least receive a summary from the GM). This skill is useful in identifying Faeries and their motivations, attack patterns, etc. A scholar may even be able to recognize fey activity from indirect evidence (e.g., an increase in unexplained magical phenomena).",
+      "specialties": [
+        "Any specific type of Faerie (e.g., Rural Spirits, Elves, Occupational Spirits, etc.).",
+        "Fey activity in a specific region."
+      ],
+      "example_difficulties": {
+        "Routine": "Identifying a creature as a Faerie (assuming it is in its true form).",
+        "Easy": "Knowledge of the major types of Faeries and their general differences. This includes Faerie queens.",
+        "Light": "Identifying a specific type of Faerie in its true form. Knowledge of most Faeries' general abilities.",
+        "Medium": "Knowledge of each type of Faerie's specific abilities. Knowledge of the Faerie court and the role each of the fey races plays in that court.",
+        "Hard": "Knowledge of the structure of fey society and which Faeries are likely to be encountered in each other's presence. This includes knowledge of who the most prominent Faeries are.",
+        "Very Hard": "Knowledge of which Faeries bear enmity towards other Faeries. The struggles between the Seelie and Unseelie Courts are legendary in their scope.",
+        "Extremely Hard": "Knowledge of fey history as well as all of the major Faeries, including their names and personalities.",
+        "Sheer Folly": "A complete understanding of the intricacies of fey culture, goals, and habits. This level of understanding might threaten a character's sanity.",
+        "Absurd": "Knowledge of a specific Faerie, by name alone."
+      }
+    },
+    "Xeno-lores": {
+      "optional_stats": "Varies",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is treated like whatever other Lore skill it is replacing.",
+      "specialties": [
+        "Varies."
+      ],
+      "example_difficulties": {}
+    },
+    "Herb Lore": {
+      "optional_stats": "Me/Re/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of locating an herb is indicated in RMFRP . That provides the difficulty of finding such an herb in the wild. The number associated with the difficulty of finding a given herb indicates its rarity. If a character has 4 ranks in Herb Lore (i.e., knowledge level 3), he is familiar with rewk (t-D-3), including how to prepare it. He knows that yavethalion (m-O-S) provides concussion relief and that akbutege (s-0-2) heals 1-10 hits.",
+      "specialties": [
+        "Any specific climate or locale.",
+        "Any specific category of herbs."
+      ],
+      "example_difficulties": {
+        "Routine": "Knowledge of category (e.g., bone repair, muscle repair, etc.).",
+        "Easy": "Knowledge of climate/locale codes (e.g., m-U).",
+        "Light": "Knowledge of form/prep (e.g., flower/ingest).",
+        "Medium": "Knowledge of specific effects (e.g., heals 1-10 hits).",
+        "Hard": "Knowledge of market value.",
+        "Very Hard": "Knowledge of addiction factor.",
+        "Extremely Hard": "Identifying an herb in its prepared state.",
+        "Sheer Folly": "Knowledge of the combined effects of two herbs in the same category.",
+        "Absurd": "Knowledge of the combined effects of two herbs in different categories."
+      }
+    },
+    "Lock Lore": {
+      "optional_stats": "Me/Re/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is used to identify a lock in order to determine the type of locking mechanism and type of key. A successful maneuver may assist a thief in a Picking Locks maneuver. This skill is also used to determine the strength or other attributes of a lock. Note that the subsequent maneuver bonus should be doubled when using Lock Lore.",
+      "specialties": [
+        "Any specific type of lock."
+      ],
+      "example_difficulties": {
+        "Routine": "Identifying the type of lock (e.g., dead-bolt, sliding bolt. padlock. bar. etc.).",
+        "Easy": "Identifying the type of key (i.e., the general shape).",
+        "Light": "Identifying the strength of the lock. The character can estimate how difficult it would be to destroy the lock.",
+        "Medium": "Designing a mold of the key (from a disassembled lock). Creating a key from this requires a maneuver with the appropriate Crafts skill.",
+        "Hard": "Knowledge of the internal mechanics of the lock by observing its exterior. (This could be used to jam the lock as well as pick it.)",
+        "Very Hard": "Designing a mold of the key (from an intact lock).",
+        "Extremely Hard": "Knowledge of how long it would take to pick a given lock.",
+        "Sheer Folly": "Knowledge of what triggers can be attached to a given type of lock.",
+        "Absurd": "Identifying the designer of the lock."
+      }
+    },
+    "Metal Lore": {
+      "optional_stats": "Me/Re/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The skill provides the character and player with knowledge about the metals found in a specific region. Unlike many Lore skills, the GM will probably not be able to provide the player with information prior to play. The rarity of a given metal must first be determined. Common metals (like iron) probably have a rarity of 1. Precious metals and alloys have a higher rarity rating, and magical and enchanted metals, the highest rarity rating. See Section 5.8 for more information about Lore maneuvers.",
+      "specialties": [
+        "Any specific region."
+      ],
+      "example_difficulties": {
+        "Routine": "Identifying a metal.",
+        "Easy": "Identifying a precious metal. (Silver, electrum and platinum are all very similar.)",
+        "Light": "Identifying an alloy.",
+        "Medium": "Determining the purity of a metal.",
+        "Hard": "Determining the relative strength of an alloy.",
+        "Very Hard": "Determining if a metal has any flaws (e.g., stress fractures, impurities, air bubbles, etc.).",
+        "Extremely Hard": "Identifying an alloy that includes foreign metals.",
+        "Sheer Folly": "Knowledge of any magical or supernatural properties inherent in a metal.",
+        "Absurd": "Precise information about every known use for a metal."
+      }
+    },
+    "Poison Lore": {
+      "optional_stats": "Me/Re/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of locating a poison is indicated in RMFRP (p. 149). That provides the difficulty of finding such a poison in the wild. The number associated with the difficulty of finding a given poison indicates its rarity. If a character has 5 ranks in Poison Lore (i.e., knowledge level 4), he is familiar with jitsu (m-0-4), including its specific effects. He knows that zaganzar (t-M-6) can be found in temperate mountains and that silmaana (s-0-2) is a level 9 poison with no addiction factor.",
+      "specialties": [
+        "Any specific climate or locale.",
+        "Any specific category of poison."
+      ],
+      "example_difficulties": {
+        "Routine": "Knowledge of category (e.g., circulatory, respiratory, etc.).",
+        "Easy": "Knowledge of climate/locale codes (e.g., m-U).",
+        "Light": "Knowledge of form/preparation (e.g., root/paste).",
+        "Medium": "Knowledge of specific effects (e.g., delivers 1-100 hits).",
+        "Hard": "Knowledge of market cost and antidotes.",
+        "Very Hard": "Knowledge of addiction factor and level.",
+        "Extremely Hard": "Identifying a poison in its prepared state.",
+        "Sheer Folly": "Knowledge of the combined effects of two poisons in the same category.",
+        "Absurd": "Knowledge of the combined effects of two poisons in different categories."
+      }
+    },
+    "Stone Lore": {
+      "optional_stats": "Me/Re/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The skill provides the character with knowledge about the stones found in a specific region. Unlike many Lore skills, the GM will probably not be able to provide the player with information prior to play. The rarity of a given stone must first be determined. Common rocks (like sandstone or clay) probably have a rarity of 1. Precious stones have a higher rarity rating, magical and enchanted stones, the highest rarity rating. See Section 5.8 (p. 17) for more information about Lore maneuvers.",
+      "specialties": [
+        "Any specific culture."
+      ],
+      "example_difficulties": {
+        "Routine": "Identifying a precious stone.",
+        "Easy": "Identifying a sedimentary stone.",
+        "Light": "Identifying a metamorphic or igneous stone.",
+        "Medium": "Determining the purity of a stone.",
+        "Hard": "Determining the relative strength of a mineral.",
+        "Very Hard": "Determining if a stone has any flaws (e.g., stress fractures, impurities, etc.).",
+        "Extremely Hard": "Identifying a stone from another area of the world.",
+        "Sheer Folly": "Knowledge of any magical or supernatural properties inherent to a stone.",
+        "Absurd": "Precise information about every known use for a stone."
+      }
+    },
+    "Trading Lore": {
+      "optional_stats": "Me/Re/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill provides characters and players with knowledge about economic and market forces. This knowledge can be used to invest wisely, or determine the best market for a particular good. Additional knowledge provides the character the ability to make long term predictions. The difficulty of the maneuver depends on how familiar the character is with the market, and how far ahead the character is speculating.",
+      "specialties": [
+        "Any specific city/region."
+      ],
+      "example_difficulties": {
+        "Routine": "Knowledge of today's prices locally.",
+        "Easy": "Knowledge of current market prices in the area.",
+        "Light": "Knowledge of current market prices.",
+        "Medium": "Knowledge of general exchange rates in various locales.",
+        "Hard": "Predicting tomorrow's market prices and exchange rates.",
+        "Very Hard": "Predicting one week from now.",
+        "Extremely Hard": "Predicting one month from now.",
+        "Sheer Folly": "Predicting one year from now.",
+        "Absurd": "Predicting five years from now."
+      }
+    },
+    "Culture Lore": {
+      "optional_stats": "Me/Re/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill provides characters and players with information about a single culture. This allows the character to understand and mimic various customs and habits. This skill is useful for blending in as well as for predicting behavior (or at least understanding it). All characters begin with enough ranks to be familiar with the common customs of their own culture, but not enough to understand the origins of such customs.",
+      "specialties": [
+        "Any specific sub-culture (e.g., nobility, farmers, sailors, etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "Knowledge of major holidays/festivals and when they occur. Knowledge of common stereotypes.",
+        "Easy": "Knowledge of how all major and some minor holidays are celebrated. Knowledge of most everyday practices/rituals (e.g., shaking hands as a greeting).",
+        "Light": "Knowledge of the background of most holidays. Knowledge of all everyday practices as well as some more rare practices (e.g., toasting a host).",
+        "Medium": "Knowledge of most social protocols and their origins. As an example, read any Miss Manners column.",
+        "Hard": "Predicting which cultural traits will be expressed by an individual with whom you are intimately familiar.",
+        "Very Hard": "Knowledge of how various sub-cultures interact and why. This includes knowledge of how best to alleviate any tensions.",
+        "Extremely Hard": "Predicting which cultural traits will be expressed by an individual who has been closely observed.",
+        "Sheer Folly": "Knowledge of the cultures from which a given culture evolved. This includes an intimate understanding of how these cultures view each other now and how best to alleviate any tensions.",
+        "Absurd": "Predicting which cultural traits will be expressed by an individual who has been described to you."
+      }
+    },
+    "Spell Lore": {
+      "optional_stats": "Me/Re/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill requires 100% activity the round it is used. A character can reduce this to a minimum of 60% by taking a penalty of -1 for every percentage point below 100%. This skill cannot be used to read runes, although it can be used to assist a character in deciphering a magical tome or libram. The realm of the spell determines the difficulty of the maneuver. Use of this skill assumes that two rounds were spent preparing the spell. If more or less time is spent preparing the spell, the difficulty of the maneuver is modified by one difficulty level for every round of difference. Instantaneous spells have a straight -30 mod.",
+      "specialties": [
+        "Any specific realm."
+      ],
+      "example_difficulties": {
+        "Easy": "The spell's realm is the same as the realm of the character making the Spell Lore maneuver.",
+        "Medium": "Essence spell (not same realm as maneuverer).",
+        "Hard": "Channeling spell (not same realm as maneuverer).",
+        "Very Hard": "Mentalism spell (not same realm as maneuverer).",
+        "Extremely Hard": "Hybrid spell (not same realm as maneuverer).",
+        "Sheer Folly": "Arcane spell (not same realm as maneuverer)."
+      }
+    }
+  },
+  "source": "sohk",
+  "book": "School of Hard Knocks (book 5808)",
+  "group_notes": "Lore skills can be resolved in one of two ways. The GM may want to provide each player with background information prior to play. The amount and type of information provided would depend on the character's skill in any relevant Lores. Alternatively, the player may desire a specific piece of information. This requires a maneuver roll during play. The difficulty of a Lore maneuver depends entirely on the amount or depth of knowledge requested by the player. The obscurity of the information modifies what maneuvers can be attempted. See below. The absolute number of ranks in a Lore determines the amount of knowledge the character has in the subject. For this reason, specialization is particularly useful with Lore skills. Determine the character's Knowledge Level on the table below:\n\nRanks | Knowledge Level\n0 | 1\n1-2 | 2\n3-4 | 3\n5-6 | 4\n7-9 | 5\n10-12 | 6\n13-16 | 7\n17-20 | 8\n21+ | 9\n\nThe obscurity of a given topic should be determined by the GM. In some cases, this is equivalent to the rarity code found in Creatures & Monsters (e.g., Fauna and Flora Lore) or in Gamemaster Law (e.g., Herb and Poison Lore). In other cases, the Gamemaster must decide on the obscurity rating, which will range from 1 (common knowledge) to 9 (arcane trivia). A character cannot attempt a Lore maneuver if the difficulty level plus obscurity rating exceeds twice the character's knowledge level. If the obscurity rating is not obvious, assume that it is equal to the difficulty level.\n\nExample: Asix, the scholar, has 7 ranks in Culture Lore. The GM has determined that information about the gypsy nomads is somewhat scarce and assigns information concerning these people an obscurity of 6. Asix has a knowledge level of 5. He can therefore not attempt any maneuver more difficult than Medium. If he specialized in the nomads, he could attempt Hard maneuvers.\n\nIf the sum of the obscurity rating and difficulty level do not exceed the character's knowledge level, he can attempt the maneuver without any resources. Otherwise, the maneuver will require research. Most non-research maneuvers can be attempted in one round. If research is required, the maneuver will require a number of hours equal to the difficulty level times the obscurity rating.\n\nExample: Asix is not able to attempt any maneuver concerning the gypsies without doing some research. A Medium maneuver would take 24 hours of research. Better brew some coffee."
+}

@@ -49,6 +49,10 @@
 @stat: In
 @description: This skill provides a bonus for determining local weather for next 24 hours.
 
+@@ Caving
+@stat: SD
+@description: This skill provides a bonus for determining the natural course and lay of a cave or cavern (passage or chamber). It gives a bonus when attempting an unassisted maneuver in a cave.
+
 # ===================================================================
 # TABLES
 # ===================================================================

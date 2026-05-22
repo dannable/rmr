@@ -1,0 +1,87 @@
+{
+  "skills": {
+    "Hiding": {
+      "optional_stats": "Ag/SD/In",
+      "ep_cost": "N/A",
+      "distance_multiplier": "N/A",
+      "notes": "The difficulty of a Hiding maneuver depends on the quality of the hiding place. The cover being used by the skulk may be solid or translucent; it is easier to hide behind a rock than in a shadow. This skill includes choosing a hiding place that is not obvious (e.g., behind a potted plant). A Hiding maneuver is modified by the Alertness bonuses of all potential observers. I f the maneuver is successful, no Alertness maneuver should be made unless someone moves very near to the hidden character. Other Awareness skills can still be used to locate the thief, however.",
+      "specialties": [
+        "Any specific environment (e.g., castles, forest, etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "There are ample places to hide that provide complete concealment. A warehouse of empty crates and a cluttered attic are two examples.",
+        "Easy": "There are many locations that provide at least 75% cover. For example, behind a curtain; in a large basket, or under a bed, or in a natural cavern.",
+        "Light": "There are many locations that provide 50% cover and ample deep shadows or other dark cover. A dense forest or jungle, or a garbage-filled alley are two examples.",
+        "Medium": "There are some physical obstructions (e.g., pillars, curtains, etc.) as well as ample dark corners/ cubbyholes.",
+        "Hard": "There are a many locations that provide 25% cover and many locations with partial cover (like bushes or smoke). For example, a mature forest, or a pavilion.",
+        "Very Hard": "There are no physical barriers, but there are many locations that obscure observation (e.g., tall grass, stained glass or paper walls).",
+        "Extremely Hard": "There are no solid objects behind which to hide, but there is some cover provided by less dense objects. For example, hiding in a green-house or behind a picket fence.",
+        "Sheer Folly": "There are no physical obstructions, but there are some irregular features that cast shadows. The smoke provided by a campfire might also be used.",
+        "Absurd": "Hiding in an otherwise empty room."
+      }
+    },
+    "Picking Pockets": {
+      "optional_stats": "Ag/SD/Pr",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of a Picking Pockets maneuver depends on how accessible the victim's pockets are. (Note that pockets are a fairly recent invention.) Money carried in a pouch is the easiest to gain access to. If the character must come into contact with the victim, the maneuver is much more difficult. There are many items which aid in Picking Pockets. Examples include palm knives (for slitting pouches), hollow canes, fake blindfolds, etc.",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {
+        "Routine": "The target is asleep.",
+        "Easy": "The target is drunk.",
+        "Light": "The pouch (or pocket) is outside of armor.",
+        "Medium": "The pouch is outside of clothing.",
+        "Hard": "The pocket is internal, but the item being stolen is (relatively) large, like a wallet.",
+        "Very Hard": "Deep pockets and/or small items.",
+        "Extremely Hard": "The pouch is worn below armor.",
+        "Sheer Folly": "Removing rings from fingers.",
+        "Absurd": "Stealing a weapon from a scabbard."
+      }
+    },
+    "Stalking": {
+      "optional_stats": "Ag/SD/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill involves moving from one location to another without being seen or heard. A character attempting to stalk should make two maneuver rolls, one for sound and one for sight. Should either fail, the thief has been spotted. In some situations, only one maneuver roll may be necessary (e.g., approaching a target from behind, silenced, while invisible, etc.). The difficulty of remaining unseen should be referenced under Hiding. The difficulty of remaining silent depends on how armored the thief is, and how noisy the ground is. This maneuver roll should be modified by double the Missile Attack Penalty ( RMFRP , p. 215) of the armor worn.",
+      "specialties": [
+        "Any specific environment (e.g., castles, forest, etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "Stalking across pillows or thick carpeting.",
+        "Easy": "Stalking over moss.",
+        "Light": "Stalking across thin carpeting.",
+        "Medium": "Stalking across a wooden floor.",
+        "Hard": "Stalking through leaves.",
+        "Very Hard": "Stalking through underbrush.",
+        "Extremely Hard": "Stalking across squeaky floorboards or gravel.",
+        "Sheer Folly": "Stalking while carrying a large bag of coins, or other noisy object.",
+        "Absurd": "Stalking while carrying a living being (e.g., another person, an animal, etc.)."
+      }
+    },
+    "Trickery": {
+      "optional_stats": "Ag/SD/Pr",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Trickery is most commonly used by stage magicians to make objects appear or disappear, as if \"by magic.\" It can also be used to distract an opponent or to improve one's chances of cheating. The difficulty of the maneuver depends on the size of the object being hidden, and the dexterity required to cause the object to reappear. Spectacular tricks require specially designed props.",
+      "specialties": [
+        "Any specific trick."
+      ],
+      "example_difficulties": {
+        "Routine": "Making a coin disappear.",
+        "Easy": "Making a small object appear in one's hand.",
+        "Light": "Pulling a scarf out of an empty sleeve.",
+        "Medium": "Performing simple card tricks that involve marking cards or forcing a selection.",
+        "Hard": "Distracting a target with a simple trick, while the character's other hand performs some other maneuver (like drawing a weapon).",
+        "Very Hard": "Shuffling a deck of cards such that particular cards are dealt to specific players. The shuffler must know the exact location of the desired cards.",
+        "Extremely Hard": "Pulling a small animal out of thin air, or causing such an animal to disappear. Rabbits and doves are often used because of their docility.",
+        "Sheer Folly": "Distracting a target to allow another person to attack with surprise. The target still gets a Situational Awareness maneuver to determine how surprised he is.",
+        "Absurd": "Causing an object the size of a sword to disappear. The character must be wearing very loose·fitting clothing or have some other prop."
+      }
+    }
+  },
+  "source": "sohk",
+  "book": "School of Hard Knocks (book 5808)",
+  "group_notes": "Subterfuge skills are generally used to prevent others from noticing some misdeed. The difficulty of such a maneuver should not depend on the skill of potential observers. The difficulty of Subterfuge maneuvers depends only on the nature of the maneuver itself. In addition, lighting conditions thwart vision, they do not make Subterfuge maneuvers more simple. In fact, it might be quite difficult to find a hiding place in the dark, but harder still to find the person hiding. Whenever a Subterfuge maneuver is made, the GM should note the level of success attained by the character (e.g., Partial Success, Success, Failure, etc.). Intentional attempts to discover the Subterfuge maneuver (using an Awareness • Searching skill) requires a maneuver roll at least as successful as the Subterfuge maneuver. For example, if a thief attempted a Stealth maneuver and got a 159 (Success), an observer needs to roll a 111-175 (Success) to discover the hiding person. If the observer's result is a Partial Success or better, the observer might become suspicious even if the hiding person was not located. If the observer is relying on unconscious Awareness skills (Awareness • Senses or Alertness), his result must exceed that of the hiding person. In the above example, the observer would need a 176 or better (Absolute Success) to locate the hiding person. If the maneuver result is equal to that of the Subterfuge maneuver, and the Awareness maneuver is a Partial Success or better, the observer might become suspicious. Subterfuge • Stealth and Subterfuge • Attack maneuver rolls are required every round. These tasks take at most a single round, and occasionally less. Subterfuge • Mechanics maneuvers generally take one round times the difficulty level, squared. Notable exceptions include Forgery and Trap Building, which take longer."
+}

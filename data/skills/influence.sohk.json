@@ -1,0 +1,192 @@
+{
+  "skills": {
+    "Bribery": {
+      "optional_stats": "Pr/Em/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "he goal of bribery is the exchange of money (or some other form of payment) for political or legal influence. Bribery also implies that it is not legal to purchase the favors being requested. Legal transactions should use the Trading skill. The difficulty of a bribery maneuver is dependent on two key factors. First is the receptiveness of the target. The other is the risk involved for the person being bribed. If the favor requested is minor, the chance of discovery small, and the punishment minor, a bribery attempt is trivial. This skill is much easier in a society rife with corruption.",
+      "specialties": [
+        "Any specific service.",
+        "Any specific individual."
+      ],
+      "example_difficulties": {
+        "Routine": "Bribing an individual who is actively seeking a bribe.",
+        "Easy": "Bribing a low-ranking clerk to provide a minor service or advantage.",
+        "Light": "Bribing a low-ranking guard not to notice a minor offense.",
+        "Medium": "Determining how receptive a target is to a bribery attempt.",
+        "Hard": "Bribing a petty diplomat for long-term political gain.",
+        "Very Hard": "Determining if a particular person has been bribed. Bribing an officer of the law not to notice a major offense.",
+        "Extremely Hard": "Bribing a judge or other individual whose actions are watched closely.",
+        "Sheer Folly": "Bribing an individual who is under oath and believes strongly in that oath.",
+        "Absurd": "Bribing a fanatic."
+      }
+    },
+    "Diplomacy": {
+      "optional_stats": "Pr/Em/In",
+      "ep_cost": "N/A",
+      "distance_multiplier": "N/A",
+      "notes": "This skill is used both to relate with foreign officials and governments and to manipulate them. It is often considered more civilized to settle a dispute with a war of words (diplomacy) than with an armed conflict. When attempting to manipulate a peer, many rounds of intense negotiations may be necessary. The game of give-and-take requires skill, tact and nerves of steel. When attempting to relate within a foreign system, the difficulty of the maneuver depends on how different the system is from one's own. The difficulty of a manipulation maneuver depends on how much one is willing to give up. When negotiating, each side should make a maneuver roll to determine how much the other side should give up. If both maneuvers are successful, and both sides agree, the negotiations are complete. If only one side is successful, they can declare the negotiations complete if they are satisfied with the results (or depart in disgusttheir position strengthened). If neither side was successful, the negotiations are a disaster. Both diplomats must swallow their ego in order to continue.",
+      "specialties": [
+        "Any specific government.",
+        "Any specific type of dispute (e.g., border conflict, peace settlement, trade rights, etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "Relating to a foreign court whose government and culture is nearly identical to your own.",
+        "Easy": "Negotiating a deal when you are willing to give up nearly everything (e.g., a near unconditional surrender).",
+        "Light": "Relating to a foreign court with which you are very familiar; you have spent a great deal of time with their people. Determining what your opponent is least likely to concede.",
+        "Medium": "Negotiating a deal when both sides need to make minor concessions.",
+        "Hard": "Relating to a foreign court whose people and customs are unfamiliar to your own. Determining what your opponent is most likely to concede.",
+        "Very Hard": "Negotiating a deal wherein the other side must clearly make concessions and your concessions are minor in comparison.",
+        "Extremely Hard": "Relating to a foreign court whose customs are not only alien to your own, but often repulsive. Forcing your opponent to offer some concession based on his own philosophical and cultural norms.",
+        "Sheer Folly": "Negotiating a deal wherein the other side must make all of the concessions. Note that demanding an unconditional surrender is not difficult if the opponent has been completely demoralized.",
+        "Absurd": "Relating to a government whose people are truly alien (e.g., a first-contact situation)."
+      }
+    },
+    "Duping": {
+      "optional_stats": "Pr/Em/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "",
+      "specialties": [
+        "Any specific scam."
+      ],
+      "example_difficulties": {
+        "Routine": "Convincing someone to allow you to do something that is normally allowed, but appears suspicious.",
+        "Easy": "Distracting a guard for a brief time to allow another person to perform some action unnoticed. The guard's Alertness skill can still be used, but not any Awareness • Senses or Awareness • Searching skills.",
+        "Light": "Convincing someone to allow you to bend the rules (e.g., allowing a janitor to remain in a building to finish a task even though the building should be secure).",
+        "Medium": "Convincing a guard to allow you past a low-security check-point.",
+        "Hard": "Distracting a guard and convincing them to leave their post long enough for someone else to slip by. (\"Don't you think you should make sure that nobody is lurking in the alley?\")",
+        "Very Hard": "Convincing someone to do something that is blatantly illogical or contrary to obvious facts. Suckering people into a pyramid scam is one example.",
+        "Extremely Hard": "Distracting two or three guards at the same time.",
+        "Sheer Folly": "Convincing someone to do something that will cause them serious harm (e.g., drink a vial of cool, refreshing acid...uh, water).",
+        "Absurd": "Convincing someone to take your place at the gallows."
+      }
+    },
+    "Interrogation": {
+      "optional_stats": "Pr/Em/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of an interrogation is dependent on the subject being interrogated. The interrogator will generally ask a series of questions, hoping to catch inconsistencies and implied information. This is useful for criminal investigations as well as more general information gathering. The interrogator must often extract the truth from an abundance of lies. It is not necessarily easy to get information from co-operative subjects. The subject may not be good at expressing himself; it is the interrogator's job to ask the proper questions. It is even more difficult to interrogate a subject who is attempting to cover up or who does not want the interrogator to learn the information.",
+      "specialties": [
+        "Torture, investigative reporting, witness interrogation, etc."
+      ],
+      "example_difficulties": {
+        "Routine": "Gleaning relevant information from an articulate and cooperative subject.",
+        "Easy": "Determining if the subject is deliberately withholding information. (This does not imply guilt, however.)",
+        "Light": "Extracting useful information from an incoherent, but cooperative, subject.",
+        "Medium": "Obtaining clues from an uncooperative subject. Such clues generally provide non-information (e.g., the murder weapon is not in the fireplace).",
+        "Hard": "Piecing together information from a number of sources, none of whom are particularly observant. Most witnesses at a crime scene seem to fall into this category. The testimony is often contradictory or inaccurate.",
+        "Very Hard": "Obtaining actual information from an uncooperative subject (e.g., the location of the murder weapon).",
+        "Extremely Hard": "Obtaining clues from an intelligent subject that has a personal stake in the result of the interrogation (e.g., he is the murderer, the information will be used against his people, etc.).",
+        "Sheer Folly": "Obtaining information from an intelligent subject that has a personal stake in the result of the interrogation.",
+        "Absurd": "Obtaining anything from a fanatic. Note that very few people truly qualify. Most people will cave in when severely tortured."
+      }
+    },
+    "Leadership": {
+      "optional_stats": "Pr/Em/Pr",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Leadership is primarily used in two situations. A leader can attempt to recruit/attract an army. In this case, the leader must first raise a small army (Routine maneuver), and build from there. He can continue making Leadership maneuvers to grow his army until he fails a maneuver roll, or until there are no more available recruits in the area. (Roughly 1% of a population can be recruited unless the leader is also a ruler. Rulers can recruit up to 10% of the population unless the safety of the nation is at stake.) Leadership is also used to maintain morale. The difficulty of the maneuver depends on the gravity of the situation. Even an excellent leader cannot prevent his troops from fleeing overwhelming odds (unless his troops are fanatics).",
+      "specialties": [
+        "Attacking, preventing routs, holding formation, etc.",
+        "Any specific location for recruiting."
+      ],
+      "example_difficulties": {
+        "Routine": "1-10 people. Marching an army.",
+        "Easy": "11-20 people. Maintaining a formation.",
+        "Light": "21-40 people. Maneuvering an army at a forced march. Attacking an equal or smaller force.",
+        "Medium": "41-80 people. Attacking a larger force.",
+        "Hard": "81-160 people. Maintaining morale after suffering 25% casualties.",
+        "Very Hard": "161-320 people. Maintaining morale after suffering 50% casualties. Maintaining formation while retreating.",
+        "Extremely Hard": "321-640 people. Maintaining morale while facing an opponent with Dragons, Demons, or other awesome creature.",
+        "Sheer Folly": "641-1500 people. Maintaining morale after suffering 75% casualties.",
+        "Absurd": "1501+ people. Maintaining morale after suffering 75% casualties from a Dragon, Demon, or other awesome creature."
+      }
+    },
+    "Propaganda": {
+      "optional_stats": "Pr/Em/Re",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Propaganda is used to influence public opinion. It can be used to lower the public's opinion of their leader, justify a war, or anything a clever manipulator can dream of. Unlike advertising, this skill is not trying to sell a product. The effects of propaganda are more ethereal than profit (although the two are certainly related). The difficulty of the attempt depends on how much of a change is being attempted. This assumes, naturally, that the allegation, claim, or assertion is plausible. The more outrageous the statement, the more difficult it's going to be to sell it to the public. In general, successful use of this skill will modify public opinion by up to 5%. The following examples assume that a small number of people are being influenced, fewer than 100. For each factor of 100, the difficulty should be increased by one. Hence, a Propaganda maneuver intended to affect a country of 1,000,000 inhabitants would be increased by two levels of difficulty.",
+      "specialties": [
+        "Any specific culture.",
+        "Any type of claim (political, religious, etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "A claim that is very reasonable. For example, Aeron is known for his sexual exploits. It is not difficult to convince the public that he is having an affair.",
+        "Easy": "A claim that is truthful, but sounds implausible. Continuing the above example, it would be an Easy maneuver to convince the public that the allegations of impropriety are wrong.",
+        "Light": "A claim that reinterprets the truth. Spin doctors attempt such maneuvers to re-direct public attention to a different aspect of a situation.",
+        "Medium": "A claim whose assertions cannot be verified. For example, there is a vast government conspiracy that includes the disappearance of its citizens. The very nature of the claim prohibits verification.",
+        "Hard": "A claim that is contrary to the public's morals or beliefs. Convincing a tolerant public that Orcs are pondscum would be a Hard maneuver.",
+        "Very Hard": "A claim that requires the public to re-examine some core religious or cultural belief. The Protestant Reformation would be one example.",
+        "Extremely Hard": "Inspiring the public to take action about some concern that is relevant to them and not contrary to their beliefs. For example, a campaign to convince more people to bathe regularly.",
+        "Sheer Folly": "Convincing the public to stop performing some mundane activity, including a successful product ban.",
+        "Absurd": "Inspiring the public to take some action that goes against their core beliefs. Inciting a rebellion through propaganda alone, for example. (This would be much easier if a strong leader were to emerge.)"
+      }
+    },
+    "Public Speaking": {
+      "optional_stats": "Pr/Em/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is used to directly influence an audience (unlike Propaganda, which is used to indirectly influence the public). The difficulty of the attempt depends on how much attention the audience is paying, and how radical the recommendations of the speaker. In general, a Public Speaking maneuver will have direct effects on 10% of the audience, and indirect effects on the entire audience.",
+      "specialties": [
+        "Any specific group (e.g., sailors, soldiers, etc.).",
+        "Any specific message (e.g., repentance, glory, etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "The message reinforces common and stronglyheld beliefs (e.g., a rallying speech prior to combat).",
+        "Easy": "The audience worships the speaker, hanging on his every word (e.g., a beloved regent).",
+        "Light": "The message reminds the audience of common beliefs that have been temporarily forgotten. This includes regaining morale following a defeat or reminding a congregation of the importance of charity.",
+        "Medium": "The audience is interested in what the speaker has to say. They will probably agree based solely off of their impression of the speaker (e.g., a hero returning to his homeland).",
+        "Hard": "The message modifies a common belief, but does not directly contradict it. For example, reminding people that a free and just society can harshly punish those who threaten freedom and justice.",
+        "Very Hard": "The audience is bored or disinterested.",
+        "Extremely Hard": "The message is contrary to the audience's beliefs. Convincing the audience that a criminal should be released, or that they should voluntarily pay taxes.",
+        "Sheer Folly": "The audience is trying to ignore the speaker. Most street prophets must endure hostile audiences.",
+        "Absurd": "Converting people from one religion to another."
+      }
+    },
+    "Seduction": {
+      "optional_stats": "Pr/Em/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Seduction is used to convince the target to succumb to his desires. If the target does not have a specific desire, no amount of seduction will change his mind. Unfortunately, there are very few people who do not have any base desires; fewer still who can repress these desires when faced with temptation. The difficulty of a Seduction maneuver depends on the strength of the desire and the seriousness of the action. Some people cannot withstand the slightest temptation, while others can resist almost anything.",
+      "specialties": [
+        "Any specific temptation (e.g., sex, power, money, fame, etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "Convincing someone to do something he was probably going to do anyway. For example, enticing a john.",
+        "Easy": "Swaying a target to your side in a conflict, when that target is unsure of his own position.",
+        "Light": "Causing a target to fulfill a strong desire with no chance of discovery.",
+        "Medium": "Convincing someone to succumb to a normal desire when there is little risk or chance of discovery.",
+        "Hard": "Swaying a target to your side, provided the target has little stake in the outcome.",
+        "Very Hard": "Convincing a target to succumb to a normal desire when there is a significant chance of discovery. This includes any political figure whose reputation is at stake.",
+        "Extremely Hard": "Swaying a target to your side, when the target has an investment in the outcome (e.g., his family is in danger, he has deep philosophical beliefs, etc.).",
+        "Sheer Folly": "Seducing a target with little interest in the offer.",
+        "Absurd": "Convincing a target to do something that is dangerous or lethal. Some cults seduce their members into suicide pacts."
+      }
+    },
+    "Trading": {
+      "optional_stats": "Pr/Em/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is detailed fully in Gamemaster Law .",
+      "specialties": [
+        "Any specific region or city."
+      ],
+      "example_difficulties": {
+        "Routine": "Most people commonly purchase the goods.",
+        "Easy": "Many people purchase the goods on a regular basis.",
+        "Light": "The goods are produced locally.",
+        "Medium": "Some people regularly purchase the goods.",
+        "Hard": "The goods are imported.",
+        "Very Hard": "Only a few people purchase the goods.",
+        "Extremely Hard": "The goods are rarely purchased, even by those who do purchase them.",
+        "Sheer Folly": "The goods are extremely rare.",
+        "Absurd": "The goods have extremely limited utility (e.g., a boat in the middle of a desert)."
+      }
+    }
+  },
+  "source": "sohk",
+  "book": "School of Hard Knocks (book 5808)",
+  "group_notes": "Influence skills are one of the most difficult to quantify in any game. There are two main approaches to resolving Influence maneuvers. The appropriate solution depends on the skill of the player (at role playing) and the skill of the character (at the Influence skill).\n\nExample: Roll Playing: In many cases, the character has a much better idea how to get his way than does the player. In these cases, roll playing is an appropriate solution. Prior to role playing the influence attempt, the player should make a maneuver roll. The player then role plays the attempt in relation to the success of the maneuver. The GM should offer the appropriate amount of resistance. Note that this method of resolution requires greater skill on the part of player and GM alike.\n\nExample: Role Playing: Some players are more comfortable role playing an influence attempt prior to making the maneuver roll. If the player's attempt is especially clever (or entertaining), the GM might give the character a bonus to the maneuver roll. The drawback of resolving Influence maneuvers in this manner is that the player must have some idea of how the character would accomplish the attempt.\n\nIn reality, most GMs opt for a solution somewhere between these two extremes. The most important factor to keep in mind is that it is the character's skill that is most important, not the player's. Many Influence maneuvers can be completed in a few minutes. More difficult maneuvers will take longer. A Routine maneuver will generally take one minute to complete. Each increase in difficulty level doubles the amount of time required. The amount of time required for a Propaganda maneuver is measured in days, not minutes.\n\nExample: A Medium Duping maneuver would take 8 minutes to complete. An Extremely Hard Propaganda maneuver would take 64 days.\n\nThe maneuver roll cannot be made until the entire time has elapsed. If the attempt is abandoned prior to this point, it will automatically fail. In addition, the GM might decide that similar attempts in the future will be more difficult."
+}

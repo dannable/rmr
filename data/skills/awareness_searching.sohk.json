@@ -1,0 +1,157 @@
+{
+  "skills": {
+    "Detect Traps": {
+      "optional_stats": "In/Re/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of this maneuver depends on the amount of effort that went into hiding the trigger. In addition, small threats are generally harder to perceive than larger threats (although most thieves don't expect a wall to fall on them). This skill also requires a very close examination of the location/object. This skill cannot be performed from more than a couple of feet away.",
+      "specialties": [
+        "Any specific type of trap (e.g., poison needles, pits, weapon traps, etc.).",
+        "All traps within a specific location."
+      ],
+      "example_difficulties": {
+        "Routine": "Traps triggered by a rope strung across a corridor.",
+        "Easy": "Traps triggered by pressure plates.",
+        "Light": "Traps triggered by weight.",
+        "Medium": "Traps triggered by turning a door knob or opening a latch.",
+        "Hard": "Traps whose effect spans a large area (e.g., a collapsing wall or flooding room) unless the trigger is listed above.",
+        "Very Hard": "Gas traps.",
+        "Extremely Hard": "Traps whose trigger is on the other side of a door.",
+        "Sheer Folly": "Traps whose trigger is specific to a given individual.",
+        "Absurd": "Traps whose trigger is specific to a given individual and well-removed from the trap."
+      }
+    },
+    "Lie Perception": {
+      "optional_stats": "In/Re/Em",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of this maneuver is identical to the difficulty of the Acting maneuver made to tell the lie convincingly. (For this reason, the difficulty of an Acting maneuver can be voluntarily increased.)",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {
+        "Routine": "The lie is outrageous.",
+        "Medium": "The lie is plausible.",
+        "Extremely Hard": "The lie is more plausible than the truth.",
+        "Absurd": "The character perceiving the lie has been magically charmed by the liar."
+      }
+    },
+    "Locate Hidden": {
+      "optional_stats": "In/Re/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Locate Hidden involves careful measurement. combined with an eye for detail. The character is looking for minor discrepancies that indicate that some opening or object has been hidden. If the concealer successfully camouflaged the object. only a Locate Hidden roll will detect it; casual observation will not detect the object. The difficulty of the maneuver depends on either the size of the opening or the level of concealment of the object. The level of concealment depends on how completely the object was hidden.",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {
+        "Routine": "The object is hidden behind camouflaged netting. The opening is huge (e.g., a barn door or palace gate).",
+        "Easy": "The object was camouflaged only. The opening is large (e.g., double-doors).",
+        "Light": "The object was hidden in an obvious place. The opening is the size of a normal door.",
+        "Medium": "The object was hidden in a secret compartment. The opening is the size of a small door.",
+        "Hard": "The object was camouflaged in its hiding place. The opening is half the size of a normal door.",
+        "Very Hard": "The object was hidden in a well-designed hidden compartment (e.g., inside a padded box with a false bottom). The opening is large enough for a dog.",
+        "Extremely Hard": "The object is in a hidden compartment and camouflaged. The opening is large enough for a cat.",
+        "Sheer Folly": "The object is hidden within an object not normally capable of containing an object (e.g., a hollow loose stone). The opening is large enough for a mouse.",
+        "Absurd": "The object is hidden in a location only accessible through special means (e.g., halfway up a narrow chimney). The opening is large enough for an insect."
+      }
+    },
+    "Observation": {
+      "optional_stats": "In/Re/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill has numerous applications. It is used to find people hiding in the brush. It is used to examine an object closely, looking for any anomalies. It is used to determine the number of enemies in the opposing army. As a result, it is not possible to describe even a fraction of the situations in which Observation could be used. Instead, broad general guidelines are provided. The level of difficulty should be based on the amount of information the character is seeking. The obviousness of the information can modify this difficulty by up to two levels. For example, determining the safety of the aforementioned campsite might be a Medium maneuver. However, the presence of a Troll's burrow nearby might be a subtle clue to look elsewhere for a campsite. This skill can be used to discover persons who are Stalking or Hiding. It can also be used to see through a disguise, notice a camouflaged object or realize that a voice is being mimicked. It cannot be used to find hidden objects, which requires the skill Locate Hidden.",
+      "specialties": [
+        "Any specific topic of inquiry."
+      ],
+      "example_difficulties": {
+        "Routine": "The character knows exactly what he is looking for and is merely trying to verify some detail. For example, T'mar knows that the king has a mole on his right hand. While shaking the king's hand, he checks to make sure that this really is the king.",
+        "Easy": "The information being sought is obvious provided any time is spent looking (e.g., noticing an object that has been hastily camouflaged).",
+        "Light": "The character has excellent knowledge about some object (person, creature, etc.) and is looking for details in order to distinguish between two similar objects.",
+        "Medium": "The information being sought by the character is general in nature (e.g., \"Are there any signs of recent habitation in the cottage?\").",
+        "Hard": "The character's knowledge of the subject is fair and he has some idea of what he is looking for. For example, a weapons master is attempting to assess his opponent's skill by watching him practice.",
+        "Very Hard": "The information being sought is specific in nature. For example, there is debris everywhere, and a character is interested in determining if the door was ripped off its hinges or battered down.",
+        "Extremely Hard": "The character's knowledge of the object is poor, and the character is not certain what he is looking for. (But he'll recognize it when he sees it!)",
+        "Sheer Folly": "The information is trivial in nature, and not at all obvious. For example, determining if a vial ever held olive oil.",
+        "Absurd": "The character has no knowledge about the subject of inquiry. The player is merely hoping to roll well enough to get some insight from the GM."
+      }
+    },
+    "Poison Perception": {
+      "optional_stats": "In/Re/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of detecting a poison depends on the method of application (pastes are usually obvious) and the number of senses that can detect the poison. For example, cyanide has a distinctive odor, although if mixed with some food that masks the poison, it is more difficult to detect. The base difficulties assume that the poison can be seen, smelled and tasted. For each sense removed, add one to the difficulty. For example, iocaine is a powder that is colorless, odorless and tasteless. It is an Absurd maneuver to detect this poison. Sharkasar is a paste that has an odor and is dark brown. Since it has no taste, it is a Light maneuver to detect this poison.",
+      "specialties": [
+        "Any specific category of poison."
+      ],
+      "example_difficulties": {
+        "Easy": "Paste.",
+        "Medium": "Liquid.",
+        "Very Hard": "Powder."
+      }
+    },
+    "Reading Tracks": {
+      "optional_stats": "In/Re/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of this maneuver depends on the amount of information that the character is attempting to gain. The quality of the print will also modify the maneuver roll.",
+      "specialties": [
+        "Any specific type of creature.",
+        "Any specific type of information."
+      ],
+      "example_difficulties": {
+        "Routine": "Determining size of creature (tiny, small, medium, large, or huge).",
+        "Easy": "Determining if tracks belong to a humanoid or nonhumanoid.",
+        "Medium": "Determining type of creature (e.g., dog, cat, Wyvern, etc.).",
+        "Hard": "Determining speed. Determining age of tracks.",
+        "Very Hard": "Determining race of humanoid.",
+        "Extremely Hard": "Determining close approximation of weight.",
+        "Sheer Folly": "Determining the frequency with which a specific type of creature uses a game trail.",
+        "Absurd": "Determining if a known individual made the tracks."
+      }
+    },
+    "Surveillance": {
+      "optional_stats": "In/Re/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is useful in a number of different contexts. It can be used by criminals or spies to case an establishment; the criminal is seeking information about the frequency and consistency of various activities. Conversely, guards use this skill to maintain an extended watch. As long as the guard is attentive, he can use his Surveillance skill to notice potential disturbances. This skill is also used to tail another person. The pursuer maintains a safe distance in order not to be seen. A successful maneuver indicates that the target has not been lost, and has no (additional) reason to suspect anything. Failure indicates that the target has shaken his tail (the pursuer). Partial and Near Successes indicate that the pursuer has not lost the target, but the target may notice his tail.",
+      "specialties": [
+        "Any specific post.",
+        "ailing, shaking a tail, etc."
+      ],
+      "example_difficulties": {
+        "Routine": "Casing an abandoned establishment.",
+        "Easy": "Guarding a small object.",
+        "Light": "Casing an establishment with regular, predictable guard rotation.",
+        "Medium": "Following an unaware target. Guarding a man-sized object.",
+        "Hard": "Casing an establishment that is patrolled regularly, but at random intervals.",
+        "Very Hard": "Following a target who is actively avoiding pursuit. Guarding a large object.",
+        "Extremely Hard": "Casing an establishment whose guards are hidden or otherwise obscured.",
+        "Sheer Folly": "Guarding a huge object. (Huge objects are usually guarded by multiple persons so that each person is responsible for a smaller area.)",
+        "Absurd": "Casing an establishment whose entrances are secret gates."
+      }
+    },
+    "Tracking": {
+      "optional_stats": "In/Re/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is used to find and follow a set of tracks. No other information is provided by this skill. This skill should also be modified as if it were an Athletic maneuver with regards to pace modifiers (i.e., plus one difficulty level per pace above walk). The difficulty of this maneuver depends on the freshness of the tracks and the surface in which the track was made. For each hour that has elapsed since the track was made, subtract 10 from the maneuver roll.",
+      "specialties": [
+        "Any specific environment."
+      ],
+      "example_difficulties": {
+        "Routine": "In dust or thick mud. The person being tracked left bloody or muddy footprints.",
+        "Easy": "In snow.",
+        "Light": "Over dirt.",
+        "Medium": "Through a forest.",
+        "Hard": "Over grass.",
+        "Very Hard": "Through a swamp.",
+        "Extremely Hard": "Through a narrow stream.",
+        "Sheer Folly": "Across stone or wood.",
+        "Absurd": "Across a body of water."
+      }
+    }
+  },
+  "source": "sohk",
+  "book": "School of Hard Knocks (book 5808)"
+}

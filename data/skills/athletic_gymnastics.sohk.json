@@ -1,0 +1,302 @@
+{
+  "skills": {
+    "Acrobatics": {
+      "optional_stats": "Ag/Qu/Ag",
+      "ep_cost": "1 every 6 rounds",
+      "distance_multiplier": "1",
+      "notes": "The primary goal of an Acrobatics maneuver is the successful (safe) completion of an in-air maneuver. Unlike Flying/Gliding, the maneuver is linear; the acrobat cannot change direction while in the air. Whereas Acrobatics maneuvers tend to be graceful and beautiful, if beauty is the goal, an artistic skill (like Dance) might be more appropriate. The difficulty of an Acrobatics maneuver is determined by the amount of movement the acrobat must perform, combined with the timing of the maneuver. Simply swinging on a rope is not difficult, but in order to grab the hands of another acrobat while swinging requires careful timing. Rotations and somersaults make the maneuver even more difficult.\n\nNote: Every 180° of rotation (in any direction) while performing an Acrobatics maneuver adds one to the difficulty. For example, a complete somersault (360°) combined with a half spin (180°) would add three difficulty levels.",
+      "specialties": [
+        "A specific gymnastic event (parallel bars, uneven bars, etc.).",
+        "Chandeliers, curtains, whips, etc."
+      ],
+      "example_difficulties": {
+        "Routine": "Holding onto a swinging object (e.g., a rope). Partial Success requires a second roll to determine whether or not the character has lost his grip.",
+        "Easy": "Swinging across a pit or other opening provided the rope is already in hand. Again, Partial Success requires another roll.",
+        "Light": "A swing to a specific location. Partial Success indicates that the swing was successful, but misses the intended location by a similar percentage. (For example, Glimglad wants to swing from one balcony, across the room to the top of a staircase (a total of 50'). The result of the Light maneuver is a 70. Glimglad misses his intended location by 15' (30 percent). The Gamemaster decides that Glimglad has instead landed on the banister fifteen feet down the stairs.)",
+        "Medium": "A swing onto or into a combatant. A successful result forces the victim to make a RR (level vs. number of ranks of Acrobatics) or take an Unbalancing critical (1 severity/20 faIlure). If the acrobat lands on the victim, the victim resists at a -20, but the acrobat falls if the victim makes the RR. This is a Very Hard maneuver if the acrobat has a weapon or other object in one hand.",
+        "Hard": "Riding a curtain or a sail with a knife. Partial Success indicates the acrobat falls more quickly than intended and may take falling damage. (For example, E'Rollleaps out of a crow's nest and attempts to use the sail to brake his fall. He rolls and gets a 30. Since the crow's nest was 50' high, E'Roll takes damage for a 35' fall. Ouch!) Catching a static object while falling and swinging around it before dropping further. (This is frequently done in comic books.) This maneuver is modified by -1 for every 10' fallen, but will reduce the severity of a falling critical by one. This is an extremely hard maneuver if the object being caught is in motion (e.g., a trapeze). Note that if there are several objects to brake the fall, the acrobat can reduce the critical several times, thereby eliminating the critical(s) entirely.",
+        "Very Hard": "Swinging from rope to rope, vine to vine, etc. Partial Success indicates that the acrobat covers less than the normal distance. If one rope must be released prior to grasping the next, the maneuver becomes more difficult and all Partial Successes must be rolled again to avoid falling.",
+        "Extremely Hard": "1'-10' between ropes.",
+        "Sheer Folly": "11'-25' between ropes.",
+        "Absurd": "26'-50' between ropes."
+      }
+    },
+    "Athletic Games (Gymnastic)": {
+      "optional_stats": "Ag/Qu/Co",
+      "ep_cost": "1 every 4 rounds",
+      "distance_multiplier": "0.5",
+      "notes": "Darts: If a specific number is being aimed for and the maneuver fails by less than 30, the board is hit. Roll (open-ended) on the following table to determine the result:",
+      "specialties": [
+        "Any specific variant."
+      ],
+      "example_difficulties": {
+        "Routine": "Hitting the board.",
+        "Medium": "Hitting a specific number.",
+        "Hard": "Hitting the bull's eye.",
+        "Very Hard": "Hitting a specific double.",
+        "Extremely Hard": "Hitting a specific triple.",
+        "Sheer Folly": "Hitting the double bull's eye.",
+        "Absurd": "Hitting the end of another dart."
+      }
+    },
+    "Climbing": {
+      "optional_stats": "Ag/Qu/St",
+      "ep_cost": "1 every round",
+      "distance_multiplier": "0.2",
+      "notes": "There are two major factors that determine the difficulty of a Climbing maneuver: the grade (angle) of the climb and the frequency of hand-holds. This skill is strenuous, but allows rapid ascents. Add one difficulty level if the surface is sandy, two if wet, three if oily and four if icy.",
+      "specialties": [
+        "Rope, ladder, tree, brick wall, etc."
+      ],
+      "example_difficulties": {
+        "Routine": "Climbing stairs (in combat).",
+        "Easy": "Climbing a ladder or knotted rope.",
+        "Light": "Climbing a rope or 45° incline.",
+        "Medium": "Climbing a 60° incline or tree with low-hanging branches.",
+        "Hard": "Climbing a stone wall (i.e., there are frequent hand-holds).",
+        "Very Hard": "Climbing a rough wall (like a cliff face) or tree trunk.",
+        "Extremely Hard": "Climbing a smooth wall (designed to have minimal handholds) or 120° stone surface.",
+        "Sheer Folly": "Climbing a 120° smooth surface or 135° stone surface.",
+        "Absurd": "Climbing upside-down along a stone surface."
+      }
+    },
+    "Contortions": {
+      "optional_stats": "Ag/Qu/SD",
+      "ep_cost": "1 every 12 rounds",
+      "distance_multiplier": "0.1",
+      "notes": "There are three primary uses of this skill: Absorbing an impact (such as a collision). This reduces the critical by one severity. Escaping from bonds. Squeezing through an opening. No maneuver is required if the opening is the same size as the character. For every 10% difference in a single dimension, the difficulty is increased by one. (For example, a 6' tall human is attempting to limbo under a pole that is 4' above the ground. This would be a Medium maneuver since the human must reduce his height by 31-40%.)",
+      "specialties": [
+        "Escape, Fitting in boxes, Limbo, etc."
+      ],
+      "example_difficulties": {
+        "Routine": "Touching one's own toes.",
+        "Easy": "Performing feats of agility like bending over backwards.",
+        "Light": "Removing a shoulder from its socket.",
+        "Medium": "Absorbing an impact (and reducing the critical by one severity).",
+        "Hard": "Escaping from leather bindings. Drinking from a glass held in one's feet.",
+        "Very Hard": "Escaping from rope bindings. Removing a blindfold (while bound).",
+        "Extremely Hard": "Escaping from cloth bindings like a strait jacket.",
+        "Sheer Folly": "Removing a gag.",
+        "Absurd": "Escaping from chains."
+      }
+    },
+    "Diving": {
+      "optional_stats": "Ag/Qu/Ag",
+      "ep_cost": "1 every 30 rounds",
+      "distance_multiplier": "",
+      "notes": "The greatest challenge a diver faces, is performing his maneuver before his fall ends. The amount of time that one spends in the air is very short. A 15' fall takes a single second. In five seconds a person can fall hundreds of feet. The diver must complete his rotations in this span of time. The difficulty of a diving maneuver is determined by the amount of movement the diver must perform. Additional complexity is introduced if the diver needs to control the direction of his fall in order to land at a specific point.",
+      "specialties": [
+        "Diving into water, parachuting, diving onto vehicles passing under bridges, etc."
+      ],
+      "example_difficulties": {
+        "Routine": "Diving up to 1'/skill rank into water. Every 180° rotation per 10' fallen adds one complexity. For example, a 10' dive with one somersault (360°) and a half turn (180°) would add 3 difficulty levels.",
+        "Easy": "Diving up to 5'/skill rank into water. Diving off a bridge (or out a window, off a building, etc.) onto a static target. Hopefully, there is a waiting hay bale or dumpster. I f the maneuver is successful, the character may halve the distance of the fall when determining damage. Acrobatics and/or Tumbling may reduce this even further.",
+        "Light": "Diving up to 10'/skill rank into water.",
+        "Medium": "Diving up to 20'/skill rank into water. Diving off of a bridge onto a slow moving vehicle (e.g., a cart).",
+        "Hard": "Diving to a specific location from a great height (e.g., while skydiving) to a static location. For every 20' fallen, the diver can alter his horizontal distance by 1'/difficulty level above medium. For example, while falling 1,000', a character needs to maneuver 150' along the ground. This maneuver will be Extremely Hard. A diving maneuver cannot alter a fall by more than 5' per 20' fallen (an Absurd maneuver).",
+        "Very Hard": "Diving off a bridge onto a moving vehicle (e.g., a truck or horse).",
+        "Sheer Folly": "Diving off a bridge onto a fast vehicle (e.g., a train or Dragon)."
+      }
+    },
+    "Flying/Gliding": {
+      "optional_stats": "Ag/Qu/In",
+      "ep_cost": "1 every 12 rounds",
+      "distance_multiplier": "2",
+      "notes": "The goal of a Flying/Gliding maneuver is the successful (safe) completion of an in-air maneuver. Unlike Acrobatics, Flying/Gliding allows a character to change direction while in the air. The difficulty of a Flying/Gliding maneuver is determined by the amount of precision required in order to complete the maneuver. A gentle bank or shallow dive is much simpler (and safer) than a sharp turn. Note that many methods of flying are unable to execute maneuvers that involve hovering or changing direction suddenly. In most cases, it is not possible to stop maneuvering while flying. A character that ceases to make forward progress begins plummeting towards the ground. Some creatures (like Air Elementals) are able to control their movement completely and are therefore not required to make a maneuver roll.",
+      "specialties": [
+        "Any specific method of flying."
+      ],
+      "example_difficulties": {
+        "Routine": "Flying. A maneuver roll is made to determine how far the character is able to fly this round. While flying a character cannot maneuver at a pace faster than a sprint. Accelerating one pace category (e.g., from a walk to a jog).",
+        "Easy": "Climbing. While climbing a character can not maneuver at a pace faster than a jog. Decelerating one pace category (e.g., from a jog to a walk). Accelerating two pace categories (e.g., from a jog to a sprint). Greater acceleration requires a dive.",
+        "Light": "Diving. Only while diving or swooping can a character attain a pace of fast sprint or dash. While diving, a character can accelerate as much as is desired without making an additional maneuver roll. (If the dive is successful, the acceleration is successful). Once the dive is completed, the character will automatically slow down one pace category per round until maneuvering at a sprint.",
+        "Medium": "Turning up to 90°. Decelerating two pace categories (e.g., from a sprint to a jog). Landing as a 20% maneuver. (Landing is normally an automatic full action that occurs the round a character decelerates from a walk to stopped.)",
+        "Hard": "Swooping close enough to the ground to make an attack at the bottom of the dive. The character is allowed to make an attack using his entire OB; he cannot parry, but retains his natural DB. If this maneuver fails, the character crashes. Turning up to 120°.",
+        "Very Hard": "Turning up to 150°. Decelerating three pace categories (e.g., from a sprint to a walk). Pulling in one's wings in order to swoop through a tunnel, window, etc. The character automatically decelerates one pace category per turn.",
+        "Extremely Hard": "Turning up to 180°. Executing spins or rolls. This is flashy, dangerous, and of little practical value.",
+        "Sheer Folly": "Turning up to 270°. Decelerating four pace categories (e.g., from a dash to a jog).",
+        "Absurd": "Turning up to 360°. Hovering."
+      }
+    },
+    "Juggling": {
+      "optional_stats": "Ag/Qu/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of this maneuver is dependent entirely on the number of objects being juggled. Apart from entertainment, this skill is not particularly useful.",
+      "specialties": [
+        "Balls, knives, torches, etc."
+      ],
+      "example_difficulties": {
+        "Routine": "2 objects.",
+        "Easy": "3 objects.",
+        "Light": "4 objects.",
+        "Medium": "5 objects.",
+        "Hard": "6 objects.",
+        "Very Hard": "7 objects.",
+        "Extremely Hard": "8 objects.",
+        "Sheer Folly": "9 objects.",
+        "Absurd": "10 or more objects."
+      }
+    },
+    "Pole-vaulting": {
+      "optional_stats": "Ag/Qu/Ag",
+      "ep_cost": "1 every round",
+      "distance_multiplier": "",
+      "notes": "Use of this skill assumes a sprint the round before. For each pace category above or below, the difficulty is increased by one. I f the character does not have a proper pole (flexible, yet strong), the difficulty is also increased by one.",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {
+        "Routine": "4' high or 4' wide.",
+        "Easy": "6' high or 6' wide.",
+        "Light": "8' high or 8' wide.",
+        "Medium": "10' high or 10' wide.",
+        "Hard": "12' high or 15' wide.",
+        "Very Hard": "15' high or 20' wide.",
+        "Extremely Hard": "18' high or 30 wide.",
+        "Sheer Folly": "22' high or 40' wide.",
+        "Absurd": "25' high or 50' wide."
+      }
+    },
+    "Rappelling": {
+      "optional_stats": "Ag/Qu/St",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of a Rappelling maneuver depends on the quality of the surface being descended. Uneven surfaces with multiple protrusions are more difficult to rappel down than smooth brick walls.",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {
+        "Routine": "Smooth brick or concrete wall at a 75° angle.",
+        "Easy": "Smooth brick or concrete wall.",
+        "Light": "Rough brick wall.",
+        "Medium": "Smooth cliff face with no extreme protrusion.",
+        "Hard": "An uneven cliff face with some protrusions.",
+        "Very Hard": "An extremely uneven surface.",
+        "Extremely Hard": "An extremely uneven surface at a 120° angle."
+      }
+    },
+    "Skating": {
+      "optional_stats": "Ag/Qu/Ag",
+      "ep_cost": "1 every 60 rounds",
+      "distance_multiplier": "2",
+      "notes": "This skill is used to perform moving maneuvers while on skates. If the character's goal is artistic, the Dancing skill should be used, modified by the character's Skating maneuver. The difficulty of a Skating maneuver depends on the speed of the skater and the sharpness of the maneuver. Each 180° of rotation while maneuvering adds one to the difficulty level. For example, a triple rotation adds six to the difficulty. A character can decelerate one pace category per round or accelerate two pace categories without a maneuver roll.",
+      "specialties": [
+        "Speed skating, figure skating, ice dancing, etc."
+      ],
+      "example_difficulties": {
+        "Routine": "Decelerating two pace categories.",
+        "Easy": "Accelerating 3 pace categories. Turning 45&dag;",
+        "Light": "Decelerating 3 pace categories. Skating backwards.",
+        "Medium": "Accelerating four pace categories. Turning 90°",
+        "Hard": "Decelerating four pace categories. Maintaining balance after colliding with another skater.",
+        "Very Hard": "Accelerating 5 pace categories. Dodging a small object.",
+        "Extremely Hard": "Decelerating 5 pace categories. Dodging a man-sized object.",
+        "Sheer Folly": "Accelerating 6 pace categories.",
+        "Absurd": "Decelerating 6 pace categories."
+      }
+    },
+    "Skiing": {
+      "optional_stats": "Ag/Qu/Co",
+      "ep_cost": "1 every 60 rounds",
+      "distance_multiplier": "2",
+      "notes": "The goal of a skier is navigating a slope without falling. Whereas this sounds simple, it can be quite difficult when the slope is steep or uneven, or when the skier is trying to slow down or turn. Accelerating is not difficult, but the maximum pace depends on the grade of the slope.",
+      "specialties": [
+        "Downhill, cross-country, jumping, etc."
+      ],
+      "example_difficulties": {
+        "Routine": "Turning 30°. Skiing a flat surface.",
+        "Easy": "Decelerating one pace category. Skiing a smooth slope.",
+        "Light": "Turning 60°. Remaining standing following a short jump.",
+        "Medium": "Decelerating two pace categories. Skiing a rough slope.",
+        "Hard": "Turning 75°. Remaining standing following a medium jump.",
+        "Very Hard": "Decelerating three pace categories. Skiing an extremely uneven surface (e.g., a mogul hill).",
+        "Extremely Hard": "Turning 90°. Skiing an extremely steep slope.",
+        "Sheer Folly": "Decelerating four pace categories. Remaining standing following a long jump.",
+        "Absurd": "Turning 135°. Skiing a nerly vertical surface."
+      }
+    },
+    "Stilt-walking": {
+      "optional_stats": "Ag/Qu/Ag",
+      "ep_cost": "1 every 30 rounds",
+      "distance_multiplier": "0.5",
+      "notes": "The difficulty of walking on stilts depends on the height of the stilts (as a ratio of the character's height). Divide the height of the stilts by the character's height and reference the result below. If the ground is uneven or rocky, the maneuver may be modified by up to two difficulty levels.",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {
+        "Routine": "1\" heels.",
+        "Easy": "1\" - 3\" heels.",
+        "Light": "3\" - 6\" extensions.",
+        "Medium": "0.25x character's height.",
+        "Hard": "0.5x character's height.",
+        "Very Hard": "0.75x character's height.",
+        "Extremely Hard": "1.0x character's height.",
+        "Sheer Folly": "2.0x character's height.",
+        "Absurd": "4.0x character's height."
+      }
+    },
+    "Surfing": {
+      "optional_stats": "Ag/Qu/Co",
+      "ep_cost": "1 every 12 rounds",
+      "distance_multiplier": "2",
+      "notes": "The goal of a surfer is the successful completion of a maneuver performed while suspended above the surface of the water. The surfer is largely at the whim of the waves, but he can change orientation within the waves. The difficulty of any maneuver depends on the height of the wave and the complexity of the maneuver performed inside the wave. Increase the difficulty of the maneuver by one for every 5 feet of waves.",
+      "specialties": [
+        "Any specific coast."
+      ],
+      "example_difficulties": {
+        "Routine": "Body surfing a small wave.",
+        "Easy": "Maneuvering while lying on a surfboard.",
+        "Light": "Body surfing a large wave.",
+        "Medium": "Riding a wave while standing.",
+        "Hard": "Changing orientation while riding a wave.",
+        "Very Hard": "Riding beneath the crest of a wave.",
+        "Extremely Hard": "Completing a full rotation under a wave.",
+        "Sheer Folly": "Recovering after falling.",
+        "Absurd": "Jumping from wave to wave."
+      }
+    },
+    "Tightrope-walking": {
+      "optional_stats": "Ag/Qu/SD",
+      "ep_cost": "1 every 30 rounds",
+      "distance_multiplier": "0.2",
+      "notes": "The difficulty of this maneuver depends entirely on the width of the surface upon which the character is walking and the speed of the wind.",
+      "specialties": [
+        "Any specific surface."
+      ],
+      "example_difficulties": {
+        "Routine": "3' wide.",
+        "Easy": "2' wide.",
+        "Light": "1' wide.",
+        "Medium": "6\" wide.",
+        "Hard": "3\" wide.",
+        "Very Hard": "1\" wide.",
+        "Extremely Hard": ".5\" wide.",
+        "Sheer Folly": ".25\" wide.",
+        "Absurd": ".125\" wide."
+      }
+    },
+    "Tumbling": {
+      "optional_stats": "Ag/Qu/Ag",
+      "ep_cost": "1 every 6 rounds",
+      "distance_multiplier": "1",
+      "notes": "This skill is used to complete a Gymnastics maneuver while on the ground. Whereas this is often done gracefully, a successful Tumbling maneuver does not indicate how beautiful the maneuver was. If beauty and grace are important, a Dancing maneuver should be made. The difficulty of a Tumbling maneuver depends on the surface upon which the character is tumbling and the amount of physical strength and agility required to complete the maneuver. Adding extra tricks to the following maneuvers increases the difficulty by one for each such trick.",
+      "specialties": [
+        "Any specific routine."
+      ],
+      "example_difficulties": {
+        "Routine": "Performing a somersault.",
+        "Easy": "Diving to the ground to provide an additional +50 DB versus missile attacks.",
+        "Light": "Performing a cartwheel. Leaping from a prone position to standing as a 20% maneuver.",
+        "Medium": "Diving to safety. If the character is currently behind cover and successfully tumbles to another position with cover, he cannot be targeted by missile weapons. If the cover is not complete, he can still be shot at while behind cover, but not while tumbling.",
+        "Hard": "Reducing the damage from a fall. A falling charcter can make a Tumbling maneuver. The character falls safely if the fall distance is less than:",
+        "Very Hard": "Tumbling into an opponent. If this maneuver is successful, the target must make an RR (ranks in Tumbling vs. level) or be stunned for 1 round / 10 failure.",
+        "Extremely Hard": "Hanging off of the side of a moving object (e.g., a horse, vehicle, etc.) either to remain unseen or to avoid falling off.",
+        "Sheer Folly": "Leaping from a prone position to standing as a 0% maneuver.",
+        "Absurd": "Dropping prone and regaining your footing immediately. Friendly archers can thereby shoot over your head without running the risk of hitting you."
+      }
+    }
+  },
+  "source": "sohk",
+  "book": "School of Hard Knocks (book 5808)",
+  "group_notes": "The Moving Maneuver Table can be used in a number of ways. The result from the table is often a number, which can be interpreted in a number of ways. Allor Nothing: An all or nothing maneuver is a maneuver that either succeeds completely, or fails utterly. Examples include attempting to lift a great weight, and attempting to stop while skiing. The player must roll a second time and add the number from the chart. If the result is over 100, the maneuver succeeds. Percentage: For these maneuvers, it is possible to succeed partially. This is definitely the case when attempting to maneuver a certain distance. Both: Some.maneuvers may involve both of these options; these maneuvers are dangerous. There should be an obvious risk to the character to justify using this option. Examples might include climbing or tightrope walking. The danger of falling is very real. Athletic maneuvers require the expenditure of exhaustion points (EPs). Each such skill description includes the exhaustion point cost of the maneuver. This indicates the number of EPs that must be expended each round. The normal exhaustion point modifiers also apply. In addition, there is an exhaustion point modifier based on pace:\n\nPace | Exh. Pt. Modifier\nWalk | x1\nJog | x2\nRun | x5\nSprint | x120\nFast Sprint | x360\nDash | x3000\n\nExample: Normally, acrobatics requires 1 exhaustion point every 6 rounds. An acrobatics maneuver performed at a sprint pace (x120) would cost 20 exhaustion points per round. This increases to 40 exhaustion points per round ifthe temperature is above 100°F\n\nFor every 5 exhaustion points spent, the character's pool of available exhaustion points is reduced by one. This reflects the effects of prolonged exertion. This effect lasts until the character sleeps (or drowses, see Drawsing). The character also loses one point from his pool of exhaustion points for every hour of consciousness.\n\nExample: A charader with 40 exhaustion points fast sprints (6 EPs every round) for 5 rounds. This costs 30 exhaustion points. His pool of exhaustion points drops from 40 to 34; he currentlyhas 10 exhaustion points. After resting for a few minutes, he has recovered all of his available exhaustion points. However, until he sleeps, he cannot have more than 34 exhaustion points.\n\nMost athletic skills also have a distance multiplier indicated. A character can normally maneuver a distance equal to his base movement rate each turn. The distance multiplier modifies this rate. Hence, skills like Climbing and Tightrope-walking are slow and methodical. Skills like Skiing and Flying can be quite rapid. In addition, a character can increase this rate by increasing his pace. This costs more exhaustion points and may increase the difficulty of the maneuver. Most skills are ideally performed while walking, but some (like Jumping) require a different pace. Each pace category faster (or slower) than the ideal pace increases the difficulty by one. The amount of weight carried also increases the difficulty of a maneuver:\n\nWt. Penalty (before St mod.) | Modification\n0 | -1 difficulty level\n-1 — -10 | no modifier\n-11 — -25 | +1 difficulty level\n-26 — -40 | +2 difficulty levels\n-41 — -65 | +3 difficulty levels\n-66 — -100 | +4 difficulty levels\n-101 and worse | +5 difficulty levels\n\nNote that the weight penalty also modifies a character's maximum pace. Even though this penalty can be offset by a character's Strength, wearing armor and carrying equipment greatly reduces a character's mobility. In addition, a character's Moving Maneuver Penalty will modify all moving maneuvers. Athletic maneuvers must be resolved every round or every strategic turn. The maneuver is not complete until the character decides to stop maneuvering.\n\n\n[5.3 AWARENESS SKILLS]\n\nMost Awareness skills are based on visual observation. As a result, most Awareness maneuvers are modified by the lighting. Other obstructions (like fog or smoke) increase the difficulty of the maneuver.\n\nLighting | Modifier\nDirect bright light | -10\nIndirect bright light | +10\nMedium light | 0\nTwilight | -10\nTorchlight or Moonlight | -25\nCandlelight or Starlight | -50\nNo light | -100 (at best)\n\nRaces with excellent night vision can ignore these penalties, provided there is some source of light (like the moon). Races with dark vision (like Dwarves) can ignore these penalties within the range of their dark vision. Maneuvers that rely on other senses have the difficulty level of the maneuver modified by the background interference. There are no general modifiers. Awareness maneuvers can be performed whenever the GM or character deem a maneuver roll to be appropriate. It usually takes a single round to complete an Awareness maneuver in a single direction (60° field of vision) or one minute to complete an Awareness maneuver in all directions. An Awareness maneuver might take longer if a significant area must be searched (roughly one round for every 10' x 10' area examined closely enough to notice small objects).\n\nExample: Searching one square mile for the prince's missing knife would require 775 man-hours = 32 days. A search o f this scope requires multiple people."
+}

@@ -1,0 +1,512 @@
+{
+  "skills": {
+    "Advertising": {
+      "optional_stats": "Re/Me/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The goal of advertising is the successful sale of products and/or services to the general public. Mercenary companies use the skill to find employers. Craftsmen use the skill to find buyers. Advertising is most useful in large towns or cities; the number of potential buyers is larger. It is also more useful when the goods or services being offered are useful and inexpensive. There are two main uses for advertising:\n\nThe sale of large numbers of goods to the mass market. Since bargaining may not be involved, Trading may not be appropriate, but Advertising can be used to encourage sales.\n\nThe location of employers or employees. An advertising roll determines the number of such persons, relative to the number available.\n\nIn general, 10% of all possible buyers/employees/employers can be contacted with a successful skill roll. Partial Success yields 2%, Near Success 8%, Absolute Success 13%, and Unusual Event 20%. (If there are competitors in the market, successful advertising increases market share by one percentage point.) Note that the number of potential buyers is based on the number of people exposed to the advertisements who may be interested in purchasing the advertised product. It is not possible to sell rune paper to the common person; it would make more sense to advertise in the Mage's Guild than on the street. The following examples assume that the product is either a consumable or is useful on a daily basis. For employment, it assumes a contract for at least one year, or a single assignment. Each step longer (for products) or shorter (for services) increases the difficulty by one. The steps are: Hour, Day, Week, Month, Year, Decade.",
+      "specialties": [
+        "Any specific product.",
+        "Any specific town/city."
+      ],
+      "example_difficulties": {
+        "Routine": "The product or service is practically free.",
+        "Easy": "The product or service is useful on a daily basis and is priced between 25% and 50% of normal.",
+        "Light": "The product or service is useful on a daily basis and is priced between 50% and 75% of normal.",
+        "Medium": "The product is free (people are suspicious of such offers). The product or service is useful on a daily basis and is priced between 75% and 100% of normal. Employment in a mundane or menial field (e.g., street sweeper, porter, etc.)",
+        "Hard": "The product or service is useful on a daily basis and is priced between 100% and 125% of normal. Employment in a vocational field (e.g., craftsman, manager, herbalist, etc.).",
+        "Very Hard": "The product or service is useful on a daily basis and is priced between 125% and 150% of normal. Employment in a professional field (e.g., Seer, Lay Healer, etc.) or in a field involving some danger (e.g., city guard, hunter, etc.).",
+        "Extremely Hard": "The product or service is useful on a daily basis and is priced between 150% and 200% of normal. Employment in a field involving danger (e.g., adventurer, soldier, magical researcher, etc.).",
+        "Sheer Folly": "The product or service is useful on a daily basis and is outrageously priced. Employment involving a very unique set of skills and little danger (e.g., a blacksmith fluent in Old Norse who is also a skilled sailor).",
+        "Absurd": "Employment involving a very unique set of skills and danger (e.g., a Magician spy well-versed in Influence skills and Star-gazing)."
+      }
+    },
+    "Architecture": {
+      "optional_stats": "Re/Me/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The architect's ultimate goal is the design of a building that is both aesthetically pleasing as well as sound. Towards this end, an architect must have some mathematical training. The difficulty of the maneuver is determined by the intricacy of the structure and by how strong the building must be.\n\nNote: For each 10% increase in building integrity, the difficulty level should be modified by one.\n\nNote: A dishonest architect may attempt to disguise frail construction. If measures are taken to hide shoddy workmanship, one halfofthe designer's skill bonus should be subtracted from the inspector's maneuver roll.",
+      "specialties": [
+        "Towers, castles, temples, etc."
+      ],
+      "example_difficulties": {
+        "Routine": "Determining the style in which a building is created. This may (GM discretion) allow the architect to gain insight into the floorplan.",
+        "Easy": "Designing a simple remodeling (e.g., adding a window or door to an existing wall).",
+        "Light": "Determining a building's architect, provided the inspector is familiar with the designer's work. Designing a simple structure (e.g., a single story dwelling).",
+        "Medium": "Determining the integrity of a building. This may be modified if poor construction is deliberately obscured (see above). Designing a simple, multi-story structure (e.g., an inn).",
+        "Hard": "Designing a complex structure (e.g., a guild hall).",
+        "Very Hard": "Designing a collection of simple structures (e.g., an apartment building).",
+        "Extremely Hard": "Designing a collection of complex structures (e.g., a castle complete with towers, walls, and keep). Designing a complete remodeling of a simple structure.",
+        "Sheer Folly": "Designing a structure that mimics the style of another architect. If this maneuver is an Absolute Success, future scholars will be convinced that the struct'lre was built by the architect being copied.",
+        "Absurd": "Designing a complete remodeling of a complex structure."
+      }
+    },
+    "Diagnostics": {
+      "optional_stats": "Re/Me/Em",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "See Healing, Section 4.0.",
+      "specialties": [
+        "Any specific type of disease or poison (e.g., respiratory, circulatory, bubonic, etc.)"
+      ],
+      "example_difficulties": {}
+    },
+    "Dowsing": {
+      "optional_stats": "Re/Me/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill can be used anywhere, but it is most useful when there is no obvious source of water. Unfortunately, this skill is more difficult when there is less water in the area. Note that in many cases, a failed maneuver does not mean that water is not present, merely that the water is further from the surface than some other location.",
+      "specialties": [
+        "Wells, springs, underground rivers, etc."
+      ],
+      "example_difficulties": {
+        "Routine": "Next to a lake.",
+        "Easy": "In a jungle or swamp. (The water might not be potable, but that's a different problem.)",
+        "Light": "Sensing the flow of an underground stream.",
+        "Medium": "In a temperate forest.",
+        "Hard": "In a grassy plain or savanna.",
+        "Very Hard": "Sensing the location of a spring; digging is thereby avoided.",
+        "Extremely Hard": "In an arid climate. Since the dowser can sense water only (and not snow or ice), this includes tundra climates.",
+        "Sheer Folly": "Sensing a hot spring; spas pay well for dowsers able to do this.",
+        "Absurd": "In a desert that has not seen rain in decades."
+      }
+    },
+    "Drowsing": {
+      "optional_stats": "Re/Me/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is very useful for characters that need to remain awake for extended periods of time. In general, a character loses one exhaustion point every hour he is awake. Thus, an average human can remain awake for 40 hours before collapsing from exhaustion. The Drowsing skill allows characters to take cat-naps in order to extend this amount of time. (It also annoys teachers.) A character can normally not sleep while some other distracting activity is going on. The Drowsing skill makes this possible. For example, a group of soldiers is traveling 24 hours a day. They take turns napping while riding in order to remain more alert. It only takes one half hour of sleep to recover all of one's exhaustion points. However, after each insufficient rest period (usually 6-8 hours), the rate of exhaustion point loss is increased by a factor of one. (For example, after 3 cat-naps a characters loses 4 exhaustion points per hour until he catches up on sleep.) A Drowsing maneuver can be made to fall into a light sleep, from which one can wake up easily. A failed maneuver can be interpreted in two ways: the character has fallen into a natural sleep, or the character failed to fall asleep (GM choice).",
+      "specialties": [
+        "Any specific environment (e.g., while role playing, in class, in the saddle, etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "Falling asleep at night.",
+        "Easy": "Falling asleep while listening to a dull speech, lecture, sermon, etc. The character must be sitting.",
+        "Light": "Falling asleep while supine wearing leather armor.",
+        "Medium": "Falling asleep while riding at a normal pace. Falling asleep during a discussion in which you are not participating.",
+        "Hard": "Falling asleep while standing.",
+        "Very Hard": "Falling asleep while supine wearing metal armor. Falling asleep while lying on rocky terrain.",
+        "Extremely Hard": "Falling asleep while walking at a normal pace.",
+        "Sheer Folly": "Falling asleep in the middle of a great deal of commotion (e.g., during a heated argument, or while bombs are detonating).",
+        "Absurd": "Falling asleep during a combat."
+      }
+    },
+    "Engineering": {
+      "optional_stats": "Re/Me/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Engineering combines aspects of mathematics, physics and invention. It provides a theoretical knowledge of devices and processes. An engineer understands how and why things work (but not necessarily how to build them). Engineers also try to produce systems that are maximally efficient. Knowledge of engineering allows characters to determine what a device does, design new devices or stream line systems.The difficulty of an Engineering maneuver is dependent on the complexity of the device and the obscurity of the theory behind an item.",
+      "specialties": [
+        "Any specific branch of engineering (mechanical, electrical, civil, etc.)"
+      ],
+      "example_difficulties": {
+        "Routine": "Determining how a simple device works (e.g., a lever, pulley, magnifying glass, etc.).",
+        "Easy": "Determining how a compound device works (e.g., a telescope, elevator, etc.).",
+        "Light": "Determining whether or not a simple device can be used to solve a particular problem (without simply attempting the potential solution). For example, the engineer might calculate whether or not a pulley system is powerful enough to move an elephant.",
+        "Medium": "Designing a new device to solve a particular problem (e.g., moving a large object from one place to another). Streamlining a process or system to improve efficiency.",
+        "Hard": "Determining whether or not a complex device can be used to solve a particular problem (e.g., can a catapult propel a water-filled balloon over a fire such that the balloon breaks in mid-flight).",
+        "Very Hard": "Designing a new device to solve a general class of problems (e.g., designing an aqueduct that can deliver water to any number of locations).",
+        "Extremely Hard": "Determining the most efficient system to address a given problem (with respect to a particular variable: money, time, etc.).",
+        "Sheer Folly": "Designing a complex device whose component parts can be interchanged in order to address a wide variety of problems (e.g., a telescope with interchangeable and reversible lenses such that the device can magnify and reduce).",
+        "Absurd": "Inventing a new branch of engineering that tackles a distinct collection of related problems."
+      }
+    },
+    "Mechanition": {
+      "optional_stats": "Re/Me/Ag",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "A successful Mechanition maneuver indicates that the character has built an effective machine. Partial Success indicate that the machine has various flaws or quirks. A vehicle might pull in a specific direction; the roof of a covered battering ram might leak; etc. The difficulty of the maneuver depends on the complexity of the machine being created. This presupposes that the necessary materials are available and that the character has the necessary Crafts skills. Note that this skill implements the designs created by an Engineering or Gimmickry maneuver.",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {
+        "Routine": "A simple machine (e.g., lever, pulley, etc.).",
+        "Medium": "A compound machine. (e.g., a telescope, elevator, etc.).",
+        "Extremely Hard": "An intricate machine (e.g., a computer, laser, etc.).",
+        "Absurd": "An alien device."
+      }
+    },
+    "Military Organization": {
+      "optional_stats": "Re/Me/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Military Organization is used in the day-to-day maintenance of a military force. Without sufficient military organization, a unit slowly degrades into chaos. A successful maneuver is required each month in order to maintain a unit. If the maneuver fails, the unit's morale and offensive bonus will begin to deteriorate. The difficulty of maintaining a force depends on the size of the unit. It is common practice to generate multiple command layers such that each leader is responsible for a smaller number of units.",
+      "specialties": [
+        "Any individual force."
+      ],
+      "example_difficulties": {
+        "Routine": "1-5 people.",
+        "Easy": "6-10 people.",
+        "Light": "11-20 people.",
+        "Medium": "21-40 people.",
+        "Hard": "41-80 people.",
+        "Very Hard": "81-160 people.",
+        "Extremely Hard": "161-320 people.",
+        "Sheer Folly": "321-640 people.",
+        "Absurd": "641+ people."
+      }
+    },
+    "Mining": {
+      "optional_stats": "Re/Me/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The skill is used to find good mining locations and extracting as much ore from the location as possible. The actual extraction of minerals generally assumes a large group of workers (miners). A miner can also use this skill for individual mining (e.g., panning), but the yield will be significantly less.",
+      "specialties": [
+        "Any specific mineral.",
+        "Any specific environment."
+      ],
+      "example_difficulties": {
+        "Routine": "Extracting ore from a known vein.",
+        "Easy": "Estimating the amount of ore in a vein.",
+        "Light": "Organizing an open-pit/quarry mining operation.",
+        "Medium": "Identifying good locations for a mine in a mountain setting.",
+        "Hard": "Organizing a tunneling operation. Predicting the safety of a mine.",
+        "Very Hard": "Identifying mine locations in a plains or deserts.",
+        "Extremely Hard": "Finding a good panning site.",
+        "Sheer Folly": "Identifying mine locations in a forest, jungle or swamp.",
+        "Absurd": "Finding mineral deposits in an extremely unfamiliar location (e.g., underwater or on the moon)."
+      }
+    },
+    "Second Aid": {
+      "optional_stats": "Re/Me/Em",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "See Healing, Section 4.0.",
+      "specialties": [
+        "Any specific race.",
+        "Any specific type of injury."
+      ],
+      "example_difficulties": {}
+    },
+    "Surgery": {
+      "optional_stats": "Re/Me/Em",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "See Healing, Section 4.0.",
+      "specialties": [
+        "Any specific race.",
+        "Any specific type of injury."
+      ],
+      "example_difficulties": {}
+    },
+    "Administration": {
+      "optional_stats": "",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The goal of Administration is the successful application of political influence, graft, and legal loopholes towards some specific goal. That goal must be within the means of the local governmental system. Thus, gaining office and changing a law may be possible goals. However, if only the king can declare war, an Influence skill should be used to persuade the king. (Although gaining an audience will probably require an Administration roll.) The difficulty of the attempt is determined by the size of the effect desired. The public's willingness to accept the change can further modify the difficulty.",
+      "specialties": [
+        "Elections, court, obfuscation, etc.",
+        "One specific department or office."
+      ],
+      "example_difficulties": {
+        "Routine": "Applying for and obtaining a license. Some cultures may require a permit or license to carry a sword or to modify or build a dwelling. Bureaucracies with years of experience may require a permit for nearly every activity imaginable.",
+        "Easy": "Being elected to or awarded a trivial position. Examples might include Lamp Inspector, Refuse Removal Coordinator for Baker Street, etc.",
+        "Light": "Proposing and adopting a trivial law or regulation. Such a proposal should modify an extant law, and produce only the smallest of results. For example, changing the order of mail delivery within a small area or requiring all licensed blacksmiths to display credentials.",
+        "Medium": "Preventing the prosecution of an innocent person. This may be modified by up to two degrees of difficulty by the evidence available and by the public perception of the individual. (It is easy to gain a conviction against a known killer, even if the charges are trumped.) Being elected to or awarded a minor position. Examples might include Magistrate, City Inspector, etc.",
+        "Hard": "Eliminating records pertaining to a specific incident. This may pe modified by up to two degrees of difficulty by the amount of evidence to be deleted and by the importance of the incident. Proposing and adopting a minor law or regulation. This law should affect a relatively small percentage of the population, or affect everyone in some small way. Examples include the addition of a holiday that does not disturb business, and requiring all mages to be licensed and certified every five years.",
+        "Very Hard": "Obtaining the release of an innocent person. This may be modified by the importance and perceived threat of the individual. Partial or Near Success indicates that some measures are taken to prevent the individual from committing another crime. This depends on the technology level of the society in question.",
+        "Extremely Hard": "Preventing the prosecution of a guilty person. This may be modified by up to two degrees of difficulty by the evidence available and by the public perception of the individual. Proposing and adopting a major law or regulation. This law affects everyone in some significant way. Examples include the introduction of a new tax, or removal of some department or office.",
+        "Sheer Folly": "Being elected to or awarded a significant position when the administrator's declared beliefs and intentions are contrary to the local populace's. It may be important to alter the local opinion via Public Speaking or Propaganda in order to simplify the attempt.",
+        "Absurd": "Obtaining the release of a guilty person. This may be modified by the importance and perceived threat of the individual. Partial or Near Success indicates that some measures are taken to prevent the individual from committing another crime. This depends on the technology level of the society in question. Proposing and adopting a major law or regulation that contradicts the local beliefs and traditions. Even Propaganda cannot simplify this attempt. Being elected to or awarded a significant position. Examples might include Lord Advisor to the Crown, Guild Master, etc."
+      }
+    },
+    "Appraisal": {
+      "optional_stats": "Me/In/Re",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The goal of the appraiser is the accurate determination of an item's value. This is a relatively simple task when the object is commonly available and therefore subject to standard market forces. It is more difficult to appraise art, collections, and other rare objects.",
+      "specialties": [
+        "Furs, paintings, ceramics, etc."
+      ],
+      "example_difficulties": {
+        "Routine": "Determining the value of a commodity whose price is strictly regulated.",
+        "Easy": "Determining the value of a raw commodity whose price is tracked by a large number of investors. Modern examples include oil and grain. Many agricultural products may be monitored in this way.",
+        "Light": "Determining the value of a common item (e.g., a pot, clothing, etc.). Determining the value of a raw commodity whose price is not tracked. Many non-agricultural goods may fall into this category.",
+        "Medium": "Determining the value of a rare item (e.g., an herb, a map, exotic furs, etc.) that has practical value. Determining the value of an object of art produced by a well known artist.",
+        "Hard": "Determining the value of an object of art produced by an obscure artist.",
+        "Very Hard": "Determining the value of a rare item with little or no practical value and no artistic value (but possible historical significance, e.g., a scientific text whose material is outdated).",
+        "Extremely Hard": "Determining the value of a collection of objects that are collected by a large number of people (e.g., coins or stamps).",
+        "Sheer Folly": "Determining the value of a collection of objects of interest only to other collectors of the same objects (e.g., collectible cards).",
+        "Absurd": "Determining the value of an item whose origin and utility is unknown."
+      }
+    },
+    "Boat Pilot": {
+      "optional_stats": "Me/In/Ag",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The Boat Pilot skill allows a character to determine if a particular vessel can navigate a given water course and how,to navigate that course most efficiently. In general, the smaller the vessel is, the easier the maneuver. These examples also assume that boats are used for river travel and ships for ocean travel. If this is not the case, the maneuvers should be made more difficult.",
+      "specialties": [
+        "Any specific hazard.",
+        "Any specific boat."
+      ],
+      "example_difficulties": {
+        "Routine": "Identifying the location of the most obvious hazards in a particular portion of a water course.",
+        "Easy": "Determining if a craft is capable of navigating a particular water course. This includes determining if the craft is too deep for the water, too wide to navigate the corners, or too small to avoid capsizing under the waves. Note that some hazards are impossible to overcome, while others are merely dangerous.",
+        "Light": "Successfully navigating through a wellmarked port or harbor.",
+        "Medium": "Navigating a route that does not include any hidden dangers (like undercurrents).",
+        "Hard": "Navigating a route that includes hidden dangers including reefs, sand bars, etc.",
+        "Very Hard": "Navigating a safe route while attempting to outrun another vessel or storm.",
+        "Extremely Hard": "Navigating a dangerous route while attempting to outrun another vessel or storm.",
+        "Sheer Folly": "Piloting a vessel through rapids or a whirlpool. Partial and Near Successes indicate that the vessel survives the experience, but one or more crew members are lost in the attempt.",
+        "Absurd": "Piloting a boat over a waterfall. A successful skill roll indicates that the craft has found the safest path over the waterfall. This may still result in the destruction of the craft upon impact, but there will be minimal crew losses (0%-30% based on the circumstances)."
+      }
+    },
+    "Cartography": {
+      "optional_stats": "Me/In/Re",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Cartography is the art of creating an accurate and detailed map. Unlike mapping, this skill allows a character to generate a professional quality map. The distances will be accurate and to scale, altitude information may be included, contours drawn, etc. This skill is very timeintensive, but the result is a map that can be easily understood by others. The difficulty of this skill is determined by the detail the cartographer wishes to add to the map. The larger the scale of the map, the more difficult the cartography maneuver (since large distances are harder to measure). To produce a map that includes information that is not purely geographic (e.g., a map of imports and exports) requires other appropriate knowledge. Note that a successful skill roll indicates that the cartographer produced a map of average quality for the time period. In a medieval setting, the map may still have serious flaws.",
+      "specialties": [
+        "Any specific region.",
+        "Road maps, terrain maps, contour maps, etc."
+      ],
+      "example_difficulties": {
+        "Routine": "Designing a map of a tiny geographical region, for example, a city park.",
+        "Easy": "Designing a road map of a village or hamlet that includes the roads, paths and a couple of buildings.",
+        "Light": "Designing a map of a small geographical region (e.g., a county) that includes contours, major paths and roads, and land ownership.",
+        "Medium": "Designing a road map of a small town or city that includes the important buildings and features.",
+        "Hard": "Designing a map of a large geographical region (e.g., a barony) that includes all prominent features including terrain. The GM's map of the area is probably drawn at this level.",
+        "Very Hard": "Designing a road map of a large city or capitol that includes every building and many minor features (such as sewer entrances — the thieves always ask).",
+        "Extremely Hard": "Designing a map of a huge geographical area (e.g., a kingdom or sub-continent). Many campaign settings include maps of this scale that can be recreated by a cartographer.",
+        "Sheer Folly": "Designing a map of the known world. The creation of this map may take a lifetime of work.",
+        "Absurd": "Designing a map of another dimension where the rules of time and space (dimensions) are not the same as the cartographer's home plane."
+      }
+    },
+    "Evaluate Armor": {
+      "optional_stats": "Me/In/Re",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is used to determine the inherent bonuses and abilities of a suit of armor. The maneuver becomes more difficult when its abilities/value are hidden or not apparent. This skill does not require that the evaluator wear the armor (and thereby be subjected to the risk of curses, imbedded spells, etc.).",
+      "specialties": [
+        "Any armor type."
+      ],
+      "example_difficulties": {
+        "Routine": "Determining whether an artifact or common item has a greater bonus.",
+        "Easy": "Determining whether an artifact or common item has a better maneuver modifier.",
+        "Light": "Comparing two suits of armor (of the same type) and determining which suit of armor has a better DB modifier.",
+        "Medium": "Comparing two suits of armor (of the same type) and determining which suit of armor has a better maneuver modifier.",
+        "Hard": "Determining the specific DB modifier.",
+        "Very Hard": "Determining the specific maneuver modifier.",
+        "Extremely Hard": "Determining any special abilities inherent to a suit of armor. This does not include any magical/spell abilities.",
+        "Sheer Folly": "Determining any minor flaws.",
+        "Absurd": "Determining inherent magical/spell abilities in an item. (Attunement is much easier.)"
+      }
+    },
+    "Evaluate Metal": {
+      "optional_stats": "Me/In/Re",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is often used to determine the value of jewelry. The difficulty of the maneuver depends on the state of the metal. Unrefined metals are easier to assess since the quality of craftsmanship is not important. Damaged goods are even more difficult to assess since the cost of repair must be included in the calculation.",
+      "specialties": [
+        "Any specific metal (e.g., gold, platinum, etc.).",
+        "Any specific type of product (e.g., ores, bracelets, rings, etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "Determining the value of a collection of coins.",
+        "Easy": "Determining the value of a pure metal based on its weight.",
+        "Light": "Determining the value of an ore based on its weight and purity.",
+        "Medium": "Determining the value of a piece of jewelry with little artistic value (e.g., a plain gold band).",
+        "Hard": "Determining the value of an average piece of jewelry.",
+        "Very Hard": "Determining the value of an intricate piece of jewelry whose value is based largely on the craftsmanship.",
+        "Extremely Hard": "Determining the value of a piece of jewelry with cultural and historical significance.",
+        "Sheer Folly": "Determining the value of a badly damaged piece of jewelry.",
+        "Absurd": "Determining the value of a piece of jewelry constructed from a metal never before seen."
+      }
+    },
+    "Evaluate Stone": {
+      "optional_stats": "Me/In/Re",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is often used to determine the value of gems. The difficulty of the maneuver depends on the state of the stone. Raw, uncut stone is easier to assess since the quality of craftsmanship is not important. Damaged goods are even more difficult to assess since the cost of repair must be included in the calculation.",
+      "specialties": [
+        "Any specific stone (e.g., rubies, granite, etc.).",
+        "Any specific type of p<aduct (e.g., gemstones, building materials, etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "Determining the value of a processed stone used only for construction (e.g., a brick, a slab of granite).",
+        "Easy": "Determining the value of a quarry that produces stones for construction (e.g., limestone, granite, etc.).",
+        "Light": "Determining the value of an unrefined gemstone.",
+        "Medium": "Determining the value of a clean, but uncut gemstone.",
+        "Hard": "Determining the value of an average cut gemstone.",
+        "Very Hard": "Determining the value of an intricate gemstone, whose craftsmanship is superb.",
+        "Extremely Hard": "Determining the value of a piece of a gemstone with cultural and historical significance.",
+        "Sheer Folly": "Determining the value of a badly damaged gemstone (although repair is rarely possible).",
+        "Absurd": "Determining the value of a stone never before encountered."
+      }
+    },
+    "Evaluate Weapon": {
+      "optional_stats": "Me/In/Re",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is used to determine the inherent bonuses and abilities of a weapon. The maneuver becomes more difficult when its abilities/value are hidden or not apparent. This skill does not require that the evaluator hold the weapon (and thereby be subjected to the risk of curses, imbedded spells, etc.).",
+      "specialties": [
+        "Any type of weapon (e.g., dagger, mace, lance)."
+      ],
+      "example_difficulties": {
+        "Routine": "Determining whether an artifact or common item has a greater bonus.",
+        "Easy": "Determining whether an artifact or common item has a better maneuver modifier.",
+        "Light": "Comparing two weapons (of the same type) and determining which one has a better OB modifier.",
+        "Medium": "Comparing two weapons (of the same type) and determining which one has a better maneuver modifier.",
+        "Hard": "Determining the specific OB modifier.",
+        "Very Hard": "Determining the specific DB modifier (if any).",
+        "Extremely Hard": "Determining any special abilities inherent in a weapon. This does not include any magical/spell abilities.",
+        "Sheer Folly": "Determining any minor flaws.",
+        "Absurd": "Determining inherent magical/spell abilities in an item. (Attunement is much easier.)"
+      }
+    },
+    "Gimmickry": {
+      "optional_stats": "Me/In/Re",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Gimmickry is a skill that provides a character with a great deal of flexibility. Only the player's imagination (and his character's skill) limits the possible results of a gimmickry maneuver. The GM must carefully analyze any proposal. The use of Gimmickry is always tied to some other skill (like Engineering or Mechanition). If the character has an insufficient understanding of any pre-requisite skills, no Gimmickry maneuver can be made. The difficulty of the maneuver depends on the character's other skills, the culture and technology, and how disruptive the invention would be to the game (e.g., inventing a portable explosive might make physical barriers irrelevant). Note that prototypes inevitably have many minor flaws. This skill can also be used to provide temporary repairs or alterations to an object (jury-rigging). If the GM allows this, the Gimmickry maneuver does not have any pre-requisites. The character can simply attempt to make the repairs/modifications by making a maneuver roll. Whatever the result, jury-rigging is a temporary solution.",
+      "specialties": [
+        "Any specific invention.",
+        "Making repairs to any specific object (e.g., catapults, car engines, etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "Making trivial repairs.",
+        "Easy": "Temporarily tweaking an object in order to improve some aspect (e.g., allowing a crossbow to shoot 10% further). There will almost always be some disadvantage (e.g., -5 OB).",
+        "Light": "Making minor repairs.",
+        "Medium": "Altering a device to significantly improve performance, at the cost of safety and durability.",
+        "Hard": "Making normal repairs.",
+        "Very Hard": "Converting one object into another object (e.g., converting a compass into a magnifying glass).",
+        "Extremely Hard": "Repairing a badly damaged object.",
+        "Sheer Folly": "Merging two unrelated items into one (e.g., a ballista and a telescope).",
+        "Absurd": "Repairing a nearly destroyed object."
+      }
+    },
+    "Hypnosis": {
+      "optional_stats": "Me/In/Em",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is most useful on persons willing or desiring to enter a hypnotic state. The hypnotist must first induce a hypnotic state in the target. At this point the hypnotist is able to cause the individual to perform various actions or access unconscious memories. Post-hypnotic suggestions are the most difficult maneuvers.",
+      "specialties": [
+        "Accessing memories. entertainment. removing memories. etc."
+      ],
+      "example_difficulties": {
+        "Routine": "Inducing a hypnotic trance in a target that desires to be hypnotized.",
+        "Easy": "Causing the target to perform a simple action (e.g., touch your nose).",
+        "Light": "Inducing a hypnotic trance.",
+        "Medium": "Accessing unconscious memories. Causing an individual to perform a complex action (e.g., pretend like you are driving a car. sing a song. etc.).",
+        "Hard": "Causing the target to forget everything that transpired while in a trance. Forcing the target to tell the truth.",
+        "Very Hard": "A post-hypnotic suggestion that involves a simple action. For example. the target will bark every time he hears the word. \"dog.\"",
+        "Extremely Hard": "A post-hypnotic suggestion that involves a complex action (one that involves multiple actions). For example. traveling to a specific location.",
+        "Sheer Folly": "A post-hypnotic suggestion that is dangerous or contrary to the target's beliefs (e.g., murder).",
+        "Absurd": "A post-hypnotic suggestion involving bodily harm or death."
+      }
+    },
+    "Midwifery": {
+      "optional_stats": "Me/In/Em",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "See Healing, Section 4.0.",
+      "specialties": [
+        "Any specific race."
+      ],
+      "example_difficulties": {}
+    },
+    "Navigation": {
+      "optional_stats": "Me/In/Re",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is used to prevent a character from getting lost while traveling. Use of this skill allows a character to travel from point A to point B without getting lost. The character must have the necessary equipment and maps (including at least a compass). As long as this skill is successful, a character will not get lost. (A maneuver should be made each day of travel.)",
+      "specialties": [
+        "On land, at sea, underground, etc."
+      ],
+      "example_difficulties": {
+        "Routine": "While at a landmark whose location is clearly noted on a map (e.g., a port, city, etc.).",
+        "Easy": "While in possession of all possible navigational tools and a map.",
+        "Light": "At night.",
+        "Medium": "On a clear day.",
+        "Hard": "Following a storm.",
+        "Very Hard": "While overcast.",
+        "Extremely Hard": "Following a gale that pushed the ship far off course.",
+        "Sheer Folly": "Without a map or compass.",
+        "Absurd": "After being teleported."
+      }
+    },
+    "Preparing Herbs": {
+      "optional_stats": "Me/In/Ag",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Use of this skill supposes that the herbalist knows how the herb must be applied. The difficulty of the maneuver depends on how many ingredients are needed to purify the herb. As a general rule, divide the cost of the herb (in gold) by the rarity factor squared (<dfn>cost ÷ [rarity × rarity]</dfn>) and reference below. (The GM may declare that some herbs are more or less difficult than this.)",
+      "specialties": [
+        "Any specific method of preparation (e.g., brew, ingest, apply)."
+      ],
+      "example_difficulties": {
+        "Routine": "Below .01.",
+        "Easy": ".01 - .1.",
+        "Light": ".1 - .5.",
+        "Medium": ".5 - 1.",
+        "Hard": "1-2.",
+        "Very Hard": "2 - 4.",
+        "Extremely Hard": "4 - 7.",
+        "Sheer Folly": "7-10.",
+        "Absurd": "10 or more."
+      }
+    },
+    "Preparing Poisons": {
+      "optional_stats": "Me/In/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Use of this skill supposes that the herbalist knows how the poison must be applied. The difficulty of the maneuver depends on how many ingredients are needed to prepare the poison. As a general rule, divide the cost of the poison (in gold) by the rarity factor squared (<dfn>cost ÷ [rarity × rarity]</dfn>) and reference below. (The GM may declare that some poisons are more or less difficult than this.)",
+      "specialties": [
+        "Any specific method of preparation (e.g., brew, ingest, apply)."
+      ],
+      "example_difficulties": {
+        "Routine": "Below .01.",
+        "Easy": ".01 - .1.",
+        "Light": ".1 - .5.",
+        "Medium": ".5 - 1.",
+        "Hard": "1-2.",
+        "Very Hard": "2 - 4.",
+        "Extremely Hard": "4 - 7.",
+        "Sheer Folly": "7-10.",
+        "Absurd": "10 or more."
+      }
+    },
+    "Siege Engineering": {
+      "optional_stats": "Me/In/Re",
+      "ep_cost": "N/A",
+      "distance_multiplier": "N/A",
+      "notes": "The difficulty of this maneuver depends on the quality of the structure under siege. Successful siege engineering will (over time) result in the destruction of the building's defenses. Each successful week of siege engineering reduces the DB of the structure by 5. If the DB is ever reduced to -50, the building is demolished. A successful siege engineering maneuver can also prevent attempts to re-supply.",
+      "specialties": [
+        "Any specific structure."
+      ],
+      "example_difficulties": {
+        "Routine": "A straw hut.",
+        "Easy": "A wooden dwelling.",
+        "Light": "A stone dwelling.",
+        "Medium": "An outpost or wooden palisade.",
+        "Hard": "A palace.",
+        "Very Hard": "A city wall.",
+        "Extremely Hard": "A fortress.",
+        "Sheer Folly": "A heavily fortified keep.",
+        "Absurd": "A complex built out of a mountain (rather than on)."
+      }
+    },
+    "Tactics": {
+      "optional_stats": "Me/In/Re",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is used to provide an army or group of combatants with a bonus to their OB. If the maneuver roll is successful, the combatants can receive the subsequent maneuver bonus as a bonus to their OB, provided they follow the tacticians' plans. The difficulty of such a maneuver depends on the odds against the tactician. Like Tactical Games, only one side or the other can gain any benefit from this skill. Whichever side succeeds (Partial Success or better) the more difficult maneuver gets the subsequent maneuver bonus. If the maneuvers are of equal difficulty, neither side get the indicated bonus. The examples below indicate the simplest maneuver that a tactician can attempt (i.e., he can voluntarily increase the difficulty of the maneuver).",
+      "specialties": [
+        "Any specific situation."
+      ],
+      "example_difficulties": {
+        "Routine": "The situation is obviously in favor of the tactician (e.g., he outnumbers his opponents by a factor of 5:1).",
+        "Easy": "The tactician has studied this situation (or a very similar one) very closely.",
+        "Light": "The odds are in favor of the tactician.",
+        "Medium": "The odds are relatively even.",
+        "Hard": "The odds are against the tactician.",
+        "Very Hard": "The tactician is in an unfamiliar situation.",
+        "Extremely Hard": "The situation is definitely against the tactician.",
+        "Sheer Folly": "The situation is worthy of immediate surrender.",
+        "Absurd": "The situation is truly hopeless."
+      }
+    }
+  },
+  "source": "sohk",
+  "book": "School of Hard Knocks (book 5808)",
+  "group_notes": "The Technical/Trade categories encompass a large number of skills. The amount of time required to complete such a maneuver can vary widely, and must be determined on a case by case basis. Note that if tools are required, it is assumed the character has access to the necessary implements. If not, an additional penalty of at least -50 should be assessed."
+}

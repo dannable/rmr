@@ -41,6 +41,10 @@
 @stat: SD
 @description: This skill provides a bonus for using complex lancing (mounted) maneuvers, such as tilting, skewering rings in a tourney, etc.
 
+@@ Jousting
+@stat: St
+@description: This skill provides a bonus for using complex lancing (mounted) maneuvers, such as tilting, skewering rings in a tourney, etc.
+
 # ===================================================================
 # TABLES
 # ===================================================================

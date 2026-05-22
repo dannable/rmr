@@ -60,12 +60,33 @@ class SkillCategory(BaseModel):
     parent_group: str | None = None
     classification: str | None = None
     description: str | None = None
+    # Category-specific notes from "School of Hard Knocks" (book 5808).
+    # Currently always empty — SOHK's Section 5 prose lives at the
+    # group level on SkillGroupDetail.sohk_notes. Reserved for future
+    # category-specific notes (e.g. if SOHK adds Section 5.X.Y in a
+    # later edition).
+    sohk_notes: str = ""
+
+
+class SOHKData(BaseModel):
+    """Per-skill supplemental data from "School of Hard Knocks". Empty
+    fields mean SOHK either doesn't address that aspect of this skill
+    or doesn't elaborate this skill at all (the 4 placeholder umbrella
+    skills — Armor / Weapon / Spells / etc. — get an all-empty payload).
+    """
+    optional_stats: str = ""           # e.g. "Ag/Qu/Ag"
+    ep_cost: str = ""                  # e.g. "1 every 6 rounds"
+    distance_multiplier: str = ""      # e.g. "1"
+    notes: str = ""                    # GM-facing maneuver-resolution prose
+    specialties: list[str] = []
+    example_difficulties: dict[str, str] = {}
 
 
 class Skill(BaseModel):
     name: str
     stat: str | None = None
     description: str | None = None
+    sohk_data: SOHKData = SOHKData()
 
 
 class SkillTableRow(BaseModel):
@@ -93,6 +114,10 @@ class SkillGroupDetail(BaseModel):
     name: str
     page_div: int
     page_content: int
+    # Group-level prose from "School of Hard Knocks" Section 5 — general
+    # rules / GM guidance that applies to the whole category family.
+    # Empty when SOHK doesn't cover this group.
+    sohk_notes: str = ""
     categories: list[SkillCategory]
     skills: list[Skill]
     tables: list[SkillTable]
@@ -108,8 +133,13 @@ class SkillGroupUpdate(BaseModel):
     those identify the group but aren't editable). Everything in
     categories/skills/tables is replaced wholesale: send the full
     desired list, and the server wipes + re-inserts.
+
+    `sohk_notes` is optional — when omitted, the server leaves the
+    existing value alone (clients that don't know about SOHK can keep
+    sending the old payload shape without wiping it).
     """
     name: str | None = None
+    sohk_notes: str | None = None
     categories: list[SkillCategory]
     skills: list[Skill]
     tables: list[SkillTable]
@@ -173,7 +203,10 @@ def update_group(
     edit handler: if the file write raises, the DB is rolled back so the
     on-disk file stays canonical.
     """
-    payload = body.model_dump()
+    # exclude_unset=True keeps sohk_notes out of the payload when the
+    # client didn't send it — that lets update_skill_group keep the
+    # existing value instead of clobbering it with "".
+    payload = body.model_dump(exclude_unset=True)
     # `name` is allowed to drift if the user fixes a typo; the loader-level
     # @group_name field gets re-serialised from the DB row.
     new_name = payload.get("name")
