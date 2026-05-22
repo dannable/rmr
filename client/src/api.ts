@@ -285,6 +285,78 @@ export const fetchProfessions = () =>
 export const fetchProfession = (slug: string) =>
   api<ProfessionDetail>(`/api/v1/professions/${encodeURIComponent(slug)}`);
 
+// ---- training packages -------------------------------------------------
+
+export interface TrainingPackageRow {
+  slug: string;
+  name: string;
+  category: string;
+  description: string;
+  default_cost: number;
+}
+
+export interface TPSpecial {
+  chance: number;
+  description: string;
+}
+
+export interface TPStatGain {
+  /** Set when this slot grants a fixed stat. Null when the slot is a
+   *  pick-one choice — choices then lists the alternatives. */
+  stat_code: string | null;
+  choices: string[];
+}
+
+export interface TPCategoryOption {
+  group_name: string;
+  category_name: string;
+}
+
+export interface TPSkillOption {
+  skill_name: string;
+  classification: string;
+}
+
+export interface TPRankAssignment {
+  /** When set, this slot is "flexible" — pick from category_options.
+   *  When null, the slot is fixed and group_name/category_name are set. */
+  reference_label: string | null;
+  group_name: string | null;
+  category_name: string | null;
+  cat_ranks: number;
+  skill_ranks: number;
+  cat_spread_max: number | null;
+  skill_spread_max: number | null;
+  ranks_assigned_max: number | null;
+  category_options: TPCategoryOption[];
+  skill_options: TPSkillOption[];
+}
+
+export interface TPProfessionCost {
+  profession_name: string;
+  cost: number;
+}
+
+export interface TrainingPackageDetail {
+  slug: string;
+  name: string;
+  category: string;
+  description: string;
+  default_cost: number;
+  specials: TPSpecial[];
+  stat_gains: TPStatGain[];
+  rank_assignments: TPRankAssignment[];
+  profession_costs: TPProfessionCost[];
+}
+
+export const fetchTrainingPackages = () =>
+  api<TrainingPackageRow[]>("/api/v1/training-packages");
+
+export const fetchTrainingPackage = (slug: string) =>
+  api<TrainingPackageDetail>(
+    `/api/v1/training-packages/${encodeURIComponent(slug)}`,
+  );
+
 // ---- spells ------------------------------------------------------------
 
 export interface SpellClassRow {

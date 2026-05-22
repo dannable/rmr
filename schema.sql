@@ -341,6 +341,135 @@ CREATE INDEX IF NOT EXISTS idx_profession_prime_stat_by_prof
     ON profession_prime_stat(profession_id);
 
 -- =========================================================================
+-- Chargen reference data: training packages (RMSS Character Law).
+-- =========================================================================
+-- One row per training package (Adventurer, Bard, ..., Zealot — 36 in
+-- the source .era). Loaded from data/chargen/training_packages/<slug>.txt
+-- via load.py with INSERT ... ON CONFLICT(slug) DO UPDATE so training_
+-- package_id stays stable across reference-data reloads.
+--
+-- A training package is a bundle of rank assignments + stat gains +
+-- random outfitting (Specials) the player can purchase as a single
+-- chunk for one of the per-profession DP costs.
+--
+-- Source: ERA/rmfrpCharacterLaw.trainingPackages.era — same reversed-
+-- base64 ZIP format as the professions file.  ERA's group/category
+-- naming is preserved verbatim (same caveat as profession_*).
+--
+-- The ERA data references ~60 professions across RMSS Core + Companion
+-- expansions; our schema currently knows only the 20 from Character Law.
+-- ProfessionCost rows for unknown professions are stored anyway — the
+-- string is the profession's name, no FK — so a future Companion-data
+-- import won't require a backfill.
+
+CREATE TABLE IF NOT EXISTS training_package (
+    training_package_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    slug                TEXT    NOT NULL UNIQUE,    -- e.g. "lay_healer"
+    name                TEXT    NOT NULL UNIQUE,    -- e.g. "Lay Healer"
+    category            TEXT    NOT NULL DEFAULT '',  -- "RMFRP Core", etc.
+    description         TEXT    NOT NULL DEFAULT '',
+    default_cost        INTEGER NOT NULL DEFAULT 0    -- fallback DP cost when
+                                                       -- ProfessionCost row absent
+);
+
+-- Random outfitting rolls. Each row is rolled independently; on a
+-- success the item is granted.
+CREATE TABLE IF NOT EXISTS training_package_special (
+    training_package_id INTEGER NOT NULL REFERENCES training_package(training_package_id) ON DELETE CASCADE,
+    sort_order          INTEGER NOT NULL,
+    chance              INTEGER NOT NULL,           -- 0..100 in source data
+    description         TEXT    NOT NULL,
+    PRIMARY KEY (training_package_id, sort_order)
+);
+
+-- Stat gain slots. A "guaranteed" gain has stat_code populated and
+-- has_choice = 0. A "pick one" gain has stat_code NULL, has_choice = 1,
+-- with the choices listed in training_package_stat_gain_choice.
+CREATE TABLE IF NOT EXISTS training_package_stat_gain (
+    training_package_id INTEGER NOT NULL REFERENCES training_package(training_package_id) ON DELETE CASCADE,
+    sort_order          INTEGER NOT NULL,
+    stat_code           TEXT,                       -- Ag/Co/Me/Re/SD/Em/In/Pr/Qu/St when guaranteed
+    has_choice          INTEGER NOT NULL DEFAULT 0, -- 1 when this slot offers a pick-one set
+    PRIMARY KEY (training_package_id, sort_order)
+);
+
+CREATE TABLE IF NOT EXISTS training_package_stat_gain_choice (
+    training_package_id INTEGER NOT NULL,
+    sort_order          INTEGER NOT NULL,
+    stat_code           TEXT    NOT NULL,
+    PRIMARY KEY (training_package_id, sort_order, stat_code),
+    FOREIGN KEY (training_package_id, sort_order)
+        REFERENCES training_package_stat_gain(training_package_id, sort_order)
+        ON DELETE CASCADE
+);
+
+-- One row per RankAssignment slot. A "fixed" slot has group_name +
+-- category_name populated and reference_label NULL. A "flexible" slot
+-- has reference_label populated (e.g. "Melee Weapon") and the allowed
+-- (group, category) pairs live in training_package_ra_category_option.
+-- Skill-level filters / spread caps land in the rest of the columns.
+CREATE TABLE IF NOT EXISTS training_package_rank_assignment (
+    training_package_id INTEGER NOT NULL REFERENCES training_package(training_package_id) ON DELETE CASCADE,
+    sort_order          INTEGER NOT NULL,
+    reference_label     TEXT,                       -- "Melee Weapon" etc. — NULL when fixed
+    group_name          TEXT,                       -- NULL when reference_label set
+    category_name       TEXT,                       -- NULL when reference_label set
+    cat_ranks           INTEGER NOT NULL DEFAULT 0,
+    skill_ranks         INTEGER NOT NULL DEFAULT 0,
+    cat_spread_max      INTEGER,                    -- "spread your category picks over at most N options"
+    skill_spread_max    INTEGER,                    -- same for skill picks
+    ranks_assigned_max  INTEGER,                    -- per-skill cap when the slot grants multiple ranks
+    PRIMARY KEY (training_package_id, sort_order)
+);
+
+-- Allowed (group, category) options for a flexible-slot RankAssignment.
+-- Empty when the slot is fixed (reference_label = NULL).
+CREATE TABLE IF NOT EXISTS training_package_ra_category_option (
+    training_package_id INTEGER NOT NULL,
+    sort_order          INTEGER NOT NULL,            -- matches rank_assignment.sort_order
+    option_index        INTEGER NOT NULL,            -- preserves source order
+    group_name          TEXT    NOT NULL,
+    category_name       TEXT    NOT NULL,
+    PRIMARY KEY (training_package_id, sort_order, option_index),
+    FOREIGN KEY (training_package_id, sort_order)
+        REFERENCES training_package_rank_assignment(training_package_id, sort_order)
+        ON DELETE CASCADE
+);
+
+-- Skill-level constraints inside a RankAssignment: when present, the
+-- ranks must be spent on one of these specific skills. Empty when the
+-- slot is free to pick any skill in the chosen category.
+CREATE TABLE IF NOT EXISTS training_package_ra_skill_option (
+    training_package_id INTEGER NOT NULL,
+    sort_order          INTEGER NOT NULL,
+    option_index        INTEGER NOT NULL,
+    skill_name          TEXT    NOT NULL,
+    classification      TEXT    NOT NULL,
+    PRIMARY KEY (training_package_id, sort_order, option_index),
+    FOREIGN KEY (training_package_id, sort_order)
+        REFERENCES training_package_rank_assignment(training_package_id, sort_order)
+        ON DELETE CASCADE
+);
+
+-- Per-profession DP cost for this TP. ERA's data references ~60 professions
+-- (RMSS Core + Companion expansions); we keep the profession_name as a free
+-- string rather than FK'ing into our 20-profession `profession` table so
+-- unknown professions don't cause load failures.
+CREATE TABLE IF NOT EXISTS training_package_profession_cost (
+    training_package_id INTEGER NOT NULL REFERENCES training_package(training_package_id) ON DELETE CASCADE,
+    profession_name     TEXT    NOT NULL,
+    cost                INTEGER NOT NULL,
+    PRIMARY KEY (training_package_id, profession_name)
+);
+
+CREATE INDEX IF NOT EXISTS idx_tp_special_by_tp
+    ON training_package_special(training_package_id);
+CREATE INDEX IF NOT EXISTS idx_tp_rank_assignment_by_tp
+    ON training_package_rank_assignment(training_package_id);
+CREATE INDEX IF NOT EXISTS idx_tp_profession_cost_by_tp
+    ON training_package_profession_cost(training_package_id);
+
+-- =========================================================================
 -- Adolescence Rank Table T-1.6
 -- =========================================================================
 -- Starting skill ranks granted to a new character during adolescence,

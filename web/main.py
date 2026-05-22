@@ -22,6 +22,7 @@ from .api.professions import router as professions_router
 from .api.races import router as races_router
 from .api.skills import router as skills_router
 from .api.spells import router as spells_router
+from .api.training_packages import router as training_packages_router
 from .auth.discord import router as auth_router
 from .config import get_settings
 
@@ -47,6 +48,7 @@ def create_app() -> FastAPI:
     app.include_router(races_router)
     app.include_router(skills_router)
     app.include_router(spells_router)
+    app.include_router(training_packages_router)
 
     @app.get("/healthz")
     def healthz() -> dict:
