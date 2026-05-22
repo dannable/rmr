@@ -267,6 +267,10 @@ CREATE TABLE IF NOT EXISTS profession (
     slug            TEXT    NOT NULL UNIQUE,    -- e.g. "lay_healer"
     name            TEXT    NOT NULL UNIQUE,    -- e.g. "Lay Healer"
     description     TEXT    NOT NULL DEFAULT '',
+    -- Source book tag — 'character_law' for the 20 base professions
+    -- from the ERA-derived RMFRP Character Law data, 'sohk' for the
+    -- 4 new ones added by School of Hard Knocks.
+    source          TEXT    NOT NULL DEFAULT 'character_law',
     -- Relative path to the portrait PNG decoded from the .era SampleImage,
     -- under data/chargen/professions/img/. NULL when no portrait is
     -- available locally (the directory is gitignored as third-party IP).
@@ -368,8 +372,11 @@ CREATE TABLE IF NOT EXISTS training_package (
     name                TEXT    NOT NULL UNIQUE,    -- e.g. "Lay Healer"
     category            TEXT    NOT NULL DEFAULT '',  -- "RMFRP Core", etc.
     description         TEXT    NOT NULL DEFAULT '',
-    default_cost        INTEGER NOT NULL DEFAULT 0    -- fallback DP cost when
+    default_cost        INTEGER NOT NULL DEFAULT 0,   -- fallback DP cost when
                                                        -- ProfessionCost row absent
+    -- Source book tag — 'character_law' for the 36 ERA-derived RMFRP Core
+    -- training packages, 'sohk' for the 18 added by School of Hard Knocks.
+    source              TEXT    NOT NULL DEFAULT 'character_law'
 );
 
 -- Random outfitting rolls. Each row is rolled independently; on a
@@ -684,7 +691,12 @@ CREATE TABLE IF NOT EXISTS skill_category_group (
     -- save. updated_by_user_id may be NULL after the user's account is
     -- deleted (ON DELETE SET NULL).
     updated_at         TEXT,
-    updated_by_user_id INTEGER REFERENCES app_user(user_id) ON DELETE SET NULL
+    updated_by_user_id INTEGER REFERENCES app_user(user_id) ON DELETE SET NULL,
+    -- Group-level prose from "School of Hard Knocks" Section 5
+    -- (general usage rules that apply across a whole skill-category
+    -- family — e.g. EP costs + pace multipliers for Athletic skills).
+    -- Empty when SOHK has no Section 5 entry for this family.
+    sohk_notes         TEXT    NOT NULL DEFAULT ''
 );
 
 CREATE TABLE IF NOT EXISTS skill_category (
@@ -698,7 +710,12 @@ CREATE TABLE IF NOT EXISTS skill_category (
     category_progression TEXT,
     parent_group         TEXT,                  -- the "Group:" field — e.g. "Armor"
     classification       TEXT,                  -- "Moving Maneuver" / "Static Maneuver" / ...
-    description          TEXT
+    description          TEXT,
+    -- Optional per-category prose from "School of Hard Knocks" Section 5
+    -- (extra usage notes, modifiers, common situations). Empty when
+    -- SOHK has no entry for this category. Stored as a single TEXT
+    -- block; the SPA renders it under a "SOHK notes" disclosure.
+    sohk_notes           TEXT    NOT NULL DEFAULT ''
 );
 CREATE INDEX IF NOT EXISTS idx_skill_category_by_group
     ON skill_category(group_id);
@@ -709,6 +726,19 @@ CREATE TABLE IF NOT EXISTS skill (
     name         TEXT    NOT NULL,
     stat         TEXT,                          -- "In" / "Em" / multi like "Em/Pr"
     description  TEXT,
+    -- Optional per-skill supplemental data from "School of Hard Knocks"
+    -- (book 5808). Stored as a JSON object with optional keys:
+    --   optional_stats:        e.g. "Ag/Qu/Ag"
+    --   ep_cost:               e.g. "1 every 6 rounds"
+    --   distance_multiplier:   e.g. "1"
+    --   notes:                 GM-facing maneuver-resolution paragraphs
+    --   specialties:           list[str] of specialization options
+    --   example_difficulties:  dict[str, str] keyed by tier
+    --                          ("Routine", "Easy", "Light", "Medium",
+    --                           "Hard", "Very Hard", "Extremely Hard",
+    --                           "Sheer Folly", "Absurd")
+    -- Default '{}' means SOHK doesn't elaborate this skill.
+    sohk_data    TEXT    NOT NULL DEFAULT '{}',
     UNIQUE (group_id, name)
 );
 CREATE INDEX IF NOT EXISTS idx_skill_lookup_name

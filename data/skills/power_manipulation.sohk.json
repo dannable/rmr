@@ -1,0 +1,68 @@
+{
+  "skills": {
+    "Spell Mastery": {
+      "optional_stats": "Em/In/Pr",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is often used to increase the range, duration or area of effect of a spell, although there are a number of different uses. This skill can be used to incorporate a visual illusion into the spell. (For example, a Shock Bolt with the head of an eagle or Demon.) It can be used to tweak the effects of a spell. (For example, modifying a bolt so that it strikes the target directly, without arcing from the caster to the target.) This skill can also be used to add new parameters to a spell. (For example, a wall that can slowly advance.) Spell Mastery can be used to lessen the effects of a spell, or to improve the caster's control over the spell's force. The possibilities are limited only by the spell caster's imagination (and the GM). The difficulty of the maneuver depends on how dramatic the change is. In addition, the following modifiers may also be applied:",
+      "specialties": [
+        "Any specific modification to a spell."
+      ],
+      "example_difficulties": {
+        "Routine": "Changing a minor aspect of a spell (e.g., turning a Shock Bolt green or purple).",
+        "Easy": "Adding a minor illusion or sensation (e.g., causing discomfort with a Grow or Shrink spell).",
+        "Light": "Adding a large illusion (e.g., adding illusionary wings to a Fly spell).",
+        "Medium": "Lessening the effect of a spell (e.g., using a Fire Bolt to light a campfire without igniting the surrounding woods).",
+        "Hard": "Adding a parameter with random effects (e.g., a Wall whose height changes every round).",
+        "Very Hard": "Fine control of a spell (e.g., using a Fire Bolt to light a pipe).",
+        "Extremely Hard": "Adding a minor new parameter (e.g., a Wall that can move 10' / round if the caster concentrates).",
+        "Sheer Folly": "Minute control of a spell (e.g., using a Fire Bolt to shave).",
+        "Absurd": "Adding a radical new parameter (e.g., casting an Absolution spell that does not destroy the target's soul, but traps it in a glass bottle)."
+      }
+    },
+    "Channeling": {
+      "optional_stats": "Em/In/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "In an epic campaign, it is not unusual for gods to meddle in the affairs of mortals. If the GM allows it, characters can attempt to communicate with their deities directly. It is a Sheer Folly maneuver to contact one's deity and an Absurd maneuver to request a favor. In addition, there is a cumulative penalty of -100, every time after the first that a character requests a favor. This penalty decreases by 20 for every level the character gains after incurring the penalty. Hence, a character can request a favor once every five levels without any additional penalty. For more details see the Channeling Companion .",
+      "specialties": [
+        "To a specific individual.",
+        "From a specific individual."
+      ],
+      "example_difficulties": {}
+    },
+    "Magic Ritual": {
+      "optional_stats": "Em/In/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "See the Essence Companion , Channeling Companion , Mentalism Companion , and Arcane Companion for more information on magic rituals. This skill can be used to cast ritual spells that do not require Power Points. Subtract the combined levels of the casters from the following sum:\n\nReference the result below. The time needed to cast the spell is also indicated. For example, 3 spell casters (all level 10) are attempting to cast a 5th, 10th and 25th level spell. The differenceis (25 + 10 x 2 + 5 x 3 - 10 x 3) = 30. This ritual would be a Sheer Folly maneuver and require 30 minutes to complete.",
+      "specialties": [
+        "Any specific spell list."
+      ],
+      "example_difficulties": {
+        "Routine": "(-20) or lower: 1 round.",
+        "Easy": "(-19) - (-10): 2 rounds.",
+        "Light": "(-9) - (-5): 3 rounds.",
+        "Medium": "(-4) - 4: 4 rounds.",
+        "Hard": "5-9: 1 minute.",
+        "Very Hard": "10-14: 5 minutes.",
+        "Extremely Hard": "15-20: 15 minutes.",
+        "Sheer Folly": "21-30: 30 minutes.",
+        "Absurd": "31 or more: 1 hour."
+      }
+    },
+    "Transcend Armor": {
+      "optional_stats": "Em/In/Pr",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is self explanatory.",
+      "specialties": [
+        "Any individual suit of armor."
+      ],
+      "example_difficulties": {}
+    }
+  },
+  "source": "sohk",
+  "book": "School of Hard Knocks (book 5808)",
+  "group_notes": "These skills all come from the following skill categories: Directed Spells, Power Awareness, Power Manipulation, Power Point Development, and Spells. Most Power maneuvers require one minute to complete. For every round less than this devoted to the skill, the maneuver roll should be reduced by -20. This cannot be reduced to less than a single round (-100). This allows characters a desperate chance to attune to a new item while in combat. Note that spell casting requires the expenditure of exhaustion points. Casting a spell drains one exhaustion point every two rounds. Concentration drains one exhaustion point every six rounds (one minute). If a character desires to maintain concentration for an extended time, he should develop the Meditation skill, which allows him to concentrate without spending exhaustion points."
+}

@@ -1,0 +1,345 @@
+{
+  "skills": {
+    "Adrenal Concentration": {
+      "optional_stats": "SD/Pr/Pr",
+      "ep_cost": "5 every round",
+      "distance_multiplier": "",
+      "notes": "This skill provides an additional bonus to moving maneuvers, attacks and Adrenal skills. (Static maneuvers are modified by meditation.) This skill is modified by how strongly the character feels about the successful completion of the action. Life-long goals should be realized once during the life-time of the character. Major goals are realized after several adventures. Minor goals should be realized at most once per adventure. This skill is also easier during cinematic high points. Thus, the usefulness of Adrenal Concentration is dependent on the storyline as determined by the GM. There can be multiple climaxes during a single adventure, but only a single scene involving plot resolution. The GM may rule that during some scenes Adrenal Concentration is practically useless (e.g., when the plot demands the failure of the characters in some endeavor). These scenes should be used sparingly.",
+      "specialties": [
+        "One specific skill (to be modified by +25)."
+      ],
+      "example_difficulties": {
+        "Routine": "One of the character's life-long goals or ambitions is about to be realized.",
+        "Easy": "One of the character's major goals or ambitions is about to be realized.",
+        "Light": "One of the character's minor goals or ambitions is about to be realized or during the plot resolution (final climax).",
+        "Medium": "During a climactic scene.",
+        "Hard": "During a scene significant to the adventure plot.",
+        "Very Hard": "During a minor scene.",
+        "Extremely Hard": "During a scene where the failure of the character is useful.",
+        "Sheer Folly": "During a scene where the failure of the character is crucial.",
+        "Absurd": "When the GM really wants the character to fail!"
+      }
+    },
+    "Adrenal Landing": {
+      "optional_stats": "SD/Pr/Ag",
+      "ep_cost": "5 every round",
+      "distance_multiplier": "N/A",
+      "notes": "This skill reduces the damage taken from falling. This skill does not assume that the character has any means by which to slow his descent (unlike Acrobatics). It can be used in conjunction with Acrobatics, but a +1 Fall/ Crush attack must be made regardless. The character must choose between this skill and Tumbling. Note that Tumbling could be used to provide a subsequent maneuver bonus, or vice versa. If there are obvious means by which to slow the descent this skill becomes easier. Conversely, it is difficult to les~enthe effects of having been thrown by a Dragon.",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {
+        "Routine": "Being knocked down (+0 Fall/Crush) or falling down a 45' slope with ample cushioning (moss, loose dirt, etc.).",
+        "Easy": "Falling down a 60' slope with ample cushioning, or falling down a 45' hard slope.",
+        "Light": "Being knocked off a horse (+5 Fall/Crush) or falling down a 60' slope.",
+        "Medium": "Falling down a 90' slope with suitable ledges, protrusions, etc.",
+        "Hard": "Falling down a 90' smooth slope.",
+        "Very Hard": "Being thrown by a man-sized creature.",
+        "Extremely Hard": "Falling without any means of slowing thedescent (the nearest wall is more than 10' away).",
+        "Sheer Folly": "Being thrown by a large creature (e.g., Troll).",
+        "Absurd": "Being thrown by a huge creature (e.g., Dragon)."
+      }
+    },
+    "Adrenal Leaping": {
+      "optional_stats": "SD/Pr/St",
+      "ep_cost": "5 every round",
+      "distance_multiplier": "0.5",
+      "notes": "This skill represents the ability to perform the amazing leaps found in many kung fu movies. If the GM is running a low-powered campaign, he should treat Adrenal Leaping as Jumping. Otherwise, Adrenal Leaping allows the user to spend a 20% action one round in order to leap the following round. The leap itself takes no further action. Thus, the character can perform any action while leaping (including missile and melee attacks). The round he is in the air, the character can only be attacked by missile weapons, other airborne characters, and melee attacks in the Snap Action Phase. The base distance a character can Adrenal Leap (Base Leap) is equal to his base movement rate divided by two. Hence, a common man can has a base of 25'.",
+      "specialties": [
+        "While performing a specific skill.",
+        "While using a specific martial arts style."
+      ],
+      "example_difficulties": {
+        "Routine": "Up to 1/2 of Base Leap forward.",
+        "Easy": "Up to 1/2 of Base Leap up, or back.",
+        "Light": "Up to 1/2 of Base Leap forward (or back) and up to 1/2 of Base Leap up.",
+        "Medium": "Up to Base Leap forward.",
+        "Hard": "Up to Base Leap up, or back.",
+        "Very Hard": "Up to Base Leap forward (or back) and up to Base Leap up.",
+        "Extremely Hard": "Up to twice Base Leap forward.",
+        "Sheer Folly": "Up to twice Base Leap up, or back.",
+        "Absurd": "Up to twice Base Leap forward (or back) and up to twice Base Leap up."
+      }
+    },
+    "Adrenal Quickdraw": {
+      "optional_stats": "SD/Pr/Ag",
+      "ep_cost": "5 every round",
+      "distance_multiplier": "",
+      "notes": "This skill is nearly identical to Quickdraw. If this skill is performed successfully, a weapon can be both drawn and used during the snap action phase (since drawing the weapon is a 0% action). If used with a thrown weapon, it is possible to throw two weapons in one round (provided one is already in hand). The GM may even wish to allow this skill to be used with missile weapons (representing Zen archery). The difficulty of the skill is based entirely on the size of the weapon.",
+      "specialties": [
+        "Any specific weapon type (long sword, mace, etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "Readying a thrown weapon.",
+        "Easy": "Readying a one-handed edged weapon.",
+        "Light": "Readying a one-handed crushing weapon.",
+        "Medium": "Readying a two-handed weapon.",
+        "Hard": "Readying two weapons (both are one-handed edged or thrown).",
+        "Very Hard": "Readying two weapons.",
+        "Extremely Hard": "Readying a short bow or sling.",
+        "Sheer Folly": "Readying a composite bow or long bow.",
+        "Absurd": "Readying any other weapon (subject to GM approval)."
+      }
+    },
+    "Adrenal Speed": {
+      "optional_stats": "SD/Pr/Qu",
+      "ep_cost": "5 every round",
+      "distance_multiplier": "",
+      "notes": "This skill is modified by how strongly the character feels about the successful completion of the action. Life-long goals should be realized once during the life-time of the character. Major goals are realized after several adventures. Minor goals should be realized at most once per adventure. This skill is also easier during cinematic high points. Thus, the usefulness of Adrenal Speed is dependent on the storyline as determined by the GM. There can be multiple climaxes during a single adventure, but only a single scene involving plot resolution. The GM may rule that during some scenes Adrenal Speed is practically useless (e.g., when the plot demands the failure of the characters in some endeavor). These scenes should be used sparingly.",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {
+        "Routine": "One of the character's life-long goals or ambitions is about to be realized.",
+        "Easy": "One of the character's major goals or ambitions is about to be realized.",
+        "Light": "One of the character's minor goals or ambitions is about to be realized or during the plot resolution (final climax).",
+        "Medium": "During a climactic scene.",
+        "Hard": "During a scene significant to the plot of the adventure.",
+        "Very Hard": "During a minor scene.",
+        "Extremely Hard": "During a scene where the failure of the character is useful.",
+        "Sheer Folly": "During a scene where the failure of the character is crucial.",
+        "Absurd": "When the GM really wants the character to fail!"
+      }
+    },
+    "Adrenal Stabilization": {
+      "optional_stats": "SD/Pr/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill can also be used to enter a catatonic state in order to survive submersion, deprivation, or to be presumed dead. If the skill roll is failed, the catatonic state is not entered. Partial and Near Success results in a semi-catatonic state. While in this state, the body requires 1% of the oxygen normally required. This state can be maintained for 1 day per difficulty level.",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {
+        "Routine": "Practicing Adrenal Stabilization or entering a catatonic state (1 day).",
+        "Easy": "Bleeding 1/round or a 2 day catatonic state.",
+        "Light": "Bleeding 2/round or a 3 day catatonic state.",
+        "Medium": "Bleeding 3/roundor a 4 day catatonic state.",
+        "Hard": "Bleeding 4/round or a 5 day catatonic state.",
+        "Very Hard": "Bleeding 5/round or a 6 day catatonic state.",
+        "Extremely Hard": "Bleeding 6+/round or a 7 day catatonic state.",
+        "Sheer Folly": "One limb amputated or a 10 day catatonic state.",
+        "Absurd": "Two limbs amputated or a 14 day catatonic state."
+      }
+    },
+    "Adrenal Strength": {
+      "optional_stats": "SD/Pr/St",
+      "ep_cost": "5 every round",
+      "distance_multiplier": "",
+      "notes": "This skill is modified by how strongly the character feels about the successful completion of the action. Life-long goals should be realized once during the life-time of the character. Major goals are realized after several adventures. Minor goals should be realized at most once per adventure. This skill is also easier during cinematic high points. Thus, the usefulness of Adrenal Strength is dependent on the storyline as determined by the GM. There can be multiple climaxes during a single adventure, but only a single scene involving plot resolution. The GM may rule that during some scenes Adrenal Strength is practically useless (e.g., when the plot demands the failure of the characters in some endeavor). These scenes should be used sparingly.",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {
+        "Routine": "One of the character's life-long goals or ambitions is about to be realized.",
+        "Easy": "One of the character's major goals or ambitions is about to be realized.",
+        "Light": "One of the character's minor goals or ambitions is about to be realized or during the plot resolution (final climax).",
+        "Medium": "During a climactic scene.",
+        "Hard": "During a scene significant to the plot of the adventure.",
+        "Very Hard": "During a minor scene.",
+        "Extremely Hard": "During a scene where the failure of the character is useful.",
+        "Sheer Folly": "During a scene where the failure of the character is crucial.",
+        "Absurd": "When the GM really wants the character to fail!"
+      }
+    },
+    "Cleansing Trance": {
+      "optional_stats": "SD/Pr/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "A Cleansing Trance removes all traces of impure thoughts, transgressions and curses. It is used by holy people and spiritualists to keep their souls pure. The more serious the transgression or curse, the more difficult it is to regain inner harmony. Such inner peace is important to attain salvation or remain in the favor of one's deity. The GM may wish holy persons to lay hands on members of their faith and use this skill to purify them. All difficulty levels should be increased by two unless the target's belief/faith is absolute.",
+      "specialties": [
+        "Any specific sin/transgression.",
+        "Any specific curse."
+      ],
+      "example_difficulties": {
+        "Routine": "Purifying a minor transgression that was never actually committed, merely contemplated (e.g., desiring a second glass of wine with dinner).",
+        "Easy": "Purifying a minor transgression that was committed with good intentions (e.g., lying to a criminal to prevent him from performing a crime).",
+        "Light": "Purifying a transgression that was purely mental in nature (e.g., lust).",
+        "Medium": "Purifying a transgression that harmed another (e.g., striking a loved one in anger). Cleansing a very low level (1-5) curse.",
+        "Hard": "Purifying a major transgression that was not performed (e.g., desiring to kill another). Cleansing a low level (6-10) curse.",
+        "Very Hard": "Purifying a major transgression that seriously injured another (e.g., murder) provided the transgression was justifiable. Cleansing a medium level (11- 15) curse.",
+        "Extremely Hard": "Cleansing a high level (16-20) curse.",
+        "Sheer Folly": "Purifying a major transgression committed with malice (e.g., torture, rape). These actions cannot be justified. Cleansing a very high level (21-50) curse.",
+        "Absurd": "Cleansing an extremely high level (51+) curse."
+      }
+    },
+    "Death Trance": {
+      "optional_stats": "SD/Pr/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is self explanatory.",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {
+        "Routine": "Practicing.",
+        "Medium": "Instantaneous death.",
+        "Absurd": "Dying for a short period of time (up to 1 minute per skill rank). and then recovering."
+      }
+    },
+    "Frenzy": {
+      "optional_stats": "SD/Pr/SD",
+      "ep_cost": "1 every round",
+      "distance_multiplier": "",
+      "notes": "The difficulty in entering a frenzied state depends on the character's emotional state. This can be augmented with the use of certain drugs. (The Norse were known for eating a particular mushroom.)",
+      "specialties": [
+        "Against a specific race/creature or foe."
+      ],
+      "example_difficulties": {
+        "Routine": "While enraged or in despair.",
+        "Easy": "While angry or sad.",
+        "Light": "While irritated or annoyed.",
+        "Medium": "While in a tense situation that could possibly result in armed conflict.",
+        "Hard": "While in a situation being solved diplomatically.",
+        "Very Hard": "While happy.",
+        "Extremely Hard": "While facing a pathetically inferior opponent.",
+        "Sheer Folly": "While in a state of bliss.",
+        "Absurd": "While magically calmed."
+      }
+    },
+    "Healing Trance": {
+      "optional_stats": "SD/Pr/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of a Healing Trance maneuver depends on the level of noise and activity in the immediate surroundings.",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {
+        "Routine": "An isolated and sound-proof room.",
+        "Easy": "A quiet room in which all of the occupants are sleeping.",
+        "Light": "A still setting with some noise, but no activity (e.g., in a peaceful glen).",
+        "Medium": "A relatively sedate setting in which there is some activity, but it is muffled.",
+        "Hard": "While in a room where two people are having a conversation.",
+        "Very Hard": "An active setting in which there is a great deal of movement.",
+        "Extremely Hard": "In a noisy or disruptive environment (e.g., during an argument).",
+        "Sheer Folly": "In an extremely noisy or distracting environment (e.g., while being bombed or shot at).",
+        "Absurd": "While in melee."
+      }
+    },
+    "Meditation": {
+      "optional_stats": "SD/Pr/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is normally used to gain the subsequent maneuver bonus since there are many skills that can logically be aided by meditating. The difficulty of the meditation depends on the environment in which the meditation is being attempted.",
+      "specialties": [
+        "Any specific subsequent maneuver."
+      ],
+      "example_difficulties": {
+        "Routine": "An isolated and sound-proof room.",
+        "Easy": "A quiet room in which all of the occupants are sleeping.",
+        "Light": "A still setting with some noise, but no activity (e.g., in a peaceful glen).",
+        "Medium": "A relatively sedate setting in which there is some activity, but it is muffled.",
+        "Hard": "While in a room where two people are having a conversation.",
+        "Very Hard": "An active setting in which there is a great deal of movement.",
+        "Extremely Hard": "In a noisy or disruptive environment (e.g., during an argument).",
+        "Sheer Folly": "In an extremely noisy or distracting environment (e.g., while being bombed or shot at).",
+        "Absurd": "While in melee."
+      }
+    },
+    "Mnemonics": {
+      "optional_stats": "SD/Pr/Me",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is used to memorize data. Memorizing data is not synonymous with knowledge. Mnemonics is used to memorize data of little relevance. Couriers and pages use this skill to remember messages. Characters may use this skill to memorize the words of an oracle until their meaning becomes obvious. The difficulty of the skill depends on the amount of information and the impact it has on the character.",
+      "specialties": [
+        "Messages, lists, numeric information, etc."
+      ],
+      "example_difficulties": {
+        "Routine": "A short list (up to 10 items).",
+        "Easy": "A short message or note.",
+        "Light": "A moderately long list (up to 100 items). Medium: A detailed message, up to letter length. Hard: A long list (up to 1000 items).",
+        "Very Hard": "A table of complex information (e.g., all of a country's rulers, their birth dates, age of coronation, etc.).",
+        "Extremely Hard": "An epic length poem (whose rhyming pattern aids rote memorization).",
+        "Sheer Folly": "An entire novel.",
+        "Absurd": "The complete works of a prolific author."
+      }
+    },
+    "Sleep Trance": {
+      "optional_stats": "SD/Pr/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill does not use the normal static maneuver resolution procedure. Instead, the maneuver is successful if the result of the maneuver roll is above 100 and fails (i.e., the character requires extra sleep) if the maneuver is below 100. Note that Elves usually sleep by using this skill.",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {
+        "Routine": "An isolated and sound-proof room.",
+        "Easy": "A quiet room in which all of the occupants are sleeping.",
+        "Light": "A still setting with some noise, but no activity (e.g., in a peaceful glen).",
+        "Medium": "A relatively sedate setting in which there is some activity, but it is muffled. A normal wilderness setting.",
+        "Hard": "While in a room where two people are having a conversation.",
+        "Very Hard": "An active setting in which there is a great deal of movement.",
+        "Extremely Hard": "In a noisy or disruptive environment (e.g., during an argument).",
+        "Sheer Folly": "In an extremely noisy or distracting environment (e.g., while being bombed or shot at).",
+        "Absurd": "While in melee."
+      }
+    },
+    "Stunned Maneuvering": {
+      "optional_stats": "SD/Pr/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {}
+    },
+    "Adrenal Balance": {
+      "optional_stats": "SD/Pr/Ag",
+      "ep_cost": "5 every round",
+      "distance_multiplier": "",
+      "notes": "This skill provides an additional bonus to maneuvers that involve balance. Unless this skill is followed by such a maneuver it is useless. In essence, Adrenal Balance is the act of mentally preparing for a balance maneuver. If the Adrenal Balance maneuver is successful, the character may add his skill rank bonus only to the subsequent maneuver. (Stat bonuses, category bonuses, etc. are ignored.) The subsequent maneuver may include nearly any moving maneuver. The more distractions that are present, the more difficult the maneuver. The number of distractions only affects the difficulty of the Adrenal Balance maneuver, not the subsequent moving maneuver.\n\nNote: The size ofthe audience can be reduced by up to two levels if they are quiet.",
+      "specialties": [
+        "One specific balance maneuver."
+      ],
+      "example_difficulties": {
+        "Routine": "Practicing in a quiet and sedate setting. Easy: Practicing in a noisy setting.",
+        "Light": "In front of a tiny audience (1-10 people).",
+        "Medium": "In front of a small audience (11-100 people) or during a combat in which the character is not a combatant or target.",
+        "Hard": "In front of a large audience (101-500 people).",
+        "Very Hard": "In front of a huge audience (501-2500 people).",
+        "Extremely Hard": "In front of a gigantic audience (2501+ people) or during fireworks.",
+        "Sheer Folly": "While under missile fire.",
+        "Absurd": "While in melee combat."
+      }
+    },
+    "Control Lycanthropy": {
+      "optional_stats": "SD/Pr/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Every time the moon rises or day breaks (or whatever trigger situation GM decides upon), a lycanthrope must make a transformation roll. A lycanthrope can also concentrate for 1 round and make a transformation roll. Any or all of the lycanthrope's Control Lycanthropy skill bonus can be added to or subtracted from a transformation roll. If the result is positive, the lycanthrope takes on (or remains in) human form. Otherwise, the lycanthrope takes on (or remains in) beast form. These modifiers apply to the transformation roll:\n\nWhile in beast form, the lycanthrope can make a control roll to influence the actions of the beast. This roll is referenced on the Self Control Static Maneuver Table SM-7.19. The difficulty of the maneuver is dependent on how stressful the maneuver is. The most difficult should be used if multiple situations exist (e.g., if the beast is hungry and the only potential victim is a friend; the control maneuver is a Medium maneuver).",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {
+        "Routine": "The human's closest friend/love/lifetime goal is threatened.",
+        "Light": "A close friend of the human is in danger.",
+        "Medium": "The beast is hungry.",
+        "Hard": "The beast's interests are in danger of being compromised. This depends on the beast's outlook.",
+        "Very Hard": "The lycanthrope is in danger of being damaged.",
+        "Extremely Hard": "The human's desires contradict those of the beast.",
+        "Absurd": "The lycanthrope is in danger of dying."
+      }
+    },
+    "Stun Removal": {
+      "optional_stats": "SD/Pr/Pr",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill can be attempted once per round. If the result of the maneuver roll is at least Near Success, the character may act that round. Additional rounds of stun are removed from the end (i.e., a character must make a Stun Removal maneuver each round until there are no rounds of accrued stun.)",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {
+        "Medium": "1 round of stun.",
+        "Hard": "2 rounds of stun.",
+        "Very Hard": "3-4 rounds of stun.",
+        "Extremely Hard": "5-7 rounds of stun.",
+        "Sheer Folly": "8-9 rounds of stun.",
+        "Absurd": "10+ rounds of stun."
+      }
+    }
+  },
+  "source": "sohk",
+  "book": "School of Hard Knocks (book 5808)",
+  "group_notes": "Self Control maneuvers are used to perform some feat that requires mind over matter or requires the character to summon internal energies to accomplish some task. Many of these maneuvers are physically draining. Nearly all Adrenal maneuvers require the character to spend 5 exhaustion points per round. This includes the round of preparation (20% action), thereby raising the total cost to 6 exhaustion points (1 the first round and 5 the next).\n\nNote: GMs may allow characters to sustain Adrenal maneuvers. The exhaustion point cost increases by a factor o f one for each round after the first, and there is a cumulativepenalty of-10 to the Self Control maneuver roll after the first.\n\nExample: En-Shin, the Warrior Monk, spends the first round of combat preparing for Adrenal Speed (20% action, 1 exhaustion point). His maneuver is successful, so the next round he receives 200% activity (and spends 5 exhaustion points). He spends 20% of that round preparing for another Adrenal Speed maneuver. This attempt will be made at -10. It is successful, so the next round En-Shin spends 10 exhaustion points to maintain the Adrenal Speed. After 4 rounds of Adrenal Speed (requiring a total of 51 exhaustion points, not including those spent attacking or maneuvering), En-Shin attempts to maintain Adrenal Speed one more round. This attempt (at -40) fails, so En-Shin does not receive the benefits of Adrenal Speed the following round. (Neither does he spend 25 more exhaustion points).\n\nNote that only Adrenal maneuvers and Frenzy require the expenditure of exhaustion points. No other Self Control skills require exhaustion points. In fact, Meditation can be used to prevent the loss of exhaustion points due to concentrating on a spell."
+}

@@ -1,0 +1,87 @@
+{
+  "skills": {
+    "Contacting": {
+      "optional_stats": "In/Pr/Re",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The results of this skill are obvious; either contact is made or not (although Absolute Failure might indicate that contact is made with someone who only claims to be influential). The difficulty of the maneuver is dependent on the amount of influence being sought and the risk involved in having the influence. (Most crime bosses are hard to contact because of the danger inherent to their status.) The size of the city does not modify the difficulty of the maneuver. There are fewer people in small villages, but there is less influence and people tend to know one another.",
+      "specialties": [
+        "Any specific city.",
+        "Any specific type of influence (religious, political, criminal, etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "Locating the city guard or other constabulary. Locating a minor church official, generally a lay person. This person cannot perform rites or blessings.",
+        "Easy": "Locating a petty official, someone who can process paperwork and little else. Locating a merchant that provides common services.",
+        "Light": "Locating a merchant that provides goods of above average quality. Locating a church official who can perform ceremonies and absolve minor transgressions.",
+        "Medium": "Locating a minor fence, one willing to trade in goods that cannot easily be traced and are not particularly valuable. Locating an official with enough influence to provide minor services (e.g., a permit, guild membership, etc.).",
+        "Hard": "Locating a minor military official. Such a person has access to some confidential tactical information, but not to strategic information. Locating a major church official. This person has influence in religious decisions and may even have some spell-casting abilities.",
+        "Very Hard": "Locating a person willing to sell goods that are illegal, but can easily be smuggled. Locating a fence willing to deal in valuable goods that can be traced (e.g., jewelry).",
+        "Extremely Hard": "Locating a spell user willing to cast spells for a fee. Locating a high-ranking government official with real influence.",
+        "Sheer Folly": "Locating a military officer with access to important confidential information. Locating a fence willing to deal in unique items (e.g., art objects, magical items, etc.).",
+        "Absurd": "Locating a person willing to sell goods that are illegal, difficult to smuggle, and dangerous to possess (e.g., explosives). Locating a church leader. This person controls parishes for a large area and has real influence within the church."
+      }
+    },
+    "Mingling": {
+      "optional_stats": "In/Pr/Ag",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill allows characters to disappear into a crowd. This is particularly useful when evading authorities. A character can also use this skill to blend in with a mixed group. The people present will not consider the character's presence unusual.",
+      "specialties": [
+        "Any type of group (merchants, lower class, etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "Disappearing in an immense crowd when the pursuit is well behind the character.",
+        "Easy": "Moving through a large crowd easily.",
+        "Light": "Interacting and blending with a mixed group of people.",
+        "Medium": "Disappearing in a huge crowd when the pursuit is close behind.",
+        "Hard": "Interacting and blending with a specific group of people (e.g., sailors).",
+        "Very Hard": "Disappearing in a large crowd when the pursuit is close behind.",
+        "Extremely Hard": "Interacting and blending with a group that has obvious differences from the character. For example, a fighter blending with a group of doctors.",
+        "Sheer Folly": "Disappearing in a small crowd when the pursuit is close behind.",
+        "Absurd": "Interacting and blending with a group of a different race."
+      }
+    },
+    "Scrounging": {
+      "optional_stats": "In/Pr/Re",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "his skill is generally used to locate items that have been discarded (and are therefore free) or are illegal. In either case, the difficulty of the maneuver depends on the rarity of the item. I f scrounging for a discarded item, the item's value must be taken into consideration; if scrounging for an illegal item, the penalty for selling the item is a key factor. In some cases, the GM may require a character to make a Scrounging maneuver in order to locate a part or component (since most dealers located using Contacting are purveyors of new merchandise).",
+      "specialties": [
+        "Any type of item (e.g., clothing, drugs, etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "Locating an item that is frequently discarded (e.g., clothing).",
+        "Easy": "Locating a specific common item or part.",
+        "Light": "Locating an illegal good that is common and for which the penalty for possession is minor.",
+        "Medium": "Locating a discarded item with a minor resale value. Locating an uncommon item or part.",
+        "Hard": "Locating a discarded item of little or no value. Very Hard: Locating an illegal good that must be smuggled into the area at some risk.",
+        "Extremely Hard": "Locating a discarded item of moderate value. Locating a specific rare item or part.",
+        "Sheer Folly": "Locating an illegal good, possession of which is dangerous.",
+        "Absurd": "Locating an illegal good that is closely guarded (e.g., military technology)."
+      }
+    },
+    "Streetwise": {
+      "optional_stats": "In/Pr/Em",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is used to win the trust of a criminal or underworld society. It includes knowing the slang, who to hate and who to respect. A successful maneuver is required when a character interacts with a person who has legitimate reason to fear the law. If the maneuver is not successful, the criminal will not interact with the character for fear of discovery. Law enforcement officials need this skill to infiltrate criminal organizations. Once a character is a member of a given organization, he need make a maneuver roll only when interacting with other organizations, or with the leaders of his own organization. The difficulty of the maneuver depends on how much the criminal has at stake. (The guildmaster of the assassin's guild probably doesn't trust anyone.) The GM may adjust the difficulty of the maneuver if the character has been particularly faithful to the organization or individual.",
+      "specialties": [
+        "Any specific organization or specific city."
+      ],
+      "example_difficulties": {
+        "Routine": "The criminal is a petty thief or pick-pocket.",
+        "Easy": "The criminal is a street thug.",
+        "Light": "The criminal is a member of an organized gang.",
+        "Medium": "The criminal is part of a formal criminal organization.",
+        "Hard": "The criminal has been busted recently.",
+        "Very Hard": "The criminal runs his own organization, or is guilty of one or more serious offenses (like murder or rape).",
+        "Extremely Hard": "The local authorities are actively pursuing the criminal.",
+        "Sheer Folly": "The criminal runs a large organization with multiple investments and rackets.",
+        "Absurd": "The criminal is insane."
+      }
+    }
+  },
+  "source": "sohk",
+  "book": "School of Hard Knocks (book 5808)",
+  "group_notes": "These skills allow characters to assimilate into an urban setting, or locate a specific person or item. Assimilation maneuvers are attempted immediately upon entering the urban setting, or whenever it is important that the character blend in. It is not necessary to spend time performing these maneuvers, they occur automatically. Note that an assimilation maneuver can only be used to draw attention away from oneself. If the police are conducting door-to-door searches, you will need to use a Subterfuge skill to escape. Locating people and items can take time. It generally takes one hour times the difficulty level, squared, of the maneuver to determine if the person or item exists in the area. A character can designate one area within a city as an automatic specialization in all Urban skills. This assumes that the character lives in this neighborhood and spends a considerable amount of time there. Assimilation maneuvers in this neighborhood automatically succeed, unless the character is performing some action that draws attention to himself. If the character moves, this specialization will disappear after one month. A new specialization will be gained for his new neighborhood after living there one month. If the character does not settle down, he will not have any automatic specialization until one month after he does settle down."
+}

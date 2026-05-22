@@ -105,6 +105,51 @@ def test_get_unknown_group_returns_404(client) -> None:
     assert r.status_code == 404
 
 
+def test_sohk_data_round_trips(client) -> None:
+    """Inject SOHK data directly into the seed group, verify the API surfaces
+    it on Skill.sohk_data + SkillGroupDetail.sohk_notes."""
+    import json as _json
+    from web.db import connect_rw
+    _seed_skill_group("test_crafts")
+    with connect_rw() as conn:
+        # Drop SOHK payload onto the first skill, plus group + category notes.
+        sohk = {
+            "optional_stats": "In/Re/Pr",
+            "ep_cost": "1 every 4 rounds",
+            "distance_multiplier": "0.5",
+            "notes": "Practitioners must be sober.",
+            "specialties": ["Knives", "Hooks"],
+            "example_difficulties": {
+                "Routine": "Boiling water.",
+                "Hard":    "A multi-course banquet under deadline.",
+            },
+        }
+        conn.execute(
+            "UPDATE skill SET sohk_data = ? WHERE name = 'Cooking'",
+            (_json.dumps(sohk),),
+        )
+        conn.execute(
+            "UPDATE skill_category_group SET sohk_notes = ? WHERE slug = 'test_crafts'",
+            ("Crafts maneuvers consume EP only when rushed.",),
+        )
+        conn.commit()
+
+    r = client.get("/api/v1/skills/test_crafts")
+    assert r.status_code == 200
+    g = r.json()
+    assert g["sohk_notes"].startswith("Crafts maneuvers consume EP")
+    cook = next(s for s in g["skills"] if s["name"] == "Cooking")
+    sd = cook["sohk_data"]
+    assert sd["optional_stats"] == "In/Re/Pr"
+    assert sd["ep_cost"] == "1 every 4 rounds"
+    assert sd["specialties"] == ["Knives", "Hooks"]
+    assert sd["example_difficulties"]["Routine"] == "Boiling water."
+    # Other skills carry the empty default payload.
+    sew = next(s for s in g["skills"] if s["name"] == "Sewing")
+    assert sew["sohk_data"]["optional_stats"] == ""
+    assert sew["sohk_data"]["specialties"] == []
+
+
 def test_search_skills_by_name(client) -> None:
     _seed_skill_group("test_crafts")
     r = client.get("/api/v1/skills/search?q=cook")

@@ -1,0 +1,123 @@
+{
+  "skills": {
+    "Athletic Games (Endurance)": {
+      "optional_stats": "Co/Ag/Co",
+      "ep_cost": "1 every 2 rounds",
+      "distance_multiplier": "1",
+      "notes": "Soccer : (Current rules preclude frequent substitution, making soccer a game of endurance.)",
+      "specialties": [
+        "Any specific position."
+      ],
+      "example_difficulties": {
+        "Routine": "Simple dribbling while running.",
+        "Easy": "Light passing (to a teammate), throw-ins, tackles (sliding foot-first towards an opponent to kick the ball loose).",
+        "Light": "Stealing possession.",
+        "Medium": "Dribbling while feinting. Kicking for distance (e.g., down-field). Blocking/stealing a pass.",
+        "Hard": "Trapping a pass (while on the run). Blocking a shot on goal from long range.",
+        "Very Hard": "Header, tackle (vs. a feint), juggling (divide the numeric result from the Movement/Maneuver Table by 5 to determine the number of bounces).",
+        "Extremely Hard": "Trapping a kick, shooting on goal, stealing (vs. a feint), blocking a shot on goal from medium range.",
+        "Sheer Folly": "Bicycle kick.",
+        "Absurd": "Blocking a shot on goal from close range."
+      }
+    },
+    "Distance Running": {
+      "optional_stats": "Co/Ag/Co",
+      "ep_cost": "1 every 2 rounds",
+      "distance_multiplier": "1",
+      "notes": "This skill is used when maneuvering at a strategic level. It is not useful in tactical (round-by-round) situations. The base strategic movement rate is given in RMFRP Table T-5.2. A Distance Running maneuver is made when attempting to maneuver at paces faster than a walk, but slower than a sprint. (It is not possible to sprint for hours.) The base exhaustion rate for walking is 2 per hour; this assumes occasional rest stops. Thus, the base exhaustion rate for jogging is 4 per hour and the base rate for a run is 10 per hour. (Hence an average human can run for 4 hours and cover a distance of 20 miles, assuming he rolls quite well.) The following modifiers apply:",
+      "specialties": [
+        "A specific course.",
+        "A specific distance (e.g., marathon)."
+      ],
+      "example_difficulties": {
+        "Easy": "Pavement, open road.",
+        "Light": "Smooth trail.",
+        "Medium": "Poor trail.",
+        "Hard": "Open plains.",
+        "Very Hard": "Broken ground, forest.",
+        "Extremely Hard": "Soft ground (e.g., snow, desert, etc.), hills.",
+        "Sheer Folly": "Mountains."
+      }
+    },
+    "Rowing": {
+      "optional_stats": "Co/Ag/St",
+      "ep_cost": "1 every 6 rounds",
+      "distance_multiplier": "1",
+      "notes": "Rowed vehicles are, in general, not particularly maneuverable, but they are more maneuverable than a sailing vehicle. It is possible to make relatively tight turns since each side of the vehicle can act of the other. Attaining speed in a rowed vehicle is more difficult than with a sailing vehicle, however. The difficulty of a rowing maneuver is dependent on two factors: the speed of the vehicle and how sharp the maneuver is. Also, smaller vehicles (like rowboats) are more maneuverable than longships. The size of the vehicle may modify the difficulty of the maneuver by one level. The following examples assume that the vehicle is moving at a walking pace. Faster paces result in correspondingly more difficult maneuvers. Partial and Near Successes indicate that the vehicle begins to rock and might take on water. Failure indicates that the vehicle performs no maneuver and slows by one pace category. Absolute and Spectacular Failures may indicate that the vehicle tips. It takes one round to accelerate one pace category (e.g., from jog to run). These examples also assume a complete crew. Fewer rowers than normal will reduce the base speed by a similar amount. For example, a longship that requires 30 rowers has only 15. It moves at half speed. If there are fewer than one fourth of the necessary crew, the ship cannot move.",
+      "specialties": [
+        "Any specific type of vehicle."
+      ],
+      "example_difficulties": {
+        "Routine": "Accelerating one pace category (e.g., from walk to jog).",
+        "Easy": "Maintaining a walk. Decelerating two pace categories.",
+        "Light": "Maintaining a jog. Making a 45° turn.",
+        "Medium": "Maintaining a run. Making a 90° turn. Decelerating three pace categories.",
+        "Hard": "Maintaining a sprint. Making a 135° turn.",
+        "Very Hard": "Maintaining a fast sprint. Decelerating four pace categories.",
+        "Extremely Hard": "Making a 180° turn.",
+        "Sheer Folly": "Maintaining a dash. Decelerating five pace categories.",
+        "Absurd": "Decelerating six pace categories."
+      }
+    },
+    "Scaling": {
+      "optional_stats": "Co/Ag/St",
+      "ep_cost": "1 every 12 rounds",
+      "distance_multiplier": "0.1",
+      "notes": "There are two major factors that determine the difficulty of a Scaling maneuver: the grade (angle) of the climb and the frequency of hand-holds. This skill is not as strenuous as Climbing, but slower and more difficult. (This prevents characters from performing sustained climbs on the ceiling.) Add one difficulty level if the surface is sandy, two if wet, three if oily and four if icy.",
+      "specialties": [
+        "Any specific mountain."
+      ],
+      "example_difficulties": {
+        "Routine": "Scaling a 30° incline.",
+        "Easy": "Climbing a long staircase.",
+        "Light": "Scaling a 45° incline.",
+        "Medium": "Scaling a 60° incline.",
+        "Hard": "Scaling a stone wall.",
+        "Very Hard": "Scaling a rough wall (like a cliff face).",
+        "Extremely Hard": "Scaling a 105° incline.",
+        "Sheer Folly": "Scaling a smooth wall (designed to have minimal hand-holds) or 120° stone surface.",
+        "Absurd": "Scaling a 120° smooth surface or a 135° stone surface."
+      }
+    },
+    "Sprinting": {
+      "optional_stats": "Co/Ag/Qu",
+      "ep_cost": "1 every 60 rounds",
+      "distance_multiplier": "1",
+      "notes": "sing this skill to maneuver on a flat, smooth surface (like a race-track) is detailed in Section 16.0 of RMFRP (p. 51). Unfortunately, characters rarely find themselves on ideal running surfaces. The following examples assume that a character is dashing with a weight penalty of -1 to -10 (normally a Medium maneuver). Adjust other situations accordingly.",
+      "specialties": [
+        "Any specific terrain."
+      ],
+      "example_difficulties": {
+        "Medium": "Open road.",
+        "Hard": "Trail or open plains.",
+        "Very Hard": "Rocky or broken ground, forest.",
+        "Extremely Hard": "Soft ground (e.g., snow, sand, etc.).",
+        "Sheer Folly": "Up a 30 slope.",
+        "Absurd": "Up a 45 slope, steeper slopes require Climbing."
+      }
+    },
+    "Swimming": {
+      "optional_stats": "Co/Ag/SD",
+      "ep_cost": "1 every 6 rounds",
+      "distance_multiplier": "0.5",
+      "notes": "The difficulty of a Swimming maneuver depends on the current and height of the waves. Note that a character can hold his breath for a number of rounds equal to his Constitution stat divided by 10.",
+      "specialties": [
+        "Any specific body of water."
+      ],
+      "example_difficulties": {
+        "Routine": "An indoor pool.",
+        "Easy": "A smooth lake.",
+        "Light": "Against a slight current.",
+        "Medium": "Heavy clothes. Swimming underwater.",
+        "Hard": "Soft leather. Against a strong current.",
+        "Very Hard": "Rigid leather. In rapids.",
+        "Extremely Hard": "Chain armor. Against a powerful undertow.",
+        "Sheer Folly": "Extremely fast and treacherous rapids.",
+        "Absurd": "Plate armor."
+      }
+    }
+  },
+  "source": "sohk",
+  "book": "School of Hard Knocks (book 5808)",
+  "group_notes": "The Moving Maneuver Table can be used in a number of ways. The result from the table is often a number, which can be interpreted in a number of ways. Allor Nothing: An all or nothing maneuver is a maneuver that either succeeds completely, or fails utterly. Examples include attempting to lift a great weight, and attempting to stop while skiing. The player must roll a second time and add the number from the chart. If the result is over 100, the maneuver succeeds. Percentage: For these maneuvers, it is possible to succeed partially. This is definitely the case when attempting to maneuver a certain distance. Both: Some.maneuvers may involve both of these options; these maneuvers are dangerous. There should be an obvious risk to the character to justify using this option. Examples might include climbing or tightrope walking. The danger of falling is very real. Athletic maneuvers require the expenditure of exhaustion points (EPs). Each such skill description includes the exhaustion point cost of the maneuver. This indicates the number of EPs that must be expended each round. The normal exhaustion point modifiers also apply. In addition, there is an exhaustion point modifier based on pace:\n\nPace | Exh. Pt. Modifier\nWalk | x1\nJog | x2\nRun | x5\nSprint | x120\nFast Sprint | x360\nDash | x3000\n\nExample: Normally, acrobatics requires 1 exhaustion point every 6 rounds. An acrobatics maneuver performed at a sprint pace (x120) would cost 20 exhaustion points per round. This increases to 40 exhaustion points per round ifthe temperature is above 100°F\n\nFor every 5 exhaustion points spent, the character's pool of available exhaustion points is reduced by one. This reflects the effects of prolonged exertion. This effect lasts until the character sleeps (or drowses, see Drawsing). The character also loses one point from his pool of exhaustion points for every hour of consciousness.\n\nExample: A charader with 40 exhaustion points fast sprints (6 EPs every round) for 5 rounds. This costs 30 exhaustion points. His pool of exhaustion points drops from 40 to 34; he currentlyhas 10 exhaustion points. After resting for a few minutes, he has recovered all of his available exhaustion points. However, until he sleeps, he cannot have more than 34 exhaustion points.\n\nMost athletic skills also have a distance multiplier indicated. A character can normally maneuver a distance equal to his base movement rate each turn. The distance multiplier modifies this rate. Hence, skills like Climbing and Tightrope-walking are slow and methodical. Skills like Skiing and Flying can be quite rapid. In addition, a character can increase this rate by increasing his pace. This costs more exhaustion points and may increase the difficulty of the maneuver. Most skills are ideally performed while walking, but some (like Jumping) require a different pace. Each pace category faster (or slower) than the ideal pace increases the difficulty by one. The amount of weight carried also increases the difficulty of a maneuver:\n\nWt. Penalty (before St mod.) | Modification\n0 | -1 difficulty level\n-1 — -10 | no modifier\n-11 — -25 | +1 difficulty level\n-26 — -40 | +2 difficulty levels\n-41 — -65 | +3 difficulty levels\n-66 — -100 | +4 difficulty levels\n-101 and worse | +5 difficulty levels\n\nNote that the weight penalty also modifies a character's maximum pace. Even though this penalty can be offset by a character's Strength, wearing armor and carrying equipment greatly reduces a character's mobility. In addition, a character's Moving Maneuver Penalty will modify all moving maneuvers. Athletic maneuvers must be resolved every round or every strategic turn. The maneuver is not complete until the character decides to stop maneuvering.\n\n\n[5.3 AWARENESS SKILLS]\n\nMost Awareness skills are based on visual observation. As a result, most Awareness maneuvers are modified by the lighting. Other obstructions (like fog or smoke) increase the difficulty of the maneuver.\n\nLighting | Modifier\nDirect bright light | -10\nIndirect bright light | +10\nMedium light | 0\nTwilight | -10\nTorchlight or Moonlight | -25\nCandlelight or Starlight | -50\nNo light | -100 (at best)\n\nRaces with excellent night vision can ignore these penalties, provided there is some source of light (like the moon). Races with dark vision (like Dwarves) can ignore these penalties within the range of their dark vision. Maneuvers that rely on other senses have the difficulty level of the maneuver modified by the background interference. There are no general modifiers. Awareness maneuvers can be performed whenever the GM or character deem a maneuver roll to be appropriate. It usually takes a single round to complete an Awareness maneuver in a single direction (60° field of vision) or one minute to complete an Awareness maneuver in all directions. An Awareness maneuver might take longer if a significant area must be searched (roughly one round for every 10' x 10' area examined closely enough to notice small objects).\n\nExample: Searching one square mile for the prince's missing knife would require 775 man-hours = 32 days. A search o f this scope requires multiple people."
+}

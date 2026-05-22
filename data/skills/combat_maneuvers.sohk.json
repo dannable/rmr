@@ -1,0 +1,106 @@
+{
+  "skills": {
+    "Adrenal Deflecting": {
+      "optional_stats": "Ag/Qu/SD",
+      "ep_cost": "5 every round",
+      "distance_multiplier": "",
+      "notes": "See Martial Arts Companion .",
+      "specialties": [
+        "A specific weapon.",
+        "A specific martial arts or weapon style."
+      ],
+      "example_difficulties": {}
+    },
+    "Mounted Combat": {
+      "optional_stats": "Ag/Qu/Em",
+      "ep_cost": "1 every 4 round",
+      "distance_multiplier": "",
+      "notes": "This skill is self-explanatory.",
+      "specialties": [
+        "Any specific mount."
+      ],
+      "example_difficulties": {}
+    },
+    "Quickdraw": {
+      "optional_stats": "Ag/Qu/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is nearly identical to Adrenal Quickdraw. If this skill is performed successfully, a weapon can be both drawn and used during the snap action phase (since drawing the weapon is a 0% action). If used with a thrown weapon, it is possible to throw two weapons in one round (provided one is already in hand). The GM may even wish to allow this skill to be used with missile weapons (representing Zen archery). The difficulty of the skill is based entirely on the size of the weapon.",
+      "specialties": [
+        "Any specific weapon type (long sword, dagger, etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "Readying a thrown weapon.",
+        "Easy": "Readying a one-handed edged weapon.",
+        "Light": "Readying a one-handed crushing weapon.",
+        "Medium": "Readying a two-handed weapon.",
+        "Hard": "Readying two weapons (both are one-handed edged).",
+        "Very Hard": "Readying two weapons.",
+        "Extremely Hard": "Readying a short bow or sling.",
+        "Sheer Folly": "Readying a composite bow or long bow.",
+        "Absurd": "Readying any other weapon (subject to GM approval)."
+      }
+    },
+    "Reverse Stroke": {
+      "optional_stats": "Ag/Qu/Pr",
+      "ep_cost": "1 every 4 rounds",
+      "distance_multiplier": "",
+      "notes": "This skill is self-explanatory.",
+      "specialties": [
+        "Any specific weapon type."
+      ],
+      "example_difficulties": {}
+    },
+    "Subdual": {
+      "optional_stats": "Ag/Qu/SD",
+      "ep_cost": "1 every 2 rounds",
+      "distance_multiplier": "",
+      "notes": "See Martial Arts Companion .",
+      "specialties": [
+        "Any specific race."
+      ],
+      "example_difficulties": {}
+    },
+    "Swashbuckling": {
+      "optional_stats": "Ag/Qu/Pr",
+      "ep_cost": "1 every 4 rounds",
+      "distance_multiplier": "",
+      "notes": "This skill can be used in a number of ways. The most obvious is the recovery of a fumbled weapon. This skill can also be used for fantastic weapon flourishes. This can be used to intimidate an opponent or impress them with your skill.",
+      "specialties": [
+        "Any specific flourish."
+      ],
+      "example_difficulties": {
+        "Routine": "Drawing a weapon with flourish.",
+        "Easy": "Tossing a weapon from hand to hand, with style. Executing a rehearsed sequence of maneuvers.",
+        "Light": "Slicing through a candle without knocking it over. Spinning a weapon over your hand.",
+        "Medium": "Recovering a fumble.",
+        "Hard": "Carving initials into a soft substance (like dirt). Scratching an opponent without harming him.",
+        "Very Hard": "Shredding an opponent's shirt without scratching him. Kicking a weapon from the ground to your hand.",
+        "Extremely Hard": "Carving initials into a victim's chest.",
+        "Sheer Folly": "Throwing a sword in order to cut a rope (thereby dropping a chandelier or portcullis, for example).",
+        "Absurd": "Throwing a sword in order to pin an opponent to a wall."
+      }
+    },
+    "Tumbling Evasion": {
+      "optional_stats": "Ag/Qu/Ag",
+      "ep_cost": "1 every 4 rounds",
+      "distance_multiplier": "0.5",
+      "notes": "See Martial Arts Companion .",
+      "specialties": [
+        "Against any specific type of weapon."
+      ],
+      "example_difficulties": {}
+    },
+    "Two-Weapon Combat": {
+      "optional_stats": "Ag/Qu/SD",
+      "ep_cost": "1 every round",
+      "distance_multiplier": "N/A",
+      "notes": "This skill is self-explanatory. See RMFRP page 113 for details concerning fighting two opponents, parrying, and using the off-hand.",
+      "specialties": [],
+      "example_difficulties": {}
+    }
+  },
+  "source": "sohk",
+  "book": "School of Hard Knocks (book 5808)",
+  "group_notes": "This includes Armor, Body Development, Combat Maneuvers, Martial Arts, Special Attacks/Defenses, and Weapons. These skills are detailed in Arms Law and Martial Arts Companion. Note that every combat skill has an exhaustion point cost. This number indicates the number of rounds that must be spent performing that action before losing one exhaustion point. This may be modified by the normal exhaustion point modifiers. (See Section 5.1.) If multiple combat skills are used simultaneously, the exhaustion point cost of each is applied. Combat skills (including attacks) can be used while maneuvering. It is often difficult to stop while maneuvering (e.g., while skiing or flying). The penalty associated with attacking while maneuvering depends on the difficulty of the maneuver:\n\nDifficulty | Modifier\nRoutine | 0\nEasy | -5\nLight | -10\nMedium | -25\nHard | -50\nVery Hard | -75\nExtremey Hard | -100\nSheer Folly | -150\nAbsurd | -200\n\nNote: The GM may allow characters to develop a skill called Moving Strike (in the Combat Maneuver skill category). This skill must be developed separately for each type of maneuvering while attacking-for example, charging on foot, skiing, flying, etc. The Moving Strike skill bonus is only used to reduce (or eliminate) the penalty based upon the difficulty of the maneuver (see above).\n\nIf a character is moving faster than his opponent (e.g., he is charging) and attacking while maneuvering, the attack is not resolved in the usual manner. Initiative is based solely on the length of the weapons (or attacks) used. The longer weapon strikes first. The attacker and defender both receive a bonus of +1 for every 10 feet/round of speed. If both combatants are charging, this bonus can become quite large. Double this bonus for a combatant with a pole arm. Finally, if a combatant is not moving, and has braced his pole arm, he doubles the number of concussion hits inflicted.\n\nExample: Cedric is charging into battle with a spear. Sprinting is an Easy maneuver for him, so he suffers a penalty of -5 to his attack. However, since he is moving 180/round, he receives a bonus of +36. His opponent is using a sword, which receives a bonus of+18. Cedric's weapon is longer, so he will strike first. If his opponent were also charging (at 150'/round), these bonuses would increase to +66 and +33, respedively.\n\nCombat Maneuvers must be resolved every round and are completed within the course of a round. Note that many Combat Maneuvers do not require a maneuver roll."
+}

@@ -33,6 +33,10 @@
 @stat: In
 @description: This skill is used in conjunction with an Ambush static maneuver. A successful Ambush static maneuver followed by a successful static maneuver using this skill (0% activity) results in the target being unable to make a sound during the attack. Note that this skill also requires that the attacker approach the foe undetected and strike before he can react. If an instant kill or immobilization result is obtained on a critical chart, the target does not make any noise.
 
+@@ Silent Attack
+@stat: Ag
+@description: This skill is used in conjunction with an Ambush maneuver. A successful Ambush maneuver followed by a successful static maneuver using this skill (0% activity) result in the target being unable to make a sound during the attack. Note that this skill also requires that the attacker approach the foe undetected and strike before he can react. If an instant kill or immobilization result is obtained on a critical chart, the target does not make a noise.
+
 # ===================================================================
 # TABLES
 # ===================================================================

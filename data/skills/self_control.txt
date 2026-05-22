@@ -93,6 +93,10 @@
 @stat: SD
 @description: This skill provides a bonus for controlling one's lycanthropy. Note that this skill may only be developed by an individual already infected with an active form of lycanthropy. This skill may be used to prevent the onset of a lycanthropic change, to control one's bestial nature during such a change, or to initiate a change at will.
 
+@@ Stun Removal
+@stat: SD
+@description: This skill enables an individual to throw off the effects of stunning blows. A successful static maneuver using this skill will remove one or more rounds of stun from the maneuverer. Failure may result in greater disorientation than before the use of this skill.
+
 # ===================================================================
 # TABLES
 # ===================================================================

@@ -1,0 +1,39 @@
+{
+  "skills": {
+    "Adrenal Defense": {
+      "optional_stats": "none",
+      "ep_cost": "1 every round",
+      "distance_multiplier": "",
+      "notes": "See Martial Arts Companion .",
+      "specialties": [
+        "A specific weapon.",
+        "A specific martial arts or weapon style."
+      ],
+      "example_difficulties": {}
+    },
+    "Adrenal Toughness": {
+      "optional_stats": "none",
+      "ep_cost": "5 every round",
+      "distance_multiplier": "",
+      "notes": "See Martial Arts Companion .",
+      "specialties": [
+        "A specific martial arts or weapon style.",
+        "A specific weapon.",
+        "A specific material (brick, ice, etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "Clay or bamboo or vs. Tiny criticals.",
+        "Light": "Hard wood (e.g., oak) or vs. Impact criticals.",
+        "Medium": "Glass, shale, or vs. a crushing weapon (Krush criticals).",
+        "Hard": "Ice, bone, or vs. a thrusting weapon (Puncture criticals).",
+        "Very Hard": "Soft stone (e.g., sandstone) or vs. a slashing weapon (Slash criticals).",
+        "Extremely Hard": "Brick or cement or vs. Fire, Cold or Electricity criticals.",
+        "Sheer Folly": "Enchanted wood or hard stone (e.g., granite).",
+        "Absurd": "Enchanted materials or gem stones."
+      }
+    }
+  },
+  "source": "sohk",
+  "book": "School of Hard Knocks (book 5808)",
+  "group_notes": "This includes Armor, Body Development, Combat Maneuvers, Martial Arts, Special Attacks/Defenses, and Weapons. These skills are detailed in Arms Law and Martial Arts Companion. Note that every combat skill has an exhaustion point cost. This number indicates the number of rounds that must be spent performing that action before losing one exhaustion point. This may be modified by the normal exhaustion point modifiers. (See Section 5.1.) If multiple combat skills are used simultaneously, the exhaustion point cost of each is applied. Combat skills (including attacks) can be used while maneuvering. It is often difficult to stop while maneuvering (e.g., while skiing or flying). The penalty associated with attacking while maneuvering depends on the difficulty of the maneuver:\n\nDifficulty | Modifier\nRoutine | 0\nEasy | -5\nLight | -10\nMedium | -25\nHard | -50\nVery Hard | -75\nExtremey Hard | -100\nSheer Folly | -150\nAbsurd | -200\n\nNote: The GM may allow characters to develop a skill called Moving Strike (in the Combat Maneuver skill category). This skill must be developed separately for each type of maneuvering while attacking-for example, charging on foot, skiing, flying, etc. The Moving Strike skill bonus is only used to reduce (or eliminate) the penalty based upon the difficulty of the maneuver (see above).\n\nIf a character is moving faster than his opponent (e.g., he is charging) and attacking while maneuvering, the attack is not resolved in the usual manner. Initiative is based solely on the length of the weapons (or attacks) used. The longer weapon strikes first. The attacker and defender both receive a bonus of +1 for every 10 feet/round of speed. If both combatants are charging, this bonus can become quite large. Double this bonus for a combatant with a pole arm. Finally, if a combatant is not moving, and has braced his pole arm, he doubles the number of concussion hits inflicted.\n\nExample: Cedric is charging into battle with a spear. Sprinting is an Easy maneuver for him, so he suffers a penalty of -5 to his attack. However, since he is moving 180/round, he receives a bonus of +36. His opponent is using a sword, which receives a bonus of+18. Cedric's weapon is longer, so he will strike first. If his opponent were also charging (at 150'/round), these bonuses would increase to +66 and +33, respedively.\n\nCombat Maneuvers must be resolved every round and are completed within the course of a round. Note that many Combat Maneuvers do not require a maneuver roll."
+}

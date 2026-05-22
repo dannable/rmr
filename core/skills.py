@@ -31,10 +31,16 @@ def list_skill_groups(conn: sqlite3.Connection) -> list[dict]:
 
 
 def get_skill_group(conn: sqlite3.Connection, slug: str) -> dict | None:
-    """One group with everything nested: categories, skills, tables, rows."""
+    """One group with everything nested: categories, skills, tables, rows.
+
+    The skill rows hydrate `sohk_data` from the JSON column on the
+    `skill` table; the group itself surfaces `sohk_notes` (Section 5
+    prose from School of Hard Knocks).
+    """
+    import json as _json
     row = conn.execute(
         """SELECT group_id, slug, section, name, page_div, page_content,
-                  updated_at, updated_by_user_id
+                  updated_at, updated_by_user_id, sohk_notes
              FROM skill_category_group WHERE slug = ?""",
         (slug,),
     ).fetchone()
@@ -45,22 +51,29 @@ def get_skill_group(conn: sqlite3.Connection, slug: str) -> dict | None:
         dict(r) for r in conn.execute(
             """SELECT name, skills_list, restricted, stat_bonuses,
                       rank_progression, category_progression, parent_group,
-                      classification, description
+                      classification, description, sohk_notes
                  FROM skill_category
                 WHERE group_id = ?
                 ORDER BY category_id""",
             (g["group_id"],),
         ).fetchall()
     ]
-    g["skills"] = [
-        dict(r) for r in conn.execute(
-            """SELECT name, stat, description
-                 FROM skill
-                WHERE group_id = ?
-                ORDER BY skill_id""",
-            (g["group_id"],),
-        ).fetchall()
-    ]
+    skill_rows = conn.execute(
+        """SELECT name, stat, description, sohk_data
+             FROM skill
+            WHERE group_id = ?
+            ORDER BY skill_id""",
+        (g["group_id"],),
+    ).fetchall()
+    g["skills"] = []
+    for r in skill_rows:
+        d = dict(r)
+        raw = d.pop("sohk_data", None) or "{}"
+        try:
+            d["sohk_data"] = _json.loads(raw) if raw else {}
+        except (TypeError, ValueError):
+            d["sohk_data"] = {}
+        g["skills"].append(d)
     tables_rows = conn.execute(
         """SELECT table_id, name, columns, general_mods
              FROM skill_table
@@ -135,24 +148,29 @@ def update_skill_group(
     conn.execute("DELETE FROM skill WHERE group_id = ?", (group_id,))
     conn.execute("DELETE FROM skill_category WHERE group_id = ?", (group_id,))
 
+    import json as _json
     for cat in payload.get("categories", []):
         conn.execute(
             """INSERT INTO skill_category (
                 group_id, name, skills_list, restricted, stat_bonuses,
                 rank_progression, category_progression, parent_group,
-                classification, description
-               ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                classification, description, sohk_notes
+               ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
             (group_id, cat.get("name", ""), cat.get("skills_list"),
              cat.get("restricted"), cat.get("stat_bonuses"),
              cat.get("rank_progression"), cat.get("category_progression"),
              cat.get("parent_group"), cat.get("classification"),
-             cat.get("description")),
+             cat.get("description"), cat.get("sohk_notes", "")),
         )
 
     for sk in payload.get("skills", []):
+        sohk = sk.get("sohk_data") or {}
+        sohk_json = _json.dumps(sohk, ensure_ascii=False) if sohk else "{}"
         conn.execute(
-            "INSERT INTO skill (group_id, name, stat, description) VALUES (?, ?, ?, ?)",
-            (group_id, sk.get("name", ""), sk.get("stat"), sk.get("description")),
+            "INSERT INTO skill (group_id, name, stat, description, sohk_data) "
+            "VALUES (?, ?, ?, ?, ?)",
+            (group_id, sk.get("name", ""), sk.get("stat"),
+             sk.get("description"), sohk_json),
         )
 
     for t in payload.get("tables", []):
@@ -177,12 +195,23 @@ def update_skill_group(
             )
 
     now = datetime.now(timezone.utc).isoformat(timespec="seconds")
-    conn.execute(
-        "UPDATE skill_category_group "
-        "   SET updated_at = ?, updated_by_user_id = ? "
-        " WHERE group_id = ?",
-        (now, user_id, group_id),
-    )
+    # Note: only touch sohk_notes when the payload explicitly carries
+    # the key — otherwise an edit that doesn't know about SOHK would
+    # accidentally wipe the Section 5 prose.
+    if "sohk_notes" in payload:
+        conn.execute(
+            "UPDATE skill_category_group "
+            "   SET updated_at = ?, updated_by_user_id = ?, sohk_notes = ? "
+            " WHERE group_id = ?",
+            (now, user_id, payload.get("sohk_notes") or "", group_id),
+        )
+    else:
+        conn.execute(
+            "UPDATE skill_category_group "
+            "   SET updated_at = ?, updated_by_user_id = ? "
+            " WHERE group_id = ?",
+            (now, user_id, group_id),
+        )
     return get_skill_group(conn, slug)
 
 
@@ -228,6 +257,12 @@ def write_skill_group_file(
     Atomic via tempfile + os.replace so a crashed write can't leave a
     half-written file. Returns the path written. Raises ValueError when
     `slug` is unknown.
+
+    Also rewrites the SOHK sidecar (`<slug>.sohk.json`) when the group
+    has any SOHK data (per-skill sohk_data, per-category sohk_notes, or
+    group-level sohk_notes). Sidecar is deleted when the group has no
+    SOHK data at all, so an edit that clears the last SOHK field on a
+    group cleans up the file too.
     """
     g = get_skill_group(conn, slug)
     if g is None:
@@ -292,12 +327,48 @@ def write_skill_group_file(
                 for entry in t["general_mods"]:
                     lines.append(entry)
 
+    # Sidecar write — collect any non-empty SOHK fields and emit as
+    # <slug>.sohk.json. Delete the sidecar when nothing's there.
+    import json as _json
+    sidecar_payload: dict = {}
+    skill_sohk: dict = {}
+    for sk in g["skills"]:
+        sd = sk.get("sohk_data") or {}
+        if isinstance(sd, dict) and any(sd.get(k) for k in (
+            "optional_stats", "ep_cost", "distance_multiplier",
+            "notes", "specialties", "example_difficulties",
+        )):
+            skill_sohk[sk["name"]] = sd
+    cat_sohk: dict = {}
+    for cat in g["categories"]:
+        if cat.get("sohk_notes"):
+            cat_sohk[cat["name"]] = cat["sohk_notes"]
+    if skill_sohk:
+        sidecar_payload["skills"] = skill_sohk
+    if cat_sohk:
+        sidecar_payload["categories"] = cat_sohk
+    if g.get("sohk_notes"):
+        sidecar_payload["group_notes"] = g["sohk_notes"]
+    if sidecar_payload:
+        sidecar_payload["source"] = "sohk"
+        sidecar_payload["book"] = "School of Hard Knocks (book 5808)"
+
     body = "\n".join(lines).rstrip() + "\n"
     target = project_root / "data" / "skills" / f"{slug}.txt"
     target.parent.mkdir(parents=True, exist_ok=True)
     tmp = target.with_suffix(target.suffix + ".tmp")
     tmp.write_text(body, encoding="utf-8", newline="\n")
     os.replace(tmp, target)
+
+    sidecar = target.with_suffix(".sohk.json")
+    if sidecar_payload:
+        tmp = sidecar.with_suffix(sidecar.suffix + ".tmp")
+        tmp.write_text(_json.dumps(sidecar_payload, indent=2, ensure_ascii=False),
+                       encoding="utf-8", newline="\n")
+        os.replace(tmp, sidecar)
+    elif sidecar.exists():
+        sidecar.unlink()
+
     return target
 
 

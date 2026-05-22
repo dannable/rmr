@@ -1,0 +1,110 @@
+{
+  "skills": {
+    "Direction Sense": {
+      "optional_stats": "In/SD/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is a semi-conscious ability that is always in operation. It is generally based on some mineral deposit in the body responding to the planet's magnetic field. This ability operates regardless of meteorological conditions. The maneuver roll is made more difficult if there are magnetic fields present that mask or obscure the natural magnetic field. There is an extra penalty of -50 following teleportation to an unfamiliar area. This penalty disappears after acclimating for ten minutes to the new area.",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {
+        "Routine": "The natural magnetic field can be felt strongly, with no obstructions. Obstructions include any sig- nificant source of metal, like a building, ore mine or suit of heavy armor.",
+        "Easy": "The natural magnetic field is disrupted by a companion in heavy armor.",
+        "Light": "The natural magnetic field is disrupted by a storm.",
+        "Medium": "The natural magnetic field is disrupted by the presence of a nearby ore deposit.",
+        "Hard": "The natural magnetic field is disrupted by wearing heavy armor.",
+        "Very Hard": "A weak magnetic field is masking the natural magnetic field.",
+        "Extremely Hard": "The natural magnetic field has been deliberately obscured, but not masked with another magnetic field.",
+        "Sheer Folly": "A strong magnetic field is masking the natural magnetic field.",
+        "Absurd": "The magnetic field has been deliberately obscured and masked."
+      }
+    },
+    "Reality Awareness": {
+      "optional_stats": "In/SD/Em",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The further the character is from the warp in reality, the more difficult this maneuver is. If the maneuver attempts to detect the opening or closing of a warp, add the level of the spell required to create the warp to the Reality Awareness maneuver roll. If the spell level is not known, assume that opening or closing a warp requires a 20th level spell. Once a warp is open the spell level does not modify the maneuver roll.",
+      "specialties": [
+        "Gates to hell, time warps, etc."
+      ],
+      "example_difficulties": {
+        "Routine": "Within 10'.",
+        "Easy": "11'-30'.",
+        "Light": "31'-100'.",
+        "Medium": "101'-300'.",
+        "Hard": "310'-500'.",
+        "Very Hard": "501'-1000'.",
+        "Extremely Hard": "1001'-3000'.",
+        "Sheer Folly": "3001'-1 mile.",
+        "Absurd": "1 mile +."
+      }
+    },
+    "Sense Awareness": {
+      "optional_stats": "In/SD/Pr",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Sense Awareness is used automatically to detect features of the environment. The difficulty of this maneuver depends on the size or strength of the stimulus in relation to background stimuli. A Dragon on the horizon is more noticeable than a pickpocket in a crowd. Even a Dragon cannot be seen, however, if it is far enough away. Guidelines are provided for sight and sound. Other senses can be extrapolated from the examples given.\n\nSight: An average human can spot a single man-sized figure at a distance of 500 yards. Below are the average distances at which various objects can be discerned. Details cannot be discerned until the object is one category closer. ver by ±10:\n\nFor example, spotting a Dragon at a range of one half mile gets a bonus of +10. Noticing a minute detail at 30' gets a penalty of -20. If the object is moving, there is an additional bonus of +10.\n\nSound: An average human can discern a normal conversation from 50 feet away. Below are the average distances at which various volumes can be discerned. Details cannot be discerned until the object is one category closer. Each factor modifies the maneuver by ±10:",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {
+        "Routine": "Sight: On top of a mountain. Sound: In complete silence.",
+        "Easy": "Sight: On an empty plain. Sound: In a quiet alley.",
+        "Light": "Sight: On a deserted city street. Sound: While walking normally.",
+        "Medium": "Sight: On a plain with occasional trees. Sound: While moving in metal armor.",
+        "Hard": "Sight: At twilight. Sound: During a conversation.",
+        "Very Hard": "Sight: In light fog. Sound: During a storm.",
+        "Extremely Hard": "Sight: In a forest or swamp. Sound: During melee.",
+        "Sheer Folly": "Sight: In dense fog. Sound: During a rock concert.",
+        "Absurd": "Sight: On a moonless night. Sound: While a Dragon is roaring nearby."
+      }
+    },
+    "Situational Awareness": {
+      "optional_stats": "In/SD/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is used primarily for orientation rolls and to avoid surprise. When in a potential surprise situation, each character should make a Situational Awareness maneuver. The total of the maneuver roll indicates the amount of activity that character has to use during the round of surprise. The difficulty is generally Medium. An orientation roll is required whenever a situation changes dramatically (e.g., following a teleport, the arrival of a new combatant, etc.). The total of the maneuver roll indicates what percentage of activity the character can devote to a reaction. His remaining activity must assume that no change has occurred. The difficulty depends on how dramatic the change was. Note that it is reasonable for both sides of an encounter to be surprised by the other. Note also that a character who fails this maneuver can only act during the deliberate phase. Near and Partial Success indicates that the character can act during the normal phase. A complete Success allows the character to act during any phase.",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {
+        "Routine": "A trivial change occurs (e.g., a new combatant joins a fray).",
+        "Easy": "Avoiding surprise while traveling at a slow pace.",
+        "Light": "A minor change occurs (e.g., one's opponent becomes stunned).",
+        "Medium": "Avoiding surprise.",
+        "Hard": "A major change occurs (e.g., one side or the other flees). After a Leaving spell to a place you can see.",
+        "Very Hard": "Avoiding surprise while traveling at a fast pace. After a Long Door spell to a place you can see.",
+        "Extremely Hard": "A huge change occurs (e.g., the ground is ripped in two).",
+        "Sheer Folly": "After a Long Door or Leaving spell to a place you cannot see.",
+        "Absurd": "After being teleported."
+      }
+    },
+    "Spatial Location Awareness": {
+      "optional_stats": "In/SD/Pr",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill can be used to sense objects at a distance of 2' per skill rank. There are no other modifications to the skill; it is used only to offset the penalty for blindness. The GM may still decide that some skills cannot be performed while blind (e.g., Stone Evaluation).",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {}
+    },
+    "Time Sense": {
+      "optional_stats": "In/SD/Em",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "A Time Sense maneuver has few difficulty modifiers. If the maneuver is successful, substract the amount of the maneuver roll over 100 from 100 (e.g., 125 results in 100-25 = 75). Treat results below 0 as O. The result is the accuracy of the information provided by the GM. (Continuing the above example, ±75%.) The GM should not provide a range, since that might offer more information than is appropriate.",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {
+        "Medium": "Normal maneuver.",
+        "Very Hard": "Right after sleep/unconsciousness.",
+        "Sheer Folly": "No external references."
+      }
+    }
+  },
+  "source": "sohk",
+  "book": "School of Hard Knocks (book 5808)"
+}

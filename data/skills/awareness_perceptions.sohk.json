@@ -1,0 +1,26 @@
+{
+  "skills": {
+    "Alertness": {
+      "optional_stats": "In/SD/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill functions like any of the Awareness • Searching skills, but on an unconscious basis. As a result, it provides characters with profession bonuses in Awareness or with high Intuition bonuses to become quite good at all of the Awareness • Searching skills by developing this skill. It is strongly recommended that the difficulty of the Awareness maneuver be made more difficult when using Alertness as follows: Subtract the number of ranks of the relevant Awareness • Searching skill from the number of ranks of Alertness.\n\nThus, a Routine Lie Perception (3 ranks) attempt would be a Medium maneuver if using Alertness (20 ranks).",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {}
+    },
+    "Sense Ambush": {
+      "optional_stats": "In/SD/Em",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill provides a penalty to Ambush maneuvers. This skill can also be used to detect traps as they are being triggered. If the result of the maneuver is some level of success, the character may be able to react before it's too late.",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {}
+    }
+  },
+  "source": "sohk",
+  "book": "School of Hard Knocks (book 5808)"
+}

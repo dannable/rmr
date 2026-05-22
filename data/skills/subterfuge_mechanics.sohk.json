@@ -1,0 +1,204 @@
+{
+  "skills": {
+    "Camouflage": {
+      "optional_stats": "In/Ag/Em",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Camouflage is used to prevent casual observers from noticing a person or object. It involves using disguise, coloring and natural obstructions to prevent the object from being seen. This skill will only prevent a casual observer from noticing the camouflaged item; a more rigorous search will almost always be successful. More comprehensive skill is gained from Hiding and Hide Item. Any Alertness or Awareness • Senses maneuver made to detect a camouflaged object is 1-3 difficulty levels more difficult (depending on the success of the Camouflage maneuver). Whereas this skill does not thwart a concerted search effort, it does allow the camouflager to hide objects of considerable proportions. It also allows the camouflager to hide other people, thereby making it more difficult for them to be seen (regardless of hiding ability). Larger objects are more difficult to conceal. In addition, any object that calls attention to itself or is unusual in any way (e.g., a music box) is more difficult to conceal.",
+      "specialties": [
+        "Any specific type of object, or any specific terrain."
+      ],
+      "example_difficulties": {
+        "Routine": "Camouflaging a tiny object, no larger than a small knife.",
+        "Easy": "Camouflaging a small object, no larger than a sword or military radio. Camouflaging a tiny creature (e.g., a mouse).",
+        "Light": "Camouflaging a man-sized object. Camouflaging a small creature (e.g., a dog).",
+        "Medium": "Camouflaging a person. This allows the target to maneuver through moderate cover at one half of normal movement and still receive the benefits listed above. The amount of cover may modify this ability by up to two levels of difficulty in either direction.",
+        "Hard": "Camouflaging a large object, up to the size of a tent.",
+        "Very Hard": "Camouflaging a large creature (e.g., an elephant). See above.",
+        "Extremely Hard": "Camouflaging a huge object, up to the size of a small house.",
+        "Sheer Folly": "Camouflaging a huge creature (e.g., a Dragon — although it could be smelled a mile away).",
+        "Absurd": "Camouflaging an immense object (e.g., a castle)."
+      }
+    },
+    "Disarming Traps": {
+      "optional_stats": "In/Ag/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of a Disarming Traps maneuver is dependent entirely on the complexity of the trap. Some traps can simply be triggered safely. Other traps may require an elaborate system of counter-balances. Once a trap has been discovered, it is usually fairly obvious how difficult it will be to disarm the trap (although some cruel trap designers may make it appear as if the trap is simpler to disarm than it is). If there is any doubt, an additional Detect Traps maneuver can be made to determine the complexity of the trap. Note that Detect Traps may reveal the trigger, but not the trap itself. The victim may not know the level of danger he is facing.",
+      "specialties": [
+        "Any specific type of trap."
+      ],
+      "example_difficulties": {
+        "Routine": "Triggering a trap safely. For example, turning a door knob without grabbing the portion of the knob in which a needle is hidden.",
+        "Easy": "The trap can be triggered and blocked or diverted in some way. For example, covering the hole out of which a dart flies.",
+        "Light": "Disarming a trap that you designed.",
+        "Medium": "Disarming the trap requires removing a counterweight. The trap's natural position is not activated. This often includes pit traps and rotating walls. Once the counter-weight is removed or disabled, the trap's components cannot move.",
+        "Hard": "Disarming a lever-based trap. For example, a pressure sensitive plate that causes a lever to move, activating the trap.",
+        "Very Hard": "Disarming the trap requires disabling a spring or other similar mechanism. Traps that propel darts or arrows are one example.",
+        "Extremely Hard": "Disarming the trap requires removing a trigger. Removal of a trigger usually causes the trap to be sprung, so the trigger must be disabled without activating the trap. The natural state of the trap is active (e.g., a bomb or gas capsule), the trigger prevents activation.",
+        "Sheer Folly": "Disarming the trap requires removing a trigger that is attached to another trigger such that one trap is triggered if the other is disabled. Both triggers must be disabled simultaneously.",
+        "Absurd": "Disarming the trap requires an elaborate collection of mirrors, pulleys, and/or counter-weight-such a trap is ridiculously complex and very volatile."
+      }
+    },
+    "Disguise": {
+      "optional_stats": "In/Ag/Pr",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill allows a character to appear to be someone he is not. In many cases, the disguise is intended to conceal one's own identity, but a skilled disguise artist can make someone appear to be a specific individual. Combined with Acting, this skill allows a character to assume a new identity. The difficulty of the maneuver is dependent on how radically one's appearance is being altered and how convincing the disguise must be.",
+      "specialties": [
+        "Any specific type of disguise (e.g., monster, nobility, etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "Adding a new facial characteristic that does not conceal one's identity in any way (e.g., a wart or beauty mark).",
+        "Easy": "Appearing to belong to a specific group of people (e.g., soldier, pirate, etc.). The character's identity is not changed (except that his friends might not expect to see him in such garb).",
+        "Light": "Partially appearing to be another type of creature/race. The disguise does not intend to fool the target/audience, only to portray key characteristics of the creature/race. For example, adding whiskers and white floppy ears in order to portray a rabbit.",
+        "Medium": "Completely altering one's identity so as to appear to be someone else. This might include adding facial hair, changing one's age, etc.",
+        "Hard": "Completely altering one's identity to that of a representative of a specific group of people (e.g., a sailor, noble, etc.). The disguise masks the character's actual identity.",
+        "Very Hard": "Designing a costume that convincingly alters a character's race or gender from a distance of 10' or more. Closer inspection may reveal certain flaws in the disguise.",
+        "Extremely Hard": "Assuming the identity of a specific individual whose appearance is vaguely familiar to the target/audience. This might include disguising oneself as a ruler in order to deliver a speech.",
+        "Sheer Folly": "Designing a costume that can convince a target/audience that the character is a specific individual whose appearance is very familiar to the target/audience. The disguise is good enough to pass all but the closest scrutiny.",
+        "Absurd": "Designing a costume that can convince a target/audience that the character is a monster of some sort even under close scrutiny. For example, the character appears to be a hairless, gray alien."
+      }
+    },
+    "Counterfeiting": {
+      "optional_stats": "In/Ag/Re",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of a Counterfeiting maneuver is dependent largely on the amount of care that went into preventing someone from counterfeiting a particular document. Such techniques include water-marks, special dyes, intricate emblems, etc. Generally, the more important a document is, the harder it is to counterfeit. Money is particularly difficult to counterfeit since it is watched carefully. A counterfeiter must be careful not to pass too much bad money in a specific area, or the money will inevitably be discovered. The act of counterfeiting money was often considered to be treasonous, a capital offense.",
+      "specialties": [
+        "Any specific type of document."
+      ],
+      "example_difficulties": {
+        "Routine": "Counterfeiting a coin when the value of the coin depends on its weight. (In other words, the counterfeiter is merely affixing some stamp on the coin that means very little.)",
+        "Easy": "Counterfeiting a note from one's mother.",
+        "Light": "Creating a document that looks official, but does not actually change any records. For example, counterfeiting a bank statement (but not a bank transaction).",
+        "Medium": "Modifying an official document by replacing \"the original with an altered copy.",
+        "Hard": "Counterfeiting money when little has been done to prevent such an attempt. Minor counter-measures might include milling the edges of coins.",
+        "Very Hard": "Counterfeiting a complete collection of papers that effectively create a new identity. This might include a record of birth and/or marriage as well as a passport.",
+        "Extremely Hard": "Modifying an official document directly. Any changes are made directly to the document itself.",
+        "Sheer Folly": "Counterfeiting money when extensive measures have been taken to prevent such an attempt. Such counter-measures might include a water-mark, special paper, and detailed art.",
+        "Absurd": "Counterfeiting official documentation when an original has never been seen. The counterfeiter must guess what the document should look like."
+      }
+    },
+    "Forgery": {
+      "optional_stats": "In/Ag/Re",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of a Forgery maneuver is dependent largely on the quality of the forgery. A simple forgery is easy to create, but will be noticed by any casual observer. Only experts can catch well-done forgeries.",
+      "specialties": [
+        "A specific work of art, a specific signature, etc."
+      ],
+      "example_difficulties": {
+        "Routine": "Producing a forgery that can fool someone with no knowledge of the subject (painting, art, etc.) who has never seen the object being copied.",
+        "Easy": "Producing a cheap imitation to sell in souvenir shops.",
+        "Light": "Producing a forgery that will pass a cursory comparison.",
+        "Medium": "Producing a forgery that will fool someone familiar with the subject who does not look closely.",
+        "Hard": "Producing a forgery that will pass a close examination by most people familiar with the original (but not an expert).",
+        "Very Hard": "Producing a forgery that will only be discovered by an expert who examines the work closely.",
+        "Extremely Hard": "Producing a forgery that can only be discovered if an expert compares the forgery to the original.",
+        "Sheer Folly": "Producing a forgery that cannot be discovered without some form of scientific evidence (e.g., dating the materials, magic, etc.).",
+        "Absurd": "Producing a forgery that experts believe to be the original instead of the actual original."
+      }
+    },
+    "Hiding Items": {
+      "optional_stats": "In/Ag/Re",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of this skill depends on the size of the object being hidden. This skill supposes that the item is being hidden on one's person. The character may desire to smuggle some goods or conceal a weapon. Hiding an object on another person increases the difficulty by two levels. Hiding an object somewhere else requires use of the Camouflage skill. If this skill is successful, the object will not be found unless the character is searched carefully. An Absolute Success indicates that even a careful search will not locate the item.",
+      "specialties": [
+        "Weapons, herbs/poisons, documents, etc."
+      ],
+      "example_difficulties": {
+        "Routine": "Hiding a small supply of an herb or poison (less than 1 ounce).",
+        "Easy": "Concealing a razor blade, lock pick, or other tiny implement.",
+        "Light": "Hiding a moderate supply of herbs or drugs (up to 1 pound).",
+        "Medium": "Concealing a small knife so that it is not found in a cursory search.",
+        "Hard": "Hiding a collection of documents (up to 50).",
+        "Very Hard": "Concealing a dagger or other small weapon.",
+        "Extremely Hard": "Hiding an irregularly shaped object, like a banana.",
+        "Sheer Folly": "Hiding a living creature like a small cat.",
+        "Absurd": "Concealing a sword or other large weapon."
+      }
+    },
+    "Picking Locks": {
+      "optional_stats": "In/Ag/Re",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of this maneuver depends on the complexity of the lock. In general. smaller locks are more difficult to pick. Note that in a medieval setting. there are no locks that are Sheer Folly or Absurd.",
+      "specialties": [
+        "Any specific type of lock."
+      ],
+      "example_difficulties": {
+        "Routine": "Picker has the key (and can therefore see the cut).",
+        "Easy": "Picker can see the locking mechanism.",
+        "Light": "Keyhole larger than a finger. Handcuffs or shackles.",
+        "Medium": "Keyhole larger than a pencil (most medieval locks). Car door.",
+        "Hard": "Padlock.",
+        "Very Hard": "Sliding bolt.",
+        "Extremely Hard": "Modern dead-bolt or combination lock. Multiple keys must be turned simultaneously.",
+        "Sheer Folly": "Door is barred, not locked.",
+        "Absurd": "Electronic lock."
+      }
+    },
+    "Setting Traps": {
+      "optional_stats": "In/Ag/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of this maneuver depends on the amount of effort involved in hiding the trigger. The difficulty of this maneuver determines the difficulty of the Detect Traps maneuver needed to discover the trap.",
+      "specialties": [
+        "Any specific type of trap (e.g., poison needles, pits, weapon traps, etc.)",
+        "In a specific environment (e.g., forest, treasure room, etc.)"
+      ],
+      "example_difficulties": {
+        "Routine": "Traps triggered by a rope strung across a corridor.",
+        "Easy": "Traps triggered by pressure plates (e.g., a bear trap or mine).",
+        "Light": "Traps triggered by weight (e.g., a pit trap).",
+        "Medium": "Traps triggered by turning a door knob or opening a latch.",
+        "Hard": "Traps whose effect spans a large area (e.g., a collapsing wall or flooding room) unless the trigger is listed above.",
+        "Very Hard": "Gas traps.",
+        "Extremely Hard": "Traps whose trigger is on the other side of a door.",
+        "Sheer Folly": "Traps whose trigger is specific to a given individual.",
+        "Absurd": "Traps whose trigger is specific to a given individual and well removed from the trap."
+      }
+    },
+    "Trap Building": {
+      "optional_stats": "In/Ag/Re",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The difficulty of this maneuver depends on the complexity (number of moving pieces) in the trap. Simple traps include a pit trap. Complex traps might involving a room rotating above a pool of acid after all entrances automatically lock. Mter 10 minutes, the trap resets itself. A Setting Traps maneuver may be required before or after the trap is built depending on the circumstances.",
+      "specialties": [
+        "A particular type of trap."
+      ],
+      "example_difficulties": {
+        "Routine": "A simple trap involving no moving pieces (e.g., a pit).",
+        "Easy": "A simple trap with a single moving piece (e.g., a falling net or cage).",
+        "Light": "A simple portable trap (e.g., mouse-trap, bear-trap, etc.).",
+        "Medium": "A trap involving counterbalances (e.g., covered pits, pressure plates, etc.).",
+        "Hard": "A spring loaded trap.",
+        "Very Hard": "A trap with many moving pieces (e.g., the classic rolling stone trap).",
+        "Extremely Hard": "A trap with multiple moving pieces (e.g., a room with walls that crush its occupants).",
+        "Sheer Folly": "Portable traps with multiple moving pieces (e.g., a trap that flings oil on its victim, followed by a piece of flint striking steel).",
+        "Absurd": "A trap that has numerous pieces all of which must move in perfect coordination for the trap to work."
+      }
+    },
+    "Using/Removing Poison": {
+      "optional_stats": "In/Ag/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "A Using/Removing Poison maneuver must be made whenever attempting to use a poison. Success indicates that the poison has full effect. Lower results indicate the poison has lesser or no effect. If the maneuver fails, the must himself make a RR vs. the poison. This skill must also be used to successfully remove poison from a weapon. (Poisons cannot be removed from food.)",
+      "specialties": [
+        "Any specific category of poisons."
+      ],
+      "example_difficulties": {
+        "Easy": "Using a powder.",
+        "Light": "Poisoning food or drink with a liquid.",
+        "Medium": "Poisoning food or drink with a paste.",
+        "Hard": "Poisoning a weapon with a paste.",
+        "Very Hard": "Poisoning a weapon with a liquid."
+      }
+    }
+  },
+  "source": "sohk",
+  "book": "School of Hard Knocks (book 5808)",
+  "group_notes": "Subterfuge skills are generally used to prevent others from noticing some misdeed. The difficulty of such a maneuver should not depend on the skill of potential observers. The difficulty of Subterfuge maneuvers depends only on the nature of the maneuver itself. In addition, lighting conditions thwart vision, they do not make Subterfuge maneuvers more simple. In fact, it might be quite difficult to find a hiding place in the dark, but harder still to find the person hiding. Whenever a Subterfuge maneuver is made, the GM should note the level of success attained by the character (e.g., Partial Success, Success, Failure, etc.). Intentional attempts to discover the Subterfuge maneuver (using an Awareness • Searching skill) requires a maneuver roll at least as successful as the Subterfuge maneuver. For example, if a thief attempted a Stealth maneuver and got a 159 (Success), an observer needs to roll a 111-175 (Success) to discover the hiding person. If the observer's result is a Partial Success or better, the observer might become suspicious even if the hiding person was not located. If the observer is relying on unconscious Awareness skills (Awareness • Senses or Alertness), his result must exceed that of the hiding person. In the above example, the observer would need a 176 or better (Absolute Success) to locate the hiding person. If the maneuver result is equal to that of the Subterfuge maneuver, and the Awareness maneuver is a Partial Success or better, the observer might become suspicious. Subterfuge • Stealth and Subterfuge • Attack maneuver rolls are required every round. These tasks take at most a single round, and occasionally less. Subterfuge • Mechanics maneuvers generally take one round times the difficulty level, squared. Notable exceptions include Forgery and Trap Building, which take longer."
+}

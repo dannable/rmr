@@ -864,12 +864,18 @@ _SKILL_HEADER_FIELDS: tuple[str, ...] = (
 def parse_skill_file(path: Path) -> dict:
     """Parse a data/skills/<slug>.txt into structured form.
 
+    A sidecar file `<slug>.sohk.json` is loaded alongside when present;
+    its `skills` dict (keyed by skill name) populates each skill's
+    `sohk_data` field, and its `categories` dict populates each
+    category's `sohk_notes`. Sidecar absence is fine — both fields
+    default to empty.
+
     Returns:
         {
           "slug": "...", "section": "A-1.X", "name": "...",
           "page_div": int, "page_content": int,
-          "categories": [{name, fields...}, ...],
-          "skills":     [{name, stat, description}, ...],
+          "categories": [{name, sohk_notes, fields...}, ...],
+          "skills":     [{name, stat, description, sohk_data}, ...],
           "tables":     [{name, columns, general_mods: [...], rows: [...]}],
         }
     """
@@ -1023,12 +1029,33 @@ def parse_skill_file(path: Path) -> dict:
 
     finalize()
 
+    # Sidecar: <slug>.sohk.json. When present, weave its per-skill /
+    # per-category / group-level data into the structures we just
+    # parsed. Failures are loud — a missing key or malformed JSON
+    # should surface, not silently lose data.
+    sohk_sidecar = path.with_suffix(".sohk.json")
+    group_sohk_notes = ""
+    if sohk_sidecar.exists():
+        import json
+        sohk = json.loads(sohk_sidecar.read_text(encoding="utf-8"))
+        for sk in skills:
+            payload = sohk.get("skills", {}).get(sk["name"])
+            if payload:
+                sk["sohk_data"] = payload
+        for cat in categories:
+            note = sohk.get("categories", {}).get(cat["name"])
+            if note:
+                cat["sohk_notes"] = note
+        # Group-level prose from SOHK Section 5.
+        group_sohk_notes = sohk.get("group_notes", "") or ""
+
     return {
         "slug": slug,
         "section": header.get("section", ""),
         "name": header.get("group_name", slug),
         "page_div": int(header.get("page_div") or 0),
         "page_content": int(header.get("page_content") or 0),
+        "sohk_notes": group_sohk_notes,
         "categories": categories,
         "skills": skills,
         "tables": tables,
@@ -1042,29 +1069,38 @@ def insert_skill_group(conn: sqlite3.Connection, data: dict) -> int:
     reference-data wipe handled by the caller (REF_TABLES_DELETE_ORDER).
     """
     cur = conn.execute(
-        "INSERT INTO skill_category_group (slug, section, name, page_div, page_content) "
-        "VALUES (?, ?, ?, ?, ?) RETURNING group_id",
+        "INSERT INTO skill_category_group "
+        "(slug, section, name, page_div, page_content, sohk_notes) "
+        "VALUES (?, ?, ?, ?, ?, ?) RETURNING group_id",
         (data["slug"], data["section"], data["name"],
-         data["page_div"], data["page_content"]),
+         data["page_div"], data["page_content"],
+         data.get("sohk_notes", "")),
     )
     group_id = cur.fetchone()[0]
+    import json as _json
     for cat in data["categories"]:
         conn.execute(
             """INSERT INTO skill_category (
                 group_id, name, skills_list, restricted, stat_bonuses,
                 rank_progression, category_progression, parent_group,
-                classification, description
-               ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                classification, description, sohk_notes
+               ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
             (group_id, cat["name"], cat.get("skills", ""), cat.get("restricted", ""),
              cat.get("stat_bonuses", ""), cat.get("rank_progression", ""),
              cat.get("category_progression", ""), cat.get("group", ""),
-             cat.get("classification", ""), cat.get("description", "")),
+             cat.get("classification", ""), cat.get("description", ""),
+             cat.get("sohk_notes", "")),
         )
     for sk in data["skills"]:
+        # sohk_data comes through as a dict (from the sidecar) or
+        # missing (no SOHK entry). Serialise to JSON either way.
+        sohk_payload = sk.get("sohk_data") or {}
+        sohk_json = _json.dumps(sohk_payload, ensure_ascii=False) if sohk_payload else "{}"
         conn.execute(
-            "INSERT OR IGNORE INTO skill (group_id, name, stat, description) "
-            "VALUES (?, ?, ?, ?)",
-            (group_id, sk["name"], sk.get("stat", ""), sk.get("description", "")),
+            "INSERT OR IGNORE INTO skill (group_id, name, stat, description, sohk_data) "
+            "VALUES (?, ?, ?, ?, ?)",
+            (group_id, sk["name"], sk.get("stat", ""), sk.get("description", ""),
+             sohk_json),
         )
     for t in data["tables"]:
         # general_mods is stored as newline-separated "Label: value" entries
@@ -1926,6 +1962,36 @@ _REQUIRED_COLUMNS: tuple[tuple[str, str, str], ...] = (
         "profession_id",
         "ADD COLUMN profession_id INTEGER REFERENCES profession(profession_id) "
         "ON DELETE SET NULL",
+    ),
+    # SOHK ingestion (book 5808). Skills get a JSON blob of supplemental
+    # fields (optional stats / EP cost / notes / specialties / example
+    # difficulties); categories get a prose `sohk_notes` paragraph;
+    # professions + training packages get a `source` tag so the SPA can
+    # filter "Character Law only" vs. "include SOHK additions".
+    (
+        "skill",
+        "sohk_data",
+        "ADD COLUMN sohk_data TEXT NOT NULL DEFAULT '{}'",
+    ),
+    (
+        "skill_category",
+        "sohk_notes",
+        "ADD COLUMN sohk_notes TEXT NOT NULL DEFAULT ''",
+    ),
+    (
+        "skill_category_group",
+        "sohk_notes",
+        "ADD COLUMN sohk_notes TEXT NOT NULL DEFAULT ''",
+    ),
+    (
+        "profession",
+        "source",
+        "ADD COLUMN source TEXT NOT NULL DEFAULT 'character_law'",
+    ),
+    (
+        "training_package",
+        "source",
+        "ADD COLUMN source TEXT NOT NULL DEFAULT 'character_law'",
     ),
 )
 

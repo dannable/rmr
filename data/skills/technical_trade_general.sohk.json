@@ -1,0 +1,152 @@
+{
+  "skills": {
+    "First Aid": {
+      "optional_stats": "Re/Me/Em",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "See Healing, Section 4.0.",
+      "specialties": [
+        "Any specific type of injury (e.g., fractures, bleeding, etc.)."
+      ],
+      "example_difficulties": {}
+    },
+    "Gambling": {
+      "optional_stats": "Re/Me/Pr",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "At its most basic level, this skill provides a knowledge of various games of chance including card games, dice games, casino games, etc. When this skill is used without cheating, players make a basic maneuver roll; the player rolling highest wins. In this case, gambling skill represents knowledge of the odds. If the game is based purely on chance, then the players should simply compare die rolls. When cheating, a player should choose the maneuver difficulty. If the maneuver is successful, all other players must make an Alertness maneuver of the same difficulty to detect the cheater. If the cheater is not caught, he can modify his next gambling maneuver by the amount indicated on the Technical/Trade • General Static Maneuver Table SM-7.25.",
+      "specialties": [
+        "Card games, dice games, etc."
+      ],
+      "example_difficulties": {
+        "Easy": "Using a small mirror to see an opponent's hand.",
+        "Medium": "Stacking the deck while shuffling.",
+        "Hard": "Palming a card.",
+        "Very Hard": "Switching dice.",
+        "Sheer Folly": "Sliding dice. (This prevents them from rolling, allowing the cheater to control the result.)"
+      }
+    },
+    "Mapping": {
+      "optional_stats": "Re/Me/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Mapping allows a character to maintain a crude map. The difficulty of this maneuver is dependent on the amount of detail the player wants the GM to provide. More accurate maps require the Cartography skill.",
+      "specialties": [
+        "Any specific location."
+      ],
+      "example_difficulties": {
+        "Routine": "Maintaining a record of the directions turned.",
+        "Easy": "Including crude distances (e.g., a dagger toss, javelin throw, or bow shot).",
+        "Light": "Allowing for turns that are not at right angles.",
+        "Medium": "Including approximate distances (e.g., 50 paces).",
+        "Hard": "Noting subtle bends or slopes.",
+        "Very Hard": "Including relatively accurate distances.",
+        "Extremely Hard": "Mapping a building with half floors or sub-levels that create the illusion of overlapping rooms.",
+        "Sheer Folly": "Determining the location of secret rooms or openings by noting subtle discrepancies.",
+        "Absurd": "Copying the GM's map."
+      }
+    },
+    "Orienteering": {
+      "optional_stats": "Re/Me/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Without this skill, a character is guaranteed to get lost if not following a road or river. Additional ranks will help a character avoid getting lost in heavy terrain or cloudy weather. A maneuver roll should be made every strategic turn (4 hours). Failure generally indicates that the character heads in a direction up to 60° degrees from the direction intended.",
+      "specialties": [
+        "Any specific terrain."
+      ],
+      "example_difficulties": {
+        "Routine": "Traveling through very familiar territory.",
+        "Easy": "Traveling with excellent directions.",
+        "Light": "On a clear day in open terrain.",
+        "Medium": "On a clear day in a light forest. On a cloudy day in open terrain.",
+        "Hard": "On a clear day in a heavy forest. On a cloudy day in a light forest.",
+        "Very Hard": "On a moonlit night. On a cloudy day in a heavy forest.",
+        "Extremely Hard": "In a dense jungle with multiple canopies.",
+        "Sheer Folly": "On an overcast or moonless night.",
+        "Absurd": "In complete darkness (e.g., during a storm on a moonless night)."
+      }
+    },
+    "Sailing": {
+      "optional_stats": "Re/Me/Ag",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Sailing vessels are, in general, not maneuverable, but they are much faster than rowed vessels. Even when sailing into the wind, many sailing vessels can move quite rapidly. The difficulty of a Sailing maneuver is dependent on two factors: the speed of the vessel and how sharp the maneuver is. Also, smaller vessels (like river boats) are more maneuverable than galleys or long-ships. The size of the vessel may modify the difficulty of the maneuver by one level. The following examples assume that the vessel is moving at a walking pace. Faster paces result in correspondingly more difficult maneuvers. If a Sailing maneuver fails, the boat fails to maneuver; it continues in the direction it was heading the previous round, decelerating one pace category, to a minimum of a walk. Absolute and Spectacular Failures might cause the ship to be damaged or capsized. Partial and Near Successes probably indicate that the boat takes on water. The maximum attainable pace depends on whether or not the vessel is moving with the wind (dash), against the wind Gog), or perpendicular to the wind (sprint).",
+      "specialties": [
+        "Any specific type of boat (e.g., clipper, yacht, etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "Accelerating one pace category (e.g., from walk to jog).",
+        "Easy": "Turning up to 15°.",
+        "Light": "Slowing down one pace category (e.g., from run to jog).",
+        "Medium": "Controlling a boat that sideswipes another (either intentionally or not). Turning up to 30°.",
+        "Hard": "Slowing down two pace categories (e.g., from run to stop).",
+        "Very Hard": "Controlling a vehicle that rams another (either intentionally or not). Turning up to 45°.",
+        "Extremely Hard": "Slowing down three pace categories (e.g., from sprint to walk).",
+        "Sheer Folly": "Making a right-angle turn.",
+        "Absurd": "Slowing down four pace categories (e.g., from sprint to stop)."
+      }
+    },
+    "Tactical Games": {
+      "optional_stats": "Re/Me/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Resolving a Tactical Games maneuver is different from resolving other maneuvers. It is not possible to perform a Tactical Games maneuver unless one has an opponent. Each player should secretly determine the difficulty of the maneuver they are attempting. Whichever player succeeds at the most difficult maneuver, wins a point. A Partial Success reduces the difficulty by two levels, a Near Success, by one. An Absolute Success increases the difficulty by one level, an unusual by two. A given game may require the accumulation of multiple points before a winner is determined.\n\nExample: Laern and Taelen are playing Genesis (the game of Life). This game is played to three points. On the first round, both players attempt a Medium maneuver. Both succeed; neither gains a point. On the second round, both attempt a Hard maneuver. Laern succeeds; Taelen does not. Laern gets a point. The next round, Laern attempts a Light maneuver, and Taelen, a Hard maneuver. Laern gets an Absolute Success, increasing his maneuver to Medium. Taelen gets a Partial Success, reducing his maneuver to Light; Laern wins a second point. Finally, both attempt a Hard maneuver. Laern gets a Near Success and Taelen a Partial Success. Laern wins a third and final point.",
+      "specialties": [
+        "Any specific difficulty of maneuver."
+      ],
+      "example_difficulties": {}
+    },
+    "Using Prepared Herbs": {
+      "optional_stats": "Re/Me/Ag",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "A Using Preparing Herbs maneuver must be made whenever attempting to use a magical herb. Success indicates that the herb has full effect. Lower results indicate the herb has lesser or no effect. Absolute Failure might indicate an allergic reaction, or worse.",
+      "specialties": [
+        "Any specific herb category."
+      ],
+      "example_difficulties": {
+        "Routine": "Herbs that are ingested.",
+        "Medium": "Herbs that are brewed or applied."
+      }
+    },
+    "Begging": {
+      "optional_stats": "Re/Me/Pr",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The goal of this skill is usually some tangible reward. The reward may include money, food, etc. In some cases, though, the beggar is seeking an intangible reward or service. A truly desperate king might be forced to beg a mighty Dragon to return his daughter.",
+      "specialties": [
+        "Any specific reward (e.g., food, money, clothing, etc.).",
+        "Any specific target group (e.g., wealthy, elderly, etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "The target is seriously considering offering the reward before the begging attempt was made (e.g., convincing a lover to give you a good-bye kiss).",
+        "Easy": "The target is naturally charitable, especially to this particular cause. Perhaps the target was once in a condition similar to that of the beggar.",
+        "Light": "The target is naturally charitable.",
+        "Medium": "The target is neither charitable, nor stingy.",
+        "Hard": "The target is generally stingy, but empathizes with the beggar's condition.",
+        "Very Hard": "The target is stingy.",
+        "Extremely Hard": "The target is stingy and bears a particular dislike towards the beggar.",
+        "Sheer Folly": "The target's plans/goals would be directly hindered by providing the reward. (Please, won't you release just one of the two hostages?)",
+        "Absurd": "Providing the reward would seriously damage the target. This includes social, physical or emotional damage."
+      }
+    },
+    "Operating Equipment": {
+      "optional_stats": "Re/Me/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This simple skill is necessary to use any tool with more than a few moving parts. No skill is necessary to dig a hole with a shovel. Digging a hole with a post-hole digger is another story. The difficulty of the maneuver is based on the number of things that could go wrong. If the tool is being used for something other than its intended purpose, add three to the difficulty level. This skill does not necessarily provide any knowledge of how the device works, nor any knowledge of how to fix the device.",
+      "specialties": [
+        "N/A"
+      ],
+      "example_difficulties": {
+        "Routine": "Only a technophobe would have difficulty operating the equipment (e.g., a padlock, a child-proof cap, etc.).",
+        "Medium": "Most complex machines (e.g., a loom, a bottle corker, etc.).",
+        "Extremely Hard": "Very complicated and touchy machines (e.g., a human-powered ornithopter).",
+        "Absurd": "Alien machinery."
+      }
+    }
+  },
+  "source": "sohk",
+  "book": "School of Hard Knocks (book 5808)",
+  "group_notes": "The Technical/Trade categories encompass a large number of skills. The amount of time required to complete such a maneuver can vary widely, and must be determined on a case by case basis. Note that if tools are required, it is assumed the character has access to the necessary implements. If not, an additional penalty of at least -50 should be assessed."
+}

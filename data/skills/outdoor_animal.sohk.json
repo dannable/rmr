@@ -1,0 +1,143 @@
+{
+  "skills": {
+    "Animal Handling": {
+      "optional_stats": "Em/Ag/Em",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The animal handler's primary concern is the well-being of the animal(s) in his care. Over the course of time, poor treatment, malnutrition, etc. will lead to the deterioration of the animal. It is the animal handler's responsibility to prevent this from happening. Any (non-herd) domestic animal that is not cared for properly at least once each week may suffer as a result. Each week there is a 5% (cumulative) chance that some malady will afflict the animal. In addition, each month without care will result in the deterioration of the animal's stats (1d10 from each stat). Note: this assumes that the animal has a ready supply of food and water. One successful Animal Handling maneuver each week (one attempt per day) will prevent the animal from suffering any penalties. A failed skill roll will not cause damage, but it may annoy the creature (all maneuvers with that animal for the next 24 hours are at -10). An Absolute Failure or worse, may result in the animal's injury.\n\nNote: The normal Outdoor • Animal modifiers do not apply to this skill.",
+      "specialties": [
+        "Any individual animal.",
+        "Any specific type of care."
+      ],
+      "example_difficulties": {
+        "Routine": "Providing appropriate food.",
+        "Easy": "Care of a non-intelligent creature (e.g., fish, insects, etc.).",
+        "Light": "Care of small herbivores (e.g., rabbits, birds, etc.).",
+        "Medium": "Care of a trained, domestic animal (e.g., dog, cat, horse, etc.).",
+        "Hard": "Care of a trained exotic or hunting animal (e.g., hawk, monkey, elephant, etc.).",
+        "Very Hard": "Care of a wild, domesticable animal (e.g., wild horse, coyote, etc.).",
+        "Extremely Hard": "Care of a wild animal (e.g., eagle, komodo dragon, etc.).",
+        "Sheer Folly": "Care of an untrained creature (non-animal).",
+        "Absurd": "Care of an untrained, hostile, creature (non-animal)."
+      }
+    },
+    "Animal Healing": {
+      "optional_stats": "Em/Ag/Em",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill functions like First Aid and Diagnostics, but only on animals of the appropriate type. See Healing, Section 4.0.",
+      "specialties": [
+        "Any specific type of injury.",
+        "Any individual animal."
+      ],
+      "example_difficulties": {}
+    },
+    "Animal Mastery": {
+      "optional_stats": "Em/Ag/Pr",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "his skill has two main uses. The animal master can attempt to establish communication with the creature. This does not imply any attempt to coerce the animal into performing any action. It merely allows the human and animal to communicate as if each had 1-4 ranks of the other's language. Note that most animals are incapable of duplicity. The animal master may also desire to control the animal's behavior. In this case, the difficulty of the maneuver is dependent on the natural tendencies/behaviors of the animal (see Creatures & Monsters ). The difficulty level should be increased if the animal is not familiar with the action requested by the animal master, or if the action is contrary to the animal's demeanor (e.g., convincing a rabbit to attack a wolf).",
+      "specialties": [
+        "Any individual animal.",
+        "Communication.",
+        "Any specific action."
+      ],
+      "example_difficulties": {
+        "Routine": "Communicating with an animal as if each had 1 rank of the other's language.",
+        "Easy": "Communicating with an animal as if each had 2 ranks of the other's language.",
+        "Light": "Communicating with an animal as if each had 3 ranks of the other's language.",
+        "Medium": "Communicating with an animal as if each had 4 ranks of the other's language. Controlling a tame, domestic animal and convincing it to perform an action with which it is familiar (via training or natural instincts). The animal must consider the human to be its master or friend.",
+        "Hard": "Controlling a \"docile\" or \"passive\" animal.",
+        "Very Hard": "Controlling a \"normal,\" \"hungry,\" or \"inquisitive\" animal.",
+        "Extremely Hard": "Controlling an \"aggressive,\" \"jumpy,\" or \"protective\" animal.",
+        "Sheer Folly": "Controlling a \"belligerent,\" \"hostile,\" or \"timid\" animal.",
+        "Absurd": "Controlling any other animal."
+      }
+    },
+    "Animal Training": {
+      "optional_stats": "Em/Ag/SD",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill can be used to tame an animal, i.e., it will accept the presence of a human. If the animal is naturally aggressive, it will not attack unless provoked. The difficulty of this maneuver is two levels easier than an Animal Mastery maneuver on a similar animal. Once tame, a tame animal can be taught tricks and commands. The difficulty of this maneuver is based on the complexity of the trick to be mastered (from the animal's perspective) and the number of tricks already known. Each trick or command after the first has a cumulative -1 penalty. (For example, Rarl desires to train her great cat another command, drop it. The cat already knows attack, fetch, come, stay and protect. Hence, this training maneuver will be at -5.) Most animals are intelligent enough to understand multiple commands that are strung together to produce new commands. Note that in many cases, the animal will need to make a maneuver roll to perform the requested maneuver successfully.",
+      "specialties": [
+        "Any individual animal.",
+        "Any specific command.",
+        "Taming."
+      ],
+      "example_difficulties": {
+        "Routine": "Teaching an animal to use a litter box.",
+        "Easy": "Training a horse or other riding animal to allow it to be ridden.",
+        "Light": "Taming a \"docile\" or \"passive\" animal. Teaching an animal to heel, or obey simple directions (forward, left, right, stop, etc.).",
+        "Medium": "Taming a \"normal,\" \"hungry,\" or \"inquisitive\" animal. Teaching a predatory animal to attack on command. Teaching an animal to vary its pace (trot, gallop, walk, etc.). Teaching an animal instinctual commands (e.g., training a bloodhound to follow a scent).",
+        "Hard": "Taming an \"aggressive,\" \"jumpy,\" or \"protective\" animal. Teaching an animal complex directions (jump, twist, etc.). Teaching an animal non-instinctual commands (play dead, roll over, beg, etc.).",
+        "Very Hard": "Taming a \"belligerent,\" \"hostile,\" or \"timid\" animal. Teaching a horse or other riding animal not to bolt when its rider vaults into the saddle. Teaching a non-aggressive animal to attack on command.",
+        "Extremely Hard": "Taming any other animal. Training an animal not to flee upon encountering a dangerous or hostile situation. (A horse cannot be considered a warhorse until it learns this.)",
+        "Sheer Folly": "Training an animal to operate independently within simple predefined parameters. (Most search and rescue dogs fall into this category.)",
+        "Absurd": "Training an animal to operate independently within complex predefined parameters. This effectively raises the animal's intelligence one category."
+      }
+    },
+    "Driving": {
+      "optional_stats": "Em/Ag/In",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Animal powered vehicles are, in general, not particularly maneuverable. It is not possible to make right angle turns with such a vehicle. When the horses turn, the rear of the cart continues moving straight ahead until it is pulled into the curve. The difficulty of a Driving maneuver is dependent on two factors: the speed of the vehicle and how sharp the maneuver is. Also, smaller vehicles (like chariots) are more maneuverable than larger -wagons. The size of the vehicle may modify the difficulty of the maneuver by one level. The following examples assume that the vehicle is moving at a walking pace. Faster paces result in correspondingly more difficult maneuvers. Partial and Near Successes indicate that the vehicle either skids in the direction in which it was traveling or begins to fish-tail. A Failure indicates that no change in direction is made; the animal ignores you. Absolute and Spectacular Failures may indicate that the vehicle crashes or rolls (as appropriate). Note that animal-powered vehicles cannot maneuver faster than a sprint. It takes one round to accelerate one pace category (e.g., from jog to run).",
+      "specialties": [
+        "Any individual vehicle."
+      ],
+      "example_difficulties": {
+        "Routine": "Accelerating one pace category (e.g., from walk to jog).",
+        "Easy": "Turning up to 15°.",
+        "Light": "Slowing down one pace category (e.g., from run to jog).",
+        "Medium": "Controlling a vehicle that brushes against an- other (either intentionally or not). Turning up to 30°.",
+        "Hard": "Swerving around a small object (e.g., a cat or wheel). Slowing down two pace categories (e.g., from run to stop).",
+        "Very Hard": "Controlling a vehicle that collides with another (either intentionally or not). Turning up to 45°.",
+        "Extremely Hard": "Swerving around a large object (e.g., a person or another vehicle). Slowing down three pace categories (e.g., from sprint to walk).",
+        "Sheer Folly": "Making a right-angle turn.",
+        "Absurd": "Slowing down four pace categories (e.g., from sprint to stop)."
+      }
+    },
+    "Herding": {
+      "optional_stats": "Em/Ag/Em",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill allows a character to maneuver a group of animals according to his will. This skill is most useful for maneuvering herbivores, although any animal that travels in a pack can be herded. The difficulty of the maneuver depends on how contrary to the animal's instincts the maneuver is. Eating is instinctual, charging an opponent is not.",
+      "specialties": [
+        "Any specific herd."
+      ],
+      "example_difficulties": {
+        "Routine": "Moving a herd to familiar pasture.",
+        "Easy": "Moving a herd in a straight line.",
+        "Light": "Negotiating corners. Gathering the animals into a herd in order to begin moving them.",
+        "Medium": "Convincing a herd to return to an enclosed space.",
+        "Hard": "Preventing any of the animals from moving too close to some danger (as perceived by the herder, not the animal). For some reason, some animals seem driven to fall off of ledges or cliffs.",
+        "Very Hard": "Fleeing a dangerous situation. (The herd tends to scatter.)",
+        "Extremely Hard": "Convincing a herd to stampede in the direction of a minor threat.",
+        "Sheer Folly": "Keeping a herd together while fleeing from a Demon or other awesome creature.",
+        "Absurd": "Convincing a herd to approach a Dragon or other awesome creature."
+      }
+    },
+    "Riding": {
+      "optional_stats": "Em/Ag/Em",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "Note that this skill involves convincing an animal to perform a specific maneuver. The mount performs the actual moving maneuver. The difficulty of the maneuver depends on the degree to which the mount naturally wants to perform the action. Natural horse actions include walking, eating, fleeing danger, etc. A horse can accelerate up to three pace categories per turn (e.g., from walk to sprint). It can decelerate a like amount. The difficulty of such a maneuver depends on the target pace. A GM may decide that some maneuvers performed in the saddle qualify as Athletic • Gymnastic maneuvers. For example, standing in the saddle (Tightrope Walking), riding along the side of the horse (Contortions), leaping from horse to horse Jumping and/or Acrobatics), etc.",
+      "specialties": [
+        "Any individual mount."
+      ],
+      "example_difficulties": {
+        "Routine": "Walk.",
+        "Easy": "Canter/Run. A slow turn.",
+        "Light": "Gallop (Sprint or faster). Walking up an incline or stairs.",
+        "Medium": "Trot/Jog. Jumping a low obstacle. Convincing a carnivore to attack.",
+        "Hard": "Crossing water.",
+        "Very Hard": "Jumping an obstacle the height of the mount's chest. A controlled rear. Charging.",
+        "Extremely Hard": "Approaching an obvious danger (e.g., fire, combat, etc.). Convincing an herbivore to attack.",
+        "Sheer Folly": "Swimming.",
+        "Absurd": "Approaching an awesome danger (e.g., a Dragon or Demon)."
+      }
+    }
+  },
+  "source": "sohk",
+  "book": "School of Hard Knocks (book 5808)",
+  "group_notes": "Many Outdoor maneuvers must be resolved every strategic turn. Due to the variety of maneuvers in these categories, the GM must determine the amount of time required to complete a given maneuver. Many of the animal skills resemble skills in other categories, which can be referenced for guidelines. If the maneuver involves an animal, the following modifiers apply:\n\nCondition | Modification\nNon-intelligent | -50\nLow-intelligence | -10\nAnimal intelligence | 0\nWild/Untamed | -20\nBefriended/Raised from birth | +30\nAmphibians | -10\nArthropods (insects) | -50\nAvian (birds) | -20\nBovine (cattle, buffalo, deer, etc.) | 0\nCanine (dogs, wolves, foxes, etc.) | +10\nCetacean (all sea mammals) | -20\nCivets (skunks, badgers, etc) | -10\nCoelentrate Uellyfish, etc) | -10\nEquine (all horse types) | +10\nFeline (all cats) | -10\nFish (all fish with bones, scales, fins) | -30\nMollusca (snails, clams, squids, etc) | -40\nMustelids (ferrets, weasels, etc) | 0\nPacyderm (elephants, rhinoceros, etc) | 0\nRodents (rats, beavers, rabbits, etc) | 0\nSaurians (dry-land, legged reptiles) | -10\nSerpentine (all snakes and serpents) | -10\nSimians (apes, monkeys, gorillas) | +50\nSwine (pigs, boars, etc) | 0\nUrsine (bears, wolverines, pandas, etc) | 0"
+}

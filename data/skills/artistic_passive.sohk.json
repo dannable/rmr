@@ -1,0 +1,90 @@
+{
+  "skills": {
+    "Music": {
+      "optional_stats": "Em/In/Pr",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill can be used either to reproduce a piece of music (conducting) or to create a piece of music (composition). The difficulty of a Music (performance) maneuver depends on the greatness of the composition. A Music (performance) maneuver is equal to the difficulty of writing the work. A Music (composition) maneuver depends on the impact the piece is intended to have. Each Partial Success reduces the resulting fame by 20%, each Near Success, by 10%. An Absolute Success increases the fame by 20%. (See Section 5.1). This skill must be developed separately for each style of music to be learned. Examples include classical, baroque, romantic, jazz, rock, etc.",
+      "specialties": [
+        "Any specific composer.",
+        "Any specific style of music."
+      ],
+      "example_difficulties": {
+        "Routine": "A scale.",
+        "Easy": "A simple melody or air. A jingle or ditty.",
+        "Light": "A piece with limited appeal. Music with technical flair, but no emotion.",
+        "Medium": "A good piece of music. Consistent work of this quality may earn the composer a sponsor.",
+        "Hard": "A piece that appeals to those who enjoy the particular style. Catchy tunes like dances, arias, and concertos that portray a single emotion or idea.",
+        "Very Hard": "A work with broad appeal. Complete works (nocturnes, improvisations, consolations, etc.) that tell a story, or convey a complex emotion.",
+        "Extremely Hard": "A work that will be considered great many years from now. Masterpieces like operas, symphonies, etc. that capture a range of emotions.",
+        "Sheer Folly": "A work that creates a new style of composition.",
+        "Absurd": "A work that gains immediate recognition worldwide."
+      }
+    },
+    "Painting": {
+      "optional_stats": "Em/In/Ag",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The goal of the painter is a representation of a real object, scene or person. This representation may be realistic, symbolic or emotive. The difficulty of the maneuver depends on the beauty and depth of expression of the piece of art to be produced. At the most basic level, a painter can produce sketches, or stylized images. As he gains in ability, he is able to infuse his works with a unique perspective or insight. The perceived greatness of the work depends to a large extent on the audience. For a painter to make a living, it helps to market one's skill well.",
+      "specialties": [
+        "Any specific medium (e.g., watercolors, oils, charcoal, etc.)",
+        "Any specific style"
+      ],
+      "example_difficulties": {
+        "Routine": "A symbolic sketch using stock symbols (e.g., stick figures). Many cave paintings are of this quality.",
+        "Easy": "A basic sketch that is recognizable as a poor representation of a specific location or person.",
+        "Light": "A simple, elegant sketch that captures the essence of a location, item, or person. Many artists begin with such a sketch.",
+        "Medium": "A simple painting, devoid of character or life, that accurately depicts its subject.",
+        "Hard": "A detailed portrait that portrays every nuance of the subject in stark clarity.",
+        "Very Hard": "An elegant painting that captures the spirit or essence of the moment. Persons viewing the work feel drawn into the painting.",
+        "Extremely Hard": "A magnificent work that completely captures the painter's reaction to the subject in subtle ways without sacrificing the mood of the painting.",
+        "Sheer Folly": "Designing a piece that inspires a new style. Such a work is refreshing in its approach to the subject.",
+        "Absurd": "A masterpiece that inspires fear or awe, depending on the subject matter."
+      }
+    },
+    "Poetry": {
+      "optional_stats": "Em/In/Re",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "This skill is used to write a poem. The difficulty of the maneuver depends on the intricacy of the poem's structure (meter and rhyme) and depth of emotion.",
+      "specialties": [
+        "Any specific type of poem (e.g., humorous, epic, tragic, etc.)."
+      ],
+      "example_difficulties": {
+        "Routine": "A slogan or jingle that rhymes. No self-respecting poet would ever write many of these.",
+        "Easy": "A brief open-form poem that describes some subject without emotion.",
+        "Light": "A short, structured poem that approaches its subject in an innovative manner.",
+        "Medium": "An open-form poem that invokes a simple emotional response (e.g., sadness or laughter).",
+        "Hard": "A perfectly metered and rhymed poem that inspires a simple emotional response, perhaps in an innovative manner.",
+        "Very Hard": "A long poem that touches on a number of emotional responses.",
+        "Extremely Hard": "A complete collection that honestly addresses a logical series of emotions (e.g., the author's journey from boy to man).",
+        "Sheer Folly": "An epic poem that causes the reader to identify strongly with the hero, feeling his pain and sharing in his triumph.",
+        "Absurd": "A masterpiece that allows the reader temporarily to experience the divine."
+      }
+    },
+    "Sculpting": {
+      "optional_stats": "Em/In/Ag",
+      "ep_cost": "",
+      "distance_multiplier": "",
+      "notes": "The sculptor's goal is the representation of a real object, scene or person. This representation is usually realistic, but may be symbolic or emotive. The difficulty of the maneuver depends on the beauty and depth of expression of the piece of art to be produced. As a sculptor gains skill, he is able to incorporate greater detail. Some sculptors allow the stone or wood to express itself naturally; the sculptor is not sure of the final product until it is completed. The perceived greatness of the work depends to a large extent on the audience. Without a rich sponsor, a sculptor leads a meager existence.",
+      "specialties": [
+        "Any specific medium (e.g., clay, wood, ivory).",
+        "Any specific style."
+      ],
+      "example_difficulties": {
+        "Routine": "A simple bowl or plate.",
+        "Easy": "A crude representation that is recognizable as a person, animal, mushroom, etc.",
+        "Light": "A stylistic representation of an object. Many primitive religious items are of this quality.",
+        "Medium": "An accurate representation of a person or object, that lacks any depth or spirit.",
+        "Hard": "A precise representation that displays every aspect in stark detail.",
+        "Very Hard": "A moving sculpture that incorporates a touch of the subject's essence or spirit. Viewers gain insight into the target's nature.",
+        "Extremely Hard": "An impressive piece that fully captures nuances in the subject's nature. The artist's relation to the subject is subtly incorporated.",
+        "Sheer Folly": "Designing a piece that inspires a new style. Such a work is refreshing in its approach to the subject.",
+        "Absurd": "A masterpiece that inspires fear or awe, depending on the subject matter."
+      }
+    }
+  },
+  "source": "sohk",
+  "book": "School of Hard Knocks (book 5808)",
+  "group_notes": "There are two types of artistic skills: passive and active. The goal of an artistic maneuver is the same, regardless of the category. The artist seeks to design a work of art, an object or performance of beauty and emotion. The artist expresses himself by presenting his work to the audience (in the gallery, on stage, or in the library). The goal of an artistic maneuver is not the accumulation of wealth, although many artists would welcome fame and the accompanying wealth. Indeed, the greatness of an artist depends in large part on his audience's perception. The difficulty of an artistic maneuver generally captures the depth or significance of the subject matter. The maneuver roll then indicates the beauty and elegance of the art. If the product of these two factors is determined, one can approximate the greatness of the result. In more specific terms, the following formula indicates how widely known a given piece of art is generally recognized. Within this radius, the art can be considered part of the local culture. Beyond this radius, the public's familiarity with the piece of art diminishes until only serious collectors and fans are familiar with the art.\n\nExample: onya performs at the local pub. She is a fairly gifted flautist who attempts a Hard (DL = 5) maneuver. The maneuver roll results in a 165 after modifications. This impressive feat is mentioned as much as 264 miles away (= [5 × (165-100) ÷ 20) 2 ).\n\nAn artist's fame grows and shrinks more slowly than the fame of a specific piece or performance. Each time the artist produces a work, his sphere of fame increases by one tenth of the difference or decreases by one twentieth of the difference, as appropriate.\n\nExample: If Sonya had a sphere of fame equal to 100 miles, her fame would increase by 16.5 miles (= (265 - 100) ÷ 10). If she previously had a sphere offame of 400 miles (Wow!), her sphere would shrink by 7 miles (= (265 - 400) ÷ 20).\n\nOver time, an artist's fame will be roughly equal to that of his works. Once the artist dies, his work may still gain fame, provided there is some way for future generations to enjoy the work (i.e., the art is passive, not active). If the artist had more than 10 ranks in his art, his reputation's sphere of fame will grow by a percentage equal to the number of ranks above 10, each decade. If the artist had fewer than 10 ranks, the sphere of fame will shrink by a percentage equal to the number of ranks fewer than 11, every five years. Note that an artist does not necessarily need to die for this to occur, he merely needs to stop producing work for five or more years. The amount of time required to complete an artistic maneuver depends largely on the size (or length) of the artistic piece. In general, an artist can complete a piece of art of average size (depending on the medium) in 6 months to a year. This should be modified by the difficulty of the artistic maneuver. A simple sketch might take only a few minutes to complete, whereas a complete masterpiece might require years of effort. The GM might allow the artist to roll the maneuver after spending one fourth of the time required. At this point, the artist can decide whether or not to continue."
+}

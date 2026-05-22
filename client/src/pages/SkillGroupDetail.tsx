@@ -154,6 +154,8 @@ function SkillGroupView({ slug }: { slug: string }) {
         </p>
       )}
 
+      {view.sohk_notes && <GroupSOHKNotes notes={view.sohk_notes} />}
+
       <hr />
 
       {hasTables ? (
@@ -203,7 +205,16 @@ function cloneDetail(d: Detail): Detail {
   return {
     ...d,
     categories: d.categories.map((c) => ({ ...c })),
-    skills: d.skills.map((s) => ({ ...s })),
+    skills: d.skills.map((s) => ({
+      ...s,
+      // sohk_data is a JSON-derived nested object; deep-copy so an
+      // edit-mode mutation doesn't leak back into the cached query.
+      sohk_data: {
+        ...s.sohk_data,
+        specialties: [...(s.sohk_data?.specialties ?? [])],
+        example_difficulties: { ...(s.sohk_data?.example_difficulties ?? {}) },
+      },
+    })),
     tables: d.tables.map((t) => ({
       ...t,
       columns: [...t.columns],
@@ -391,9 +402,151 @@ function SkillBlock({
           {skill.description}
         </p>
       ) : null}
+
+      {!editing && <SkillSOHKBlock sohk={skill.sohk_data} />}
     </div>
   );
 }
+
+/**
+ * "School of Hard Knocks" supplemental data per skill. Rendered as a
+ * collapsed `<details>` block so the per-skill body stays compact
+ * unless the reader specifically wants the deeper rules.
+ */
+function SkillSOHKBlock({ sohk }: { sohk: import("../api").SOHKData | undefined }) {
+  if (!sohk) return null;
+  const hasAny =
+    sohk.optional_stats ||
+    sohk.ep_cost ||
+    sohk.distance_multiplier ||
+    sohk.notes ||
+    (sohk.specialties && sohk.specialties.length > 0) ||
+    (sohk.example_difficulties &&
+      Object.keys(sohk.example_difficulties).length > 0);
+  if (!hasAny) return null;
+
+  // Difficulty tiers in canonical order.
+  const tierOrder = [
+    "Routine", "Easy", "Light", "Medium", "Hard",
+    "Very Hard", "Extremely Hard", "Sheer Folly", "Absurd",
+  ];
+  const orderedDiffs = tierOrder.filter((t) => sohk.example_difficulties?.[t]);
+
+  return (
+    <details style={{
+      marginTop: 6,
+      borderLeft: "2px solid #c0d0ff",
+      paddingLeft: 8,
+    }}>
+      <summary style={{
+        cursor: "pointer",
+        fontSize: 11,
+        color: "#557",
+        textTransform: "uppercase",
+        letterSpacing: 0.3,
+      }}>
+        School of Hard Knocks
+      </summary>
+      <div style={{ marginTop: 6, fontSize: 12, color: "#444", lineHeight: 1.5 }}>
+        {(sohk.optional_stats || sohk.ep_cost || sohk.distance_multiplier) && (
+          <dl style={{
+            display: "grid",
+            gridTemplateColumns: "160px 1fr",
+            gap: "2px 8px",
+            margin: 0,
+            marginBottom: 8,
+          }}>
+            {sohk.optional_stats && (
+              <><dt style={{ color: "#888" }}>Optional stats</dt>
+                <dd style={{ margin: 0 }}>{sohk.optional_stats}</dd></>
+            )}
+            {sohk.ep_cost && (
+              <><dt style={{ color: "#888" }}>EP cost</dt>
+                <dd style={{ margin: 0 }}>{sohk.ep_cost}</dd></>
+            )}
+            {sohk.distance_multiplier && (
+              <><dt style={{ color: "#888" }}>Distance ×</dt>
+                <dd style={{ margin: 0 }}>{sohk.distance_multiplier}</dd></>
+            )}
+          </dl>
+        )}
+        {sohk.notes && (
+          <div style={{ marginBottom: 8, whiteSpace: "pre-wrap" }}>
+            {sohk.notes}
+          </div>
+        )}
+        {sohk.specialties && sohk.specialties.length > 0 && (
+          <div style={{ marginBottom: 8 }}>
+            <div style={{ color: "#888", textTransform: "uppercase",
+                          letterSpacing: 0.3, fontSize: 11 }}>Specialties</div>
+            <ul style={{ margin: "2px 0 0", paddingLeft: 18 }}>
+              {sohk.specialties.map((s, i) => <li key={i}>{s}</li>)}
+            </ul>
+          </div>
+        )}
+        {orderedDiffs.length > 0 && (
+          <div>
+            <div style={{ color: "#888", textTransform: "uppercase",
+                          letterSpacing: 0.3, fontSize: 11, marginBottom: 2 }}>
+              Example difficulties
+            </div>
+            <dl style={{
+              display: "grid",
+              gridTemplateColumns: "120px 1fr",
+              gap: "2px 8px",
+              margin: 0,
+            }}>
+              {orderedDiffs.map((t) => (
+                <div key={t} style={{ display: "contents" }}>
+                  <dt style={{ color: "#666" }}>{t}</dt>
+                  <dd style={{ margin: 0 }}>{sohk.example_difficulties[t]}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        )}
+      </div>
+    </details>
+  );
+}
+
+/**
+ * Group-level prose from "School of Hard Knocks" Section 5.X. Sits
+ * just below the page title, collapsed by default — these blocks can
+ * be 1–5KB of GM-facing rules text per group.
+ */
+function GroupSOHKNotes({ notes }: { notes: string }) {
+  return (
+    <details style={{
+      marginTop: 12,
+      borderLeft: "3px solid #99a",
+      paddingLeft: 10,
+      background: "#fafafd",
+      paddingTop: 4,
+      paddingBottom: 4,
+    }}>
+      <summary style={{
+        cursor: "pointer",
+        fontSize: 12,
+        color: "#446",
+        textTransform: "uppercase",
+        letterSpacing: 0.3,
+      }}>
+        School of Hard Knocks — category notes
+      </summary>
+      <div style={{
+        marginTop: 6,
+        fontSize: 13,
+        color: "#333",
+        lineHeight: 1.55,
+        whiteSpace: "pre-wrap",
+      }}>
+        {notes}
+      </div>
+    </details>
+  );
+}
+
 
 function TableBlock({
   table,
