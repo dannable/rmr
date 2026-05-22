@@ -57,11 +57,14 @@ class Character(BaseModel):
     level: int
     created_at: str
     updated_at: str
-    # Chargen progress. NULL until the picker is used. `race_name` is denormalised
+    # Chargen progress. NULL until the picker is used. *_name is denormalised
     # in the response so the client can label without a second fetch.
     race_id: int | None = None
     race_slug: str | None = None
     race_name: str | None = None
+    profession_id: int | None = None
+    profession_slug: str | None = None
+    profession_name: str | None = None
 
 
 class CharacterCreate(BaseModel):
@@ -73,6 +76,12 @@ class CharacterCreate(BaseModel):
 class CharacterRacePick(BaseModel):
     # Pass null to clear the character's race. `slug` is preferred over
     # race_id because slugs are stable across `load.py --reset` runs.
+    slug: str | None = None
+
+
+class CharacterProfessionPick(BaseModel):
+    # Pass null to clear the character's profession. Same slug-keyed
+    # rationale as the race picker.
     slug: str | None = None
 
 
@@ -205,17 +214,23 @@ def _row_to_character(row) -> Character:
         race_id=_opt("race_id"),
         race_slug=_opt("race_slug"),
         race_name=_opt("race_name"),
+        profession_id=_opt("profession_id"),
+        profession_slug=_opt("profession_slug"),
+        profession_name=_opt("profession_name"),
     )
 
 
-# Reusable SELECT clauses; the race join is LEFT so unraced characters still
-# come back with `race_*` columns set to NULL.
+# Reusable SELECT clauses; the race + profession joins are LEFT so an
+# unraced / unprofessioned character still comes back with NULLs for the
+# joined columns.
 _CHARACTER_SELECT = """
     SELECT ch.character_id, ch.owner_user_id, ch.name, ch.level,
-           ch.created_at, ch.updated_at, ch.race_id,
-           r.slug AS race_slug, r.name AS race_name
+           ch.created_at, ch.updated_at, ch.race_id, ch.profession_id,
+           r.slug AS race_slug, r.name AS race_name,
+           p.slug AS profession_slug, p.name AS profession_name
       FROM character ch
       LEFT JOIN race r ON r.race_id = ch.race_id
+      LEFT JOIN profession p ON p.profession_id = ch.profession_id
 """
 
 
@@ -689,6 +704,46 @@ def update_character_race(
         conn.execute(
             "UPDATE character SET race_id = ?, updated_at = ? WHERE character_id = ?",
             (race_id, now, character_id),
+        )
+        row = conn.execute(
+            f"{_CHARACTER_SELECT} WHERE ch.character_id = ?",
+            (character_id,),
+        ).fetchone()
+        conn.commit()
+    return _row_to_character(row)
+
+
+@router.put("/{character_id}/profession", response_model=Character)
+def update_character_profession(
+    character_id: int,
+    body: CharacterProfessionPick,
+    user: dict = CurrentUser,
+) -> Character:
+    """Set (or clear, when slug is null) the character's profession.
+
+    Mirrors the race PUT: slug-keyed, returns the freshened Character.
+    """
+    # Imported here to avoid circular-ish wiring; profession lookup belongs
+    # to core.chargen but doesn't need to leak into the top-of-file imports.
+    from core.chargen.profession import get_profession_by_slug
+
+    now = _utcnow()
+    with connect_rw() as conn:
+        _assert_owned(conn, character_id, user["user_id"])
+        if body.slug is None:
+            profession_id = None
+        else:
+            prof = get_profession_by_slug(conn, body.slug)
+            if prof is None:
+                raise HTTPException(
+                    status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                    detail=f"Unknown profession slug: {body.slug!r}",
+                )
+            profession_id = prof["profession_id"]
+        conn.execute(
+            "UPDATE character SET profession_id = ?, updated_at = ? "
+            "WHERE character_id = ?",
+            (profession_id, now, character_id),
         )
         row = conn.execute(
             f"{_CHARACTER_SELECT} WHERE ch.character_id = ?",

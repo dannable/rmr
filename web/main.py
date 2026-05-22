@@ -18,6 +18,7 @@ from fastapi.staticfiles import StaticFiles
 
 from .api.characters import router as characters_router
 from .api.me import router as me_router
+from .api.professions import router as professions_router
 from .api.races import router as races_router
 from .api.skills import router as skills_router
 from .api.spells import router as spells_router
@@ -42,6 +43,7 @@ def create_app() -> FastAPI:
     app.include_router(auth_router)
     app.include_router(me_router)
     app.include_router(characters_router)
+    app.include_router(professions_router)
     app.include_router(races_router)
     app.include_router(skills_router)
     app.include_router(spells_router)

@@ -9,6 +9,14 @@ rmfrp.db
 # Raw PDF dumps for chargen ingest — author's IP, not redistributable.
 data/chargen/_raw/
 
+# ERA (Electronic Roleplaying Assistant) source archives — third-party IP.
+# Decoded text data lives under data/chargen/professions/ and is committed.
+ERA/
+
+# Profession portrait PNGs extracted from the ERA archive — same IP
+# umbrella as the .era source.
+data/chargen/professions/img/
+
 # Docker compose mounts the SQLite DB into ./db/ on the host
 db/
 

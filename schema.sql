@@ -242,6 +242,105 @@ CREATE TABLE IF NOT EXISTS race (
 );
 
 -- =========================================================================
+-- Chargen reference data: professions (RMSS Character Law).
+-- =========================================================================
+-- One row per playable profession (Animist, Bard, ..., Warrior Monk).
+-- Loaded from data/chargen/professions/<slug>.txt via load.py with
+-- INSERT ... ON CONFLICT(slug) DO UPDATE so profession_id stays stable
+-- across reference-data reloads (characters reference profession_id).
+--
+-- The source is `ERA/rmfrpCharacterLaw.professions.era` — a reversed
+-- base64-encoded ZIP of XML files produced by Electronic Roleplaying
+-- Assistant. `.scratch/build_professions.py` decodes the .era and
+-- generates the per-profession .txt files that load.py ingests.
+--
+-- Per-profession bonuses and DP costs are stored as child rows with
+-- ERA's verbatim group / category strings. ERA uses simpler naming
+-- ("Awareness/Perceptions") than RMSS Appendix A-1's divider-page-per-
+-- sub-category breakdown ("Awareness • Perceptions" as its own group),
+-- so the strings here don't FK to skill_category_group — they live on
+-- their own and will be cross-walked when the skill DP allocator
+-- needs them.
+
+CREATE TABLE IF NOT EXISTS profession (
+    profession_id   INTEGER PRIMARY KEY AUTOINCREMENT,
+    slug            TEXT    NOT NULL UNIQUE,    -- e.g. "lay_healer"
+    name            TEXT    NOT NULL UNIQUE,    -- e.g. "Lay Healer"
+    description     TEXT    NOT NULL DEFAULT '',
+    -- Relative path to the portrait PNG decoded from the .era SampleImage,
+    -- under data/chargen/professions/img/. NULL when no portrait is
+    -- available locally (the directory is gitignored as third-party IP).
+    portrait_path   TEXT
+);
+
+CREATE TABLE IF NOT EXISTS profession_realm (
+    profession_id   INTEGER NOT NULL REFERENCES profession(profession_id) ON DELETE CASCADE,
+    realm_name      TEXT    NOT NULL,           -- "Essence" / "Channeling" / "Mentalism"
+    PRIMARY KEY (profession_id, realm_name)
+);
+
+CREATE TABLE IF NOT EXISTS profession_prime_stat (
+    profession_id   INTEGER NOT NULL REFERENCES profession(profession_id) ON DELETE CASCADE,
+    stat_code       TEXT    NOT NULL,           -- two-letter code: Ag/Co/Me/Re/SD/Em/In/Pr/Qu/St
+    PRIMARY KEY (profession_id, stat_code)
+);
+
+-- Flat bonus to every skill in a category group (e.g. Fighter: Weapon +20).
+CREATE TABLE IF NOT EXISTS profession_group_bonus (
+    profession_id   INTEGER NOT NULL REFERENCES profession(profession_id) ON DELETE CASCADE,
+    group_name      TEXT    NOT NULL,           -- ERA's groupName, verbatim
+    bonus           INTEGER NOT NULL,
+    PRIMARY KEY (profession_id, group_name)
+);
+
+-- Targeted bonus to one specific category (e.g. Magician: Lore/Magical +5).
+CREATE TABLE IF NOT EXISTS profession_category_bonus (
+    profession_id   INTEGER NOT NULL REFERENCES profession(profession_id) ON DELETE CASCADE,
+    group_name      TEXT    NOT NULL,
+    category_name   TEXT    NOT NULL,
+    bonus           INTEGER NOT NULL,
+    PRIMARY KEY (profession_id, group_name, category_name)
+);
+
+-- Per-category DP cost. Stored as the source string ("2/5", "4/4/4-…")
+-- so the DP allocator can parse the slash/dash structure as needed.
+CREATE TABLE IF NOT EXISTS profession_category_cost (
+    profession_id   INTEGER NOT NULL REFERENCES profession(profession_id) ON DELETE CASCADE,
+    group_name      TEXT    NOT NULL,
+    category_name   TEXT    NOT NULL,
+    cost            TEXT    NOT NULL,
+    PRIMARY KEY (profession_id, group_name, category_name)
+);
+
+-- Per-skill cost multiplier (e.g. Magician: Spell Mastery × 0.5).
+CREATE TABLE IF NOT EXISTS profession_skill_cost_modifier (
+    profession_id   INTEGER NOT NULL REFERENCES profession(profession_id) ON DELETE CASCADE,
+    group_name      TEXT    NOT NULL,
+    category_name   TEXT    NOT NULL,
+    skill_name      TEXT    NOT NULL,
+    classification  TEXT    NOT NULL,           -- "Static Maneuver", "Spell Casting Maneuver", ...
+    modifier        REAL    NOT NULL,           -- e.g. 0.5, 2.0
+    PRIMARY KEY (profession_id, group_name, category_name, skill_name)
+);
+
+-- The profession's "favorite" / signature skills (used by training-package
+-- presets and the future DP allocator's "highlight likely picks" view).
+CREATE TABLE IF NOT EXISTS profession_favorite_skill (
+    profession_id   INTEGER NOT NULL REFERENCES profession(profession_id) ON DELETE CASCADE,
+    group_name      TEXT    NOT NULL,
+    category_name   TEXT    NOT NULL,
+    skill_name      TEXT    NOT NULL,
+    classification  TEXT    NOT NULL,
+    sort_order      INTEGER NOT NULL,           -- preserves source order for display
+    PRIMARY KEY (profession_id, group_name, category_name, skill_name)
+);
+
+CREATE INDEX IF NOT EXISTS idx_profession_realm_by_prof
+    ON profession_realm(profession_id);
+CREATE INDEX IF NOT EXISTS idx_profession_prime_stat_by_prof
+    ON profession_prime_stat(profession_id);
+
+-- =========================================================================
 -- Adolescence Rank Table T-1.6
 -- =========================================================================
 -- Starting skill ranks granted to a new character during adolescence,
@@ -282,7 +381,11 @@ CREATE TABLE IF NOT EXISTS character (
     -- uses SET NULL so a reference-data reload that wipes race rows
     -- doesn't cascade-delete characters — though in practice the race
     -- loader uses ON CONFLICT(slug) DO UPDATE so race_id stays stable.
-    race_id        INTEGER REFERENCES race(race_id) ON DELETE SET NULL
+    race_id        INTEGER REFERENCES race(race_id) ON DELETE SET NULL,
+    -- Profession picked from the RMSS Character Law list. Same reload-
+    -- proof story as race_id: SET NULL on profession delete, but the
+    -- loader keeps profession_id stable across reloads via UPSERT.
+    profession_id  INTEGER REFERENCES profession(profession_id) ON DELETE SET NULL
 );
 
 CREATE INDEX IF NOT EXISTS idx_character_owner ON character(owner_user_id);

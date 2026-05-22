@@ -56,6 +56,9 @@ export interface Character {
   race_id: number | null;
   race_slug: string | null;
   race_name: string | null;
+  profession_id: number | null;
+  profession_slug: string | null;
+  profession_name: string | null;
 }
 
 export const fetchCharacters = () =>
@@ -75,6 +78,12 @@ export const deleteCharacter = (id: number) =>
 
 export const updateCharacterRace = (id: number, slug: string | null) =>
   api<Character>(`/api/v1/characters/${id}/race`, {
+    method: "PUT",
+    body: JSON.stringify({ slug }),
+  });
+
+export const updateCharacterProfession = (id: number, slug: string | null) =>
+  api<Character>(`/api/v1/characters/${id}/profession`, {
     method: "PUT",
     body: JSON.stringify({ slug }),
   });
@@ -212,6 +221,69 @@ export interface Race {
 }
 
 export const fetchRaces = () => api<Race[]>("/api/v1/races");
+
+// ---- professions -------------------------------------------------------
+
+export interface ProfessionRow {
+  slug: string;
+  name: string;
+  description: string;
+  realms: string[];
+  prime_stats: string[];
+  portrait_path: string | null;
+}
+
+export interface ProfessionGroupBonus {
+  group_name: string;
+  bonus: number;
+}
+
+export interface ProfessionCategoryBonus {
+  group_name: string;
+  category_name: string;
+  bonus: number;
+}
+
+export interface ProfessionCategoryCost {
+  group_name: string;
+  category_name: string;
+  cost: string;
+}
+
+export interface ProfessionSkillCostModifier {
+  group_name: string;
+  category_name: string;
+  skill_name: string;
+  classification: string;
+  modifier: number;
+}
+
+export interface ProfessionFavoriteSkill {
+  group_name: string;
+  category_name: string;
+  skill_name: string;
+  classification: string;
+}
+
+export interface ProfessionDetail {
+  slug: string;
+  name: string;
+  description: string;
+  portrait_path: string | null;
+  realms: string[];
+  prime_stats: string[];
+  group_bonuses: ProfessionGroupBonus[];
+  category_bonuses: ProfessionCategoryBonus[];
+  category_costs: ProfessionCategoryCost[];
+  skill_cost_modifiers: ProfessionSkillCostModifier[];
+  favorite_skills: ProfessionFavoriteSkill[];
+}
+
+export const fetchProfessions = () =>
+  api<ProfessionRow[]>("/api/v1/professions");
+
+export const fetchProfession = (slug: string) =>
+  api<ProfessionDetail>(`/api/v1/professions/${encodeURIComponent(slug)}`);
 
 // ---- spells ------------------------------------------------------------
 
