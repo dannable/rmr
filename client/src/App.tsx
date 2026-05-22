@@ -20,6 +20,8 @@ import { SpellDetailPage } from "./pages/SpellDetail";
 import { SpellEditPage } from "./pages/SpellEdit";
 import { SpellListDetailPage } from "./pages/SpellListDetail";
 import { SpellsHomePage } from "./pages/SpellsHome";
+import { TrainingPackageDetailPage } from "./pages/TrainingPackageDetail";
+import { TrainingPackagesHomePage } from "./pages/TrainingPackagesHome";
 
 export function App() {
   return (
@@ -35,6 +37,8 @@ export function App() {
         <Route path="/spells/lists/:listId/spells/:level/edit" element={<RequireAuth><SpellEditPage /></RequireAuth>} />
         <Route path="/skills" element={<RequireAuth><SkillsHomePage /></RequireAuth>} />
         <Route path="/skills/:slug" element={<RequireAuth><SkillGroupDetailPage /></RequireAuth>} />
+        <Route path="/training-packages" element={<RequireAuth><TrainingPackagesHomePage /></RequireAuth>} />
+        <Route path="/training-packages/:slug" element={<RequireAuth><TrainingPackageDetailPage /></RequireAuth>} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
@@ -116,6 +120,7 @@ function AppShell({ me, children }: { me: Me; children: ReactNode }) {
           <Link to="/" style={{ color: "#444" }}>Characters</Link>
           <Link to="/spells" style={{ color: "#444" }}>Spells</Link>
           <Link to="/skills" style={{ color: "#444" }}>Skills</Link>
+          <Link to="/training-packages" style={{ color: "#444" }}>Training</Link>
           <span style={{ color: "#666" }}>
             {me.discord_username ?? me.discord_id}
           </span>

@@ -19,6 +19,7 @@ RACES_DIR = ROOT / "data" / "chargen" / "races"
 SKILLS_DIR = ROOT / "data" / "skills"
 CULTURES_DIR = ROOT / "data" / "chargen" / "cultures"
 PROFESSIONS_DIR = ROOT / "data" / "chargen" / "professions"
+TRAINING_PACKAGES_DIR = ROOT / "data" / "chargen" / "training_packages"
 ADOLESCENCE_FILE = ROOT / "data" / "chargen" / "adolescence_ranks.txt"
 
 CELL_RE = re.compile(r"^(\d{1,3})([A-F])([GKPSTU])?$")  # severity-only crit_type optional; F is the special dual-crit code on table 3.10
@@ -1456,6 +1457,336 @@ def insert_professions(conn: sqlite3.Connection) -> int:
 
 
 # ---------------------------------------------------------------------------
+# training-package loader (RMSS Character Law, decoded from ERA)
+# ---------------------------------------------------------------------------
+
+# Top-level @-marker sections inside a TP .txt. Anything else triggers
+# parser warnings on debug runs.
+_TP_LIST_SECTIONS: tuple[str, ...] = (
+    "specials",
+    "stat_gains",
+    "profession_costs",
+)
+
+
+def parse_training_package_file(file_path: Path) -> dict:
+    """Parse one data/chargen/training_packages/<slug>.txt.
+
+    Output shape:
+        {
+          "name", "slug", "category", "default_cost", "description",
+          "specials":       [{"chance": int, "description": str}, ...],
+          "stat_gains":     [{"stat_code": str|None,
+                              "choices":   list[str]}, ...],
+          "rank_assignments": [
+              {"reference_label": str|None,
+               "group_name":      str|None,
+               "category_name":   str|None,
+               "cat_ranks":       int,
+               "skill_ranks":     int,
+               "cat_spread_max":  int|None,
+               "skill_spread_max": int|None,
+               "ranks_assigned_max": int|None,
+               "category_options": [(group, category), ...],
+               "skill_options":    [(skill_name, classification), ...]},
+              ...
+          ],
+          "profession_costs": [(profession_name, cost_int), ...]
+        }
+
+    Multi-line continuation on @description: any leading-space line that
+    isn't itself a @-marker extends the description.
+    """
+    meta: dict[str, str] = {}
+    description_lines: list[str] = []
+    specials: list[dict] = []
+    stat_gains: list[dict] = []
+    profession_costs: list[tuple[str, int]] = []
+    rank_assignments: list[dict] = []
+
+    state: str = "header"   # header | description | specials | stat_gains
+                            # | profession_costs | rank_assignment
+
+    current_ra: dict | None = None
+
+    def open_rank_assignment(header_value: str) -> dict:
+        """Header looks like:
+              "<slot> | ref:Melee Weapon"
+              "<slot> | Weapon/1-H Concussion"
+              "<slot> | Group/With • Slash/Inside"   (slashed group names ok)
+              "<slot> | (unspecified)"
+        We split off the leading "<slot> | " and then decide the rest.
+        """
+        slot_and_rest = header_value.split("|", 1)
+        kind = slot_and_rest[1].strip() if len(slot_and_rest) > 1 else ""
+        ra: dict = {
+            "reference_label": None,
+            "group_name": None,
+            "category_name": None,
+            "cat_ranks": 0,
+            "skill_ranks": 0,
+            "cat_spread_max": None,
+            "skill_spread_max": None,
+            "ranks_assigned_max": None,
+            "category_options": [],
+            "skill_options": [],
+        }
+        if kind.startswith("ref:"):
+            ra["reference_label"] = kind[len("ref:"):].strip()
+        elif kind == "(unspecified)" or kind == "":
+            pass
+        else:
+            # Same group/category split rule as professions: rsplit so a
+            # slashed group name like "Science/Analytic" stays intact and
+            # only the LAST '/' is taken as the group/category boundary.
+            bits = kind.rsplit("/", 1)
+            if len(bits) == 2:
+                ra["group_name"], ra["category_name"] = bits[0].strip(), bits[1].strip()
+            else:
+                ra["group_name"] = kind.strip()
+        return ra
+
+    def parse_skill_option(value: str) -> tuple[str, str]:
+        """A skill_option line is "Name (Classification)". Classification
+        is empty when missing.
+        """
+        m = re.match(r"^(.+?)\s*\(([^)]+)\)\s*$", value)
+        if m:
+            return m.group(1).strip(), m.group(2).strip()
+        return value.strip(), ""
+
+    for raw in file_path.read_text(encoding="utf-8").splitlines():
+        line = raw.rstrip()
+        if not line or line.lstrip().startswith("#"):
+            # Blank line inside the description block ends it. Blank line
+            # inside list sections is just noise.
+            if state == "description":
+                state = "header"
+            continue
+
+        # Description continuation lines.
+        if state == "description" and line.startswith(" ") and not line.lstrip().startswith("@"):
+            description_lines.append(line.strip())
+            continue
+
+        if line.startswith("@@ "):
+            # Open a new rank-assignment block.
+            if current_ra is not None:
+                rank_assignments.append(current_ra)
+            current_ra = open_rank_assignment(line[3:].strip())
+            state = "rank_assignment"
+            continue
+
+        if line.startswith("@"):
+            key, _, value = line[1:].partition(":")
+            key = key.strip()
+            value = value.strip()
+
+            # Inside a rank assignment, every @-key extends the open RA
+            # except for @description / @<list-section> / @@ which break
+            # the block first.
+            if state == "rank_assignment" and key not in (
+                "description",
+                *_TP_LIST_SECTIONS,
+            ):
+                if key == "cat_ranks":
+                    current_ra["cat_ranks"] = int(value or "0")
+                elif key == "skill_ranks":
+                    current_ra["skill_ranks"] = int(value or "0")
+                elif key == "cat_option":
+                    bits = value.rsplit("/", 1)
+                    if len(bits) == 2:
+                        current_ra["category_options"].append(
+                            (bits[0].strip(), bits[1].strip())
+                        )
+                elif key == "skill_option":
+                    current_ra["skill_options"].append(parse_skill_option(value))
+                elif key == "cat_spread_max":
+                    current_ra["cat_spread_max"] = int(value)
+                elif key == "skill_spread_max":
+                    current_ra["skill_spread_max"] = int(value)
+                elif key == "ranks_assigned_max":
+                    current_ra["ranks_assigned_max"] = int(value)
+                else:
+                    # Unknown — skip silently.
+                    pass
+                continue
+
+            # Otherwise we're leaving the RA block (if any) — flush it.
+            if current_ra is not None:
+                rank_assignments.append(current_ra)
+                current_ra = None
+
+            if key == "description":
+                state = "description"
+                if value:
+                    description_lines.append(value)
+                continue
+            if key in _TP_LIST_SECTIONS:
+                state = key
+                continue
+            # Single-line header field.
+            state = "header"
+            meta[key] = value
+            continue
+
+        # Body line in a list section.
+        if state == "specials":
+            chance_str, _, desc = line.partition("|")
+            try:
+                chance = int(chance_str.strip())
+            except ValueError:
+                continue
+            specials.append({"chance": chance, "description": desc.strip()})
+        elif state == "stat_gains":
+            if "|" in line:
+                choices = [p.strip() for p in line.split("|") if p.strip()]
+                stat_gains.append({"stat_code": None, "choices": choices})
+            else:
+                stat_gains.append({"stat_code": line.strip(), "choices": []})
+        elif state == "profession_costs":
+            prof, _, cost = line.rpartition(":")
+            prof = prof.strip()
+            try:
+                cost_int = int(cost.strip())
+            except ValueError:
+                continue
+            if prof:
+                profession_costs.append((prof, cost_int))
+
+    # Flush a final RA if the file ended mid-block.
+    if current_ra is not None:
+        rank_assignments.append(current_ra)
+
+    description = " ".join(description_lines).strip()
+    try:
+        default_cost = int(meta.get("default_cost", "0") or "0")
+    except ValueError:
+        default_cost = 0
+
+    return {
+        "name": meta.get("name", ""),
+        "slug": meta.get("slug") or file_path.stem,
+        "category": meta.get("category", ""),
+        "description": description,
+        "default_cost": default_cost,
+        "specials": specials,
+        "stat_gains": stat_gains,
+        "rank_assignments": rank_assignments,
+        "profession_costs": profession_costs,
+    }
+
+
+def insert_training_package(conn: sqlite3.Connection, data: dict) -> int:
+    """Upsert one training package + replace its child rows. Returns
+    training_package_id (stable across reloads)."""
+    slug = data["slug"]
+    if not slug:
+        raise ValueError(f"training-package data has no slug: {data.get('name')!r}")
+
+    conn.execute(
+        """INSERT INTO training_package (slug, name, category, description, default_cost)
+                VALUES (?, ?, ?, ?, ?)
+           ON CONFLICT(slug) DO UPDATE SET
+                name         = excluded.name,
+                category     = excluded.category,
+                description  = excluded.description,
+                default_cost = excluded.default_cost""",
+        (slug, data["name"], data["category"], data["description"],
+         data["default_cost"]),
+    )
+    tpid = conn.execute(
+        "SELECT training_package_id FROM training_package WHERE slug = ?", (slug,)
+    ).fetchone()[0]
+
+    # Wipe + re-insert children.
+    for tbl in (
+        "training_package_special",
+        "training_package_stat_gain_choice",
+        "training_package_stat_gain",
+        "training_package_ra_skill_option",
+        "training_package_ra_category_option",
+        "training_package_rank_assignment",
+        "training_package_profession_cost",
+    ):
+        conn.execute(f"DELETE FROM {tbl} WHERE training_package_id = ?", (tpid,))
+
+    for i, sp in enumerate(data["specials"]):
+        conn.execute(
+            "INSERT INTO training_package_special "
+            "(training_package_id, sort_order, chance, description) "
+            "VALUES (?, ?, ?, ?)",
+            (tpid, i, sp["chance"], sp["description"]),
+        )
+
+    for i, sg in enumerate(data["stat_gains"]):
+        has_choice = 1 if sg["choices"] else 0
+        conn.execute(
+            "INSERT INTO training_package_stat_gain "
+            "(training_package_id, sort_order, stat_code, has_choice) "
+            "VALUES (?, ?, ?, ?)",
+            (tpid, i, sg["stat_code"], has_choice),
+        )
+        for choice in sg["choices"]:
+            conn.execute(
+                "INSERT INTO training_package_stat_gain_choice "
+                "(training_package_id, sort_order, stat_code) "
+                "VALUES (?, ?, ?)",
+                (tpid, i, choice),
+            )
+
+    for i, ra in enumerate(data["rank_assignments"]):
+        conn.execute(
+            """INSERT INTO training_package_rank_assignment (
+                training_package_id, sort_order,
+                reference_label, group_name, category_name,
+                cat_ranks, skill_ranks,
+                cat_spread_max, skill_spread_max, ranks_assigned_max
+               ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            (tpid, i,
+             ra["reference_label"], ra["group_name"], ra["category_name"],
+             ra["cat_ranks"], ra["skill_ranks"],
+             ra["cat_spread_max"], ra["skill_spread_max"],
+             ra["ranks_assigned_max"]),
+        )
+        for j, (g, c) in enumerate(ra["category_options"]):
+            conn.execute(
+                "INSERT INTO training_package_ra_category_option "
+                "(training_package_id, sort_order, option_index, group_name, category_name) "
+                "VALUES (?, ?, ?, ?, ?)",
+                (tpid, i, j, g, c),
+            )
+        for j, (s, klass) in enumerate(ra["skill_options"]):
+            conn.execute(
+                "INSERT INTO training_package_ra_skill_option "
+                "(training_package_id, sort_order, option_index, skill_name, classification) "
+                "VALUES (?, ?, ?, ?, ?)",
+                (tpid, i, j, s, klass),
+            )
+
+    for prof, cost in data["profession_costs"]:
+        conn.execute(
+            "INSERT INTO training_package_profession_cost "
+            "(training_package_id, profession_name, cost) VALUES (?, ?, ?)",
+            (tpid, prof, cost),
+        )
+
+    return tpid
+
+
+def insert_training_packages(conn: sqlite3.Connection) -> int:
+    """Load every data/chargen/training_packages/<slug>.txt. Returns count."""
+    if not TRAINING_PACKAGES_DIR.exists():
+        return 0
+    n = 0
+    for f in sorted(TRAINING_PACKAGES_DIR.glob("*.txt")):
+        data = parse_training_package_file(f)
+        insert_training_package(conn, data)
+        n += 1
+    return n
+
+
+# ---------------------------------------------------------------------------
 # adolescence rank table T-1.6 loader
 # ---------------------------------------------------------------------------
 
@@ -1705,6 +2036,7 @@ def main() -> None:
     adolescence_cells = insert_adolescence_ranks(conn)
     skill_stats = insert_skills(conn)
     professions_loaded = insert_professions(conn)
+    training_packages_loaded = insert_training_packages(conn)
 
     conn.commit()
     conn.close()
@@ -1715,6 +2047,8 @@ def main() -> None:
         print(f"Culture data: {cultures_loaded} races enriched")
     if professions_loaded:
         print(f"Professions: {professions_loaded} loaded")
+    if training_packages_loaded:
+        print(f"Training packages: {training_packages_loaded} loaded")
     if skill_stats[0]:
         ng, nc, ns, nt = skill_stats
         print(f"Skills: {ng} groups, {nc} categories, {ns} skills, {nt} tables")
