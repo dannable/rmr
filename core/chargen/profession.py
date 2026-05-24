@@ -102,7 +102,7 @@ def list_professions(conn: sqlite3.Connection) -> list[dict]:
     """
     base_rows = [
         dict(r) for r in conn.execute(
-            "SELECT profession_id, slug, name, description, portrait_path "
+            "SELECT profession_id, slug, name, description, portrait_path, source "
             "FROM profession ORDER BY name"
         ).fetchall()
     ]
@@ -127,7 +127,7 @@ def list_professions(conn: sqlite3.Connection) -> list[dict]:
 
 def get_profession_by_id(conn: sqlite3.Connection, profession_id: int) -> dict | None:
     row = conn.execute(
-        "SELECT profession_id, slug, name, description, portrait_path "
+        "SELECT profession_id, slug, name, description, portrait_path, source "
         "FROM profession WHERE profession_id = ?",
         (profession_id,),
     ).fetchone()
@@ -138,7 +138,7 @@ def get_profession_by_id(conn: sqlite3.Connection, profession_id: int) -> dict |
 
 def get_profession_by_slug(conn: sqlite3.Connection, slug: str) -> dict | None:
     row = conn.execute(
-        "SELECT profession_id, slug, name, description, portrait_path "
+        "SELECT profession_id, slug, name, description, portrait_path, source "
         "FROM profession WHERE slug = ?",
         (slug,),
     ).fetchone()

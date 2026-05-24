@@ -89,11 +89,17 @@ export function ProfessionPicker({ character }: Props) {
           }}
         >
           <option value="">— Pick a profession —</option>
-          {professionsByName.map((p) => (
-            <option key={p.slug} value={p.slug}>
-              {p.name}{p.realms.length ? ` (${p.realms.join(" / ")})` : ""}
-            </option>
-          ))}
+          {professionsByName.map((p) => {
+            const realm = p.realms.length ? ` (${p.realms.join(" / ")})` : "";
+            // Non-default source gets a short bracketed tag in the
+            // dropdown so the player can spot Companion entries.
+            const sourceTag = sourceShortLabel(p.source);
+            return (
+              <option key={p.slug} value={p.slug}>
+                {p.name}{realm}{sourceTag ? ` [${sourceTag}]` : ""}
+              </option>
+            );
+          })}
         </select>
         <button
           className="btn"
@@ -124,8 +130,20 @@ export function ProfessionPicker({ character }: Props) {
 }
 
 function ProfessionDetailPanel({ detail }: { detail: ProfessionDetail }) {
+  const sourceLong = sourceLongLabel(detail.source);
   return (
     <div style={{ marginTop: 16, fontSize: 13 }}>
+      {sourceLong && (
+        <div style={{
+          fontSize: 11,
+          color: "#666",
+          textTransform: "uppercase",
+          letterSpacing: 0.3,
+          marginBottom: 6,
+        }}>
+          Source: {sourceLong}
+        </div>
+      )}
       <p style={{ margin: "0 0 10px", color: "#444", lineHeight: 1.5 }}>
         {detail.description}
       </p>
@@ -261,3 +279,26 @@ const costTdStyle: React.CSSProperties = {
   color: "#333",
   verticalAlign: "top",
 };
+
+/**
+ * Source-tag formatting helpers. New supplements get appended here as
+ * we onboard them — keep the short labels under ~6 chars so they fit
+ * inside the dropdown without crowding the realm/profession name.
+ */
+function sourceShortLabel(source: string | undefined): string {
+  switch (source) {
+    case "character_law":     return "";        // default — no badge
+    case "essence_companion": return "EC";
+    case "sohk":              return "SoHK";
+    default:                  return source ?? "";
+  }
+}
+
+function sourceLongLabel(source: string | undefined): string {
+  switch (source) {
+    case "character_law":     return "";        // default — don't surface
+    case "essence_companion": return "Essence Companion";
+    case "sohk":              return "School of Hard Knocks";
+    default:                  return source ?? "";
+  }
+}

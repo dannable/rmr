@@ -4,6 +4,7 @@
 #
 @name: Thief
 @slug: thief
+@source: character_law
 @realms: Mentalism
 @prime_stats: Ag, Qu
 @description:

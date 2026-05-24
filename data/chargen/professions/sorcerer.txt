@@ -4,6 +4,7 @@
 #
 @name: Sorcerer
 @slug: sorcerer
+@source: character_law
 @realms: Essence, Channeling
 @prime_stats: Em, In, SD
 @description:

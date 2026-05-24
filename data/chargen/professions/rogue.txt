@@ -4,6 +4,7 @@
 #
 @name: Rogue
 @slug: rogue
+@source: character_law
 @realms: Mentalism
 @prime_stats: Ag, St
 @description:

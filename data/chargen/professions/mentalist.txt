@@ -4,6 +4,7 @@
 #
 @name: Mentalist
 @slug: mentalist
+@source: character_law
 @realms: Mentalism
 @prime_stats: Pr, SD
 @description:

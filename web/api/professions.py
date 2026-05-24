@@ -37,6 +37,9 @@ class ProfessionRow(BaseModel):
     realms: list[str]
     prime_stats: list[str]
     portrait_path: str | None = None
+    # Source book tag: 'character_law' for the 20 base professions,
+    # 'essence_companion' for the 3 EC additions, 'sohk' reserved.
+    source: str = "character_law"
 
 
 class GroupBonus(BaseModel):
@@ -78,6 +81,7 @@ class ProfessionDetail(BaseModel):
     name: str
     description: str
     portrait_path: str | None = None
+    source: str = "character_law"
     realms: list[str]
     prime_stats: list[str]
     group_bonuses: list[GroupBonus]

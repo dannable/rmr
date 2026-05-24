@@ -4,6 +4,7 @@
 #
 @name: Monk
 @slug: monk
+@source: character_law
 @realms: Essence
 @prime_stats: SD, Em
 @description:

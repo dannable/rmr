@@ -4,6 +4,7 @@
 #
 @name: Warrior Monk
 @slug: warrior_monk
+@source: character_law
 @realms: Mentalism
 @prime_stats: Qu, SD
 @description:
