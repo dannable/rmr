@@ -4,6 +4,7 @@
 #
 @name: Mystic
 @slug: mystic
+@source: character_law
 @realms: Essence, Mentalism
 @prime_stats: Em, Pr, SD
 @description:

@@ -57,9 +57,10 @@ def _seed_profession(slug: str = "test_magician", **overrides) -> int:
             conn.execute("DELETE FROM profession WHERE slug = ?", (slug,))
 
         cur = conn.execute(
-            "INSERT INTO profession (slug, name, description, portrait_path) "
-            "VALUES (?, ?, ?, ?) RETURNING profession_id",
-            (slug, defaults["name"], defaults["description"], None),
+            "INSERT INTO profession (slug, name, description, source, portrait_path) "
+            "VALUES (?, ?, ?, ?, ?) RETURNING profession_id",
+            (slug, defaults["name"], defaults["description"],
+             defaults.get("source", "character_law"), None),
         )
         pid = cur.fetchone()[0]
         for realm in defaults["realms"]:
@@ -146,6 +147,23 @@ def test_get_profession_detail(client) -> None:
     fav_names = {f["skill_name"] for f in p["favorite_skills"]}
     assert "Alertness" in fav_names
     assert p["skill_cost_modifiers"][0]["modifier"] == 0.5
+
+
+def test_source_round_trips(client) -> None:
+    """A profession seeded with source='essence_companion' surfaces that
+    tag on both the list endpoint and the detail endpoint, while a
+    default-source profession comes back as 'character_law'."""
+    _seed_profession("test_magician")                            # default source
+    _seed_profession("test_ec_prof", source="essence_companion",
+                     name="Test EC Prof")
+
+    body = client.get("/api/v1/professions").json()
+    by_slug = {p["slug"]: p for p in body}
+    assert by_slug["test_magician"]["source"] == "character_law"
+    assert by_slug["test_ec_prof"]["source"] == "essence_companion"
+
+    detail = client.get("/api/v1/professions/test_ec_prof").json()
+    assert detail["source"] == "essence_companion"
 
 
 def test_get_unknown_profession_returns_404(client) -> None:

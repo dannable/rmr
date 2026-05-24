@@ -4,6 +4,7 @@
 #
 @name: Animist
 @slug: animist
+@source: character_law
 @realms: Channeling
 @prime_stats: In, Me
 @description:

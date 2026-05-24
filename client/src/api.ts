@@ -231,6 +231,8 @@ export interface ProfessionRow {
   realms: string[];
   prime_stats: string[];
   portrait_path: string | null;
+  /** Source book tag — 'character_law' / 'essence_companion' / 'sohk'. */
+  source: string;
 }
 
 export interface ProfessionGroupBonus {
@@ -270,6 +272,7 @@ export interface ProfessionDetail {
   name: string;
   description: string;
   portrait_path: string | null;
+  source: string;
   realms: string[];
   prime_stats: string[];
   group_bonuses: ProfessionGroupBonus[];

@@ -1376,6 +1376,10 @@ def parse_profession_file(file_path: Path) -> dict:
     return {
         "name": meta.get("name", ""),
         "slug": meta.get("slug") or file_path.stem,
+        # Source book tag: 'character_law' by default for legacy files
+        # that pre-date the @source field. Companion-supplement files
+        # (Essence Companion, SOHK, ...) carry the tag explicitly.
+        "source": meta.get("source", "character_law"),
         "description": description,
         "realms":      _split_csv(meta.get("realms", "")),
         "prime_stats": _split_csv(meta.get("prime_stats", "")),
@@ -1402,13 +1406,15 @@ def insert_profession(conn: sqlite3.Connection, data: dict) -> int:
     portrait = f"data/chargen/professions/img/{slug}.png" if img_path.exists() else None
 
     conn.execute(
-        """INSERT INTO profession (slug, name, description, portrait_path)
-                VALUES (?, ?, ?, ?)
+        """INSERT INTO profession (slug, name, description, source, portrait_path)
+                VALUES (?, ?, ?, ?, ?)
            ON CONFLICT(slug) DO UPDATE SET
                 name          = excluded.name,
                 description   = excluded.description,
+                source        = excluded.source,
                 portrait_path = excluded.portrait_path""",
-        (slug, data["name"], data["description"], portrait),
+        (slug, data["name"], data["description"],
+         data.get("source", "character_law"), portrait),
     )
     profession_id = conn.execute(
         "SELECT profession_id FROM profession WHERE slug = ?", (slug,)

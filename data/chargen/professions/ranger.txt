@@ -4,6 +4,7 @@
 #
 @name: Ranger
 @slug: ranger
+@source: character_law
 @realms: Channeling
 @prime_stats: Co, In
 @description:

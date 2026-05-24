@@ -4,6 +4,7 @@
 #
 @name: Paladin
 @slug: paladin
+@source: character_law
 @realms: Channeling
 @prime_stats: SD, In
 @description:

@@ -4,6 +4,7 @@
 #
 @name: Dabbler
 @slug: dabbler
+@source: character_law
 @realms: Essence
 @prime_stats: Ag, Em
 @description:

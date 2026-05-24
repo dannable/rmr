@@ -4,6 +4,7 @@
 #
 @name: Lay Healer
 @slug: lay_healer
+@source: character_law
 @realms: Mentalism
 @prime_stats: Pr, SD
 @description:

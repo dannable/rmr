@@ -4,6 +4,7 @@
 #
 @name: Magent
 @slug: magent
+@source: character_law
 @realms: Mentalism
 @prime_stats: Re, Pr
 @description:

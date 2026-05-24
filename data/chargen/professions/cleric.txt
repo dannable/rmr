@@ -4,6 +4,7 @@
 #
 @name: Cleric
 @slug: cleric
+@source: character_law
 @realms: Channeling
 @prime_stats: In, Me
 @description:

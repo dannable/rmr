@@ -4,6 +4,7 @@
 #
 @name: Fighter
 @slug: fighter
+@source: character_law
 @realms: Mentalism
 @prime_stats: Co, St
 @description:

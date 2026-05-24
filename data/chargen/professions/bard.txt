@@ -4,6 +4,7 @@
 #
 @name: Bard
 @slug: bard
+@source: character_law
 @realms: Mentalism
 @prime_stats: Me, Pr
 @description:

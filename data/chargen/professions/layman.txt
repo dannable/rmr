@@ -4,6 +4,7 @@
 #
 @name: Layman
 @slug: layman
+@source: character_law
 @realms: Mentalism
 @prime_stats: -
 @description:

@@ -4,6 +4,7 @@
 #
 @name: Healer
 @slug: healer
+@source: character_law
 @realms: Channeling, Mentalism
 @prime_stats: In, Pr, SD
 @description:
