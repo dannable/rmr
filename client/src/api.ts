@@ -135,6 +135,43 @@ export const applyAdolescenceRanks = (id: number) =>
     method: "POST",
   });
 
+// ---- background options (RMSS T-1.5) -----------------------------------
+
+export interface BackgroundOptionPick {
+  option_key: string;
+  detail: string;
+}
+
+export interface BackgroundOptionCatalogEntry {
+  key: string;
+  label: string;
+  description: string;
+  wants_detail: boolean;
+  detail_placeholder: string;
+}
+
+export interface BackgroundOptionsResponse {
+  picks: BackgroundOptionPick[];
+  /** Race-dependent ceiling. 0 when the character has no race yet. */
+  max_options: number;
+  /** Static T-1.5 menu surfaced inline so the SPA needs only one fetch. */
+  catalog: BackgroundOptionCatalogEntry[];
+}
+
+export const fetchBackgroundOptions = (id: number) =>
+  api<BackgroundOptionsResponse>(
+    `/api/v1/characters/${id}/background-options`,
+  );
+
+export const updateBackgroundOptions = (
+  id: number,
+  picks: BackgroundOptionPick[],
+) =>
+  api<BackgroundOptionsResponse>(
+    `/api/v1/characters/${id}/background-options`,
+    { method: "PUT", body: JSON.stringify({ picks }) },
+  );
+
 // ---- character stats ---------------------------------------------------
 
 export type StatCode = "Ag" | "Co" | "Me" | "Re" | "SD" | "Em" | "In" | "Pr" | "Qu" | "St";
@@ -150,6 +187,15 @@ export interface StatRow {
   potential: number;
   race_mod: number;       // T-1.1 race modifier (0 when no race set)
   basic_bonus: number;    // T-2.1 bonus from (temp + race_mod)
+  temp_cost: number;      // RMSS T-1.2 buy cost for the temp value
+  is_prime: boolean;      // True when this stat is a profession prime
+}
+
+export interface StatsBudget {
+  spent: number;          // sum of stat_cost(temp) across all 10 stats
+  budget: number;         // 660 by default (RMSS fixed allocation)
+  prime_stats: StatCode[];
+  prime_min: number;      // 90 by default
 }
 
 export interface StatsRR {
@@ -175,6 +221,7 @@ export interface CharacterStats {
   resistance_rolls: StatsRR;       // formula + race contribution (totals)
   race_rr_mods: StatsRR;           // race contribution only (zero if unraced)
   race: StatsRaceInfo | null;
+  budget: StatsBudget;
 }
 
 export const fetchCharacterStats = (id: number) =>
