@@ -581,6 +581,22 @@ CREATE TABLE IF NOT EXISTS character_skill (
 CREATE INDEX IF NOT EXISTS idx_character_skill_by_source
     ON character_skill(character_id, source);
 
+-- One row per "background option" the player has spent on a character
+-- (RMSS Character Law p.20, Table T-1.5). The total number of options
+-- a character may take is race-dependent (race.bg_opts). Each row
+-- records the option_key (which T-1.5 menu entry) + optional detail
+-- text the player typed in (e.g. "+5 ranks in Sindarin" or
+-- "Heirloom shortsword").
+CREATE TABLE IF NOT EXISTS character_background_option (
+    character_id INTEGER NOT NULL REFERENCES character(character_id) ON DELETE CASCADE,
+    sort_order   INTEGER NOT NULL,
+    option_key   TEXT    NOT NULL,           -- e.g. "extra_languages", "extra_money"
+    detail       TEXT    NOT NULL DEFAULT '',
+    PRIMARY KEY (character_id, sort_order)
+);
+CREATE INDEX IF NOT EXISTS idx_character_background_option_by_char
+    ON character_background_option(character_id);
+
 CREATE VIEW IF NOT EXISTS v_attack_result_by_roll AS
 WITH RECURSIVE expand(weapon_id, roll, roll_min, armor_type) AS (
     SELECT weapon_id, roll_min, roll_min, armor_type FROM attack_result

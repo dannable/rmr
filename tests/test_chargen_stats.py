@@ -87,3 +87,43 @@ def test_rr_bonus_chan_ess_sums_in_em() -> None:
 def test_rr_bonus_unknown_category_raises() -> None:
     with pytest.raises(KeyError):
         rr_bonus({c: 50 for c in STAT_CODES}, "Bogus")
+
+
+# ---------------------------------------------------------------------------
+# T-1.2 stat-buy cost (used by the Step 3a budget banner)
+# ---------------------------------------------------------------------------
+
+def test_stat_cost_face_value_under_91() -> None:
+    from core.chargen.stats import stat_cost
+    assert stat_cost(1)  == 1
+    assert stat_cost(50) == 50
+    assert stat_cost(90) == 90
+
+
+def test_stat_cost_ramps_91_to_100() -> None:
+    from core.chargen.stats import stat_cost
+    # Each step from 91→100 costs strictly more than the previous.
+    assert stat_cost(91)  == 92
+    assert stat_cost(95)  == 104
+    assert stat_cost(100) == 130
+    for v in range(91, 100):
+        assert stat_cost(v + 1) > stat_cost(v)
+
+
+def test_stat_cost_extrapolates_past_100() -> None:
+    from core.chargen.stats import stat_cost
+    assert stat_cost(101) == 138
+    assert stat_cost(102) == 146
+
+
+def test_stat_cost_clamps_zero_and_negative() -> None:
+    from core.chargen.stats import stat_cost
+    assert stat_cost(0)   == 0
+    assert stat_cost(-5)  == 0
+
+
+def test_total_stat_cost_matches_660_budget_at_66_each() -> None:
+    """10 stats × 66 pts = 660; the canonical RMSS budget."""
+    from core.chargen.stats import total_stat_cost, TEMP_STAT_BUDGET
+    assert total_stat_cost({c: 66 for c in STAT_CODES}) == 660
+    assert TEMP_STAT_BUDGET == 660

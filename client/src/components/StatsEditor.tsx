@@ -74,6 +74,8 @@ export function StatsEditor({ characterId }: Props) {
         </span>
       </header>
 
+      <StatBudgetBanner stats={q.data.stats} budget={q.data.budget} draft={draft} />
+
       <table style={{ width: "100%", borderCollapse: "collapse", marginTop: 12, fontSize: 14 }}>
         <thead>
           <tr style={{ textAlign: "left", borderBottom: "1px solid #ddd" }}>
@@ -355,4 +357,90 @@ function basicStatBonusLocal(stat: number): number {
   if (stat >= 4) return -8;
   if (stat >= 2) return -9;
   return -10;
+}
+
+
+/**
+ * Local mirror of core.chargen.stats.stat_cost (RMSS T-1.2). Kept in
+ * sync with the server-side table so the SPA can recompute spent
+ * points live as the user types.
+ */
+function statCostLocal(value: number): number {
+  if (value < 1) return 0;
+  if (value <= 90) return value;
+  const ramp: Record<number, number> = {
+    91: 92, 92: 94, 93: 97, 94: 100, 95: 104,
+    96: 108, 97: 113, 98: 118, 99: 124, 100: 130,
+  };
+  if (value <= 100) return ramp[value];
+  return 130 + (value - 100) * 8;
+}
+
+
+function StatBudgetBanner({
+  stats,
+  budget,
+  draft,
+}: {
+  stats: import("../api").StatRow[];
+  budget: import("../api").StatsBudget;
+  draft: Draft;
+}) {
+  // Live recompute from the draft so the counter updates as the user
+  // types, without waiting for a server round-trip.
+  const spent = stats.reduce(
+    (s, row) => s + statCostLocal(draft[row.code]?.temp ?? row.temp),
+    0,
+  );
+  const remaining = budget.budget - spent;
+  const overBudget = remaining < 0;
+
+  // Prime stat warnings: any prime stat that's below the RMSS minimum.
+  const primeWarnings = stats
+    .filter((s) => s.is_prime && (draft[s.code]?.temp ?? s.temp) < budget.prime_min)
+    .map((s) => s.code);
+
+  return (
+    <div
+      style={{
+        marginTop: 8,
+        padding: "8px 12px",
+        background: overBudget ? "#fff4f4" : "#f5f7fb",
+        border: `1px solid ${overBudget ? "#f5a3a3" : "#d8e0ef"}`,
+        borderRadius: 4,
+        fontSize: 13,
+        display: "flex",
+        gap: 16,
+        flexWrap: "wrap",
+        alignItems: "center",
+      }}
+    >
+      <span>
+        <strong>RMSS T-1.2 budget:</strong>{" "}
+        <span style={{ color: overBudget ? "#c00" : "#222", fontVariantNumeric: "tabular-nums" }}>
+          {spent} / {budget.budget}
+        </span>
+        {remaining > 0 && (
+          <span style={{ color: "#666", marginLeft: 6 }}>
+            ({remaining} unspent)
+          </span>
+        )}
+        {overBudget && (
+          <span style={{ color: "#c00", marginLeft: 6 }}>
+            ({-remaining} over)
+          </span>
+        )}
+      </span>
+      {budget.prime_stats.length > 0 && (
+        <span style={{ color: primeWarnings.length > 0 ? "#c00" : "#666" }}>
+          Primes ({budget.prime_stats.join(", ")}) must be ≥ {budget.prime_min}
+          {primeWarnings.length > 0 && (
+            <span style={{ fontWeight: 600 }}>
+              {" "}— below: {primeWarnings.join(", ")}
+            </span>
+          )}
+        </span>
+      )}
+    </div>
+  );
 }

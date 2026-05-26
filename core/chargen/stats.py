@@ -82,6 +82,64 @@ def stat_bonuses(stats: Mapping[StatCode, int]) -> dict[StatCode, int]:
     return {code: basic_stat_bonus(stats[code]) for code in STAT_CODES if code in stats}
 
 
+# RMSS T-1.2: Temporary Stat Cost. Stats 1-90 cost their face value
+# (one point per value). 91-100 use a ramping cost — the cumulative
+# cost to BUY a stat of N points. Values past 100 (racial / magical
+# inflation) extrapolate at +8 per point.
+#
+# Source: RMSS Character Law, Table T-1.2.
+_T_1_2_RAMP: tuple[tuple[int, int], ...] = (
+    (91,  92),
+    (92,  94),
+    (93,  97),
+    (94, 100),
+    (95, 104),
+    (96, 108),
+    (97, 113),
+    (98, 118),
+    (99, 124),
+    (100, 130),
+)
+
+
+# Default stat-point budget for new RMSS characters (RMSS Character
+# Law p.16: "660 points or 600+10d10 points"). 660 is the no-dice
+# fixed allocation that the SPA uses as the planning target.
+TEMP_STAT_BUDGET: int = 660
+
+# Per RMSS, a character's two Prime stats (set by profession) must
+# each be at least this value at character creation.
+PRIME_STAT_MIN: int = 90
+
+
+def stat_cost(value: int) -> int:
+    """Return RMSS T-1.2 buy-cost for a temporary-stat value of `value`.
+
+    Below 1 → 0 (clamp). 1..90 → face value (one point per). 91..100 →
+    ramped via T-1.2. Past 100 → linear extrapolation at +8/pt off the
+    100-point cost. Caller is responsible for any negative-buyback
+    rules (RMSS allows reducing a stat below a starting floor; not
+    modelled here)."""
+    if value < 1:
+        return 0
+    if value <= 90:
+        return value
+    if value <= 100:
+        for stat, cost in _T_1_2_RAMP:
+            if stat == value:
+                return cost
+    # Past 100: extrapolate. The ramp's last delta is 130 → 100, +6.
+    # Continue at +8/pt to stay strictly increasing without re-printing
+    # a 101+ table (the rules don't really expect 100+ at creation but
+    # racial bonuses can push there).
+    return 130 + (value - 100) * 8
+
+
+def total_stat_cost(stats: Mapping[StatCode, int]) -> int:
+    """Sum stat_cost across every entry in `stats`."""
+    return sum(stat_cost(int(v)) for v in stats.values())
+
+
 # Resistance Roll base formulas, RMSS Character Record Sheet T-6.1.
 # The RR "base" is computed from temp stats; final RR also includes racial
 # RR bonuses, items, and special abilities — those are layered on later.

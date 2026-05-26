@@ -94,6 +94,13 @@ class StatRow(BaseModel):
     potential: int
     race_mod: int = 0      # Race modifier from T-1.1, 0 when no race set.
     basic_bonus: int       # T-2.1 bonus computed from (temp + race_mod).
+    # RMSS T-1.2 stat-buy cost for the temporary value (1-90 = face
+    # value; 91-100 ramps; 100+ extrapolates). Surfaced so the SPA can
+    # show the per-stat cost inline as the user types.
+    temp_cost: int = 0
+    # True when this stat is one of the profession's prime stats (per
+    # profession_prime_stat). RMSS requires primes ≥ 90 at creation.
+    is_prime: bool = False
 
 
 class StatsRR(BaseModel):
@@ -117,6 +124,21 @@ class StatsRaceInfo(BaseModel):
     name: str
 
 
+class StatsBudget(BaseModel):
+    """RMSS T-1.2 budget summary for the temporary-stat allocation.
+
+    `spent` is the sum of stat_cost(temp) across all 10 stats. `budget`
+    is the standard RMSS fixed allocation (660 points; the alternate
+    `600 + 10d10` is the player's call and not modelled here).
+    `prime_stats` lists the profession's two primes; the SPA uses
+    these to highlight rows that don't meet the ≥90 requirement.
+    """
+    spent: int
+    budget: int
+    prime_stats: list[StatCode] = []
+    prime_min: int
+
+
 class CharacterStats(BaseModel):
     stats: list[StatRow]
     resistance_rolls: StatsRR              # totals (formula + race contribution)
@@ -125,6 +147,7 @@ class CharacterStats(BaseModel):
     # without re-implementing T-1.1.
     race_rr_mods: StatsRR
     race: StatsRaceInfo | None = None
+    budget: StatsBudget
 
 
 class StatUpdate(BaseModel):
@@ -330,14 +353,23 @@ def _assert_owned(conn: sqlite3.Connection, character_id: int, user_id: int) -> 
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Character not found")
 
 
-def _build_stats_payload(rows: list, race: dict | None = None) -> CharacterStats:
+def _build_stats_payload(
+    rows: list,
+    race: dict | None = None,
+    prime_stats: list[StatCode] | None = None,
+) -> CharacterStats:
     """Turn `character_stat` rows into the API payload.
 
     When `race` is provided, race stat mods are folded into the effective
     temp before the T-2.1 basic-stat bonus is computed, and race RR mods
     are added to each RR total. When None, behaviour matches the pre-race
     version exactly (race_mod=0, no RR mod).
+
+    `prime_stats` (the profession's primes, by 2-letter code) tags the
+    StatRows for the SPA's "prime stats need ≥90" check.
     """
+    from core.chargen.stats import stat_cost, total_stat_cost, TEMP_STAT_BUDGET, PRIME_STAT_MIN
+
     by_code: dict[StatCode, dict] = {r["stat_code"]: dict(r) for r in rows}
     stat_mods = race_stat_mods(race)
     rr_mods = race_rr_mods(race)
@@ -345,6 +377,7 @@ def _build_stats_payload(rows: list, race: dict | None = None) -> CharacterStats
     raw_temps = {code: by_code[code]["temp"] for code in STAT_CODES}
     eff_temps = apply_stat_mods(raw_temps, race)
 
+    primes_set = set(prime_stats or [])
     stats = [
         StatRow(
             code=code,
@@ -353,6 +386,8 @@ def _build_stats_payload(rows: list, race: dict | None = None) -> CharacterStats
             potential=by_code[code]["potential"],
             race_mod=stat_mods[code],
             basic_bonus=basic_stat_bonus(eff_temps[code]),
+            temp_cost=stat_cost(by_code[code]["temp"]),
+            is_prime=(code in primes_set),
         )
         for code in STAT_CODES
     ]
@@ -370,11 +405,18 @@ def _build_stats_payload(rows: list, race: dict | None = None) -> CharacterStats
     race_info = (
         StatsRaceInfo(slug=race["slug"], name=race["name"]) if race else None
     )
+    budget = StatsBudget(
+        spent=total_stat_cost(raw_temps),
+        budget=TEMP_STAT_BUDGET,
+        prime_stats=list(prime_stats or []),
+        prime_min=PRIME_STAT_MIN,
+    )
     return CharacterStats(
         stats=stats,
         resistance_rolls=rr,
         race_rr_mods=StatsRR(**rr_mods),
         race=race_info,
+        budget=budget,
     )
 
 
@@ -387,6 +429,24 @@ def _load_character_race(conn: sqlite3.Connection, character_id: int) -> dict | 
     if row is None or row["race_id"] is None:
         return None
     return get_race_by_id(conn, row["race_id"])
+
+
+def _load_character_prime_stats(conn: sqlite3.Connection,
+                                character_id: int) -> list[StatCode]:
+    """Return the profession's prime stat codes for a character, or []."""
+    row = conn.execute(
+        "SELECT profession_id FROM character WHERE character_id = ?",
+        (character_id,),
+    ).fetchone()
+    if row is None or row["profession_id"] is None:
+        return []
+    return [
+        r[0] for r in conn.execute(
+            "SELECT stat_code FROM profession_prime_stat "
+            "WHERE profession_id = ? ORDER BY stat_code",
+            (row["profession_id"],),
+        ).fetchall()
+    ]
 
 
 @router.get("/{character_id}/stats", response_model=CharacterStats)
@@ -413,7 +473,8 @@ def get_character_stats(character_id: int, user: dict = CurrentUser) -> Characte
                 (character_id,),
             ).fetchall()
         race = _load_character_race(conn, character_id)
-    return _build_stats_payload(rows, race=race)
+        primes = _load_character_prime_stats(conn, character_id)
+    return _build_stats_payload(rows, race=race, prime_stats=primes)
 
 
 @router.put("/{character_id}/stats", response_model=CharacterStats)
@@ -453,8 +514,9 @@ def update_character_stats(
             (character_id,),
         ).fetchall()
         race = _load_character_race(conn, character_id)
+        primes = _load_character_prime_stats(conn, character_id)
         conn.commit()
-    return _build_stats_payload(rows, race=race)
+    return _build_stats_payload(rows, race=race, prime_stats=primes)
 
 
 # ---------------------------------------------------------------------------
@@ -711,6 +773,119 @@ def update_character_race(
         ).fetchone()
         conn.commit()
     return _row_to_character(row)
+
+
+class BackgroundOptionPick(BaseModel):
+    """One row in the /background-options payload."""
+    option_key: str = Field(..., min_length=1)
+    detail: str = Field("", max_length=200)
+
+
+class BackgroundOptionsUpdate(BaseModel):
+    """Wholesale replace the character's background-option picks. The
+    server takes the list verbatim — over-budget picks are still
+    persisted (the SPA renders a warning), so the GM can grant
+    exceptions without the API gatekeeping."""
+    picks: list[BackgroundOptionPick]
+
+
+class BackgroundOptionCatalogEntry(BaseModel):
+    """One T-1.5 menu entry surfaced for the SPA."""
+    key: str
+    label: str
+    description: str
+    wants_detail: bool
+    detail_placeholder: str
+
+
+class BackgroundOptionsResponse(BaseModel):
+    """GET / PUT response payload — current picks + max + the static
+    T-1.5 catalog so the SPA doesn't need a second fetch."""
+    picks: list[BackgroundOptionPick]
+    max_options: int
+    catalog: list[BackgroundOptionCatalogEntry]
+
+
+@router.get("/{character_id}/background-options",
+            response_model=BackgroundOptionsResponse)
+def get_character_background_options(
+    character_id: int,
+    user: dict = CurrentUser,
+) -> BackgroundOptionsResponse:
+    """Return the character's current background-options picks + the
+    full T-1.5 catalog + how many options the player may still take."""
+    from core.chargen.background import BACKGROUND_OPTIONS
+    with connect_rw() as conn:
+        _assert_owned(conn, character_id, user["user_id"])
+        race = _load_character_race(conn, character_id)
+        max_options = int(race.get("bg_opts") or 0) if race else 0
+        picks = [
+            BackgroundOptionPick(option_key=r["option_key"], detail=r["detail"])
+            for r in conn.execute(
+                "SELECT sort_order, option_key, detail "
+                "FROM character_background_option "
+                "WHERE character_id = ? ORDER BY sort_order",
+                (character_id,),
+            ).fetchall()
+        ]
+    return BackgroundOptionsResponse(
+        picks=picks,
+        max_options=max_options,
+        catalog=[BackgroundOptionCatalogEntry(**o) for o in BACKGROUND_OPTIONS],
+    )
+
+
+@router.put("/{character_id}/background-options",
+            response_model=BackgroundOptionsResponse)
+def update_character_background_options(
+    character_id: int,
+    body: BackgroundOptionsUpdate,
+    user: dict = CurrentUser,
+) -> BackgroundOptionsResponse:
+    """Replace the character's background-option picks wholesale.
+
+    Each unknown option_key is rejected (422); detail strings pass
+    through verbatim. The endpoint does NOT enforce the race-dependent
+    cap on total picks — the SPA shows a warning when over-budget, but
+    GM-granted exceptions can still be saved."""
+    from core.chargen.background import (
+        BACKGROUND_OPTION_KEYS,
+        BACKGROUND_OPTIONS,
+    )
+    bad = [p.option_key for p in body.picks if p.option_key not in BACKGROUND_OPTION_KEYS]
+    if bad:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=f"Unknown background option(s): {sorted(set(bad))}",
+        )
+
+    now = _utcnow()
+    with connect_rw() as conn:
+        _assert_owned(conn, character_id, user["user_id"])
+        conn.execute(
+            "DELETE FROM character_background_option WHERE character_id = ?",
+            (character_id,),
+        )
+        for i, p in enumerate(body.picks):
+            conn.execute(
+                "INSERT INTO character_background_option "
+                "(character_id, sort_order, option_key, detail) "
+                "VALUES (?, ?, ?, ?)",
+                (character_id, i, p.option_key, p.detail or ""),
+            )
+        conn.execute(
+            "UPDATE character SET updated_at = ? WHERE character_id = ?",
+            (now, character_id),
+        )
+        race = _load_character_race(conn, character_id)
+        max_options = int(race.get("bg_opts") or 0) if race else 0
+        conn.commit()
+
+    return BackgroundOptionsResponse(
+        picks=[BackgroundOptionPick(**p.model_dump()) for p in body.picks],
+        max_options=max_options,
+        catalog=[BackgroundOptionCatalogEntry(**o) for o in BACKGROUND_OPTIONS],
+    )
 
 
 @router.put("/{character_id}/profession", response_model=Character)
