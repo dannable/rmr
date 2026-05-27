@@ -144,7 +144,8 @@ function CharacterDetail({ characterId }: { characterId: number }) {
 
   return (
     <section>
-      <style>{`main { max-width: min(1100px, 96vw); }`}</style>
+      {/* No local main override: the shell Layout already opens to ~1500px,
+          which is plenty for the 8 builder tabs + stats grid + RR panel. */}
 
       <Link to="/" style={{ fontSize: 13, color: "#666" }}>← Back</Link>
 
@@ -238,14 +239,18 @@ function TabBar({
   setActive: (s: StepId) => void;
   done: Completion;
 }) {
+  // Each tab gets `flex: 1` so all 8 distribute evenly across the bar
+  // and the row never needs to scroll. `whiteSpace: nowrap` keeps a
+  // long label like "Apprenticeship" on a single line at narrower
+  // widths; if the viewport ever gets so cramped that text would clip,
+  // ellipsis kicks in rather than wrapping into a second row.
   return (
     <nav
       style={{
         display: "flex",
         gap: 2,
         borderBottom: "1px solid #d0d4dc",
-        overflowX: "auto",
-        whiteSpace: "nowrap",
+        flexWrap: "nowrap",
       }}
     >
       {STEPS.map((s) => {
@@ -257,7 +262,9 @@ function TabBar({
             onClick={() => setActive(s.id)}
             title={s.subtitle}
             style={{
-              padding: "10px 14px",
+              flex: "1 1 0",
+              minWidth: 0,            // allow shrinking past content width
+              padding: "10px 12px",
               border: "1px solid transparent",
               borderBottom: "none",
               background: isActive ? "white" : "#eef1f7",
@@ -273,18 +280,31 @@ function TabBar({
               display: "flex",
               gap: 6,
               alignItems: "baseline",
+              justifyContent: "center",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
             }}
           >
             <span style={{
               fontSize: 11,
               color: "#888",
               fontVariantNumeric: "tabular-nums",
+              flexShrink: 0,
             }}>
               {s.number}.
             </span>
-            <span>{s.title}</span>
+            <span style={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}>
+              {s.title}
+            </span>
             {isDone && (
-              <span style={{ color: "#16a34a", fontSize: 12 }} aria-label="done">
+              <span
+                style={{ color: "#16a34a", fontSize: 12, flexShrink: 0 }}
+                aria-label="done"
+              >
                 ✓
               </span>
             )}

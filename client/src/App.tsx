@@ -135,12 +135,16 @@ function AppShell({ me, children }: { me: Me; children: ReactNode }) {
 }
 
 function Layout({ children }: { children: ReactNode }) {
+  // Wide canvas: the builder tabs + side-by-side stat / RR / DP panels
+  // need the room. Cap at 1500px so ultrawide monitors don't stretch
+  // tables to the point of unreadability; otherwise scale to 96vw so
+  // we use almost the whole window on a typical 1366–1920px display.
   return (
     <main
       style={{
-        maxWidth: 720,
-        margin: "40px auto",
-        padding: "0 20px",
+        maxWidth: "min(1500px, 96vw)",
+        margin: "32px auto",
+        padding: "0 24px",
         fontFamily: "system-ui, sans-serif",
         lineHeight: 1.5,
       }}
