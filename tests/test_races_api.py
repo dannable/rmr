@@ -131,6 +131,120 @@ def test_pick_unknown_race_returns_422(client) -> None:
     assert r.status_code == 422
 
 
+# ---------------------------------------------------------------------------
+# Umbrella race + culture sub-pick (Common Men / Mixed Men)
+# ---------------------------------------------------------------------------
+
+def test_pick_umbrella_race_exposes_flag(client) -> None:
+    """Picking Common Men should flip race_is_umbrella=True so the SPA
+    knows to show the Culture sub-picker."""
+    _seed_race("common_men", name="Common Men")
+    cid = _create_character(client)
+
+    r = client.put(f"/api/v1/characters/{cid}/race", json={"slug": "common_men"})
+    assert r.status_code == 200
+    body = r.json()
+    assert body["race_slug"] == "common_men"
+    assert body["race_is_umbrella"] is True
+    assert body["culture_slug"] is None
+    assert body["culture_name"] is None
+
+
+def test_pick_concrete_race_has_umbrella_false(client) -> None:
+    _seed_race("dwarves")
+    cid = _create_character(client)
+    r = client.put(f"/api/v1/characters/{cid}/race", json={"slug": "dwarves"})
+    body = r.json()
+    assert body["race_is_umbrella"] is False
+
+
+def test_culture_pick_under_umbrella_race(client) -> None:
+    """Common Men + Hillmen culture saves and surfaces on subsequent GETs."""
+    _seed_race("common_men", name="Common Men")
+    _seed_race("hillmen", name="Hillmen")
+    cid = _create_character(client)
+    client.put(f"/api/v1/characters/{cid}/race", json={"slug": "common_men"})
+
+    r = client.put(f"/api/v1/characters/{cid}/culture", json={"slug": "hillmen"})
+    assert r.status_code == 200
+    body = r.json()
+    assert body["culture_slug"] == "hillmen"
+    assert body["culture_name"] == "Hillmen"
+    # Race stays umbrella; culture sits beside it.
+    assert body["race_slug"] == "common_men"
+    assert body["race_is_umbrella"] is True
+
+    # GET should reflect the change too.
+    r = client.get(f"/api/v1/characters/{cid}")
+    assert r.json()["culture_slug"] == "hillmen"
+
+
+def test_clear_culture(client) -> None:
+    _seed_race("common_men", name="Common Men")
+    _seed_race("hillmen", name="Hillmen")
+    cid = _create_character(client)
+    client.put(f"/api/v1/characters/{cid}/race", json={"slug": "common_men"})
+    client.put(f"/api/v1/characters/{cid}/culture", json={"slug": "hillmen"})
+
+    r = client.put(f"/api/v1/characters/{cid}/culture", json={"slug": None})
+    assert r.status_code == 200
+    assert r.json()["culture_slug"] is None
+
+
+def test_culture_pick_requires_umbrella_race(client) -> None:
+    """Picking a culture under a concrete race (Dwarves) is a 409 — culture
+    is only meaningful as a sub-pick beneath an umbrella race."""
+    _seed_race("dwarves")
+    cid = _create_character(client)
+    client.put(f"/api/v1/characters/{cid}/race", json={"slug": "dwarves"})
+
+    r = client.put(f"/api/v1/characters/{cid}/culture", json={"slug": "hillmen"})
+    assert r.status_code == 409
+
+
+def test_culture_pick_rejects_non_men_slug(client) -> None:
+    """Common Men + 'dwarves' as a culture is 422 — Dwarves is a race,
+    not a Men culture, so the umbrella whitelist filters it out."""
+    _seed_race("common_men", name="Common Men")
+    cid = _create_character(client)
+    client.put(f"/api/v1/characters/{cid}/race", json={"slug": "common_men"})
+
+    r = client.put(f"/api/v1/characters/{cid}/culture", json={"slug": "dwarves"})
+    assert r.status_code == 422
+
+
+def test_switching_to_concrete_race_clears_culture(client) -> None:
+    """Common Men → pick Hillmen culture → switch to Dwarves should drop
+    the culture pick (a Dwarven character can't keep an old Men culture)."""
+    _seed_race("common_men", name="Common Men")
+    _seed_race("hillmen", name="Hillmen")
+    _seed_race("dwarves")
+    cid = _create_character(client)
+    client.put(f"/api/v1/characters/{cid}/race", json={"slug": "common_men"})
+    client.put(f"/api/v1/characters/{cid}/culture", json={"slug": "hillmen"})
+
+    r = client.put(f"/api/v1/characters/{cid}/race", json={"slug": "dwarves"})
+    body = r.json()
+    assert body["race_slug"] == "dwarves"
+    assert body["culture_slug"] is None
+
+
+def test_switching_between_umbrella_races_keeps_culture(client) -> None:
+    """Common Men → Hillmen → Mixed Men: culture stays Hillmen because
+    both umbrella races admit the same 7 sub-cultures."""
+    _seed_race("common_men", name="Common Men")
+    _seed_race("mixed_men", name="Mixed Men")
+    _seed_race("hillmen", name="Hillmen")
+    cid = _create_character(client)
+    client.put(f"/api/v1/characters/{cid}/race", json={"slug": "common_men"})
+    client.put(f"/api/v1/characters/{cid}/culture", json={"slug": "hillmen"})
+
+    r = client.put(f"/api/v1/characters/{cid}/race", json={"slug": "mixed_men"})
+    body = r.json()
+    assert body["race_slug"] == "mixed_men"
+    assert body["culture_slug"] == "hillmen"
+
+
 def test_pick_race_for_other_users_character_404(client, other_user) -> None:
     _seed_race("dwarves")
     from web.db import connect_rw
@@ -316,11 +430,12 @@ def test_adolescence_empty_when_no_race(client) -> None:
     assert body == {"culture_slug": None, "culture_name": None, "groups": []}
 
 
-def test_adolescence_umbrella_race_returns_empty_groups(client) -> None:
-    """Common Men / Mixed Men aren't in T-1.6 — the API should still return
-    the race info (so the SPA can show a helpful umbrella-race notice)
-    but with an empty groups list."""
-    _seed_race("common_men", name="Common Men")  # no T-1.6 rows seeded
+def test_adolescence_umbrella_race_without_culture_returns_empty_groups(client) -> None:
+    """Common Men with no culture picked: response carries the umbrella
+    race header (culture_slug == race.slug) but groups is empty so the
+    SPA shows "pick a culture in Step 2" rather than rendering an empty
+    table."""
+    _seed_race("common_men", name="Common Men")  # no T-1.6 rows for umbrella
     cid = _create_character(client)
     client.put(f"/api/v1/characters/{cid}/race", json={"slug": "common_men"})
 
@@ -329,8 +444,61 @@ def test_adolescence_umbrella_race_returns_empty_groups(client) -> None:
     body = r.json()
     assert body["culture_slug"] == "common_men"
     assert body["culture_name"] == "Common Men"
-    # No rows → no groups; SPA shows the umbrella-race notice.
     assert body["groups"] == []
+
+
+def test_adolescence_umbrella_race_with_culture_returns_culture_ranks(client) -> None:
+    """Common Men + picked culture: the API resolves T-1.6 data via the
+    culture slug, not the umbrella race. culture_slug/_name in the
+    response reflect the SUB-culture (Dwarves here, reused as a stand-in
+    for any specific culture row that has T-1.6 data)."""
+    _seed_race("common_men", name="Common Men")
+    _seed_race("dwarves")  # has T-1.6 data via _seed_adolescence_rows
+    _seed_adolescence_rows()
+    # We need "dwarves" in UMBRELLA_CULTURE_SLUGS to validate this — but
+    # it isn't (only the 7 Men cultures are). So we use Hillmen for the
+    # full end-to-end and seed dwarves-shape rows under hillmen's slug.
+    _seed_race("hillmen", name="Hillmen")
+    from web.db import connect_rw
+    with connect_rw() as conn:
+        # Copy the dwarves T-1.6 rows under hillmen so we have data the
+        # API can return.
+        rows = conn.execute(
+            "SELECT skill, value FROM adolescence_rank WHERE culture_slug = 'dwarves'"
+        ).fetchall()
+        for r in rows:
+            conn.execute(
+                "INSERT OR REPLACE INTO adolescence_rank (skill, culture_slug, value) "
+                "VALUES (?, 'hillmen', ?)",
+                (r["skill"], r["value"]),
+            )
+        conn.commit()
+
+    cid = _create_character(client)
+    client.put(f"/api/v1/characters/{cid}/race", json={"slug": "common_men"})
+    client.put(f"/api/v1/characters/{cid}/culture", json={"slug": "hillmen"})
+
+    r = client.get(f"/api/v1/characters/{cid}/adolescence-ranks")
+    assert r.status_code == 200
+    body = r.json()
+    # culture_slug in the response is the resolved sub-culture, NOT the
+    # umbrella race — that's what powers the SPA's "as a Hillmen" label.
+    assert body["culture_slug"] == "hillmen"
+    assert body["culture_name"] == "Hillmen"
+    # Non-empty groups now that the culture has T-1.6 data.
+    assert len(body["groups"]) > 0
+
+
+def test_apply_adolescence_under_umbrella_requires_culture(client) -> None:
+    """Trying to apply adolescence ranks when race is umbrella but no
+    culture is picked yet should 409, not silently no-op."""
+    _seed_race("common_men", name="Common Men")
+    cid = _create_character(client)
+    client.put(f"/api/v1/characters/{cid}/race", json={"slug": "common_men"})
+
+    r = client.post(f"/api/v1/characters/{cid}/apply-adolescence")
+    assert r.status_code == 409
+    assert "culture" in r.json()["detail"].lower()
 
 
 def test_adolescence_returns_grouped_ranks_for_race(client) -> None:

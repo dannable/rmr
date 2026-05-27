@@ -30,6 +30,26 @@ _RACE_COLS = ("race_id", "slug", "name") + _STAT_COLS + _RR_COLS \
 _RACE_SELECT = "SELECT " + ", ".join(_RACE_COLS) + " FROM race"
 
 
+# RMSS umbrella race categories — these don't have their own T-1.6 entries,
+# stat mods, or culture_data. A character with one of these races picks a
+# specific sub-culture (via character.culture_slug) to fill in those details.
+UMBRELLA_RACE_SLUGS: frozenset[str] = frozenset({"common_men", "mixed_men"})
+
+# Cultures available as sub-picks for the umbrella races. Both Common Men
+# and Mixed Men can map onto any of the 7 specific Men cultures per
+# RMSS Cultures & Races — we don't restrict Mixed Men any further since
+# the source rules let the GM/player blend either parent culture.
+UMBRELLA_CULTURE_SLUGS: tuple[str, ...] = (
+    "hillmen", "mariners", "nomads", "ruralmen", "urbanmen", "woodmen",
+    "high_men",
+)
+
+
+def is_umbrella_race(race: dict | None) -> bool:
+    """True when the race is a Common Men / Mixed Men umbrella category."""
+    return race is not None and race["slug"] in UMBRELLA_RACE_SLUGS
+
+
 def list_races(conn: sqlite3.Connection) -> list[dict]:
     """All races, alphabetical by name."""
     return [dict(r) for r in conn.execute(

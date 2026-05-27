@@ -1969,6 +1969,16 @@ _REQUIRED_COLUMNS: tuple[tuple[str, str, str], ...] = (
         "ADD COLUMN profession_id INTEGER REFERENCES profession(profession_id) "
         "ON DELETE SET NULL",
     ),
+    # Sub-culture pick for umbrella races (Common Men / Mixed Men). Stored
+    # as a slug pointing into race.slug — see schema.sql for rationale.
+    # Stored as plain TEXT (no FK) because SQLite's REFERENCES on a UNIQUE
+    # column behaves the same way at runtime but ALTER TABLE … ADD COLUMN
+    # rejects deferred-FK columns; the API validates slugs on PUT.
+    (
+        "character",
+        "culture_slug",
+        "ADD COLUMN culture_slug TEXT",
+    ),
     # SOHK ingestion (book 5808). Skills get a JSON blob of supplemental
     # fields (optional stats / EP cost / notes / specialties / example
     # difficulties); categories get a prose `sohk_notes` paragraph;
