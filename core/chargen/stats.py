@@ -140,6 +140,97 @@ def total_stat_cost(stats: Mapping[StatCode, int]) -> int:
     return sum(stat_cost(int(v)) for v in stats.values())
 
 
+# RMSS T-1.3: Potential Stat Table. Each entry maps a temp-stat band to:
+#   - `base`: the floor of the potential roll (the "20" in "20 + 8d10")
+#   - `dice`: tuple of (count, sides) for the dice roll added on top
+#   - `fixed_mod`: the Fixed Mod alternative (added to temp, no dice)
+#
+# Stats 92+ get individual rows. Per the table's footnote, the floor
+# rule applies to ALL bands: the rolled potential is clamped up to the
+# temp if the roll comes out below it.
+_T_1_3_ROWS: tuple[tuple[range, int, tuple[int, int], int], ...] = (
+    (range( 20,  25),  20, (8, 10), 44),
+    (range( 25,  35),  30, (7, 10), 39),
+    (range( 35,  45),  40, (6, 10), 33),
+    (range( 45,  55),  50, (5, 10), 28),
+    (range( 55,  65),  60, (4, 10), 22),
+    (range( 65,  75),  70, (3, 10), 17),
+    (range( 75,  85),  80, (2, 10), 11),
+    (range( 85,  92),  90, (1, 10),  6),
+    (range( 92,  93),  91, (1,  9),  5),
+    (range( 93,  94),  92, (1,  8),  4),
+    (range( 94,  95),  93, (1,  7),  4),
+    (range( 95,  96),  94, (1,  6),  3),
+    (range( 96,  97),  95, (1,  5),  3),
+    (range( 97,  98),  96, (1,  4),  2),
+    (range( 98,  99),  97, (1,  3),  2),
+    (range( 99, 100),  98, (1,  2),  1),
+    (range(100, 101),  99, (1,  2),  1),
+)
+
+
+def _t_1_3_row(temp: int) -> tuple[int, tuple[int, int], int]:
+    """Look up (base, (dice_count, dice_sides), fixed_mod) for `temp`."""
+    for band, base, dice, fixed in _T_1_3_ROWS:
+        if temp in band:
+            return base, dice, fixed
+    # Out of the printed range. Below 20 → use the 20-24 row; above 100 →
+    # potential just equals temp (no roll, no fixed mod above 100).
+    if temp < 20:
+        return _T_1_3_ROWS[0][1:]
+    return temp, (0, 0), 0
+
+
+def random_potential(temp: int, rng=None) -> int:
+    """Roll a potential stat per RMSS T-1.3.
+
+    `rng` may be any object with `randint(a, b)` (Python `random.Random`
+    or its `SystemRandom` subclass). Tests pass a seeded Random for
+    determinism; production passes `random.SystemRandom()` so the result
+    can't be reverse-engineered from the previous roll.
+
+    Per the table's footnote, the rolled potential is clamped up to
+    `temp` — a roll that would put potential below the current temp
+    falls back to potential = temp.
+    """
+    import random
+    if rng is None:
+        rng = random.SystemRandom()
+    base, (count, sides), _fixed = _t_1_3_row(int(temp))
+    roll_total = sum(rng.randint(1, sides) for _ in range(count)) if count else 0
+    return max(int(temp), base + roll_total)
+
+
+def fixed_potential(temp: int) -> int:
+    """Apply RMSS T-1.3 Fixed Mod alternative to `temp`.
+
+    Per the table's "†" footnote, this is the no-dice option — every
+    stat gets a fixed bump based on its band. Returns max(temp, …)
+    just like the dice path, though for the printed Fixed Mod values
+    the sum is always ≥ temp (e.g. temp 50 + 28 = 78, temp 91 + 6 = 97).
+    """
+    _base, _dice, fixed = _t_1_3_row(int(temp))
+    return max(int(temp), int(temp) + fixed)
+
+
+# RMSS T-2.1 bonus tier thresholds. Each value is the LOW edge of a band
+# where the printed bonus increases. Used by the "+1 tier" button to
+# bump a stat to its next bonus rung.
+STAT_BONUS_TIERS: tuple[int, ...] = (
+    1, 2, 4, 6, 8, 10, 11, 16, 21, 26, 31,
+    70, 75, 80, 85, 90, 91, 92, 94, 96, 98, 100, 101, 102,
+)
+
+
+def next_bonus_tier(value: int) -> int | None:
+    """Return the smallest tier threshold strictly greater than `value`,
+    or None if `value` is already at the top tier (102+)."""
+    for t in STAT_BONUS_TIERS:
+        if t > int(value):
+            return t
+    return None
+
+
 # Resistance Roll base formulas, RMSS Character Record Sheet T-6.1.
 # The RR "base" is computed from temp stats; final RR also includes racial
 # RR bonuses, items, and special abilities — those are layered on later.
@@ -162,13 +253,20 @@ RR_FORMULAS: dict[str, tuple[int, tuple[StatCode, ...]]] = {
 }
 
 
-def rr_bonus(stats: Mapping[StatCode, int], category: str) -> int:
-    """Compute the base RR bonus for a category from a stat block.
+def rr_bonus(stat_bonuses: Mapping[StatCode, int], category: str) -> int:
+    """Compute the base RR bonus for a category from a *stat-bonus* block.
 
-    The RMSS RR sheet adds the *temp stat* (not the bonus), then multiplies.
-    For example, Channeling RR = 3 * In (temp).
+    Per RMSS Character Law T-7.4, an RR is `multiplier × stat_bonus(es) +
+    race_RR_mod + profession_RR_mod + …`. The caller passes in the
+    final per-stat bonuses (T-2.1(temp) + race stat mod), not raw temp
+    values, and this function applies the formula's multiplier.
+
+    Note: this signature changed from the pre-2026 implementation, which
+    multiplied raw temp values (e.g. Channeling RR = 3 × In_temp). That
+    matched what some older RM editions printed but is inconsistent with
+    RMSS T-1.1's "race mod is a bonus, not a stat adjustment" rule.
     """
     if category not in RR_FORMULAS:
         raise KeyError(f"Unknown RR category: {category}")
     mult, codes = RR_FORMULAS[category]
-    return mult * sum(stats[c] for c in codes)
+    return mult * sum(stat_bonuses[c] for c in codes)

@@ -185,8 +185,9 @@ export interface StatRow {
   name: string;
   temp: number;
   potential: number;
-  race_mod: number;       // T-1.1 race modifier (0 when no race set)
-  basic_bonus: number;    // T-2.1 bonus from (temp + race_mod)
+  race_mod: number;       // T-1.1 racial stat-bonus modifier (0 when no race)
+  basic_bonus: number;    // T-2.1(temp) — bonus from temp alone, no race
+  total_bonus: number;    // basic_bonus + race_mod — what gets used in play
   temp_cost: number;      // RMSS T-1.2 buy cost for the temp value
   is_prime: boolean;      // True when this stat is a profession prime
 }
@@ -234,6 +235,21 @@ export const updateCharacterStats = (
   api<CharacterStats>(`/api/v1/characters/${id}/stats`, {
     method: "PUT",
     body: JSON.stringify({ stats }),
+  });
+
+export const rollCharacterPotentials = (id: number) =>
+  api<CharacterStats>(`/api/v1/characters/${id}/roll-potentials`, {
+    method: "POST",
+  });
+
+export const applyFixedPotentials = (id: number) =>
+  api<CharacterStats>(`/api/v1/characters/${id}/apply-fixed-potentials`, {
+    method: "POST",
+  });
+
+export const raisePrimesTo90 = (id: number) =>
+  api<CharacterStats>(`/api/v1/characters/${id}/raise-primes-to-90`, {
+    method: "POST",
   });
 
 // ---- races -------------------------------------------------------------

@@ -92,8 +92,9 @@ class StatRow(BaseModel):
     name: str
     temp: int
     potential: int
-    race_mod: int = 0      # Race modifier from T-1.1, 0 when no race set.
-    basic_bonus: int       # T-2.1 bonus computed from (temp + race_mod).
+    race_mod: int = 0          # T-1.1 racial stat-bonus modifier (0 when no race).
+    basic_bonus: int           # T-2.1(temp) — bonus from temp alone, no race.
+    total_bonus: int = 0       # basic_bonus + race_mod — the value used in play.
     # RMSS T-1.2 stat-buy cost for the temporary value (1-90 = face
     # value; 91-100 ramps; 100+ extrapolates). Surfaced so the SPA can
     # show the per-stat cost inline as the user types.
@@ -360,10 +361,12 @@ def _build_stats_payload(
 ) -> CharacterStats:
     """Turn `character_stat` rows into the API payload.
 
-    When `race` is provided, race stat mods are folded into the effective
-    temp before the T-2.1 basic-stat bonus is computed, and race RR mods
-    are added to each RR total. When None, behaviour matches the pre-race
-    version exactly (race_mod=0, no RR mod).
+    Per RMSS T-1.1, a racial stat modifier is added to the *bonus*
+    (T-2.1 result), not to the temp value itself. So:
+
+        stat_bonus    = T-2.1(temp)
+        total_bonus   = stat_bonus + race_stat_mod
+        RR_total      = multiplier × Σ total_bonus[stats] + race_RR_mod
 
     `prime_stats` (the profession's primes, by 2-letter code) tags the
     StatRows for the SPA's "prime stats need ≥90" check.
@@ -375,7 +378,12 @@ def _build_stats_payload(
     rr_mods = race_rr_mods(race)
 
     raw_temps = {code: by_code[code]["temp"] for code in STAT_CODES}
-    eff_temps = apply_stat_mods(raw_temps, race)
+    # Per-stat final bonus = T-2.1(temp) + race stat mod. This is the
+    # "Total" column the SPA renders and the value RR formulas plug in.
+    stat_bonuses_by_code: dict[StatCode, int] = {
+        code: basic_stat_bonus(raw_temps[code]) + stat_mods[code]
+        for code in STAT_CODES
+    }
 
     primes_set = set(prime_stats or [])
     stats = [
@@ -385,22 +393,25 @@ def _build_stats_payload(
             temp=by_code[code]["temp"],
             potential=by_code[code]["potential"],
             race_mod=stat_mods[code],
-            basic_bonus=basic_stat_bonus(eff_temps[code]),
+            basic_bonus=basic_stat_bonus(raw_temps[code]),
+            total_bonus=stat_bonuses_by_code[code],
             temp_cost=stat_cost(by_code[code]["temp"]),
             is_prime=(code in primes_set),
         )
         for code in STAT_CODES
     ]
+    # RR rolls multiply the relevant stat *bonuses* (not raw temps),
+    # then add the race RR mod.
     rr = StatsRR(
-        channeling=rr_bonus(eff_temps, "Channeling")        + rr_mods["channeling"],
-        essence=rr_bonus(eff_temps, "Essence")              + rr_mods["essence"],
-        mentalism=rr_bonus(eff_temps, "Mentalism")          + rr_mods["mentalism"],
-        chan_ess=rr_bonus(eff_temps, "Chan/Ess")            + rr_mods["chan_ess"],
-        chan_ment=rr_bonus(eff_temps, "Chan/Ment")          + rr_mods["chan_ment"],
-        ess_ment=rr_bonus(eff_temps, "Ess/Ment")            + rr_mods["ess_ment"],
-        arcane=rr_bonus(eff_temps, "Arcane")                + rr_mods["arcane"],
-        poison_disease=rr_bonus(eff_temps, "Poison/Disease") + rr_mods["poison_disease"],
-        fear=rr_bonus(eff_temps, "Fear")                     + rr_mods["fear"],
+        channeling=rr_bonus(stat_bonuses_by_code, "Channeling")    + rr_mods["channeling"],
+        essence=rr_bonus(stat_bonuses_by_code, "Essence")          + rr_mods["essence"],
+        mentalism=rr_bonus(stat_bonuses_by_code, "Mentalism")      + rr_mods["mentalism"],
+        chan_ess=rr_bonus(stat_bonuses_by_code, "Chan/Ess")        + rr_mods["chan_ess"],
+        chan_ment=rr_bonus(stat_bonuses_by_code, "Chan/Ment")      + rr_mods["chan_ment"],
+        ess_ment=rr_bonus(stat_bonuses_by_code, "Ess/Ment")        + rr_mods["ess_ment"],
+        arcane=rr_bonus(stat_bonuses_by_code, "Arcane")            + rr_mods["arcane"],
+        poison_disease=rr_bonus(stat_bonuses_by_code, "Poison/Disease") + rr_mods["poison_disease"],
+        fear=rr_bonus(stat_bonuses_by_code, "Fear")                 + rr_mods["fear"],
     )
     race_info = (
         StatsRaceInfo(slug=race["slug"], name=race["name"]) if race else None
@@ -515,6 +526,117 @@ def update_character_stats(
         ).fetchall()
         race = _load_character_race(conn, character_id)
         primes = _load_character_prime_stats(conn, character_id)
+        conn.commit()
+    return _build_stats_payload(rows, race=race, prime_stats=primes)
+
+
+# ---- stats sub-resource: T-1.3 potential generators ------------------------
+
+def _refresh_potentials(
+    character_id: int,
+    user_id: int,
+    fn,
+) -> CharacterStats:
+    """Read each temp, run `fn(temp)` per stat, write back potentials,
+    and return the freshened CharacterStats payload. `fn` is either
+    `random_potential` (T-1.3 roll) or `fixed_potential` (T-1.3 Fixed
+    Mod alternative)."""
+    now = _utcnow()
+    with connect_rw() as conn:
+        _assert_owned(conn, character_id, user_id)
+        rows = conn.execute(
+            "SELECT stat_code, temp, potential FROM character_stat WHERE character_id = ?",
+            (character_id,),
+        ).fetchall()
+        for r in rows:
+            new_potential = fn(int(r["temp"]))
+            conn.execute(
+                "UPDATE character_stat SET potential = ? "
+                "WHERE character_id = ? AND stat_code = ?",
+                (new_potential, character_id, r["stat_code"]),
+            )
+        conn.execute(
+            "UPDATE character SET updated_at = ? WHERE character_id = ?",
+            (now, character_id),
+        )
+        rows = conn.execute(
+            "SELECT stat_code, temp, potential FROM character_stat WHERE character_id = ?",
+            (character_id,),
+        ).fetchall()
+        race = _load_character_race(conn, character_id)
+        primes = _load_character_prime_stats(conn, character_id)
+        conn.commit()
+    return _build_stats_payload(rows, race=race, prime_stats=primes)
+
+
+@router.post("/{character_id}/roll-potentials", response_model=CharacterStats)
+def roll_character_potentials(
+    character_id: int,
+    user: dict = CurrentUser,
+) -> CharacterStats:
+    """Roll all 10 potential stats per RMSS T-1.3 dice formulas.
+
+    Wholesale replacement: every stat's potential is re-rolled from its
+    current temp. The "potential ≥ temp" floor from the table's footnote
+    is applied. Source of randomness is `random.SystemRandom()` so the
+    roll can't be reverse-engineered from a previous one.
+    """
+    from core.chargen.stats import random_potential
+    return _refresh_potentials(character_id, user["user_id"], random_potential)
+
+
+@router.post("/{character_id}/apply-fixed-potentials", response_model=CharacterStats)
+def apply_fixed_potentials(
+    character_id: int,
+    user: dict = CurrentUser,
+) -> CharacterStats:
+    """Apply the RMSS T-1.3 Fixed Mod alternative to every stat.
+
+    Per the table's "†" footnote, players may opt to skip dice and add
+    the printed fixed mod to each temp (e.g. +44 for temps 20-24, +6
+    for 85-91, etc.). Wholesale replacement, like the roll endpoint.
+    """
+    from core.chargen.stats import fixed_potential
+    return _refresh_potentials(character_id, user["user_id"], fixed_potential)
+
+
+@router.post("/{character_id}/raise-primes-to-90", response_model=CharacterStats)
+def raise_primes_to_90(
+    character_id: int,
+    user: dict = CurrentUser,
+) -> CharacterStats:
+    """Bump every prime stat (per the character's profession) that's
+    below 90 up to exactly 90. Potentials are raised to match if they'd
+    otherwise be below the new temp.
+
+    RMSS requires each prime ≥ 90 at creation; this is the one-click
+    way to enforce that without re-typing. The cost shows up in the
+    SPA's budget banner — the endpoint doesn't enforce budget caps,
+    matching the existing PUT /stats behaviour.
+    """
+    from core.chargen.stats import PRIME_STAT_MIN
+    now = _utcnow()
+    with connect_rw() as conn:
+        _assert_owned(conn, character_id, user["user_id"])
+        primes = _load_character_prime_stats(conn, character_id)
+        if primes:
+            for code in primes:
+                conn.execute(
+                    "UPDATE character_stat "
+                    "   SET temp = MAX(temp, ?), "
+                    "       potential = MAX(potential, ?) "
+                    " WHERE character_id = ? AND stat_code = ?",
+                    (PRIME_STAT_MIN, PRIME_STAT_MIN, character_id, code),
+                )
+            conn.execute(
+                "UPDATE character SET updated_at = ? WHERE character_id = ?",
+                (now, character_id),
+            )
+        rows = conn.execute(
+            "SELECT stat_code, temp, potential FROM character_stat WHERE character_id = ?",
+            (character_id,),
+        ).fetchall()
+        race = _load_character_race(conn, character_id)
         conn.commit()
     return _build_stats_payload(rows, race=race, prime_stats=primes)
 
