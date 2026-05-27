@@ -163,12 +163,24 @@ CREATE TABLE IF NOT EXISTS attack_result (
     armor_type     INTEGER NOT NULL CHECK (armor_type BETWEEN 1 AND 20),
     raw            TEXT    NOT NULL,
     hits           INTEGER NOT NULL DEFAULT 0,
-    -- Severity F is special-case: only used by Ram/Butt/Bash/Knockdown
-    -- (table 3.10), which calls out "F = E-roll on Unbalance + C-roll on
-    -- Krush" in a per-table note. F never appears on any standalone
-    -- critical_strike_table.
-    crit_severity  TEXT CHECK (crit_severity IN ('A','B','C','D','E','F')),
-    crit_type      TEXT CHECK (crit_type     IN ('G','K','P','S','T','U')),
+    -- Severity letters:
+    --   A-E  standard Arms Law (and Armory weapon) severities
+    --   F    Ram/Butt/Bash/Knockdown (table 3.10) special: "E-roll on
+    --        Unbalance + C-roll on Krush". F never appears on any standalone
+    --        critical_strike_table.
+    --   G-J  Spell Law bolt/ball severities — Lightning Bolt's chart
+    --        goes up to G/H/I/J at the very high-roll bands.
+    crit_severity  TEXT CHECK (crit_severity IN
+                       ('A','B','C','D','E','F','G','H','I','J')),
+    -- Crit-type single-letter codes resolve to a critical_strike_table:
+    --   B → Brawling          G → Grapple           P → Puncture
+    --   C → Cold              H → Heat              Q → Martial Arts Strikes
+    --   D → Subdual           I → Impact            S → Slash
+    --   E → Electricity       K → Krush             T → Tiny
+    --                                               U → Unbalancing
+    --                                               W → Martial Arts Sweeps
+    crit_type      TEXT CHECK (crit_type IN
+                       ('B','C','D','E','G','H','I','K','P','Q','S','T','U','W')),
     is_fumble      INTEGER NOT NULL DEFAULT 0,
     PRIMARY KEY (weapon_id, roll_min, armor_type),
     CHECK (roll_min <= roll_max)

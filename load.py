@@ -22,7 +22,14 @@ PROFESSIONS_DIR = ROOT / "data" / "chargen" / "professions"
 TRAINING_PACKAGES_DIR = ROOT / "data" / "chargen" / "training_packages"
 ADOLESCENCE_FILE = ROOT / "data" / "chargen" / "adolescence_ranks.txt"
 
-CELL_RE = re.compile(r"^(\d{1,3})([A-F])([GKPSTU])?$")  # severity-only crit_type optional; F is the special dual-crit code on table 3.10
+CELL_RE = re.compile(r"^(\d{1,3})([A-J])([BCDEGHIKPQSTUW])?$")
+# Severity letters: A-E standard; F is the Ram/Butt/Bash/Knockdown (table 3.10)
+# dual-crit special; G-J Spell Law bolt/ball severities.
+# Crit-type single-letter codes (resolve to a critical_strike_table name):
+#   B Brawling   C Cold        D Subdual      E Electricity
+#   G Grapple    H Heat        I Impact       K Krush
+#   P Puncture   Q MA Strikes  S Slash        T Tiny
+#   U Unbalancing                              W MA Sweeps
 
 
 # ---------------------------------------------------------------------------
@@ -2037,6 +2044,51 @@ def _apply_missing_columns(conn: sqlite3.Connection) -> None:
     conn.commit()
 
 
+def _migrate_attack_result_checks(conn: sqlite3.Connection) -> None:
+    """Recreate `attack_result` if its CHECK constraints are the pre-expansion
+    set (severities A-F only, crit types G/K/P/S/T/U only).
+
+    The Spell Law / The Armory ERA tables introduce new crit types (Cold,
+    Heat, Electricity, etc.) and severities up to J. SQLite has no ALTER
+    TABLE for CHECK constraints, so we inspect the stored DDL in
+    sqlite_master and recreate the table when it's still the old shape.
+    `attack_result` is wipe-and-reload reference data, so dropping it is
+    safe — reload_ref_data() repopulates from data/weapons/*.txt.
+    """
+    row = conn.execute(
+        "SELECT sql FROM sqlite_master WHERE type='table' AND name='attack_result'"
+    ).fetchone()
+    if row is None:
+        return   # fresh DB — CREATE TABLE will use the new schema
+    sql = row[0] or ""
+    # The unmistakable signature of the old CHECK is the type whitelist
+    # "('G','K','P','S','T','U')". The new one includes more letters
+    # (B/C/D/E/H/I/Q/W). If we see the old list, recreate.
+    if "('G','K','P','S','T','U')" in sql:
+        conn.execute("DROP TABLE attack_result")
+        conn.executescript("""
+            CREATE TABLE IF NOT EXISTS attack_result (
+                weapon_id      INTEGER NOT NULL
+                                   REFERENCES weapon(weapon_id) ON DELETE CASCADE,
+                roll_min       INTEGER NOT NULL,
+                roll_max       INTEGER NOT NULL,
+                armor_type     INTEGER NOT NULL CHECK (armor_type BETWEEN 1 AND 20),
+                raw            TEXT    NOT NULL,
+                hits           INTEGER NOT NULL DEFAULT 0,
+                crit_severity  TEXT CHECK (crit_severity IN
+                                   ('A','B','C','D','E','F','G','H','I','J')),
+                crit_type      TEXT CHECK (crit_type IN
+                                   ('B','C','D','E','G','H','I','K','P','Q','S','T','U','W')),
+                is_fumble      INTEGER NOT NULL DEFAULT 0,
+                PRIMARY KEY (weapon_id, roll_min, armor_type),
+                CHECK (roll_min <= roll_max)
+            );
+            CREATE INDEX IF NOT EXISTS idx_attack_result_lookup
+                ON attack_result(weapon_id, armor_type, roll_min, roll_max);
+        """)
+        conn.commit()
+
+
 def reload_ref_data(conn: sqlite3.Connection) -> None:
     """Wipe reference tables in dependency order, leaving user tables (app_user,
     future character tables) untouched. Caller is expected to re-insert ref data.
@@ -2049,6 +2101,7 @@ def reload_ref_data(conn: sqlite3.Connection) -> None:
     target a user table.
     """
     _apply_missing_columns(conn)
+    _migrate_attack_result_checks(conn)
 
     cur = conn.execute(
         "SELECT name FROM sqlite_master WHERE type='table'"
