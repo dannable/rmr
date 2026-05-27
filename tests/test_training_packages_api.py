@@ -164,6 +164,39 @@ def test_get_unknown_tp_returns_404(client) -> None:
     assert r.status_code == 404
 
 
+def test_training_package_source_field_on_list_and_detail(client) -> None:
+    """The source tag (character_law / essence_companion / channeling_companion /
+    mentalism_companion / sohk) must round-trip on both endpoints so the SPA
+    can show a source badge."""
+    from web.db import connect_rw
+    with connect_rw() as conn:
+        # Pre-seed both rows with explicit sources — bypass _seed_tp which
+        # leaves source at its default.
+        for slug, name, src in (
+            ("tp_one_law", "TP One", "character_law"),
+            ("tp_one_sohk", "TP One", "sohk"),  # legitimately same name, different source
+        ):
+            conn.execute(
+                "INSERT INTO training_package (slug, name, category, description, "
+                "                              default_cost, source) "
+                "VALUES (?, ?, ?, ?, ?, ?)",
+                (slug, name, "Test", "", 30, src),
+            )
+        conn.commit()
+
+    body = client.get("/api/v1/training-packages").json()
+    by_slug = {r["slug"]: r for r in body}
+    assert by_slug["tp_one_law"]["source"] == "character_law"
+    assert by_slug["tp_one_sohk"]["source"] == "sohk"
+    # Same name, both rows present — UNIQUE name was dropped in the
+    # training_package schema to allow this.
+    assert by_slug["tp_one_law"]["name"] == "TP One"
+    assert by_slug["tp_one_sohk"]["name"] == "TP One"
+
+    detail = client.get("/api/v1/training-packages/tp_one_sohk").json()
+    assert detail["source"] == "sohk"
+
+
 # ---------------------------------------------------------------------------
 # auth gating
 # ---------------------------------------------------------------------------
