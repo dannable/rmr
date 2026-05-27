@@ -16,6 +16,7 @@ import {
 } from "../api";
 import { AdolescenceRanks } from "../components/AdolescenceRanks";
 import { BackgroundOptions } from "../components/BackgroundOptions";
+import { CulturePicker } from "../components/CulturePicker";
 import { ProfessionPicker } from "../components/ProfessionPicker";
 import { RacePicker } from "../components/RacePicker";
 import { StatsEditor } from "../components/StatsEditor";
@@ -363,10 +364,14 @@ function ChoicesStep({ character }: { character: Character }) {
   // Realm of power is derived from profession. Detail comes from the
   // ProfessionPicker's existing fetch; here we just show a one-line
   // summary above the pickers.
+  //
+  // The CulturePicker only renders when race_is_umbrella is true — it
+  // self-hides for concrete races, so there's no need to gate it here.
   return (
     <div>
       <StepHeader step={STEPS[1]} />
       <RacePicker character={character} />
+      <CulturePicker character={character} />
       <hr />
       <ProfessionPicker character={character} />
       <hr />
@@ -400,6 +405,8 @@ function AdolescenceStep({ character }: { character: Character }) {
       <AdolescenceRanks
         characterId={character.character_id}
         raceSlug={character.race_slug}
+        cultureSlug={character.culture_slug}
+        raceIsUmbrella={character.race_is_umbrella}
       />
     </div>
   );

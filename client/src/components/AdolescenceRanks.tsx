@@ -14,6 +14,12 @@ interface Props {
   characterId: number;
   /** raceSlug is in the query key so picking a different race triggers a refetch. */
   raceSlug: string | null;
+  /** cultureSlug is also in the query key — for umbrella races (Common Men /
+   *  Mixed Men) changing the culture sub-pick must re-fetch T-1.6 data. */
+  cultureSlug: string | null;
+  /** True when the race is one of the RMSS umbrella categories. Drives the
+   *  empty-state message: "pick a culture" vs. "pick a race". */
+  raceIsUmbrella: boolean;
 }
 
 /**
@@ -24,10 +30,15 @@ interface Props {
  * transfers the current view into the character's actual skill list
  * (character_skill table, source='adolescence').
  */
-export function AdolescenceRanks({ characterId, raceSlug }: Props) {
+export function AdolescenceRanks({
+  characterId,
+  raceSlug,
+  cultureSlug,
+  raceIsUmbrella,
+}: Props) {
   const qc = useQueryClient();
   const q = useQuery<CharacterAdolescence>({
-    queryKey: ["characters", characterId, "adolescence-ranks", raceSlug],
+    queryKey: ["characters", characterId, "adolescence-ranks", raceSlug, cultureSlug],
     queryFn: () => fetchCharacterAdolescence(characterId),
   });
 
@@ -54,7 +65,7 @@ export function AdolescenceRanks({ characterId, raceSlug }: Props) {
       updateAdolescenceChoices(characterId, choices),
     onSuccess: (fresh) => {
       qc.setQueryData(
-        ["characters", characterId, "adolescence-ranks", raceSlug],
+        ["characters", characterId, "adolescence-ranks", raceSlug, cultureSlug],
         fresh,
       );
     },
@@ -106,11 +117,19 @@ export function AdolescenceRanks({ characterId, raceSlug }: Props) {
 
       {q.data && q.data.culture_slug === null && (
         <p style={{ marginTop: 12, color: "#888", fontSize: 13 }}>
-          Pick a race above to see the starting skill ranks granted during adolescence.
+          Pick a race in Step 2 to see the starting skill ranks granted
+          during adolescence.
         </p>
       )}
 
-      {q.data && q.data.culture_slug && (
+      {q.data && q.data.culture_slug && q.data.groups.length === 0 && (
+        <UmbrellaRaceNotice
+          cultureName={q.data.culture_name ?? q.data.culture_slug}
+          raceIsUmbrella={raceIsUmbrella}
+        />
+      )}
+
+      {q.data && q.data.culture_slug && q.data.groups.length > 0 && (
         <>
           <p style={{ marginTop: 8, fontSize: 13, color: "#666" }}>
             Ranks below are what your character starts with as a{" "}
@@ -147,6 +166,54 @@ export function AdolescenceRanks({ characterId, raceSlug }: Props) {
         </>
       )}
     </section>
+  );
+}
+
+
+/**
+ * Shown when the character's race has no T-1.6 row in the source data —
+ * Two flavors:
+ *   raceIsUmbrella=true  → "you need to pick a culture in Step 2"; the
+ *                          Culture sub-picker is already rendered there.
+ *   raceIsUmbrella=false → "this race has no T-1.6 data" (e.g. a custom
+ *                          race added without source-table entries).
+ */
+function UmbrellaRaceNotice({
+  cultureName,
+  raceIsUmbrella,
+}: {
+  cultureName: string;
+  raceIsUmbrella: boolean;
+}) {
+  return (
+    <div
+      style={{
+        marginTop: 12,
+        padding: "12px 16px",
+        background: "#fff8e1",
+        border: "1px solid #f0d486",
+        borderRadius: 4,
+        fontSize: 13,
+        lineHeight: 1.5,
+        color: "#5a4a1a",
+      }}
+    >
+      {raceIsUmbrella ? (
+        <>
+          <strong>{cultureName}</strong> is an umbrella category in RMSS — the
+          Cultures &amp; Races appendix doesn't print T-1.6 adolescence ranks
+          for it directly. Pick one of the 7 specific Men cultures from the{" "}
+          <strong>Culture</strong> dropdown in Step 2 to see your starting
+          skill ranks.
+        </>
+      ) : (
+        <>
+          No T-1.6 adolescence data on file for{" "}
+          <strong>{cultureName}</strong>. If you expect ranks here, the
+          reference data may need a reload.
+        </>
+      )}
+    </div>
   );
 }
 

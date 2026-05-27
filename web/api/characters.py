@@ -27,11 +27,14 @@ from core.chargen.stats import (
     RR_FORMULAS,
 )
 from core.chargen.race import (
+    apply_stat_mods,
     get_race_by_id,
     get_race_by_slug,
-    race_stat_mods,
+    is_umbrella_race,
     race_rr_mods,
-    apply_stat_mods,
+    race_stat_mods,
+    UMBRELLA_CULTURE_SLUGS,
+    UMBRELLA_RACE_SLUGS,
 )
 from core.chargen.adolescence import grouped_ranks, adolescence_ranks
 from core.chargen.weapons import (
@@ -65,6 +68,14 @@ class Character(BaseModel):
     profession_id: int | None = None
     profession_slug: str | None = None
     profession_name: str | None = None
+    # Culture sub-pick — only meaningful when race_slug is an umbrella race
+    # (Common Men / Mixed Men). Set via PUT /characters/{id}/culture.
+    culture_slug: str | None = None
+    culture_name: str | None = None
+    # True when the current race is one of the RMSS umbrella categories
+    # that need a culture sub-pick (Common Men / Mixed Men). The SPA uses
+    # this to decide whether to show the Culture picker beside Race.
+    race_is_umbrella: bool = False
 
 
 class CharacterCreate(BaseModel):
@@ -76,6 +87,14 @@ class CharacterCreate(BaseModel):
 class CharacterRacePick(BaseModel):
     # Pass null to clear the character's race. `slug` is preferred over
     # race_id because slugs are stable across `load.py --reset` runs.
+    slug: str | None = None
+
+
+class CharacterCulturePick(BaseModel):
+    # Sub-culture under an umbrella race. Pass null to clear. The endpoint
+    # validates the character's race is umbrella and the slug is in
+    # UMBRELLA_CULTURE_SLUGS — picking a non-Men slug as a "culture" makes
+    # no sense in RMSS so we reject it.
     slug: str | None = None
 
 
@@ -225,13 +244,15 @@ def _utcnow() -> str:
 
 
 def _row_to_character(row) -> Character:
-    # Race join columns are nullable — the LEFT JOIN may return Nones, or
-    # an older read path may not have them in the row at all.
+    # Race / culture / profession join columns are nullable — the LEFT JOIN
+    # may return Nones, or an older read path may not have them in the row
+    # at all.
     def _opt(key: str):
         try:
             return row[key]
         except (KeyError, IndexError):
             return None
+    race_slug = _opt("race_slug")
     return Character(
         character_id=row["character_id"],
         owner_user_id=row["owner_user_id"],
@@ -240,24 +261,33 @@ def _row_to_character(row) -> Character:
         created_at=row["created_at"],
         updated_at=row["updated_at"],
         race_id=_opt("race_id"),
-        race_slug=_opt("race_slug"),
+        race_slug=race_slug,
         race_name=_opt("race_name"),
         profession_id=_opt("profession_id"),
         profession_slug=_opt("profession_slug"),
         profession_name=_opt("profession_name"),
+        culture_slug=_opt("culture_slug"),
+        culture_name=_opt("culture_name"),
+        # Tells the SPA whether the Culture picker should appear next to
+        # the Race picker. Only true for Common Men / Mixed Men.
+        race_is_umbrella=race_slug in UMBRELLA_RACE_SLUGS if race_slug else False,
     )
 
 
-# Reusable SELECT clauses; the race + profession joins are LEFT so an
-# unraced / unprofessioned character still comes back with NULLs for the
-# joined columns.
+# Reusable SELECT clauses; the race + culture + profession joins are LEFT
+# so an unraced / unprofessioned character still comes back with NULLs for
+# the joined columns. The `c` (culture) join is keyed on slug because
+# character.culture_slug is a slug — not an FK to race_id — so swapping
+# out the race reference data doesn't break the culture pointer.
 _CHARACTER_SELECT = """
     SELECT ch.character_id, ch.owner_user_id, ch.name, ch.level,
            ch.created_at, ch.updated_at, ch.race_id, ch.profession_id,
            r.slug AS race_slug, r.name AS race_name,
+           ch.culture_slug AS culture_slug, c.name AS culture_name,
            p.slug AS profession_slug, p.name AS profession_name
       FROM character ch
       LEFT JOIN race r ON r.race_id = ch.race_id
+      LEFT JOIN race c ON c.slug = ch.culture_slug
       LEFT JOIN profession p ON p.profession_id = ch.profession_id
 """
 
@@ -713,9 +743,16 @@ def get_character_adolescence(
 ) -> CharacterAdolescence:
     """Look up the starting skill ranks for the character's race/culture.
 
-    Each row carries per-row metadata identifying whether the player must
-    pick a specifier before the rank can be applied — `choice_kind` is
-    "text" (free input) or "select" (dropdown), with `choice_options`
+    For umbrella races (Common Men / Mixed Men), T-1.6 data is keyed
+    by the SUB-culture; we fall through to character.culture_slug and
+    look up the row whose slug matches. If the race is umbrella but no
+    culture is picked yet, return (umbrella_race, [], pending=true) so
+    the SPA can point the user at the Culture picker. For concrete
+    races, culture_slug == race.slug as before.
+
+    Each leaf row carries per-row metadata identifying whether the player
+    must pick a specifier before the rank can be applied — `choice_kind`
+    is "text" (free input) or "select" (dropdown), with `choice_options`
     populated for selects and `choice` reflecting the player's saved pick.
     """
     with connect_rw() as conn:
@@ -723,17 +760,44 @@ def get_character_adolescence(
         race = _load_character_race(conn, character_id)
         if race is None:
             return CharacterAdolescence(culture_slug=None, culture_name=None, groups=[])
-        # Pull the race's weapons text out of culture_data for the
-        # dropdown options.
+
+        # Resolve the row whose adolescence data we actually want. For an
+        # umbrella race, that's the picked culture (if any); otherwise the
+        # race row itself doubles as the culture row.
+        effective = race
+        if is_umbrella_race(race):
+            culture_slug_picked = conn.execute(
+                "SELECT culture_slug FROM character WHERE character_id = ?",
+                (character_id,),
+            ).fetchone()
+            picked = culture_slug_picked["culture_slug"] if culture_slug_picked else None
+            if not picked:
+                # Race is umbrella but no culture picked — the SPA will
+                # show the Culture picker; return the umbrella race
+                # header with empty groups so the user can still see what
+                # they've selected.
+                return CharacterAdolescence(
+                    culture_slug=race["slug"],
+                    culture_name=race["name"],
+                    groups=[],
+                )
+            culture_row = get_race_by_slug(conn, picked)
+            if culture_row is not None:
+                effective = culture_row
+            # else: stale slug (reference data wiped) — fall back to the
+            # umbrella row, which yields empty groups.
+
+        # Pull the effective row's weapons text out of culture_data for
+        # the dropdown options.
         import json
         weapons_text = ""
         try:
-            cd = json.loads(race.get("culture_data") or "{}")
+            cd = json.loads(effective.get("culture_data") or "{}")
             if isinstance(cd, dict):
                 weapons_text = cd.get("weapons", "") or ""
         except (TypeError, ValueError):
             pass
-        groups = grouped_ranks(conn, race["slug"])
+        groups = grouped_ranks(conn, effective["slug"])
         # Load existing player picks for this character.
         choices_rows = conn.execute(
             "SELECT t16_row, choice FROM character_adolescence_choice "
@@ -759,8 +823,8 @@ def get_character_adolescence(
             category=g["category"], value=g["value"], skills=enriched,
         ))
     return CharacterAdolescence(
-        culture_slug=race["slug"],
-        culture_name=race["name"],
+        culture_slug=effective["slug"],
+        culture_name=effective["name"],
         groups=out_groups,
     )
 
@@ -825,7 +889,24 @@ def apply_character_adolescence(
                 status_code=status.HTTP_409_CONFLICT,
                 detail="Pick a race before applying adolescence ranks.",
             )
-        rows = adolescence_ranks(conn, race["slug"])
+        # Umbrella race? Apply uses the culture's T-1.6 rows. If no
+        # culture picked, there's nothing to apply — error so the SPA
+        # doesn't silently no-op a click.
+        effective_slug = race["slug"]
+        if is_umbrella_race(race):
+            culture_row = conn.execute(
+                "SELECT culture_slug FROM character WHERE character_id = ?",
+                (character_id,),
+            ).fetchone()
+            picked = culture_row["culture_slug"] if culture_row else None
+            if not picked:
+                raise HTTPException(
+                    status_code=status.HTTP_409_CONFLICT,
+                    detail="Pick a culture before applying adolescence ranks "
+                           f"({race['name']} is an umbrella category in RMSS).",
+                )
+            effective_slug = picked
+        rows = adolescence_ranks(conn, effective_slug)
         choices_rows = conn.execute(
             "SELECT t16_row, choice FROM character_adolescence_choice "
             "WHERE character_id = ?",
@@ -880,14 +961,18 @@ def update_character_race(
     """Set (or clear, when slug is null) the character's race.
 
     The race lookup uses slug — race_id is internal — so saved characters
-    don't lose their race if reference data is rebuilt. Returns the updated
-    Character (with race fields populated).
+    don't lose their race if reference data is rebuilt. Changing the race
+    away from an umbrella (Common Men / Mixed Men) clears the existing
+    culture_slug, since a sub-culture pick is meaningless under a concrete
+    race; the SPA stops showing the Culture picker in that state too.
+    Returns the updated Character (with race fields populated).
     """
     now = _utcnow()
     with connect_rw() as conn:
         _assert_owned(conn, character_id, user["user_id"])
         if body.slug is None:
             race_id = None
+            new_race_slug: str | None = None
         else:
             race = get_race_by_slug(conn, body.slug)
             if race is None:
@@ -896,9 +981,79 @@ def update_character_race(
                     detail=f"Unknown race slug: {body.slug!r}",
                 )
             race_id = race["race_id"]
+            new_race_slug = race["slug"]
+
+        # If the new race isn't umbrella, drop any stale culture pick so we
+        # don't leak data into a state the picker can't reach. We do this
+        # unconditionally on the SET — picking the same umbrella race twice
+        # keeps the existing culture intact because the slug is still in
+        # UMBRELLA_RACE_SLUGS.
+        clear_culture = new_race_slug not in UMBRELLA_RACE_SLUGS
+        if clear_culture:
+            conn.execute(
+                "UPDATE character SET race_id = ?, culture_slug = NULL, updated_at = ? "
+                "WHERE character_id = ?",
+                (race_id, now, character_id),
+            )
+        else:
+            conn.execute(
+                "UPDATE character SET race_id = ?, updated_at = ? "
+                "WHERE character_id = ?",
+                (race_id, now, character_id),
+            )
+        row = conn.execute(
+            f"{_CHARACTER_SELECT} WHERE ch.character_id = ?",
+            (character_id,),
+        ).fetchone()
+        conn.commit()
+    return _row_to_character(row)
+
+
+@router.put("/{character_id}/culture", response_model=Character)
+def update_character_culture(
+    character_id: int,
+    body: CharacterCulturePick,
+    user: dict = CurrentUser,
+) -> Character:
+    """Set (or clear) the character's culture sub-pick.
+
+    Only valid when the character's race is one of the RMSS umbrella
+    categories (Common Men / Mixed Men). The slug must be one of the 7
+    Men cultures in UMBRELLA_CULTURE_SLUGS; picking, say, "dwarves" as a
+    Common-Men culture is nonsensical and gets a 422.
+    """
+    now = _utcnow()
+    with connect_rw() as conn:
+        _assert_owned(conn, character_id, user["user_id"])
+        race = _load_character_race(conn, character_id)
+        if not is_umbrella_race(race):
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Culture is only meaningful when race is Common Men "
+                       "or Mixed Men.",
+            )
+        if body.slug is None:
+            culture_slug: str | None = None
+        else:
+            if body.slug not in UMBRELLA_CULTURE_SLUGS:
+                raise HTTPException(
+                    status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                    detail=f"Unknown culture slug: {body.slug!r}. "
+                           f"Valid: {', '.join(UMBRELLA_CULTURE_SLUGS)}.",
+                )
+            # Belt-and-braces: confirm the slug actually exists in the race
+            # table (load.py keeps these in sync, but a half-loaded DB
+            # shouldn't 500).
+            if get_race_by_slug(conn, body.slug) is None:
+                raise HTTPException(
+                    status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                    detail=f"Culture {body.slug!r} not found in reference data.",
+                )
+            culture_slug = body.slug
         conn.execute(
-            "UPDATE character SET race_id = ?, updated_at = ? WHERE character_id = ?",
-            (race_id, now, character_id),
+            "UPDATE character SET culture_slug = ?, updated_at = ? "
+            "WHERE character_id = ?",
+            (culture_slug, now, character_id),
         )
         row = conn.execute(
             f"{_CHARACTER_SELECT} WHERE ch.character_id = ?",

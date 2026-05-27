@@ -521,7 +521,15 @@ CREATE TABLE IF NOT EXISTS character (
     -- Profession picked from the RMSS Character Law list. Same reload-
     -- proof story as race_id: SET NULL on profession delete, but the
     -- loader keeps profession_id stable across reloads via UPSERT.
-    profession_id  INTEGER REFERENCES profession(profession_id) ON DELETE SET NULL
+    profession_id  INTEGER REFERENCES profession(profession_id) ON DELETE SET NULL,
+    -- Culture sub-selection for umbrella races (Common Men, Mixed Men).
+    -- Stored as a slug pointing into race.slug — the 7 Men sub-cultures
+    -- (Hillmen / Mariners / Nomads / Ruralmen / Urbanmen / Woodmen /
+    -- High Men) live in the race table as full rows, so culture_slug
+    -- reuses them rather than duplicating the data. Only meaningful when
+    -- race_id resolves to an umbrella race; the PUT endpoint clears
+    -- culture_slug whenever race changes to a non-umbrella value.
+    culture_slug   TEXT
 );
 
 CREATE INDEX IF NOT EXISTS idx_character_owner ON character(owner_user_id);

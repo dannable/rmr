@@ -59,7 +59,23 @@ export interface Character {
   profession_id: number | null;
   profession_slug: string | null;
   profession_name: string | null;
+  /** Sub-culture pick when race is umbrella (Common Men / Mixed Men). */
+  culture_slug: string | null;
+  culture_name: string | null;
+  /** True when race is a RMSS umbrella category — the SPA uses this to
+   *  decide whether to show the Culture picker beside Race. */
+  race_is_umbrella: boolean;
 }
+
+/** RMSS umbrella race slugs — Men cultures that need a sub-pick.
+ *  Mirror of core.chargen.race.UMBRELLA_RACE_SLUGS. Kept in sync manually. */
+export const UMBRELLA_RACE_SLUGS: readonly string[] = ["common_men", "mixed_men"];
+
+/** The 7 Men sub-cultures available when race is umbrella.
+ *  Mirror of core.chargen.race.UMBRELLA_CULTURE_SLUGS. */
+export const UMBRELLA_CULTURE_SLUGS: readonly string[] = [
+  "hillmen", "mariners", "nomads", "ruralmen", "urbanmen", "woodmen", "high_men",
+];
 
 export const fetchCharacters = () =>
   api<Character[]>("/api/v1/characters");
@@ -78,6 +94,14 @@ export const deleteCharacter = (id: number) =>
 
 export const updateCharacterRace = (id: number, slug: string | null) =>
   api<Character>(`/api/v1/characters/${id}/race`, {
+    method: "PUT",
+    body: JSON.stringify({ slug }),
+  });
+
+/** Set (or clear) the character's culture sub-pick. Only valid when race
+ *  is an umbrella race — the API returns 409 otherwise. */
+export const updateCharacterCulture = (id: number, slug: string | null) =>
+  api<Character>(`/api/v1/characters/${id}/culture`, {
     method: "PUT",
     body: JSON.stringify({ slug }),
   });
