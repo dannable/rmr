@@ -128,6 +128,51 @@ def test_put_stats_updates_and_returns_computed(client) -> None:
     assert r.json()["resistance_rolls"]["arcane"] == 9
 
 
+def test_get_stats_includes_development_points(client) -> None:
+    """Default character (every stat 50) → DPs = 5×50 / 5 = 50."""
+    cid = _create_character(client)
+    r = client.get(f"/api/v1/characters/{cid}/stats")
+    assert r.status_code == 200
+    assert r.json()["development_points"] == 50
+
+
+def test_put_stats_recomputes_development_points(client) -> None:
+    """Bump the 5 dev stats; non-dev stats must not contribute."""
+    cid = _create_character(client)
+    body = _stats_body({
+        "Ag": (80, 80),
+        "Co": (80, 80),
+        "Me": (80, 80),
+        "Re": (80, 80),
+        "SD": (80, 80),
+        # Non-dev stats cranked — should be ignored by the DP formula.
+        "Em": (100, 100),
+        "In": (100, 100),
+        "Pr": (100, 100),
+        "Qu": (100, 100),
+        "St": (100, 100),
+    })
+    r = client.put(f"/api/v1/characters/{cid}/stats", json=body)
+    assert r.status_code == 200
+    # 5 × 80 = 400; 400 / 5 = 80.
+    assert r.json()["development_points"] == 80
+
+
+def test_development_points_rounds_half_up(client) -> None:
+    """sum=353 (348 + 5) over the dev stats → 70.6 → 71."""
+    cid = _create_character(client)
+    body = _stats_body({
+        "Ag": (72, 50),   # sum so far: 72
+        "Co": (70, 50),   # +70 = 142
+        "Me": (70, 50),   # +70 = 212
+        "Re": (70, 50),   # +70 = 282
+        "SD": (71, 50),   # +71 = 353
+    })
+    r = client.put(f"/api/v1/characters/{cid}/stats", json=body)
+    assert r.status_code == 200
+    assert r.json()["development_points"] == 71
+
+
 def test_put_stats_persists_across_get(client) -> None:
     cid = _create_character(client)
     body = _stats_body({"St": (88, 92)})

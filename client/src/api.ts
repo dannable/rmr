@@ -223,6 +223,13 @@ export interface CharacterStats {
   race_rr_mods: StatsRR;           // race contribution only (zero if unraced)
   race: StatsRaceInfo | null;
   budget: StatsBudget;
+  /**
+   * Per-level Development Points = (Ag + Co + Me + Re + SD) ÷ 5
+   * (round normally), recomputed server-side after every save. The SPA
+   * also mirrors the formula locally so the badge updates live as the
+   * user types into the temp inputs.
+   */
+  development_points: number;
 }
 
 export const fetchCharacterStats = (id: number) =>

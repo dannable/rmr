@@ -207,3 +207,58 @@ def test_next_bonus_tier_walks_through_table() -> None:
     assert next_bonus_tier(95) == 96
     # Already at the top.
     assert next_bonus_tier(102) is None
+
+
+# ---------------------------------------------------------------------------
+# Development Points: (Ag + Co + Me + Re + SD) ÷ 5, round normally
+# ---------------------------------------------------------------------------
+
+def test_development_points_codes_match_rmss() -> None:
+    """DEV_STAT_CODES must be exactly the five RMSS development stats,
+    in the canonical Ag/Co/Me/Re/SD order — the SPA mirrors this list."""
+    from core.chargen.stats import DEV_STAT_CODES
+    assert DEV_STAT_CODES == ("Ag", "Co", "Me", "Re", "SD")
+
+
+def test_development_points_exact_division() -> None:
+    """sum divisible by 5 → exact quotient, no rounding involved."""
+    from core.chargen.stats import development_points
+    stats = {"Ag": 70, "Co": 70, "Me": 70, "Re": 70, "SD": 70}
+    # 350 / 5 = 70 exactly.
+    assert development_points(stats) == 70
+
+
+def test_development_points_round_half_up() -> None:
+    """RMSS says round normally — .6 and .8 round up; .2 and .4 round down."""
+    from core.chargen.stats import development_points
+    # sum=347 → 69.4 → 69
+    assert development_points({"Ag": 70, "Co": 70, "Me": 70, "Re": 70, "SD": 67}) == 69
+    # sum=348 → 69.6 → 70
+    assert development_points({"Ag": 70, "Co": 70, "Me": 70, "Re": 70, "SD": 68}) == 70
+    # sum=352 → 70.4 → 70
+    assert development_points({"Ag": 71, "Co": 70, "Me": 70, "Re": 70, "SD": 71}) == 70
+    # sum=353 → 70.6 → 71
+    assert development_points({"Ag": 72, "Co": 70, "Me": 70, "Re": 70, "SD": 71}) == 71
+
+
+def test_development_points_ignores_non_dev_stats() -> None:
+    """Em/In/Pr/Qu/St must NOT contribute even when huge."""
+    from core.chargen.stats import development_points
+    stats = {c: 50 for c in STAT_CODES}
+    for non_dev in ("Em", "In", "Pr", "Qu", "St"):
+        stats[non_dev] = 100   # cranking the non-dev stats…
+    # …doesn't change the answer: 5 × 50 = 250 → 50.
+    assert development_points(stats) == 50
+
+
+def test_development_points_missing_stat_defaults_to_zero() -> None:
+    """Partial blocks (e.g. mid-edit) should preview, not crash."""
+    from core.chargen.stats import development_points
+    # Only 4 of 5 dev stats given; the missing one is treated as 0.
+    assert development_points({"Ag": 50, "Co": 50, "Me": 50, "Re": 50}) == 40
+
+
+def test_development_points_full_stat_block_baseline() -> None:
+    """Default character (every stat at 50) → 50 DP per level."""
+    from core.chargen.stats import development_points
+    assert development_points({c: 50 for c in STAT_CODES}) == 50

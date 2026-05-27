@@ -149,6 +149,10 @@ class CharacterStats(BaseModel):
     race_rr_mods: StatsRR
     race: StatsRaceInfo | None = None
     budget: StatsBudget
+    # Per-level Development Points = (Ag + Co + Me + Re + SD) ÷ 5
+    # (round normally). Recomputed server-side from the saved temps; the
+    # SPA also mirrors the formula for a live preview as the user types.
+    development_points: int = 0
 
 
 class StatUpdate(BaseModel):
@@ -371,7 +375,13 @@ def _build_stats_payload(
     `prime_stats` (the profession's primes, by 2-letter code) tags the
     StatRows for the SPA's "prime stats need ≥90" check.
     """
-    from core.chargen.stats import stat_cost, total_stat_cost, TEMP_STAT_BUDGET, PRIME_STAT_MIN
+    from core.chargen.stats import (
+        development_points,
+        PRIME_STAT_MIN,
+        stat_cost,
+        TEMP_STAT_BUDGET,
+        total_stat_cost,
+    )
 
     by_code: dict[StatCode, dict] = {r["stat_code"]: dict(r) for r in rows}
     stat_mods = race_stat_mods(race)
@@ -428,6 +438,7 @@ def _build_stats_payload(
         race_rr_mods=StatsRR(**rr_mods),
         race=race_info,
         budget=budget,
+        development_points=development_points(raw_temps),
     )
 
 
