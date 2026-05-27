@@ -20,6 +20,14 @@ interface Props {
 // Local working copy: editable temp/potential per code, plus the dirty flag.
 type Draft = Record<StatCode, { temp: number; potential: number }>;
 
+/**
+ * The five RMSS "Development stats" (Ag, Co, Me, Re, SD) whose temporary
+ * values feed the per-level Development Point budget. Mirror of
+ * core.chargen.stats.DEV_STAT_CODES — kept in sync manually.
+ */
+const DEV_STAT_CODE_LIST: readonly StatCode[] = ["Ag", "Co", "Me", "Re", "SD"];
+const DEV_STAT_CODES: ReadonlySet<StatCode> = new Set(DEV_STAT_CODE_LIST);
+
 function draftFromServer(rows: StatRow[]): Draft {
   return Object.fromEntries(
     rows.map((r) => [r.code, { temp: r.temp, potential: r.potential }]),
@@ -77,7 +85,12 @@ export function StatsEditor({ characterId }: Props) {
         </span>
       </header>
 
-      <StatBudgetBanner stats={q.data.stats} budget={q.data.budget} draft={draft} />
+      <StatBudgetBanner
+        stats={q.data.stats}
+        budget={q.data.budget}
+        draft={draft}
+        savedDevPoints={q.data.development_points}
+      />
 
       <table style={{ width: "100%", borderCollapse: "collapse", marginTop: 12, fontSize: 14 }}>
         <thead>
@@ -105,6 +118,7 @@ export function StatsEditor({ characterId }: Props) {
               key={row.code}
               row={row}
               draft={draft[row.code]}
+              isDevStat={DEV_STAT_CODES.has(row.code)}
               onChange={(next) =>
                 setDraft((d) => (d ? { ...d, [row.code]: next } : d))
               }
@@ -235,10 +249,14 @@ function StatActionsRow({
 function StatInputRow({
   row,
   draft,
+  isDevStat,
   onChange,
 }: {
   row: StatRow;
   draft: { temp: number; potential: number };
+  /** When true, paints the row with a grey background to visually group
+   *  the 5 Development stats (Ag, Co, Me, Re, SD) that feed the DP pool. */
+  isDevStat: boolean;
   onChange: (next: { temp: number; potential: number }) => void;
 }) {
   // Three displayed bonuses, all computed locally so they update live as
@@ -257,8 +275,13 @@ function StatInputRow({
 
   const nextTier = nextBonusTier(draft.temp);
 
+  // Grey-stripe the 5 development stats (Ag, Co, Me, Re, SD) to visually
+  // tie them to the DP banner. Subtle — same hue as the budget banner so
+  // the eye groups them without making the editor feel busy.
+  const rowBg = isDevStat ? "#f3f4f6" : undefined;
+
   return (
-    <tr style={{ borderBottom: "1px solid #f3f3f3" }}>
+    <tr style={{ borderBottom: "1px solid #f3f3f3", background: rowBg }}>
       <td style={{ padding: "6px 4px" }}>
         <span style={{ fontWeight: 500 }}>
           {row.name}
@@ -519,10 +542,14 @@ function StatBudgetBanner({
   stats,
   budget,
   draft,
+  savedDevPoints,
 }: {
   stats: import("../api").StatRow[];
   budget: import("../api").StatsBudget;
   draft: Draft;
+  /** Server-confirmed DP from the last save; rendered alongside the live
+   *  draft DP so the user can tell when the draft is ahead of the server. */
+  savedDevPoints: number;
 }) {
   // Live recompute from the draft so the counter updates as the user
   // types, without waiting for a server round-trip.
@@ -537,6 +564,16 @@ function StatBudgetBanner({
   const primeWarnings = stats
     .filter((s) => s.is_prime && (draft[s.code]?.temp ?? s.temp) < budget.prime_min)
     .map((s) => s.code);
+
+  // Development Points: (Ag + Co + Me + Re + SD) ÷ 5, rounded half-up.
+  // Mirror of core.chargen.stats.development_points; recomputed live
+  // from the draft so the badge updates as the user types.
+  const devSum = DEV_STAT_CODE_LIST.reduce(
+    (s, code) => s + (draft[code]?.temp ?? 0),
+    0,
+  );
+  const devPoints = Math.floor((devSum + 2) / 5);
+  const devDrifted = devPoints !== savedDevPoints;
 
   return (
     <div
@@ -566,6 +603,24 @@ function StatBudgetBanner({
         {overBudget && (
           <span style={{ color: "#c00", marginLeft: 6 }}>
             ({-remaining} over)
+          </span>
+        )}
+      </span>
+      <span
+        title="Development Points per level = (Ag + Co + Me + Re + SD) ÷ 5, rounded normally. The five Development stats are highlighted in the table below."
+        style={{ fontVariantNumeric: "tabular-nums" }}
+      >
+        <strong>DPs / level:</strong>{" "}
+        <span style={{ color: "#222", fontWeight: 600 }}>{devPoints}</span>
+        <span style={{ color: "#888", marginLeft: 6, fontSize: 12 }}>
+          ({devSum} ÷ 5)
+        </span>
+        {devDrifted && (
+          <span
+            style={{ color: "#a16207", marginLeft: 6, fontSize: 12 }}
+            title={`Saved: ${savedDevPoints}. Save your changes to confirm.`}
+          >
+            • saved {savedDevPoints}
           </span>
         )}
       </span>

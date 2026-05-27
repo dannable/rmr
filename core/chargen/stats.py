@@ -33,6 +33,24 @@ STAT_NAMES: dict[StatCode, str] = {
     "St": "Strength",
 }
 
+# The five RMSS "Development stats" — Ag, Co, Me, Re, SD — whose temporary
+# values feed the per-level Development Point budget. See RMSS Character
+# Law p.13: "DPs = (Ag + Co + Me + Re + SD) ÷ 5, round normally."
+DEV_STAT_CODES: tuple[StatCode, ...] = ("Ag", "Co", "Me", "Re", "SD")
+
+
+def development_points(stats: Mapping[StatCode, int]) -> int:
+    """Return per-level Development Points from the 5 development stats.
+
+    RMSS rule (Character Law p.13): DPs = (Ag + Co + Me + Re + SD) ÷ 5,
+    round normally (.5 rounds up). Missing dev stats default to 0 so
+    partial blocks (e.g. during stat-buy planning) still give a usable
+    preview rather than raising KeyError.
+    """
+    total = sum(int(stats.get(c, 0)) for c in DEV_STAT_CODES)
+    # Integer half-up division by 5: 70.4 → 70, 70.6 → 71, 70.5 → 71.
+    return (total + 2) // 5
+
 
 # Basic Stat Bonus Table T-2.1, RMSS Character Law p. 54.
 # Each entry: (inclusive_low, inclusive_high, basic_bonus). The 102+ band has
