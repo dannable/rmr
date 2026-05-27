@@ -157,8 +157,10 @@ def test_stats_no_race_has_zero_mods(client) -> None:
     body = client.get(f"/api/v1/characters/{cid}/stats").json()
     assert body["race"] is None
     assert all(s["race_mod"] == 0 for s in body["stats"])
-    # Channeling RR = 3 * 50 = 150, unchanged from no-race era.
-    assert body["resistance_rolls"]["channeling"] == 150
+    # Default temps are 50; T-2.1(50) = 0. So total_bonus = 0 for every stat
+    # and every RR formula evaluates to 0.
+    assert all(s["total_bonus"] == 0 for s in body["stats"])
+    assert body["resistance_rolls"]["channeling"] == 0
     # race_rr_mods should be all zeros for an unraced character.
     assert all(v == 0 for v in body["race_rr_mods"].values())
 
@@ -173,17 +175,27 @@ def test_stats_with_race_applies_mods(client) -> None:
     mods = {s["code"]: s["race_mod"] for s in body["stats"]}
     assert mods["Co"] == 6
     assert mods["Ag"] == -2
-    # Dwarves with all-50 temps: Co eff=56 → still +0 (band 31-69), but Em eff=46
-    # is also in the +0 band, etc. So basic_bonus values are still 0.
+    # All temps default to 50 ⇒ T-2.1(50) = 0 ⇒ basic_bonus = 0 across the
+    # board, regardless of race. Race mods land on total_bonus instead.
     assert all(s["basic_bonus"] == 0 for s in body["stats"])
-    # RR totals: Channeling = 3 * In_eff = 3 * 50 = 150 + rr_chan(0) = 150
-    # Essence = 3 * Em_eff = 3 * 46 = 138 + rr_ess(40) = 178
-    assert body["resistance_rolls"]["channeling"] == 150
-    assert body["resistance_rolls"]["essence"] == 178
-    # Arcane = (Em+In+Pr)_eff + (chan+ess+ment) = (46+50+46) + (0+40+40) = 222
-    assert body["resistance_rolls"]["arcane"] == 222
-    # Poison/Disease: 3 * Co_eff = 3 * 56 = 168 + rr_pois(20) = 188
-    assert body["resistance_rolls"]["poison_disease"] == 188
+    totals = {s["code"]: s["total_bonus"] for s in body["stats"]}
+    assert totals["Co"] == 6   # 0 + 6
+    assert totals["Em"] == -4  # 0 + (-4)
+    assert totals["In"] == 0
+    assert totals["Pr"] == -4
+
+    # RR totals: 3 × stat_bonus + race_RR_mod.
+    rr = body["resistance_rolls"]
+    # Channeling = 3 × In_bonus + rr_chan = 3×0 + 0 = 0
+    assert rr["channeling"] == 0
+    # Essence = 3 × Em_bonus + rr_ess = 3×(-4) + 40 = 28
+    assert rr["essence"] == 28
+    # Mentalism = 3 × Pr_bonus + rr_ment = 3×(-4) + 40 = 28
+    assert rr["mentalism"] == 28
+    # Arcane = 1 × (Em+In+Pr)_bonus + (chan+ess+ment) = (-4 + 0 + -4) + (0+40+40) = 72
+    assert rr["arcane"] == 72
+    # Poison/Disease = 3 × Co_bonus + rr_pois = 18 + 20 = 38
+    assert rr["poison_disease"] == 38
 
     # race_rr_mods exposes ONLY the race contribution, parallel-shaped to
     # resistance_rolls so the SPA can render Base / Race / Total columns.
@@ -192,24 +204,18 @@ def test_stats_with_race_applies_mods(client) -> None:
     assert rr_race["channeling"] == 0
     assert rr_race["essence"] == 40
     assert rr_race["mentalism"] == 40
-    # Hybrids stack: chan_ess sums chan + ess race mods.
     assert rr_race["chan_ess"] == 40       # 0 + 40
     assert rr_race["chan_ment"] == 40      # 0 + 40
     assert rr_race["ess_ment"] == 80       # 40 + 40
     assert rr_race["arcane"] == 80         # 0 + 40 + 40
-    # Poison/Disease uses rr_pois only (RR formula collapses to one row).
     assert rr_race["poison_disease"] == 20
     assert rr_race["fear"] == 0
-    # Sanity: total - race = base = the formula component
-    # Channeling base = 150 - 0 = 150 = 3 * In_eff = 3 * 50 = 150 ✓
-    # Essence base = 178 - 40 = 138 = 3 * Em_eff = 3 * 46 = 138 ✓
-    assert body["resistance_rolls"]["essence"] - rr_race["essence"] == 138
-    assert body["resistance_rolls"]["arcane"] - rr_race["arcane"] == 142
 
 
-def test_stats_high_temp_with_race_changes_basic_bonus(client) -> None:
-    """Race mod most visibly affects basic_bonus when temp is near a T-2.1
-    band edge. Halfling +6 Co pushes Co=95 into the 101 band."""
+def test_stats_high_temp_with_race_changes_total_bonus(client) -> None:
+    """At a stat value of 95, the T-2.1 bonus is +8. A Halfling +6 Co
+    race mod adds directly to the bonus per RMSS T-1.1, producing a
+    total Co bonus of 14."""
     _seed_race("halflings", name="Halflings",
                stat_ag=6, stat_co=6, stat_me=0, stat_re=0, stat_sd=-4,
                stat_em=-2, stat_in=0, stat_pr=-6, stat_qu=4, stat_st=-8,
@@ -229,9 +235,11 @@ def test_stats_high_temp_with_race_changes_basic_bonus(client) -> None:
     body = client.get(f"/api/v1/characters/{cid}/stats").json()
     co = next(s for s in body["stats"] if s["code"] == "Co")
     assert co["temp"] == 95
-    assert co["race_mod"] == 6                     # Halfling Co mod
-    # Co eff = 95 + 6 = 101, T-2.1 band 101 = +12
-    assert co["basic_bonus"] == 12
+    assert co["race_mod"] == 6
+    # T-2.1(95) sits in the 94-95 band = +7. Race mod adds to the bonus,
+    # not the stat, so total_bonus = 7 + 6 = 13.
+    assert co["basic_bonus"] == 7
+    assert co["total_bonus"] == 13
 
 
 def test_stats_after_clearing_race_is_back_to_baseline(client) -> None:
@@ -242,7 +250,8 @@ def test_stats_after_clearing_race_is_back_to_baseline(client) -> None:
     body = client.get(f"/api/v1/characters/{cid}/stats").json()
     assert body["race"] is None
     assert all(s["race_mod"] == 0 for s in body["stats"])
-    assert body["resistance_rolls"]["channeling"] == 150
+    # All temps still 50, no race mods → all RRs back to 0.
+    assert body["resistance_rolls"]["channeling"] == 0
 
 
 # ---------------------------------------------------------------------------
