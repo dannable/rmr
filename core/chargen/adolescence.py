@@ -15,10 +15,37 @@ from __future__ import annotations
 import sqlite3
 
 
+# Bottom-of-table T-1.6 rows that are NOT leaf skills — they're per-level
+# counters (Hobby Ranks) or background-option budget (Number of Background
+# Options). The apply path must NOT turn these into character_skill rows;
+# the SPA pseudo-group "Summary" shows them in a separate bucket instead.
+_SUMMARY_PREFIXES: tuple[str, ...] = (
+    "Hobby Ranks",
+    "Number of Background Options",
+)
+
+
+def _classify_row(skill: str) -> str:
+    """Tag an adolescence_rank row as "category", "leaf", or "summary".
+
+    Summary rows live at the bottom of T-1.6 — they're aggregate counters
+    (e.g. "Hobby Ranks 12") that the apply step must skip, otherwise they
+    end up in character_skill alongside real skills.
+    """
+    if any(skill.startswith(p) for p in _SUMMARY_PREFIXES):
+        return "summary"
+    # Suffix check is specific (not substring) — leaf rows for weapons
+    # carry a [Weapon • 1-H Edged skill category] PREFIX that disambiguates
+    # duplicate "1 Weapon Based..." rows; a substring check would mis-tag
+    # them as categories.
+    return "category" if skill.endswith("skill category") else "leaf"
+
+
 def adolescence_ranks(conn: sqlite3.Connection, culture_slug: str) -> list[dict]:
     """Return the ordered skill-rank rows for one culture, in source order.
 
-    Each row: {"skill": "<label>", "value": "<text>", "kind": "category"|"leaf"}.
+    Each row: {"skill": "<label>", "value": "<text>",
+               "kind": "category"|"leaf"|"summary"}.
     """
     rows = conn.execute(
         "SELECT skill, value FROM adolescence_rank "
@@ -26,16 +53,10 @@ def adolescence_ranks(conn: sqlite3.Connection, culture_slug: str) -> list[dict]
         "ORDER BY rowid",
         (culture_slug,),
     ).fetchall()
-    out: list[dict] = []
-    for r in rows:
-        skill = r["skill"]
-        # Check for the suffix specifically (not just "in") — leaf rows for
-        # weapons carry a [Weapon • 1-H Edged skill category] prefix that
-        # the loader adds to disambiguate duplicate "1 Weapon Based..." rows,
-        # and a substring check would mis-tag them as categories.
-        kind = "category" if skill.endswith("skill category") else "leaf"
-        out.append({"skill": skill, "value": r["value"], "kind": kind})
-    return out
+    return [
+        {"skill": r["skill"], "value": r["value"], "kind": _classify_row(r["skill"])}
+        for r in rows
+    ]
 
 
 def grouped_ranks(conn: sqlite3.Connection, culture_slug: str) -> list[dict]:
@@ -62,7 +83,6 @@ def grouped_ranks(conn: sqlite3.Connection, culture_slug: str) -> list[dict]:
     rows = adolescence_ranks(conn, culture_slug)
     groups: list[dict] = []
     current: dict | None = None
-    summary_skills = ("Hobby Ranks", "Number of Background Options")
 
     def open_group(label: str, value: str) -> None:
         nonlocal current
@@ -73,15 +93,16 @@ def grouped_ranks(conn: sqlite3.Connection, culture_slug: str) -> list[dict]:
     for r in rows:
         skill = r["skill"]
         value = r["value"]
-        # Summary rows live in their own pseudo-group at the bottom.
-        if any(skill.startswith(s) for s in summary_skills):
+        kind = r["kind"]
+        if kind == "summary":
+            # Summary rows live in their own pseudo-group at the bottom.
             if current is None or current["category"] != "Summary":
                 open_group("Summary", "")
             current["skills"].append({"name": skill, "value": value})
             continue
-        if r["kind"] == "category":
+        if kind == "category":
             open_group(skill, value)
-        else:
+        else:  # "leaf"
             if current is None:
                 # Leaves before any category — synthetic bucket.
                 open_group("Other", "")

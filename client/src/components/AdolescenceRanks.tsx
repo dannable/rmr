@@ -106,11 +106,16 @@ export function AdolescenceRanks({ characterId, raceSlug }: Props) {
 
       {q.data && q.data.culture_slug === null && (
         <p style={{ marginTop: 12, color: "#888", fontSize: 13 }}>
-          Pick a race above to see the starting skill ranks granted during adolescence.
+          Pick a race in Step 2 to see the starting skill ranks granted
+          during adolescence.
         </p>
       )}
 
-      {q.data && q.data.culture_slug && (
+      {q.data && q.data.culture_slug && q.data.groups.length === 0 && (
+        <UmbrellaRaceNotice cultureName={q.data.culture_name ?? q.data.culture_slug} />
+      )}
+
+      {q.data && q.data.culture_slug && q.data.groups.length > 0 && (
         <>
           <p style={{ marginTop: 8, fontSize: 13, color: "#666" }}>
             Ranks below are what your character starts with as a{" "}
@@ -147,6 +152,41 @@ export function AdolescenceRanks({ characterId, raceSlug }: Props) {
         </>
       )}
     </section>
+  );
+}
+
+
+/**
+ * Shown when the character's race has no T-1.6 row in the source data —
+ * specifically Common Men and Mixed Men, which are umbrella categories
+ * in RMSS rather than concrete cultures. The RMSS Cultures & Races
+ * appendix tells the player to pick a specific human culture for stats
+ * and adolescence ranks; this notice explains why the table is empty
+ * and points the player at the 7 valid choices.
+ */
+function UmbrellaRaceNotice({ cultureName }: { cultureName: string }) {
+  return (
+    <div
+      style={{
+        marginTop: 12,
+        padding: "12px 16px",
+        background: "#fff8e1",
+        border: "1px solid #f0d486",
+        borderRadius: 4,
+        fontSize: 13,
+        lineHeight: 1.5,
+        color: "#5a4a1a",
+      }}
+    >
+      <strong>{cultureName}</strong> is an umbrella category in RMSS — the
+      Cultures &amp; Races appendix doesn't print T-1.6 adolescence ranks
+      for it directly. Pick a specific human culture in <strong>Step 2</strong>{" "}
+      to see your starting skill ranks:
+      <ul style={{ margin: "8px 0 0 18px", padding: 0 }}>
+        <li>Hillmen, Mariners, Nomads, Ruralmen, Urbanmen, Woodmen — common-Men variants</li>
+        <li>High Men — the Númenórean / high-Men variant</li>
+      </ul>
+    </div>
   );
 }
 

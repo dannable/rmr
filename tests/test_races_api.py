@@ -259,9 +259,14 @@ def test_stats_after_clearing_race_is_back_to_baseline(client) -> None:
 # ---------------------------------------------------------------------------
 
 def _seed_adolescence_rows() -> None:
-    """Seed a minimal adolescence_rank fixture for Dwarves: 2 simple categories
-    plus the 4 rows the apply/choice flow exercises (Riding free-text,
-    1-H Edged + 1-H Conc. weapon dropdowns), plus a summary row."""
+    """Seed a minimal adolescence_rank fixture for Dwarves.
+
+    Mirrors the real source-data shape: each leaf skill is preceded by
+    its "skill category" header, so grouped_ranks() puts each leaf in
+    its proper group. Specifier-required rows (Riding free-text, two
+    weapon dropdowns) sit under their own categories the way they do
+    in the real table.
+    """
     from web.db import connect_rw
     rows = [
         ("Armor • Light skill category",   "dwarves", "0"),
@@ -269,11 +274,17 @@ def _seed_adolescence_rows() -> None:
         ("Rigid Leather skill",            "dwarves", "1"),
         ("Athletic • Brawn skill category","dwarves", "1"),
         ("Climbing skill",                 "dwarves", "5"),
-        # The specifier-required rows.
+        # Riding falls under "Outdoor • Animal" in the real T-1.6.
+        ("Outdoor • Animal skill category", "dwarves", "0"),
         ("Riding skill (usually horses)",  "dwarves", "1"),
+        # Each "1 Weapon Based on Culture/Race ‡" leaf is preceded by
+        # its weapon-category header in the real source data.
+        ("Weapon • 1-H Edged skill category", "dwarves", "0"),
         ("[Weapon • 1-H Edged skill category] 1 Weapon Based on Culture/Race ‡", "dwarves", "2"),
+        ("Weapon • 1-H Conc. skill category", "dwarves", "0"),
         ("[Weapon • 1-H Conc. skill category] 1 Weapon Based on Culture/Race ‡", "dwarves", "1"),
-        # Summary row (non-integer value — must be skipped on apply).
+        # Summary row — must be classified as kind="summary" so the apply
+        # path skips it (otherwise it leaks into character_skill).
         ("Hobby Ranks (see Section 13.0) ‡", "dwarves", "12"),
     ]
     with connect_rw() as conn:
@@ -305,6 +316,23 @@ def test_adolescence_empty_when_no_race(client) -> None:
     assert body == {"culture_slug": None, "culture_name": None, "groups": []}
 
 
+def test_adolescence_umbrella_race_returns_empty_groups(client) -> None:
+    """Common Men / Mixed Men aren't in T-1.6 — the API should still return
+    the race info (so the SPA can show a helpful umbrella-race notice)
+    but with an empty groups list."""
+    _seed_race("common_men", name="Common Men")  # no T-1.6 rows seeded
+    cid = _create_character(client)
+    client.put(f"/api/v1/characters/{cid}/race", json={"slug": "common_men"})
+
+    r = client.get(f"/api/v1/characters/{cid}/adolescence-ranks")
+    assert r.status_code == 200
+    body = r.json()
+    assert body["culture_slug"] == "common_men"
+    assert body["culture_name"] == "Common Men"
+    # No rows → no groups; SPA shows the umbrella-race notice.
+    assert body["groups"] == []
+
+
 def test_adolescence_returns_grouped_ranks_for_race(client) -> None:
     _seed_race("dwarves")
     _seed_adolescence_rows()
@@ -317,30 +345,47 @@ def test_adolescence_returns_grouped_ranks_for_race(client) -> None:
     assert body["culture_slug"] == "dwarves"
     assert body["culture_name"] == "Dwarves"
 
-    # Three groups: Armor • Light (2 leaves), Athletic • Brawn (1 leaf),
-    # Summary (1 row).
+    # Six groups — one per "skill category" header in the fixture, plus
+    # the synthetic "Summary" bucket for the Hobby Ranks row.
     cats = [g["category"] for g in body["groups"]]
     assert cats == [
         "Armor • Light skill category",
         "Athletic • Brawn skill category",
+        "Outdoor • Animal skill category",
+        "Weapon • 1-H Edged skill category",
+        "Weapon • 1-H Conc. skill category",
         "Summary",
     ]
 
+    # Compare leaves as (name, value) pairs — the AdolescenceSkill model
+    # adds choice_* fields that we don't want to spell out here, since
+    # they're tested separately in test_adolescence_rows_carry_choice_metadata.
+    def names_values(group: dict) -> list[tuple[str, str]]:
+        return [(s["name"], s["value"]) for s in group["skills"]]
+
     armor = body["groups"][0]
     assert armor["value"] == "0"
-    assert [(s["name"], s["value"]) for s in armor["skills"]] == [
+    assert names_values(armor) == [
         ("Soft Leather skill", "0"),
         ("Rigid Leather skill", "1"),
     ]
 
     athletic = body["groups"][1]
     assert athletic["value"] == "1"
-    assert athletic["skills"] == [{"name": "Climbing skill", "value": "5"}]
+    assert names_values(athletic) == [("Climbing skill", "5")]
 
-    summary = body["groups"][2]
+    outdoor = body["groups"][2]
+    assert names_values(outdoor) == [("Riding skill (usually horses)", "1")]
+
+    edged = body["groups"][3]
+    assert names_values(edged) == [
+        ("[Weapon • 1-H Edged skill category] 1 Weapon Based on Culture/Race ‡", "2"),
+    ]
+
+    summary = body["groups"][5]
     assert summary["category"] == "Summary"
-    assert summary["skills"] == [
-        {"name": "Hobby Ranks (see Section 13.0) ‡", "value": "12"},
+    assert names_values(summary) == [
+        ("Hobby Ranks (see Section 13.0) ‡", "12"),
     ]
 
 
