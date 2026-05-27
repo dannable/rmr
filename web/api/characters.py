@@ -42,6 +42,14 @@ from core.chargen.weapons import (
     filter_race_weapons_by_category,
     all_race_weapons,
 )
+from core.chargen.weapon_costs import (
+    effective_weapon_costs,
+    profession_weapon_costs,
+    rank_cap_for_cost,
+    set_assignments as set_weapon_cost_assignments,
+    validate_assignments as validate_weapon_cost_assignments,
+    WeaponCostAssignmentError,
+)
 
 from ..auth.deps import CurrentUser
 from ..db import connect_rw
@@ -96,6 +104,51 @@ class CharacterCulturePick(BaseModel):
     # UMBRELLA_CULTURE_SLUGS — picking a non-Men slug as a "culture" makes
     # no sense in RMSS so we reject it.
     slug: str | None = None
+
+
+# ---- weapon-cost reassignment (RMSS Character Law §6.2) ----
+
+class WeaponCostRow(BaseModel):
+    """One weapon category + its effective cost for this character."""
+    weapon_category: str
+    cost: str
+    # Maximum ranks/level — derived from the cost: "1/5" → 2, "5" → 1.
+    rank_cap_per_level: int
+    # True when the character has overridden the profession default for
+    # this category; the SPA can highlight "moved from default".
+    is_override: bool
+
+
+class WeaponCostsResponse(BaseModel):
+    """Per-character weapon-cost view.
+
+    `rows` is the effective cost per category (after any reassignment).
+    `pool` is the profession's underlying multiset — the same costs
+    re-listed in their default order so the SPA can show "what costs
+    can be swapped around". When the character has no profession set,
+    both lists are empty.
+    """
+    profession_slug: str | None
+    rows: list[WeaponCostRow]
+    pool: list[str]
+
+
+class WeaponCostAssignment(BaseModel):
+    """One row of a PUT body — {weapon_category, cost}."""
+    weapon_category: str = Field(..., min_length=1)
+    cost: str = Field(..., min_length=1)
+
+
+class WeaponCostsUpdate(BaseModel):
+    """Wholesale replace the character's weapon-cost assignments.
+
+    Pass an empty `assignments` list to clear all overrides (revert to
+    profession defaults). Otherwise the list must cover every weapon
+    category in the profession's pool, and the multiset of costs must
+    equal the pool's multiset. Validation lives in
+    core/chargen/weapon_costs.py.
+    """
+    assignments: list[WeaponCostAssignment] = []
 
 
 class CharacterProfessionPick(BaseModel):
@@ -1061,6 +1114,140 @@ def update_character_culture(
         ).fetchone()
         conn.commit()
     return _row_to_character(row)
+
+
+# ---------------------------------------------------------------------------
+# weapon-cost reassignment sub-resource (RMSS Character Law §6.2)
+# ---------------------------------------------------------------------------
+
+def _load_character_profession_id(
+    conn: sqlite3.Connection, character_id: int,
+) -> int | None:
+    """Return the character's profession_id (or None if unprofessioned)."""
+    row = conn.execute(
+        "SELECT profession_id FROM character WHERE character_id = ?",
+        (character_id,),
+    ).fetchone()
+    if row is None:
+        return None
+    return row["profession_id"]
+
+
+def _cost_sort_key(cost: str) -> tuple[int, int, str]:
+    """Sort costs so cheaper / higher-rank-cap costs come first. '1/5'
+    (2 ranks, 1 DP) sorts before '5' (1 rank, 5 DP), matching how players
+    prioritise picks. Returns (-rank_count, first_dp, raw)."""
+    parts = [p.strip() for p in cost.split("/")]
+    try:
+        first = int(parts[0]) if parts and parts[0] else 999
+    except ValueError:
+        first = 999
+    return (-len(parts), first, cost)
+
+
+def _build_weapon_costs_response(
+    conn: sqlite3.Connection,
+    character_id: int,
+    profession_slug: str | None,
+    profession_id: int | None,
+) -> "WeaponCostsResponse":
+    """Snapshot the character's effective weapon costs + the profession pool."""
+    if profession_id is None:
+        return WeaponCostsResponse(
+            profession_slug=profession_slug, rows=[], pool=[],
+        )
+    defaults = profession_weapon_costs(conn, profession_id)
+    effective = effective_weapon_costs(conn, character_id, profession_id)
+    rows = [
+        WeaponCostRow(
+            weapon_category=cat,
+            cost=effective[cat],
+            rank_cap_per_level=rank_cap_for_cost(effective[cat]),
+            is_override=(defaults.get(cat) != effective[cat]),
+        )
+        for cat in sorted(effective)
+    ]
+    pool = sorted(defaults.values(), key=_cost_sort_key)
+    return WeaponCostsResponse(
+        profession_slug=profession_slug, rows=rows, pool=pool,
+    )
+
+
+@router.get("/{character_id}/weapon-costs", response_model=WeaponCostsResponse)
+def get_character_weapon_costs(
+    character_id: int,
+    user: dict = CurrentUser,
+) -> WeaponCostsResponse:
+    """Effective per-category weapon costs + the profession's pool.
+
+    Empty rows + pool when the character has no profession picked yet.
+    The SPA uses this to render the WeaponCostPicker; the player can
+    reassign which category gets which cost, subject to the pool
+    multiset matching.
+    """
+    with connect_rw() as conn:
+        _assert_owned(conn, character_id, user["user_id"])
+        prof_id = _load_character_profession_id(conn, character_id)
+        prof_slug_row = conn.execute(
+            "SELECT p.slug FROM character ch "
+            "LEFT JOIN profession p ON p.profession_id = ch.profession_id "
+            "WHERE ch.character_id = ?",
+            (character_id,),
+        ).fetchone()
+        prof_slug = prof_slug_row[0] if prof_slug_row else None
+        return _build_weapon_costs_response(conn, character_id, prof_slug, prof_id)
+
+
+@router.put("/{character_id}/weapon-costs", response_model=WeaponCostsResponse)
+def update_character_weapon_costs(
+    character_id: int,
+    body: WeaponCostsUpdate,
+    user: dict = CurrentUser,
+) -> WeaponCostsResponse:
+    """Replace the character's weapon-cost overrides.
+
+    Send an empty `assignments` list to clear all overrides (revert to
+    profession defaults). Otherwise the assignment must cover every
+    weapon category in the profession's pool, and the cost multiset
+    must equal the pool's multiset — see
+    core.chargen.weapon_costs.validate_assignments for rules.
+
+    Returns the refreshed snapshot so the SPA can re-render without a
+    second round-trip.
+    """
+    now = _utcnow()
+    with connect_rw() as conn:
+        _assert_owned(conn, character_id, user["user_id"])
+        prof_id = _load_character_profession_id(conn, character_id)
+        if prof_id is None:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Pick a profession before reassigning weapon costs.",
+            )
+        prof_slug_row = conn.execute(
+            "SELECT slug FROM profession WHERE profession_id = ?",
+            (prof_id,),
+        ).fetchone()
+        prof_slug = prof_slug_row[0] if prof_slug_row else None
+
+        assignments = {row.weapon_category: row.cost for row in body.assignments}
+        if assignments:
+            try:
+                validate_weapon_cost_assignments(
+                    profession_weapon_costs(conn, prof_id), assignments,
+                )
+            except WeaponCostAssignmentError as e:
+                raise HTTPException(
+                    status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                    detail=str(e),
+                )
+        set_weapon_cost_assignments(conn, character_id, assignments)
+        conn.execute(
+            "UPDATE character SET updated_at = ? WHERE character_id = ?",
+            (now, character_id),
+        )
+        conn.commit()
+        return _build_weapon_costs_response(conn, character_id, prof_slug, prof_id)
 
 
 class BackgroundOptionPick(BaseModel):

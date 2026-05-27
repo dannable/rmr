@@ -606,6 +606,32 @@ CREATE TABLE IF NOT EXISTS character_skill (
 CREATE INDEX IF NOT EXISTS idx_character_skill_by_source
     ON character_skill(character_id, source);
 
+-- =========================================================================
+-- Per-character weapon-cost assignments (RMSS Character Law §6.2).
+-- =========================================================================
+-- A profession's profession_category_cost rows pre-assign each weapon
+-- category a cost like "1/5" or "2/7" or "5". RMSS lets the player swap
+-- these assignments freely at character creation — the MULTISET of costs
+-- stays the same (it's the profession's "weapon-cost pool"), but the
+-- player picks which category gets which cost. A Fighter's pool is
+-- {1/5, 2/5, 2/7, 2/7, 2/7, 5, 5}; the player decides which seven
+-- weapon categories get those seven costs.
+--
+-- A character with NO rows here uses the profession's default per
+-- profession_category_cost. A character with rows here OVERRIDES the
+-- default: each weapon category resolves through this table first.
+--
+-- The API validates that the user-submitted assignment is a permutation
+-- of the profession's pool — i.e. the same multiset of cost strings —
+-- before writing rows.
+CREATE TABLE IF NOT EXISTS character_weapon_cost_assignment (
+    character_id    INTEGER NOT NULL
+                         REFERENCES character(character_id) ON DELETE CASCADE,
+    weapon_category TEXT    NOT NULL,    -- e.g. "1-H Edged", "Pole Arms"
+    cost            TEXT    NOT NULL,    -- e.g. "1/5", "2/7", "5"
+    PRIMARY KEY (character_id, weapon_category)
+);
+
 -- One row per "background option" the player has spent on a character
 -- (RMSS Character Law p.20, Table T-1.5). The total number of options
 -- a character may take is race-dependent (race.bg_opts). Each row
