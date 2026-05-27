@@ -42,11 +42,10 @@ def test_get_stats_returns_all_ten_after_creation(client) -> None:
     # Defaults: 50/50 → +0 bonus
     assert all(s["temp"] == 50 and s["potential"] == 50 and s["basic_bonus"] == 0
                for s in body["stats"])
-    # RR formulas with all-50 temps:
-    #   Channeling = 3 * 50 = 150
-    #   Arcane     = Em+In+Pr = 50+50+50 = 150
-    assert body["resistance_rolls"]["channeling"] == 150
-    assert body["resistance_rolls"]["arcane"] == 150
+    # RR formulas use stat *bonuses* (per RMSS T-1.1). T-2.1(50) = 0 across
+    # the board, so every RR rolls back to 0 on a baseline character.
+    assert body["resistance_rolls"]["channeling"] == 0
+    assert body["resistance_rolls"]["arcane"] == 0
 
 
 def test_get_stats_returns_names(client) -> None:
@@ -125,8 +124,8 @@ def test_put_stats_updates_and_returns_computed(client) -> None:
     assert out["Co"]["temp"] == 100
     assert out["Co"]["basic_bonus"] == 10
     assert out["In"]["basic_bonus"] == 5      # 90-91 band -> +5
-    # Arcane RR = Em + In + Pr = 80 + 90 + 70 = 240
-    assert r.json()["resistance_rolls"]["arcane"] == 240
+    # Arcane RR = 1 × (Em + In + Pr)_bonus = 3 + 5 + 1 = 9 (T-2.1: 80→3, 90→5, 70→1).
+    assert r.json()["resistance_rolls"]["arcane"] == 9
 
 
 def test_put_stats_persists_across_get(client) -> None:
@@ -202,3 +201,108 @@ def test_stats_endpoints_require_auth(anon_client, method: str) -> None:
     kwargs = {"json": _stats_body()} if method == "PUT" else {}
     r = anon_client.request(method, "/api/v1/characters/1/stats", **kwargs)
     assert r.status_code == 401
+
+
+# ---------------------------------------------------------------------------
+# T-1.3 potential generators (roll / fixed) and prime-stat auto-raise
+# ---------------------------------------------------------------------------
+
+def test_roll_potentials_persists_and_clamps_to_temp(client) -> None:
+    """A roll never drops a potential below its temp (table footnote)."""
+    cid = _create_character(client)
+    # Push a couple of temps high enough that a random roll could go below.
+    client.put(f"/api/v1/characters/{cid}/stats",
+               json=_stats_body({"St": (74, 50), "Ag": (95, 50)}))
+    r = client.post(f"/api/v1/characters/{cid}/roll-potentials")
+    assert r.status_code == 200
+    out = {s["code"]: s for s in r.json()["stats"]}
+    # Both clamped potentials must be ≥ their temp.
+    assert out["St"]["potential"] >= 74
+    assert out["Ag"]["potential"] >= 95
+    # Re-fetching keeps the same values.
+    after = client.get(f"/api/v1/characters/{cid}/stats").json()["stats"]
+    after_by = {s["code"]: s for s in after}
+    assert after_by["St"]["potential"] == out["St"]["potential"]
+
+
+def test_apply_fixed_potentials_adds_table_modifier(client) -> None:
+    cid = _create_character(client)
+    # Default 50/50 across; +28 for the 45-54 band → potential should be 78.
+    r = client.post(f"/api/v1/characters/{cid}/apply-fixed-potentials")
+    assert r.status_code == 200
+    out = r.json()["stats"]
+    assert all(s["potential"] == 78 for s in out), \
+        f"all stats should land at 78 (50+28); got {[(s['code'], s['potential']) for s in out]}"
+
+
+def test_roll_potentials_requires_auth(anon_client) -> None:
+    r = anon_client.post("/api/v1/characters/1/roll-potentials")
+    assert r.status_code == 401
+
+
+def test_raise_primes_to_90_bumps_only_primes(client) -> None:
+    """When the character has a profession, primes < 90 jump to 90;
+    non-primes are untouched."""
+    from web.db import connect_rw
+    cid = _create_character(client)
+
+    # Seed a profession with prime stats In + Em.
+    with connect_rw() as conn:
+        conn.execute(
+            "INSERT INTO profession (slug, name, description) "
+            "VALUES ('test_mage', 'Test Mage', 'unit') RETURNING profession_id",
+        )
+        pid = conn.execute(
+            "SELECT profession_id FROM profession WHERE slug='test_mage'",
+        ).fetchone()[0]
+        for s in ("In", "Em"):
+            conn.execute(
+                "INSERT INTO profession_prime_stat (profession_id, stat_code) "
+                "VALUES (?, ?)",
+                (pid, s),
+            )
+        conn.execute(
+            "UPDATE character SET profession_id = ? WHERE character_id = ?",
+            (pid, cid),
+        )
+        conn.commit()
+
+    # Defaults: 50/50. Raise primes.
+    r = client.post(f"/api/v1/characters/{cid}/raise-primes-to-90")
+    assert r.status_code == 200
+    out = {s["code"]: s for s in r.json()["stats"]}
+    assert out["In"]["temp"] == 90 and out["In"]["potential"] == 90
+    assert out["Em"]["temp"] == 90 and out["Em"]["potential"] == 90
+    # Non-primes untouched.
+    assert out["St"]["temp"] == 50
+    assert out["Co"]["temp"] == 50
+
+
+def test_raise_primes_to_90_is_idempotent(client) -> None:
+    """Calling twice is harmless — primes already at 90+ aren't lowered."""
+    from web.db import connect_rw
+    cid = _create_character(client)
+    with connect_rw() as conn:
+        conn.execute(
+            "INSERT INTO profession (slug, name, description) "
+            "VALUES ('test_warrior', 'Test Warrior', '') RETURNING profession_id",
+        )
+        pid = conn.execute(
+            "SELECT profession_id FROM profession WHERE slug='test_warrior'",
+        ).fetchone()[0]
+        conn.execute(
+            "INSERT INTO profession_prime_stat (profession_id, stat_code) VALUES (?, 'St')",
+            (pid,),
+        )
+        conn.execute(
+            "UPDATE character SET profession_id = ? WHERE character_id = ?",
+            (pid, cid),
+        )
+        conn.commit()
+    # Manually set St above the floor.
+    client.put(f"/api/v1/characters/{cid}/stats", json=_stats_body({"St": (95, 100)}))
+    r = client.post(f"/api/v1/characters/{cid}/raise-primes-to-90")
+    out = {s["code"]: s for s in r.json()["stats"]}
+    # St stays at 95 (not lowered to 90); potential stays at 100.
+    assert out["St"]["temp"] == 95
+    assert out["St"]["potential"] == 100

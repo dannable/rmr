@@ -63,30 +63,34 @@ def test_stat_bonuses_skips_missing() -> None:
     assert out == {"Ag": 7, "St": 0}
 
 
-def test_rr_bonus_channeling_uses_3xIn() -> None:
-    stats = {c: 50 for c in STAT_CODES}
-    stats["In"] = 90
-    assert rr_bonus(stats, "Channeling") == 270
+def test_rr_bonus_channeling_uses_3x_In_bonus() -> None:
+    # Callers now pass stat *bonuses* (T-2.1 + race mod), not raw temps.
+    # Channeling = 3 × In_bonus.
+    bonuses = {c: 0 for c in STAT_CODES}
+    bonuses["In"] = 5             # ≈ T-2.1(90) = 5
+    assert rr_bonus(bonuses, "Channeling") == 15
 
 
-def test_rr_bonus_arcane_sums_em_in_pr() -> None:
-    stats = {c: 0 for c in STAT_CODES}
-    stats["Em"] = 80
-    stats["In"] = 90
-    stats["Pr"] = 70
-    assert rr_bonus(stats, "Arcane") == 240
+def test_rr_bonus_arcane_sums_Em_In_Pr_bonuses() -> None:
+    bonuses = {c: 0 for c in STAT_CODES}
+    bonuses["Em"] = 3
+    bonuses["In"] = 5
+    bonuses["Pr"] = 1
+    # Arcane uses multiplier 1, summing Em + In + Pr bonuses.
+    assert rr_bonus(bonuses, "Arcane") == 9
 
 
-def test_rr_bonus_chan_ess_sums_in_em() -> None:
-    stats = {c: 0 for c in STAT_CODES}
-    stats["In"] = 50
-    stats["Em"] = 40
-    assert rr_bonus(stats, "Chan/Ess") == 90
+def test_rr_bonus_chan_ess_sums_In_Em_bonuses() -> None:
+    bonuses = {c: 0 for c in STAT_CODES}
+    bonuses["In"] = 5
+    bonuses["Em"] = 4
+    # Chan/Ess uses multiplier 1, summing In + Em bonuses.
+    assert rr_bonus(bonuses, "Chan/Ess") == 9
 
 
 def test_rr_bonus_unknown_category_raises() -> None:
     with pytest.raises(KeyError):
-        rr_bonus({c: 50 for c in STAT_CODES}, "Bogus")
+        rr_bonus({c: 0 for c in STAT_CODES}, "Bogus")
 
 
 # ---------------------------------------------------------------------------
@@ -127,3 +131,79 @@ def test_total_stat_cost_matches_660_budget_at_66_each() -> None:
     from core.chargen.stats import total_stat_cost, TEMP_STAT_BUDGET
     assert total_stat_cost({c: 66 for c in STAT_CODES}) == 660
     assert TEMP_STAT_BUDGET == 660
+
+
+# ---------------------------------------------------------------------------
+# T-1.3 random + fixed potential
+# ---------------------------------------------------------------------------
+
+class _MinRNG:
+    """Always rolls the minimum (1) on every die. Useful for testing the
+    "potential ≥ temp" floor — many T-1.3 bands roll below temp at min."""
+    def randint(self, a: int, b: int) -> int:
+        return a
+
+
+class _MaxRNG:
+    """Always rolls the max."""
+    def randint(self, a: int, b: int) -> int:
+        return b
+
+
+def test_random_potential_floor_clamps_to_temp() -> None:
+    """A min-roll of 70 + 3*1 = 73 < 74, so a temp of 74 stays at 74."""
+    from core.chargen.stats import random_potential
+    assert random_potential(74, _MinRNG()) == 74
+
+
+def test_random_potential_max_roll() -> None:
+    """Temp 50, max roll 50 + 5×10 = 100."""
+    from core.chargen.stats import random_potential
+    assert random_potential(50, _MaxRNG()) == 100
+
+
+def test_random_potential_single_die_bands() -> None:
+    """Temps 92-100 each use their own row with a small die."""
+    from core.chargen.stats import random_potential
+    # Temp 92 → base 91 + 1d9. Min 1 → 92 (== temp, floor kicks in).
+    assert random_potential(92, _MinRNG()) == 92
+    assert random_potential(92, _MaxRNG()) == 100   # 91 + 9
+    # Temp 100 → base 99 + 1d2. Min 1 → 100, max 2 → 101.
+    assert random_potential(100, _MinRNG()) == 100
+    assert random_potential(100, _MaxRNG()) == 101
+
+
+def test_random_potential_past_100_no_roll() -> None:
+    """Stats past 100 have no T-1.3 row; potential = temp."""
+    from core.chargen.stats import random_potential
+    assert random_potential(101, _MaxRNG()) == 101
+    assert random_potential(102, _MinRNG()) == 102
+
+
+def test_fixed_potential_uses_table_modifier() -> None:
+    """The Fixed Mod column adds a band-specific bump to temp."""
+    from core.chargen.stats import fixed_potential
+    assert fixed_potential(20) == 64   # 20 + 44
+    assert fixed_potential(50) == 78   # 50 + 28
+    assert fixed_potential(90) == 96   # 90 + 6
+    assert fixed_potential(91) == 97   # 91 + 6 (still in 85-91 band)
+    assert fixed_potential(92) == 97   # 92 + 5
+    assert fixed_potential(100) == 101 # 100 + 1
+
+
+# ---------------------------------------------------------------------------
+# T-2.1 bonus-tier walker (used by the "+tier" button)
+# ---------------------------------------------------------------------------
+
+def test_next_bonus_tier_walks_through_table() -> None:
+    from core.chargen.stats import next_bonus_tier
+    # From 1 the next tier is 2 (where T-2.1 jumps from -10 to -9).
+    assert next_bonus_tier(1) == 2
+    # 50 is in the 31-69 band (+0); next tier is 70 (+1).
+    assert next_bonus_tier(50) == 70
+    # 90 is its own tier; next is 91.
+    assert next_bonus_tier(90) == 91
+    # 95 is in the 94-95 band; next is 96.
+    assert next_bonus_tier(95) == 96
+    # Already at the top.
+    assert next_bonus_tier(102) is None

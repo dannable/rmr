@@ -104,10 +104,8 @@ def race_rr_mods(race: dict | None) -> dict[str, int]:
 
 def apply_stat_mods(temps: Mapping[StatCode, int],
                     race: dict | None) -> dict[StatCode, int]:
-    """Return effective temps after applying race stat mods.
-
-    Caller can then feed the result to basic_stat_bonus()/rr_bonus(). The
-    return dict is independent of the input — caller's `temps` is untouched.
-    """
-    mods = race_stat_mods(race)
-    return {code: int(temps[code]) + mods[code] for code in temps}
+    """DEPRECATED. Race stat mods do NOT modify the stat value — they
+    modify the resulting bonus per RMSS T-1.1. Kept as a passthrough
+    for callers that haven't been migrated; remove once the test suite
+    no longer imports it."""
+    return {code: int(temps[code]) for code in temps}
