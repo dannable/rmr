@@ -2,7 +2,10 @@ import { useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
+  applyFixedPotentials,
   fetchCharacterStats,
+  raisePrimesTo90,
+  rollCharacterPotentials,
   STAT_CODES,
   updateCharacterStats,
   type CharacterStats,
@@ -110,7 +113,7 @@ export function StatsEditor({ characterId }: Props) {
         </tbody>
       </table>
 
-      <div style={{ marginTop: 16, display: "flex", gap: 8, alignItems: "center" }}>
+      <div style={{ marginTop: 16, display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
         <button
           className="btn"
           onClick={() => m.mutate()}
@@ -137,8 +140,95 @@ export function StatsEditor({ characterId }: Props) {
         )}
       </div>
 
+      <StatActionsRow
+        characterId={characterId}
+        hasPrimesBelow90={q.data.stats.some((s) => s.is_prime && (draft[s.code]?.temp ?? s.temp) < q.data!.budget.prime_min)}
+      />
+
       <RRPanel rr={q.data.resistance_rolls} raceMods={q.data.race_rr_mods} />
     </section>
+  );
+}
+
+
+/**
+ * Quick-action row beneath the stats grid: roll potentials (RMSS T-1.3
+ * dice formulas), apply Fixed Mod (the alternative footnote on T-1.3),
+ * and raise prime stats to 90 (RMSS-required minimum for primes).
+ *
+ * Each action mutates server state and invalidates the cached stats
+ * query so the editor re-renders against the new authoritative values.
+ */
+function StatActionsRow({
+  characterId,
+  hasPrimesBelow90,
+}: {
+  characterId: number;
+  hasPrimesBelow90: boolean;
+}) {
+  const qc = useQueryClient();
+  const invalidate = () =>
+    qc.invalidateQueries({ queryKey: ["characters", characterId, "stats"] });
+
+  const rollM = useMutation({
+    mutationFn: () => rollCharacterPotentials(characterId),
+    onSuccess: invalidate,
+  });
+  const fixedM = useMutation({
+    mutationFn: () => applyFixedPotentials(characterId),
+    onSuccess: invalidate,
+  });
+  const primeM = useMutation({
+    mutationFn: () => raisePrimesTo90(characterId),
+    onSuccess: invalidate,
+  });
+
+  const busy = rollM.isPending || fixedM.isPending || primeM.isPending;
+  return (
+    <div style={{
+      marginTop: 12,
+      display: "flex",
+      gap: 8,
+      alignItems: "center",
+      flexWrap: "wrap",
+      fontSize: 13,
+    }}>
+      <button
+        type="button"
+        className="btn btn-secondary"
+        onClick={() => rollM.mutate()}
+        disabled={busy}
+        title="Roll each potential per RMSS T-1.3 dice formulas"
+        style={{ padding: "4px 10px" }}
+      >
+        {rollM.isPending ? "Rolling…" : "🎲 Roll potentials"}
+      </button>
+      <button
+        type="button"
+        className="btn btn-secondary"
+        onClick={() => fixedM.mutate()}
+        disabled={busy}
+        title="Apply T-1.3 Fixed Mod (the no-dice alternative)"
+        style={{ padding: "4px 10px" }}
+      >
+        {fixedM.isPending ? "Applying…" : "Apply fixed mod"}
+      </button>
+      <button
+        type="button"
+        className="btn btn-secondary"
+        onClick={() => primeM.mutate()}
+        disabled={busy || !hasPrimesBelow90}
+        title="Bump each prime stat below 90 up to 90"
+        style={{ padding: "4px 10px" }}
+      >
+        {primeM.isPending ? "Raising…" : "Raise primes to 90"}
+      </button>
+      {(rollM.error || fixedM.error || primeM.error) && (
+        <span style={{ color: "crimson" }}>
+          {String(rollM.error || fixedM.error || primeM.error)}
+        </span>
+      )}
+    </div>
   );
 }
 
@@ -153,40 +243,68 @@ function StatInputRow({
 }) {
   // Three displayed bonuses, all computed locally so they update live as
   // the user types. The server is still the source of truth on save.
-  //   * statBonus = T-2.1(temp)              — bonus from temp alone
-  //   * race      = row.race_mod             — racial stat modifier (T-1.1)
-  //   * total     = T-2.1(temp + race_mod)   — final stat bonus used in play
-  // Note: race is a modifier to the STAT, not to the bonus, so total can
-  // differ from statBonus by more or less than `race` depending on which
-  // T-2.1 bands the temp and effective temp fall into.
-  const effectiveTemp = draft.temp + row.race_mod;
+  //   * statBonus = T-2.1(temp)               — bonus from temp alone
+  //   * race      = row.race_mod              — racial stat-bonus modifier (T-1.1)
+  //   * total     = statBonus + race_mod      — RMSS T-1.1: race mods apply
+  //                                             to the bonus, not the stat
   const statBonus = basicStatBonusLocal(draft.temp);
-  const total = basicStatBonusLocal(effectiveTemp);
+  const total = statBonus + row.race_mod;
   const tempPotentialMismatch = draft.potential < draft.temp;
   const raceTitle = row.race_mod !== 0
-    ? `Effective stat: ${draft.temp} ${row.race_mod >= 0 ? "+" : "−"} ${Math.abs(row.race_mod)} = ${effectiveTemp}`
+    ? `T-2.1(${draft.temp}) = ${fmt(statBonus)}; race ${fmt(row.race_mod)} → ${fmt(total)}`
     : undefined;
-  const totalTitle = row.race_mod !== 0
-    ? `T-2.1(${draft.temp}) = ${fmt(statBonus)};  T-2.1(${effectiveTemp}) = ${fmt(total)}`
-    : `T-2.1(${draft.temp}) = ${fmt(total)}`;
+  const totalTitle = `T-2.1(${draft.temp}) = ${fmt(statBonus)}${row.race_mod ? ` + race ${fmt(row.race_mod)}` : ""} = ${fmt(total)}`;
+
+  const nextTier = nextBonusTier(draft.temp);
 
   return (
     <tr style={{ borderBottom: "1px solid #f3f3f3" }}>
       <td style={{ padding: "6px 4px" }}>
-        <span style={{ fontWeight: 500 }}>{row.name}</span>
+        <span style={{ fontWeight: 500 }}>
+          {row.name}
+          {row.is_prime && (
+            <span style={{
+              marginLeft: 4,
+              color: "#16a34a",
+              fontSize: 10,
+              verticalAlign: "super",
+            }} title="Profession prime stat">★</span>
+          )}
+        </span>
         <span style={{ color: "#888", marginLeft: 6, fontSize: 12 }}>{row.code}</span>
       </td>
       <td style={{ padding: "6px 4px" }}>
-        <input
-          type="number"
-          min={1}
-          max={102}
-          value={draft.temp}
-          onChange={(e) =>
-            onChange({ ...draft, temp: clamp(parseInt(e.target.value, 10) || 0) })
-          }
-          style={{ width: 64, padding: "4px 6px" }}
-        />
+        <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+          <input
+            type="number"
+            min={1}
+            max={102}
+            value={draft.temp}
+            onChange={(e) =>
+              onChange({ ...draft, temp: clamp(parseInt(e.target.value, 10) || 0) })
+            }
+            style={{ width: 64, padding: "4px 6px" }}
+          />
+          <button
+            type="button"
+            onClick={() => nextTier !== null && onChange({ ...draft, temp: nextTier })}
+            disabled={nextTier === null}
+            title={nextTier !== null
+              ? `Raise to ${nextTier} (next T-2.1 bonus tier)`
+              : "Already at the top T-2.1 tier"}
+            style={{
+              padding: "2px 6px",
+              fontSize: 11,
+              border: "1px solid #ccc",
+              borderRadius: 3,
+              background: "white",
+              cursor: nextTier === null ? "default" : "pointer",
+              color: nextTier === null ? "#999" : "#446",
+            }}
+          >
+            +tier
+          </button>
+        </div>
       </td>
       <td style={{ padding: "6px 4px" }}>
         <input
@@ -365,6 +483,26 @@ function basicStatBonusLocal(stat: number): number {
  * sync with the server-side table so the SPA can recompute spent
  * points live as the user types.
  */
+/**
+ * RMSS T-2.1 bonus-tier thresholds (the LOW edge of each band where the
+ * printed bonus increases). The "+tier" button raises a stat to the
+ * next entry strictly greater than its current value. Kept in sync with
+ * core.chargen.stats.STAT_BONUS_TIERS — see that constant for the
+ * source-of-truth list.
+ */
+const BONUS_TIERS = [
+  1, 2, 4, 6, 8, 10, 11, 16, 21, 26, 31,
+  70, 75, 80, 85, 90, 91, 92, 94, 96, 98, 100, 101, 102,
+];
+
+function nextBonusTier(value: number): number | null {
+  for (const t of BONUS_TIERS) {
+    if (t > value) return t;
+  }
+  return null;
+}
+
+
 function statCostLocal(value: number): number {
   if (value < 1) return 0;
   if (value <= 90) return value;
