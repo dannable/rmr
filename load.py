@@ -1719,6 +1719,11 @@ def parse_training_package_file(file_path: Path) -> dict:
         "category": meta.get("category", ""),
         "description": description,
         "default_cost": default_cost,
+        # Source book tag: 'character_law' by default for legacy files
+        # that pre-date the @source field. Companion-supplement TPs
+        # (Essence / Channeling / Mentalism Companions, SOHK) carry the
+        # tag explicitly — see .scratch/build_training_packages.py.
+        "source": meta.get("source", "character_law"),
         "specials": specials,
         "stat_gains": stat_gains,
         "rank_assignments": rank_assignments,
@@ -1734,15 +1739,17 @@ def insert_training_package(conn: sqlite3.Connection, data: dict) -> int:
         raise ValueError(f"training-package data has no slug: {data.get('name')!r}")
 
     conn.execute(
-        """INSERT INTO training_package (slug, name, category, description, default_cost)
-                VALUES (?, ?, ?, ?, ?)
+        """INSERT INTO training_package
+                (slug, name, category, description, default_cost, source)
+                VALUES (?, ?, ?, ?, ?, ?)
            ON CONFLICT(slug) DO UPDATE SET
                 name         = excluded.name,
                 category     = excluded.category,
                 description  = excluded.description,
-                default_cost = excluded.default_cost""",
+                default_cost = excluded.default_cost,
+                source       = excluded.source""",
         (slug, data["name"], data["category"], data["description"],
-         data["default_cost"]),
+         data["default_cost"], data.get("source", "character_law")),
     )
     tpid = conn.execute(
         "SELECT training_package_id FROM training_package WHERE slug = ?", (slug,)
@@ -2044,6 +2051,58 @@ def _apply_missing_columns(conn: sqlite3.Connection) -> None:
     conn.commit()
 
 
+def _migrate_training_package_drop_unique_name(conn: sqlite3.Connection) -> None:
+    """Recreate `training_package` without the UNIQUE constraint on `name`.
+
+    The original schema marked name UNIQUE, but supplement TPs introduced
+    legitimate same-name collisions (e.g. "Librarian" exists in both
+    Essence Companion and School of Hard Knocks as different entries).
+    (slug, source) is the real identity; we keep slug UNIQUE and drop the
+    name UNIQUE. Safe to wipe & re-insert — `training_package` and its
+    child tables are reference data repopulated from data/chargen/
+    training_packages/ on every reload-ref pass.
+    """
+    row = conn.execute(
+        "SELECT sql FROM sqlite_master "
+        "WHERE type='table' AND name='training_package'"
+    ).fetchone()
+    if row is None:
+        return   # fresh DB — CREATE TABLE will use the new schema
+    sql = row[0] or ""
+    if "name                TEXT    NOT NULL UNIQUE" not in sql:
+        return   # already migrated (or schema text differs cosmetically)
+
+    # Wipe child rows + parent, then recreate parent. The loader will
+    # re-INSERT everything on the upcoming pass.
+    for tbl in (
+        "training_package_ra_skill_option",
+        "training_package_ra_category_option",
+        "training_package_rank_assignment",
+        "training_package_stat_gain_choice",
+        "training_package_stat_gain",
+        "training_package_special",
+        "training_package_profession_cost",
+        "training_package",
+    ):
+        try:
+            conn.execute(f"DELETE FROM {tbl}")
+        except sqlite3.OperationalError:
+            pass   # table missing on very old DBs — let the CREATE catch it
+    conn.execute("DROP TABLE training_package")
+    conn.executescript("""
+        CREATE TABLE IF NOT EXISTS training_package (
+            training_package_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            slug                TEXT    NOT NULL UNIQUE,
+            name                TEXT    NOT NULL,
+            category            TEXT    NOT NULL DEFAULT '',
+            description         TEXT    NOT NULL DEFAULT '',
+            default_cost        INTEGER NOT NULL DEFAULT 0,
+            source              TEXT    NOT NULL DEFAULT 'character_law'
+        );
+    """)
+    conn.commit()
+
+
 def _migrate_attack_result_checks(conn: sqlite3.Connection) -> None:
     """Recreate `attack_result` if its CHECK constraints are the pre-expansion
     set (severities A-F only, crit types G/K/P/S/T/U only).
@@ -2102,6 +2161,7 @@ def reload_ref_data(conn: sqlite3.Connection) -> None:
     """
     _apply_missing_columns(conn)
     _migrate_attack_result_checks(conn)
+    _migrate_training_package_drop_unique_name(conn)
 
     cur = conn.execute(
         "SELECT name FROM sqlite_master WHERE type='table'"

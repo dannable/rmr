@@ -41,7 +41,7 @@ def list_training_packages(conn: sqlite3.Connection) -> list[dict]:
     fetch the detail endpoint for those).
     """
     return [dict(r) for r in conn.execute(
-        "SELECT slug, name, category, description, default_cost "
+        "SELECT slug, name, category, description, default_cost, source "
         "FROM training_package ORDER BY name"
     ).fetchall()]
 
@@ -51,7 +51,8 @@ def get_training_package_by_slug(conn: sqlite3.Connection,
     """One TP, fully hydrated: specials + stat gains + rank assignments
     (with category / skill options) + per-profession DP costs."""
     row = conn.execute(
-        "SELECT training_package_id, slug, name, category, description, default_cost "
+        "SELECT training_package_id, slug, name, category, description, "
+        "       default_cost, source "
         "FROM training_package WHERE slug = ?",
         (slug,),
     ).fetchone()

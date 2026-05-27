@@ -381,13 +381,18 @@ CREATE INDEX IF NOT EXISTS idx_profession_prime_stat_by_prof
 CREATE TABLE IF NOT EXISTS training_package (
     training_package_id INTEGER PRIMARY KEY AUTOINCREMENT,
     slug                TEXT    NOT NULL UNIQUE,    -- e.g. "lay_healer"
-    name                TEXT    NOT NULL UNIQUE,    -- e.g. "Lay Healer"
+    -- Display name. NOT UNIQUE: a few TP names collide across source
+    -- books (e.g. "Librarian" appears in both Essence Companion and
+    -- School of Hard Knocks as legitimately different RMSS entries).
+    -- The (slug, source) pair disambiguates; the slug is the identity.
+    name                TEXT    NOT NULL,
     category            TEXT    NOT NULL DEFAULT '',  -- "RMFRP Core", etc.
     description         TEXT    NOT NULL DEFAULT '',
     default_cost        INTEGER NOT NULL DEFAULT 0,   -- fallback DP cost when
                                                        -- ProfessionCost row absent
     -- Source book tag — 'character_law' for the 36 ERA-derived RMFRP Core
-    -- training packages, 'sohk' for the 18 added by School of Hard Knocks.
+    -- training packages, plus 'essence_companion', 'channeling_companion',
+    -- 'mentalism_companion', and 'sohk' for the supplement-added TPs.
     source              TEXT    NOT NULL DEFAULT 'character_law'
 );
 

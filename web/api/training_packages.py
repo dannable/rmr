@@ -38,6 +38,11 @@ class TrainingPackageRow(BaseModel):
     category: str
     description: str
     default_cost: int
+    # Source book tag — 'character_law', 'essence_companion',
+    # 'channeling_companion', 'mentalism_companion', or 'sohk'. Used by
+    # the SPA to disambiguate same-named TPs across source books
+    # (e.g. "Librarian" appears in Essence Companion AND in SOHK).
+    source: str = "character_law"
 
 
 class Special(BaseModel):
@@ -93,6 +98,7 @@ class TrainingPackageDetail(BaseModel):
     category: str
     description: str
     default_cost: int
+    source: str = "character_law"
     specials: list[Special]
     stat_gains: list[StatGain]
     rank_assignments: list[RankAssignment]

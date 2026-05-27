@@ -390,6 +390,11 @@ export interface TrainingPackageRow {
   category: string;
   description: string;
   default_cost: number;
+  /** Source book tag — "character_law", "essence_companion",
+   *  "channeling_companion", "mentalism_companion", or "sohk". Lets the
+   *  SPA show a source badge that distinguishes same-named TPs across
+   *  source books (e.g. two different "Librarian" TPs). */
+  source: string;
 }
 
 export interface TPSpecial {
@@ -440,6 +445,7 @@ export interface TrainingPackageDetail {
   category: string;
   description: string;
   default_cost: number;
+  source: string;
   specials: TPSpecial[];
   stat_gains: TPStatGain[];
   rank_assignments: TPRankAssignment[];
