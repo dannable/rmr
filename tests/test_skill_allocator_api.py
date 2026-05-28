@@ -721,20 +721,17 @@ def test_body_dev_progression_uses_race(client) -> None:
     by_cat = {(c["group_name"], c["category_name"]): c for c in body["categories"]}
     body_dev = by_cat.get(("Concepts", "Concepts • Body Development"))
     assert body_dev is not None
-    # Skill progression is the race's body_dev_prog with the rank-0 cell
-    # stripped so the existing dispatcher reads it as a 4-band string.
-    assert body_dev["skill_progression"] == "7 • 4 • 2 • 1"
-    # Category stays at the catalog placeholder ("0 • 0 • 0 • 0 • 0").
-    # RMSS treats Body Dev as a special category that doesn't suffer the
-    # standard "-15 for 0 ranks" malus — the all-zeros placeholder gives
-    # 0 at any rank, which is the correct floor for untrained Body Dev.
-    assert body_dev["category_progression"] == "0 • 0 • 0 • 0 • 0"
-    # And the resulting category total is 0, not -15. Without this, at
-    # 0 ranks the skill total would cascade to -15 (cat_total + 0 skill
-    # rank bonus) instead of the correct 0.
+    # The CATEGORY now carries the race progression — the user buys
+    # ranks via the category +/- buttons (where the cost lives), and
+    # those clicks now drive the bonus.
+    assert body_dev["category_progression"] == "7 • 4 • 2 • 1"
+    # The skill row is a passthrough — its own rank track contributes
+    # 0 so cat + skill ranks don't double-count (they're SUMMED into
+    # the category's rank_b computation).
+    assert body_dev["skill_progression"] == "0 • 0 • 0 • 0 • 0"
+    # At 0 ranks the dotted progression sum is 0 (loop doesn't enter
+    # for remaining=0). No -15 malus. Correct floor for untrained.
     assert body_dev["total_bonus"] == 0
-    # The single skill ("BODY DEVELOPMENT") also totals to 0 at 0 ranks
-    # — cat_total(0) + race_rank_b(0) = 0.
     sk = body_dev["skills"][0]
     assert sk["current_ranks"] == 0
     assert sk["total_bonus"] == 0
@@ -767,8 +764,11 @@ def test_pp_dev_progression_uses_race_and_realm(client) -> None:
     by_cat = {(c["group_name"], c["category_name"]): c for c in body["categories"]}
     pp_dev = by_cat.get(("Concepts", "Concepts • Power Point Development"))
     assert pp_dev is not None
-    # ess_pp_prog "0•3•2•1•1" with rank-0 cell stripped -> "3 • 2 • 1 • 1".
-    assert pp_dev["skill_progression"] == "3 • 2 • 1 • 1"
+    # ess_pp_prog "0•3•2•1•1" with rank-0 cell stripped -> "3 • 2 • 1 • 1",
+    # placed on the CATEGORY (where the cost / +/- buttons live).
+    assert pp_dev["category_progression"] == "3 • 2 • 1 • 1"
+    # Skill row is a passthrough — no double-count when ranks sum.
+    assert pp_dev["skill_progression"] == "0 • 0 • 0 • 0 • 0"
 
 
 def test_pp_dev_progression_hybrid_takes_per_rank_min(client) -> None:
@@ -796,8 +796,8 @@ def test_pp_dev_progression_hybrid_takes_per_rank_min(client) -> None:
     by_cat = {(c["group_name"], c["category_name"]): c for c in body["categories"]}
     pp_dev = by_cat[("Concepts", "Concepts • Power Point Development")]
     # After rank-0 strip: Chan=[6,5,4,3], Ment=[3,2,1,1]. Per-band min
-    # -> "3 • 2 • 1 • 1".
-    assert pp_dev["skill_progression"] == "3 • 2 • 1 • 1"
+    # -> "3 • 2 • 1 • 1", placed on the CATEGORY.
+    assert pp_dev["category_progression"] == "3 • 2 • 1 • 1"
 
 
 def test_body_dev_progression_uses_culture_when_umbrella_race(client) -> None:
@@ -833,14 +833,16 @@ def test_body_dev_progression_uses_culture_when_umbrella_race(client) -> None:
     by_cat = {(c["group_name"], c["category_name"]): c for c in body["categories"]}
     body_dev = by_cat[("Concepts", "Concepts • Body Development")]
     # High Men progression wins through culture_slug.
-    # After rank-0 strip: "0 • 7 • 5 • 3 • 1" -> "7 • 5 • 3 • 1".
-    assert body_dev["skill_progression"] == "7 • 5 • 3 • 1"
+    # After rank-0 strip: "0 • 7 • 5 • 3 • 1" -> "7 • 5 • 3 • 1", placed
+    # on the CATEGORY.
+    assert body_dev["category_progression"] == "7 • 5 • 3 • 1"
 
 
 def test_body_dev_skill_bonus_with_ranks(client) -> None:
-    """Putting 3 ranks into the Body Dev *skill* on a 0•7•4•2•1 race
-    gives sk_rank_b = 3 * 7 = 21 (first-band rate). cat_total stays at
-    0 (placeholder). Total = 21."""
+    """3 ranks of Body Dev on a 0•7•4•2•1 race gives 21 — whether the
+    ranks live on the category, the skill, or split between them. The
+    server SUMS them and applies the race progression once on the
+    category total; the skill row cascades from that."""
     from web.db import connect_rw
 
     _seed_minimal_fighter()
@@ -860,8 +862,9 @@ def test_body_dev_skill_bonus_with_ranks(client) -> None:
     )
     cid = _create_character_at_fighter(client)
     _assign_race(cid, rid)
-    # Apply 3 adolescence skill ranks directly to the BODY DEVELOPMENT
-    # leaf so we can verify the per-rank race progression is in effect.
+    # Adolescence lands ranks on the SKILL (kind='skill'). The server's
+    # rank-summing for Body Dev / PP Dev folds those into the category's
+    # rank_b computation, so the bonus shows up on the category total.
     with connect_rw() as conn:
         conn.execute(
             "INSERT INTO character_skill "
@@ -874,10 +877,13 @@ def test_body_dev_skill_bonus_with_ranks(client) -> None:
     body = client.get(f"/api/v1/characters/{cid}/skill-allocator").json()
     by_cat = {(c["group_name"], c["category_name"]): c for c in body["categories"]}
     body_dev = by_cat[("Concepts", "Concepts • Body Development")]
+    # 3 skill ranks summed into effective_cat_ranks=3, race prog at first
+    # band gives 3 * 7 = 21. Category total: 21.
+    assert body_dev["total_bonus"] == 21
+    # Skill row cascades from cat_total; sk_rank_b is 0 (passthrough),
+    # so sk_total == cat_total == 21.
     sk = next(s for s in body_dev["skills"] if s["skill_name"] == "BODY DEVELOPMENT")
     assert sk["current_ranks"] == 3
-    # 3 ranks in first band of 0•7•4•2•1 -> 3 * 7 = 21.
-    # cat_total = 0 (placeholder). sk_total = 21 + 0 = 21.
     assert sk["total_bonus"] == 21
 
 
