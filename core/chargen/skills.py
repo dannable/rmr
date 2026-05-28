@@ -92,15 +92,16 @@ def cumulative_cost(cost: str, ranks_within_level: int) -> int | None:
 # ---------------------------------------------------------------------------
 
 def standard_skill_bonus(ranks: int) -> float:
-    """RMSS T-2.2 standard skill rank progression.
+    """RMSS T-2.2 "Standard" skill rank progression (the most common form).
 
-    1-10: +5/rank  →  10 ranks = 50
-    11-20: +2/rank → 20 ranks = 70
-    21-30: +1/rank → 30 ranks = 80
-    31+: +0.5/rank → 50 ranks = 90
+    Rank   0: -15      (untrained penalty)
+    Ranks  1-10: +3/rank   →  rank 10 = 30
+    Ranks 11-20: +2/rank   →  rank 20 = 50
+    Ranks 21-30: +1/rank   →  rank 30 = 60
+    Ranks 31+:   +0.5/rank →  rank N  = 60 + 0.5 * (N - 30)
     """
     if ranks <= 0:
-        return 0.0
+        return -15.0
     bonus = 0.0
     if ranks > 30:
         bonus += 0.5 * (ranks - 30)
@@ -111,22 +112,26 @@ def standard_skill_bonus(ranks: int) -> float:
     if ranks > 10:
         bonus += 2.0 * (ranks - 10)
         ranks = 10
-    bonus += 5.0 * ranks
+    bonus += 3.0 * ranks
     return bonus
 
 
 def standard_category_bonus(ranks: int) -> float:
-    """Standard category rank progression (T-2.2).
+    """RMSS T-2.2 "Standard" category rank progression.
 
-    Same shape as the skill progression but half the weight per rank
-    band: +2 / +1 / +0.5 / +0.25. Most "Standard" categories use this.
+    Rank   0: -15      (untrained category)
+    Ranks  1-10: +2/rank   →  rank 10 = 20
+    Ranks 11-20: +1/rank   →  rank 20 = 30
+    Ranks 21-30: +0.5/rank →  rank 30 = 35
+    Ranks 31+:   +0       (category bonus CAPS at 35; it doesn't grow
+                            past rank 30, per the T-2.2 footer "31+: 35"
+                            in the Standard Category column).
     """
     if ranks <= 0:
-        return 0.0
+        return -15.0
+    if ranks >= 31:
+        return 35.0
     bonus = 0.0
-    if ranks > 30:
-        bonus += 0.25 * (ranks - 30)
-        ranks = 30
     if ranks > 20:
         bonus += 0.5 * (ranks - 20)
         ranks = 20
@@ -134,6 +139,78 @@ def standard_category_bonus(ranks: int) -> float:
         bonus += 1.0 * (ranks - 10)
         ranks = 10
     bonus += 2.0 * ranks
+    return bonus
+
+
+def combined_skill_bonus(ranks: int) -> float:
+    """RMSS T-2.2 "Combined" skill rank progression. Used by Body
+    Development, Power Point Development, and a handful of others that
+    grow faster than Standard.
+
+    Rank   0: -30      (untrained penalty — heavier than Standard)
+    Ranks  1-10: +5/rank   →  rank 10 = 50
+    Ranks 11-20: +3/rank   →  rank 20 = 80
+    Ranks 21-30: +1.5/rank →  rank 30 = 95
+    Ranks 31+:   +0.5/rank →  rank N  = 95 + 0.5 * (N - 30)
+    """
+    if ranks <= 0:
+        return -30.0
+    bonus = 0.0
+    if ranks > 30:
+        bonus += 0.5 * (ranks - 30)
+        ranks = 30
+    if ranks > 20:
+        bonus += 1.5 * (ranks - 20)
+        ranks = 20
+    if ranks > 10:
+        bonus += 3.0 * (ranks - 10)
+        ranks = 10
+    bonus += 5.0 * ranks
+    return bonus
+
+
+def limited_skill_bonus(ranks: int) -> float:
+    """RMSS T-2.2 "Limited" skill rank progression (the ‡ column). Used
+    for skills that don't reward heavy investment.
+
+    Rank   0: 0
+    Ranks  1-20: +1/rank
+    Ranks 21-30: +0.5/rank
+    Ranks 31+:   25  (caps — no further growth)
+    """
+    if ranks <= 0:
+        return 0.0
+    if ranks >= 31:
+        return 25.0
+    if ranks > 20:
+        return 20.0 + 0.5 * (ranks - 20)
+    return float(ranks)
+
+
+def special_skill_bonus(ranks: int) -> float:
+    """RMSS T-2.2 "Special" skill rank progression (the † column). Used
+    for skills that reward heavy investment (some weapon specialisations,
+    certain spell skills).
+
+    Rank   0: 0
+    Ranks  1-10: +6/rank   →  rank 10 = 60
+    Ranks 11-20: +5/rank   →  rank 20 = 110
+    Ranks 21-30: +4/rank   →  rank 30 = 150
+    Ranks 31+:   +3/rank   →  rank N  = 150 + 3 * (N - 30)
+    """
+    if ranks <= 0:
+        return 0.0
+    bonus = 0.0
+    if ranks > 30:
+        bonus += 3.0 * (ranks - 30)
+        ranks = 30
+    if ranks > 20:
+        bonus += 4.0 * (ranks - 20)
+        ranks = 20
+    if ranks > 10:
+        bonus += 5.0 * (ranks - 10)
+        ranks = 10
+    bonus += 6.0 * ranks
     return bonus
 
 
@@ -158,27 +235,56 @@ def parse_dotted_progression(text: str) -> list[float]:
     return tokens
 
 
-def progression_bonus(progression_text: str, default_fn, ranks: int) -> float:
-    """Compute the rank bonus for a progression string.
+def progression_bonus(
+    progression_text: str,
+    default_fn,
+    ranks: int,
+    *,
+    is_category: bool = False,
+) -> float:
+    """Compute the rank bonus for a progression string per RMSS T-2.2.
 
-    - "Standard" / "Combined" / empty → fall through to default_fn(ranks)
-      (default_fn is standard_skill_bonus for skills, standard_category_bonus
-      for categories)
-    - Otherwise parse the dotted form "0 • 7 • 5 • 3 • 1" and apply the
-      same band scheme: token[0] = bonus per rank for ranks 1-10,
-      token[1] = per rank for 11-20, ..., token[4] = 41+.
+    Named progressions resolve to their canonical function:
+      "Standard" → standard_skill_bonus / standard_category_bonus
+      "Combined" → combined_skill_bonus (skill side only — categories
+                    don't use Combined; fall through to standard)
+      "Limited"  → limited_skill_bonus
+      "Special"  → special_skill_bonus
+    Empty progression text → default_fn (the Standard variant for the
+    caller's context).
 
-    Body Development's "0 • 0 • 0 • 0 • 0" yields 0 bonus regardless of
-    ranks — Body Dev contributes hits, not a skill bonus, and the
-    race-specific body_dev_prog drives that hit count separately.
+    For dotted forms like "0 • 7 • 5 • 3 • 1", token i covers ranks in
+    band [10*i+1, 10*i+10]. Past the last band, no more bonus — most
+    custom progressions stop at band 4 because they're either zero or
+    so small. Body Development's "0 • 0 • 0 • 0 • 0" yields 0 bonus
+    regardless of ranks (Body Dev contributes hits, not a skill bonus;
+    the race-specific body_dev_prog drives that count separately).
+
+    is_category=True nudges the dispatcher: "Combined" routes to the
+    standard category function (RMSS only defines Combined on the skill
+    side; the category column on T-2.2 is named just "Standard Category
+    Rank Bonus").
     """
     txt = (progression_text or "").strip()
-    if txt in ("", "Standard", "Combined"):
+    if txt == "" or txt == "Standard":
         return default_fn(ranks)
+    if txt == "Combined":
+        # Categories don't have a Combined column — fall back to Standard.
+        if is_category:
+            return standard_category_bonus(ranks)
+        return combined_skill_bonus(ranks)
+    if txt == "Limited":
+        # Limited is skill-only too; fall back to Standard for categories.
+        if is_category:
+            return standard_category_bonus(ranks)
+        return limited_skill_bonus(ranks)
+    if txt == "Special":
+        if is_category:
+            return standard_category_bonus(ranks)
+        return special_skill_bonus(ranks)
     tokens = parse_dotted_progression(txt)
     if not tokens:
         return default_fn(ranks)
-    # Apply per-band: token i covers ranks in band [10*i+1, 10*i+10].
     bonus = 0.0
     remaining = max(0, ranks)
     band = 0
@@ -187,8 +293,6 @@ def progression_bonus(progression_text: str, default_fn, ranks: int) -> float:
         bonus += tokens[band] * take
         remaining -= take
         band += 1
-    # Past the last band, no more bonus (most progressions stop at band 4
-    # because they're either zero or so small).
     return bonus
 
 
