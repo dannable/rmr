@@ -33,6 +33,8 @@ from core.chargen.race import (
     get_race_by_slug,
     is_umbrella_race,
     pp_dev_progression,
+    pp_dev_stat_bonus,
+    pp_dev_stat_codes,
     race_rr_mods,
     race_stat_mods,
     UMBRELLA_CULTURE_SLUGS,
@@ -1729,6 +1731,18 @@ def _build_skill_allocator(
             cat_prog = pp_dev_skill_prog
             skill_prog = "0 • 0 • 0 • 0 • 0"
             is_body_or_pp_dev = True
+            # The catalog stores stat_bonuses="Realm stat" as a placeholder
+            # because the actual stat depends on the profession's realm,
+            # not the category itself. Resolve to the real codes now:
+            #   Channeling → In, Essence → Em, Mentalism → Pr.
+            # Hybrid spellcasters use the AVERAGE of contributing realms'
+            # T-2.1 stat bonuses, rounded down — per RMSS Spell Law /
+            # Character Law's hybrid PP rule. Falls through to the
+            # original "Realm stat" placeholder when no realm is set
+            # (e.g. a Fighter), which then yields 0 via stat_bonus_for.
+            resolved_codes = pp_dev_stat_codes(prof_realms)
+            if resolved_codes:
+                cat_stat_str = "/".join(resolved_codes)
 
         # Bonus math uses TOTAL ranks (DP + applied), per RMSS. For
         # Body Dev / PP Dev that includes any skill-row ranks too —
@@ -1744,7 +1758,13 @@ def _build_skill_allocator(
             cat_prog, standard_category_bonus, effective_cat_ranks,
             is_category=True,
         )
-        cat_stat_b = stat_bonus_for(cat_stat_str, raw_temps)
+        # PP Dev uses the realm-averaged stat bonus (NOT sum like other
+        # categories) so we route it through the dedicated helper rather
+        # than stat_bonus_for. Everything else stays on the standard sum.
+        if cat_short == "Power Point Development" and pp_dev_skill_prog:
+            cat_stat_b = pp_dev_stat_bonus(prof_realms, raw_temps)
+        else:
+            cat_stat_b = stat_bonus_for(cat_stat_str, raw_temps)
         class_b = cat_bonuses.get((group, cat_short), 0) + grp_bonuses.get(group, 0)
         special_b = 0   # race/TP/item bonuses to come in Phase C+
         cat_total = int(round(cat_rank_b + cat_stat_b + class_b + special_b))
