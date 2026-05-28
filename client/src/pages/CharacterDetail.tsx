@@ -19,6 +19,7 @@ import { BackgroundOptions } from "../components/BackgroundOptions";
 import { CulturePicker } from "../components/CulturePicker";
 import { ProfessionPicker } from "../components/ProfessionPicker";
 import { RacePicker } from "../components/RacePicker";
+import { SkillAllocator } from "../components/SkillAllocator";
 import { StatsEditor } from "../components/StatsEditor";
 import { WeaponCostPicker } from "../components/WeaponCostPicker";
 
@@ -166,8 +167,7 @@ function CharacterDetail({ characterId }: { characterId: number }) {
         {active === "stats"          && <StatsStep   character={c} />}
         {active === "adolescence"    && <AdolescenceStep character={c} />}
         {active === "background"     && <BackgroundStep  character={c} />}
-        {active === "apprenticeship" && <PlaceholderStep title="Apprenticeship Skills"
-                                            body="Allocate 1st-level development points across training packages, skill development, and stat gains. DP allocator coming in a follow-up PR." />}
+        {active === "apprenticeship" && <ApprenticeshipStep character={c} />}
         {active === "role"           && <PlaceholderStep title="Role Traits + Background Details"
                                             body="Free-form role-traits and setting-specific background notes. Tracking field coming in a follow-up PR." />}
         {active === "finalize"       && <PlaceholderStep title="Finalize Character"
@@ -426,6 +426,26 @@ function BackgroundStep({ character }: { character: Character }) {
         characterId={character.character_id}
         raceSlug={character.race_slug}
       />
+    </div>
+  );
+}
+
+
+function ApprenticeshipStep({ character }: { character: Character }) {
+  // Step 6 — DP allocator. SkillAllocator handles the lot: per-category /
+  // per-skill rank purchases, profession-cost lookups (with weapon-cost
+  // reassignment honoured from Phase A), TP buy / refund, and the live
+  // DP budget. Self-handles "no profession picked" via empty rows.
+  return (
+    <div>
+      <StepHeader step={STEPS[5]} />
+      {character.profession_id ? (
+        <SkillAllocator character={character} />
+      ) : (
+        <p style={{ color: "#888" }}>
+          Pick a profession in Step 2 before allocating development points.
+        </p>
+      )}
     </div>
   );
 }

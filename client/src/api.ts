@@ -145,6 +145,107 @@ export const updateCharacterWeaponCosts = (
     body: JSON.stringify({ assignments }),
   });
 
+// ---- DP allocator (RMSS Character Law §6) -------------------------------
+
+export interface DPBudget {
+  dp_total: number;
+  dp_spent: number;
+  dp_remaining: number;
+}
+
+export interface SkillRow {
+  skill_name: string;
+  stat: string | null;
+  ranks_bought: number;
+  dp_spent: number;
+  next_rank_cost_dp: number | null;
+  total_bonus: number;
+}
+
+export interface SkillCategoryRow {
+  group_name: string;
+  category_name: string;
+  classification: string | null;
+  cost: string;
+  rank_cap_per_level: number;
+  ranks_bought: number;
+  dp_spent: number;
+  next_rank_cost_dp: number | null;
+  total_bonus: number;
+  skills: SkillRow[];
+}
+
+export interface TrainingPackagePurchase {
+  slug: string;
+  name: string;
+  dp_paid: number;
+  purchased_at: string;
+}
+
+export interface SkillAllocatorResponse {
+  budget: DPBudget;
+  categories: SkillCategoryRow[];
+  training_packages_purchased: TrainingPackagePurchase[];
+}
+
+export interface TrainingPackageOption {
+  slug: string;
+  name: string;
+  category: string;
+  source: string;
+  effective_cost: number;
+  affordable: boolean;
+}
+
+export interface TrainingPackagesAvailableResponse {
+  options: TrainingPackageOption[];
+  purchased_slugs: string[];
+  dp_remaining: number;
+}
+
+export const fetchSkillAllocator = (id: number) =>
+  api<SkillAllocatorResponse>(`/api/v1/characters/${id}/skill-allocator`);
+
+export const updateCategoryRanks = (
+  id: number,
+  group_name: string,
+  category_name: string,
+  ranks_bought: number,
+) =>
+  api<SkillAllocatorResponse>(`/api/v1/characters/${id}/category-ranks`, {
+    method: "PUT",
+    body: JSON.stringify({ group_name, category_name, ranks_bought }),
+  });
+
+export const updateSkillRanks = (
+  id: number,
+  group_name: string,
+  category_name: string,
+  skill_name: string,
+  ranks_bought: number,
+) =>
+  api<SkillAllocatorResponse>(`/api/v1/characters/${id}/skill-ranks`, {
+    method: "PUT",
+    body: JSON.stringify({ group_name, category_name, skill_name, ranks_bought }),
+  });
+
+export const fetchTrainingPackagesAvailable = (id: number) =>
+  api<TrainingPackagesAvailableResponse>(
+    `/api/v1/characters/${id}/training-packages-available`,
+  );
+
+export const purchaseTrainingPackage = (id: number, slug: string) =>
+  api<SkillAllocatorResponse>(
+    `/api/v1/characters/${id}/training-packages/${encodeURIComponent(slug)}`,
+    { method: "POST" },
+  );
+
+export const refundTrainingPackage = (id: number, slug: string) =>
+  api<SkillAllocatorResponse>(
+    `/api/v1/characters/${id}/training-packages/${encodeURIComponent(slug)}`,
+    { method: "DELETE" },
+  );
+
 export const updateCharacterProfession = (id: number, slug: string | null) =>
   api<Character>(`/api/v1/characters/${id}/profession`, {
     method: "PUT",

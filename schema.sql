@@ -607,6 +607,53 @@ CREATE INDEX IF NOT EXISTS idx_character_skill_by_source
     ON character_skill(character_id, source);
 
 -- =========================================================================
+-- Per-character skill / category rank purchases + training-package
+-- purchases (RMSS Character Law §6 — Development Point allocation).
+-- =========================================================================
+-- These tables track what the player has BOUGHT with DP. Bonuses,
+-- effective costs, and DP-budget remaining are computed at request time
+-- from these rows + the profession / skill reference data.
+--
+-- Per-LEVEL granularity: every purchase is tagged with the level at
+-- which it was made. At chargen (level 1) everything sits in level=1.
+-- Higher-level purchases get their own rows so the per-level rank cap
+-- from profession_category_cost (e.g. "1/5" = 2 ranks/level) and the
+-- per-level DP budget can be enforced independently.
+
+CREATE TABLE IF NOT EXISTS character_category_purchase (
+    character_id   INTEGER NOT NULL
+                       REFERENCES character(character_id) ON DELETE CASCADE,
+    group_name     TEXT    NOT NULL,           -- e.g. "Weapon", "Athletic"
+    category_name  TEXT    NOT NULL,           -- e.g. "1-H Edged", "Brawn"
+    level          INTEGER NOT NULL DEFAULT 1,
+    ranks_bought   INTEGER NOT NULL DEFAULT 0,
+    dp_spent       INTEGER NOT NULL DEFAULT 0,
+    PRIMARY KEY (character_id, group_name, category_name, level)
+);
+
+CREATE TABLE IF NOT EXISTS character_skill_purchase (
+    character_id   INTEGER NOT NULL
+                       REFERENCES character(character_id) ON DELETE CASCADE,
+    group_name     TEXT    NOT NULL,
+    category_name  TEXT    NOT NULL,
+    skill_name     TEXT    NOT NULL,
+    level          INTEGER NOT NULL DEFAULT 1,
+    ranks_bought   INTEGER NOT NULL DEFAULT 0,
+    dp_spent       INTEGER NOT NULL DEFAULT 0,
+    PRIMARY KEY (character_id, group_name, category_name, skill_name, level)
+);
+
+CREATE TABLE IF NOT EXISTS character_training_package (
+    character_id          INTEGER NOT NULL
+                              REFERENCES character(character_id) ON DELETE CASCADE,
+    training_package_slug TEXT    NOT NULL,
+    dp_paid               INTEGER NOT NULL,    -- effective per-profession cost
+    purchased_at          TEXT    NOT NULL,    -- ISO-8601
+    PRIMARY KEY (character_id, training_package_slug)
+);
+
+
+-- =========================================================================
 -- Per-character weapon-cost assignments (RMSS Character Law §6.2).
 -- =========================================================================
 -- A profession's profession_category_cost rows pre-assign each weapon
