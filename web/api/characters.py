@@ -1709,17 +1709,19 @@ def _build_skill_allocator(
         # character's race (and realm, for PP Dev). The catalog stores
         # "0 • 0 • 0 • 0 • 0" as a placeholder for both, which would
         # otherwise produce zero hits / zero PP regardless of ranks.
+        #
+        # Leave the CATEGORY progression at the catalog placeholder. RMSS
+        # treats Body Dev and PP Dev as special categories that DON'T
+        # incur the standard "-15 for zero ranks" malus — the all-zeros
+        # placeholder gives 0 at any rank, which is the right floor for
+        # an untrained Body Dev / PP Dev (hits == 0, PP == 0). The whole
+        # bonus lives on the skill row, where the race progression now
+        # drives the math.
         skill_prog = (catalog or {}).get("rank_progression") or ""
         if cat_short == "Body Development" and body_dev_skill_prog:
             skill_prog = body_dev_skill_prog
-            # The CATEGORY uses Standard Category — the race-specific
-            # progression applies to the skill only. Override the
-            # catalog's all-zeros placeholder so category ranks (rare,
-            # but legal per RMSS) actually contribute.
-            cat_prog = "Standard"
         elif cat_short == "Power Point Development" and pp_dev_skill_prog:
             skill_prog = pp_dev_skill_prog
-            cat_prog = "Standard"
 
         # Bonus math uses TOTAL ranks (DP + applied), per RMSS.
         cat_rank_b = progression_bonus(

@@ -660,6 +660,25 @@ def _assign_race(cid: int, race_id: int, culture_slug: str | None = None) -> Non
         conn.commit()
 
 
+def _add_profession_cost(prof_slug: str, group: str, category: str, cost: str) -> None:
+    """Slot in a profession_category_cost row so Pass 1 picks up the
+    catalog (and its skills_list) for `category`. Without this, Pass 2's
+    list_skill_categories projection is missing skills_list — fine in
+    production where every profession lists Body Dev / PP Dev, but our
+    minimal test_fighter doesn't out of the box."""
+    from web.db import connect_rw
+    with connect_rw() as conn:
+        pid = conn.execute(
+            "SELECT profession_id FROM profession WHERE slug = ?", (prof_slug,),
+        ).fetchone()[0]
+        conn.execute(
+            "INSERT OR REPLACE INTO profession_category_cost "
+            "(profession_id, group_name, category_name, cost) "
+            "VALUES (?, ?, ?, ?)", (pid, group, category, cost),
+        )
+        conn.commit()
+
+
 def _assign_profession_realm(prof_slug: str, *realms: str) -> None:
     from web.db import connect_rw
     with connect_rw() as conn:
@@ -681,6 +700,7 @@ def test_body_dev_progression_uses_race(client) -> None:
     on the Body Development category (so the SPA's optimistic mirror and
     the server's bonus math both use it)."""
     _seed_minimal_fighter()
+    _add_profession_cost("test_fighter", "Concepts", "Body Development", "2/5")
     _seed_skill_category("Concepts", "Body Development",
                           stat_bonuses="Co/SD/Co",
                           skills_list="BODY DEVELOPMENT",
@@ -701,11 +721,23 @@ def test_body_dev_progression_uses_race(client) -> None:
     by_cat = {(c["group_name"], c["category_name"]): c for c in body["categories"]}
     body_dev = by_cat.get(("Concepts", "Concepts • Body Development"))
     assert body_dev is not None
-    # Skill progression is the race's body_dev_prog verbatim.
-    assert body_dev["skill_progression"] == "0 • 7 • 4 • 2 • 1"
-    # Category gets bumped to Standard so category ranks (rare but legal)
-    # don't silently zero out as they would on the placeholder.
-    assert body_dev["category_progression"] == "Standard"
+    # Skill progression is the race's body_dev_prog with the rank-0 cell
+    # stripped so the existing dispatcher reads it as a 4-band string.
+    assert body_dev["skill_progression"] == "7 • 4 • 2 • 1"
+    # Category stays at the catalog placeholder ("0 • 0 • 0 • 0 • 0").
+    # RMSS treats Body Dev as a special category that doesn't suffer the
+    # standard "-15 for 0 ranks" malus — the all-zeros placeholder gives
+    # 0 at any rank, which is the correct floor for untrained Body Dev.
+    assert body_dev["category_progression"] == "0 • 0 • 0 • 0 • 0"
+    # And the resulting category total is 0, not -15. Without this, at
+    # 0 ranks the skill total would cascade to -15 (cat_total + 0 skill
+    # rank bonus) instead of the correct 0.
+    assert body_dev["total_bonus"] == 0
+    # The single skill ("BODY DEVELOPMENT") also totals to 0 at 0 ranks
+    # — cat_total(0) + race_rank_b(0) = 0.
+    sk = body_dev["skills"][0]
+    assert sk["current_ranks"] == 0
+    assert sk["total_bonus"] == 0
 
 
 def test_pp_dev_progression_uses_race_and_realm(client) -> None:
@@ -713,6 +745,7 @@ def test_pp_dev_progression_uses_race_and_realm(client) -> None:
     A Dwarf-like race with Essence chosen (Fighter coerced to Essence
     here for the test) should land on the dwarves' Essence column."""
     _seed_minimal_fighter()
+    _add_profession_cost("test_fighter", "Concepts", "Power Point Development", "4")
     _assign_profession_realm("test_fighter", "Essence")
     _seed_skill_category("Concepts", "Power Point Development",
                           stat_bonuses="Realm stat",
@@ -734,13 +767,15 @@ def test_pp_dev_progression_uses_race_and_realm(client) -> None:
     by_cat = {(c["group_name"], c["category_name"]): c for c in body["categories"]}
     pp_dev = by_cat.get(("Concepts", "Concepts • Power Point Development"))
     assert pp_dev is not None
-    assert pp_dev["skill_progression"] == "0 • 3 • 2 • 1 • 1"
+    # ess_pp_prog "0•3•2•1•1" with rank-0 cell stripped -> "3 • 2 • 1 • 1".
+    assert pp_dev["skill_progression"] == "3 • 2 • 1 • 1"
 
 
 def test_pp_dev_progression_hybrid_takes_per_rank_min(client) -> None:
     """Channeling + Mentalism hybrid (e.g. Healer) on a dwarf-like race
     should land on the per-band MIN — Chan=6/5/4/3, Ment=3/2/1/1 -> 3/2/1/1."""
     _seed_minimal_fighter()
+    _add_profession_cost("test_fighter", "Concepts", "Power Point Development", "4")
     _assign_profession_realm("test_fighter", "Channeling", "Mentalism")
     _seed_skill_category("Concepts", "Power Point Development",
                           stat_bonuses="Realm stat",
@@ -760,7 +795,9 @@ def test_pp_dev_progression_hybrid_takes_per_rank_min(client) -> None:
     body = client.get(f"/api/v1/characters/{cid}/skill-allocator").json()
     by_cat = {(c["group_name"], c["category_name"]): c for c in body["categories"]}
     pp_dev = by_cat[("Concepts", "Concepts • Power Point Development")]
-    assert pp_dev["skill_progression"] == "0 • 3 • 2 • 1 • 1"
+    # After rank-0 strip: Chan=[6,5,4,3], Ment=[3,2,1,1]. Per-band min
+    # -> "3 • 2 • 1 • 1".
+    assert pp_dev["skill_progression"] == "3 • 2 • 1 • 1"
 
 
 def test_body_dev_progression_uses_culture_when_umbrella_race(client) -> None:
@@ -768,6 +805,7 @@ def test_body_dev_progression_uses_culture_when_umbrella_race(client) -> None:
     sub-culture. A character with race=Common Men + culture=High Men
     should pick up High-Men's body_dev_prog, not Common Men's."""
     _seed_minimal_fighter()
+    _add_profession_cost("test_fighter", "Concepts", "Body Development", "2/5")
     _seed_skill_category("Concepts", "Body Development",
                           stat_bonuses="Co/SD/Co",
                           skills_list="BODY DEVELOPMENT",
@@ -795,7 +833,52 @@ def test_body_dev_progression_uses_culture_when_umbrella_race(client) -> None:
     by_cat = {(c["group_name"], c["category_name"]): c for c in body["categories"]}
     body_dev = by_cat[("Concepts", "Concepts • Body Development")]
     # High Men progression wins through culture_slug.
-    assert body_dev["skill_progression"] == "0 • 7 • 5 • 3 • 1"
+    # After rank-0 strip: "0 • 7 • 5 • 3 • 1" -> "7 • 5 • 3 • 1".
+    assert body_dev["skill_progression"] == "7 • 5 • 3 • 1"
+
+
+def test_body_dev_skill_bonus_with_ranks(client) -> None:
+    """Putting 3 ranks into the Body Dev *skill* on a 0•7•4•2•1 race
+    gives sk_rank_b = 3 * 7 = 21 (first-band rate). cat_total stays at
+    0 (placeholder). Total = 21."""
+    from web.db import connect_rw
+
+    _seed_minimal_fighter()
+    _add_profession_cost("test_fighter", "Concepts", "Body Development", "2/5")
+    _seed_skill_category("Concepts", "Body Development",
+                          stat_bonuses="Co/SD/Co",
+                          skills_list="BODY DEVELOPMENT",
+                          skill_stat="Co",
+                          rank_progression="",
+                          category_progression="0 • 0 • 0 • 0 • 0")
+    rid = _seed_race_with_progressions(
+        "dwarves_with_ranks",
+        body="0 • 7 • 4 • 2 • 1",
+        chan="0 • 6 • 5 • 4 • 3",
+        ess="0 • 3 • 2 • 1 • 1",
+        ment="0 • 3 • 2 • 1 • 1",
+    )
+    cid = _create_character_at_fighter(client)
+    _assign_race(cid, rid)
+    # Apply 3 adolescence skill ranks directly to the BODY DEVELOPMENT
+    # leaf so we can verify the per-rank race progression is in effect.
+    with connect_rw() as conn:
+        conn.execute(
+            "INSERT INTO character_skill "
+            "(character_id, skill, kind, rank, source) "
+            "VALUES (?, 'BODY DEVELOPMENT', 'skill', 3, 'adolescence')",
+            (cid,),
+        )
+        conn.commit()
+
+    body = client.get(f"/api/v1/characters/{cid}/skill-allocator").json()
+    by_cat = {(c["group_name"], c["category_name"]): c for c in body["categories"]}
+    body_dev = by_cat[("Concepts", "Concepts • Body Development")]
+    sk = next(s for s in body_dev["skills"] if s["skill_name"] == "BODY DEVELOPMENT")
+    assert sk["current_ranks"] == 3
+    # 3 ranks in first band of 0•7•4•2•1 -> 3 * 7 = 21.
+    # cat_total = 0 (placeholder). sk_total = 21 + 0 = 21.
+    assert sk["total_bonus"] == 21
 
 
 def test_body_dev_progression_falls_through_when_unraced(client) -> None:
@@ -803,6 +886,7 @@ def test_body_dev_progression_falls_through_when_unraced(client) -> None:
     or otherwise). We don't want the helper to invent a progression
     from thin air for an unraced character."""
     _seed_minimal_fighter()
+    _add_profession_cost("test_fighter", "Concepts", "Body Development", "2/5")
     _seed_skill_category("Concepts", "Body Development",
                           stat_bonuses="Co/SD/Co",
                           skills_list="BODY DEVELOPMENT",
