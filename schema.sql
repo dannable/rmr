@@ -598,10 +598,20 @@ CREATE TABLE IF NOT EXISTS character_adolescence_choice (
 
 CREATE TABLE IF NOT EXISTS character_skill (
     character_id INTEGER NOT NULL REFERENCES character(character_id) ON DELETE CASCADE,
-    skill        TEXT    NOT NULL,           -- resolved final name (e.g. "Riding (horses)")
+    skill        TEXT    NOT NULL,           -- resolved final name (e.g. "Riding (horses)",
+                                             -- or "Armor • Light" for a kind='category' row)
+    -- 'skill' or 'category' — adolescence (and later TPs) grants ranks at
+    -- BOTH levels; we keep them in the same table so the allocator can
+    -- sum them with one query.
+    kind         TEXT    NOT NULL DEFAULT 'skill'
+                     CHECK (kind IN ('skill', 'category')),
     rank         INTEGER NOT NULL DEFAULT 0,
-    source       TEXT    NOT NULL DEFAULT 'adolescence',  -- 'adolescence' | 'dp' | 'hobby' | ...
-    PRIMARY KEY (character_id, skill)
+    -- Provenance: 'adolescence' / 'hobby' / 'tp:<slug>' / 'dp' / ...
+    -- Multiple sources can grant ranks for the same (kind, skill) pair —
+    -- e.g. 1 rank of Climbing from adolescence + 1 from a training package.
+    -- The allocator sums across sources to compute current_ranks.
+    source       TEXT    NOT NULL DEFAULT 'adolescence',
+    PRIMARY KEY (character_id, kind, skill, source)
 );
 CREATE INDEX IF NOT EXISTS idx_character_skill_by_source
     ON character_skill(character_id, source);
