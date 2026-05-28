@@ -113,8 +113,72 @@ def test_get_allocator_baseline(client) -> None:
     assert brawn["rank_cap_per_level"] == 2
     assert brawn["next_rank_cost_dp"] == 1
     # Profession category bonus = +5; default 50/50 stats → St=0/Co=0/Ag=0 → 0;
-    # rank bonus at 0 ranks → 0. Total = 5.
+    # rank bonus at 0 ranks → 0. Total = 5. The breakdown surfaces it as class_bonus.
+    assert brawn["class_bonus"] == 5
+    assert brawn["special_bonus"] == 0
     assert brawn["total_bonus"] == 5
+    # current_ranks == ranks_bought (no adolescence/hobby/TP yet).
+    assert brawn["current_ranks"] == 0
+    assert brawn["ranks_bought"] == 0
+
+
+def test_allocator_surfaces_costs_even_when_catalog_uses_different_naming(client) -> None:
+    """Regression for the Phase-B-1 bug: skill_category names like
+    "Communication" (singular) didn't match profession costs like
+    "Communications" (plural), so the allocator showed `cost=""` for
+    every such category and hid it as "untrainable". The fix drives the
+    list from `profession_category_cost` and looks up the catalog
+    leniently, so cost-bearing categories ALWAYS surface with their cost.
+    """
+    from web.db import connect_rw
+    with connect_rw() as conn:
+        # Seed a profession with two costs: one whose catalog name matches
+        # (Artistic • Active) and one whose catalog name uses the singular
+        # group form (Communication vs Communications).
+        conn.execute("DELETE FROM profession WHERE slug = 'test_rogue'")
+        cur = conn.execute(
+            "INSERT INTO profession (slug, name, description, source) "
+            "VALUES ('test_rogue', 'Test Rogue', 'sneaks', 'character_law') "
+            "RETURNING profession_id",
+        )
+        pid = cur.fetchone()[0]
+        for g, c, cost in [
+            ("Artistic",       "Active",         "2/4"),
+            ("Communications", "Communications", "1/1/1"),
+        ]:
+            conn.execute(
+                "INSERT INTO profession_category_cost "
+                "(profession_id, group_name, category_name, cost) "
+                "VALUES (?, ?, ?, ?)", (pid, g, c, cost),
+            )
+        conn.commit()
+    _seed_skill_category("Artistic • Active", "Artistic • Active",
+                          stat_bonuses="Em/Pr/SD", skills_list="")
+    # Catalog stores this group as "Communication" (singular) — the bug
+    # was that this didn't match the profession's "Communications".
+    _seed_skill_category("Communication", "Communication",
+                          stat_bonuses="Pr/Re/Pr", skills_list="")
+
+    r = client.post("/api/v1/characters", json={"name": "Rogue Tester"})
+    cid = r.json()["character_id"]
+    client.put(f"/api/v1/characters/{cid}/profession", json={"slug": "test_rogue"})
+    body = client.get(f"/api/v1/characters/{cid}/skill-allocator").json()
+    by_short = {(c["group_name"], _category_short(c)): c for c in body["categories"]}
+
+    art = by_short[("Artistic", "Active")]
+    assert art["cost"] == "2/4"
+    assert art["rank_cap_per_level"] == 2
+
+    comm = by_short[("Communications", "Communications")]
+    assert comm["cost"] == "1/1/1"     # the old code returned "" here
+    assert comm["rank_cap_per_level"] == 3
+
+
+def _category_short(cat: dict) -> str:
+    """Helper: pull the short category name from a full label."""
+    label = cat["category_name"]
+    prefix = cat["group_name"] + " • "
+    return label[len(prefix):] if label.startswith(prefix) else label
 
 
 def test_buy_category_ranks_charges_dp_and_updates_bonus(client) -> None:

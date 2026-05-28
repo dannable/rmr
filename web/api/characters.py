@@ -1414,6 +1414,17 @@ class SkillRow(BaseModel):
     ranks_bought: int = 0
     dp_spent: int = 0
     next_rank_cost_dp: int | None = None
+    # Total ranks from ALL sources (DP purchase + adolescence + hobby
+    # + TP-granted). At chargen with only DP purchases this equals
+    # ranks_bought, but it lets the SPA distinguish "ranks the player
+    # already has" from "additional ranks they buy this level".
+    current_ranks: int = 0
+    # Per-source bonus breakdown:
+    #   class_bonus   = profession contribution (category + group bonuses)
+    #   special_bonus = race / TP / item bonuses — 0 today, layered later
+    # Total = rank-bonus + stat-bonus + class_bonus + special_bonus.
+    class_bonus: int = 0
+    special_bonus: int = 0
     total_bonus: int = 0
 
 
@@ -1427,6 +1438,10 @@ class SkillCategoryRow(BaseModel):
     ranks_bought: int = 0
     dp_spent: int = 0
     next_rank_cost_dp: int | None = None
+    # Same conventions as SkillRow.
+    current_ranks: int = 0
+    class_bonus: int = 0
+    special_bonus: int = 0
     total_bonus: int = 0
     skills: list[SkillRow] = []
 
@@ -1503,12 +1518,27 @@ def _effective_cost_for_category(
 def _build_skill_allocator(
     conn: sqlite3.Connection, character_id: int,
 ) -> SkillAllocatorResponse:
-    """Snapshot every category + skill with current purchases + bonuses."""
+    """Snapshot every category + skill with current purchases + bonuses.
+
+    Driven by `profession_category_cost` rather than the skill catalog —
+    the cost table is the authoritative list of what the player can
+    actually train, and its vocabulary (group_name / category_name) is
+    the one cost lookups need. For each cost row we JOIN to the catalog
+    by category name to enrich with rank progression / stat bonuses /
+    leaf skills, but cost rows without a catalog match still surface
+    (e.g. profession's "Spells • Own Realm Closed Lists" — purchasable
+    but the skill catalog doesn't enumerate it).
+
+    A second pass appends skill_category rows that the profession has
+    NO cost for ("untrainable" — restricted, professionally locked).
+    Those carry the catalog's progression metadata but cost="" so the
+    SPA can grey them out and the buy endpoints reject them.
+    """
     from core.chargen.skills import (
         category_purchase_state, skill_purchase_state, total_dp_spent,
         progression_bonus, standard_skill_bonus, standard_category_bonus,
         stat_bonus_for, parse_stat_codes, rank_cap_per_level,
-        dp_for_rank, list_skill_categories, list_skills_in_category,
+        dp_for_rank, find_skill_catalog_match, list_skills_in_skill_category,
         profession_category_costs, profession_category_bonuses,
         profession_group_bonuses,
     )
@@ -1526,76 +1556,137 @@ def _build_skill_allocator(
     cat_state = category_purchase_state(conn, character_id, level=1)
     skill_state = skill_purchase_state(conn, character_id, level=1)
 
+    # Ranks already on the character from non-DP sources (adolescence
+    # so far; later hobby + TP-application). Keyed by skill name —
+    # there's no category-level non-DP source today.
+    skill_other_ranks = {
+        r["skill"]: int(r["rank"])
+        for r in conn.execute(
+            "SELECT skill, rank FROM character_skill WHERE character_id = ?",
+            (character_id,),
+        ).fetchall()
+    }
+
     out_categories: list[SkillCategoryRow] = []
-    for sc in list_skill_categories(conn):
-        group = sc["group_name"]
-        cat_label = sc["category_name"]
-        # Strip "Group • " prefix when looking up profession costs —
-        # skill_category names are full ("Weapon • 1-H Edged"); the
-        # cost table uses short ("1-H Edged").
-        cat_short = cat_label
-        prefix1 = group + " • "
-        prefix2 = group + " · "
-        if cat_label.startswith(prefix1):
-            cat_short = cat_label[len(prefix1):]
-        elif cat_label.startswith(prefix2):
-            cat_short = cat_label[len(prefix2):]
+    seen_keys: set[tuple[str, str]] = set()
 
-        cost = _effective_cost_for_category(
-            conn, character_id, prof_id, prof_costs, group, cat_short,
-        )
+    def emit_category_row(
+        group: str, cat_short: str, cost: str,
+        catalog: dict | None,
+    ) -> None:
+        """Compose one SkillCategoryRow + its leaf skills.
 
+        `catalog` is the skill_category row (from find_skill_catalog_match)
+        — None when the profession has a cost for a category the catalog
+        doesn't list (e.g. "Spells • Own Realm Closed Lists").
+        """
         cat_buy = cat_state.get((group, cat_short),
                                  {"ranks_bought": 0, "dp_spent": 0})
         ranks = cat_buy["ranks_bought"]
         cap = rank_cap_per_level(cost)
         next_cost = dp_for_rank(cost, ranks + 1) if cost else None
 
-        cat_rank_b = progression_bonus(
-            sc.get("category_progression") or "",
-            standard_category_bonus, ranks,
-        )
-        cat_stat_b = stat_bonus_for(sc.get("stat_bonuses"), raw_temps)
-        prof_cat_b = cat_bonuses.get((group, cat_short), 0)
-        prof_grp_b = grp_bonuses.get(group, 0)
-        cat_total = int(round(cat_rank_b + cat_stat_b + prof_cat_b + prof_grp_b))
+        cat_prog = (catalog or {}).get("category_progression") or ""
+        cat_stat_str = (catalog or {}).get("stat_bonuses") or ""
 
+        cat_rank_b = progression_bonus(cat_prog, standard_category_bonus, ranks)
+        cat_stat_b = stat_bonus_for(cat_stat_str, raw_temps)
+        class_b = cat_bonuses.get((group, cat_short), 0) + grp_bonuses.get(group, 0)
+        special_b = 0   # race/TP/item bonuses to come in Phase C+
+        cat_total = int(round(cat_rank_b + cat_stat_b + class_b + special_b))
+
+        # Per-skill rows.
         leaves: list[SkillRow] = []
-        for sk in list_skills_in_category(conn, group, cat_label):
-            sk_buy = skill_state.get((group, cat_short, sk["name"]),
-                                      {"ranks_bought": 0, "dp_spent": 0})
-            sk_ranks = sk_buy["ranks_bought"]
-            sk_rank_b = progression_bonus(
-                sc.get("rank_progression") or "",
-                standard_skill_bonus, sk_ranks,
-            )
-            sk_stat_b = 0
-            for code in parse_stat_codes(sk.get("stat")):
-                if code in raw_temps:
-                    sk_stat_b += basic_stat_bonus(int(raw_temps[code]))
-            sk_total = int(round(sk_rank_b + sk_stat_b + cat_total))
-            next_sk_cost = dp_for_rank(cost, sk_ranks + 1) if cost else None
-            leaves.append(SkillRow(
-                skill_name=sk["name"],
-                stat=sk.get("stat"),
-                ranks_bought=sk_ranks,
-                dp_spent=sk_buy["dp_spent"],
-                next_rank_cost_dp=next_sk_cost,
-                total_bonus=sk_total,
-            ))
+        skill_prog = (catalog or {}).get("rank_progression") or ""
+        if catalog is not None:
+            for sk in list_skills_in_skill_category(conn, catalog):
+                sk_name = sk["name"]
+                sk_buy = skill_state.get((group, cat_short, sk_name),
+                                          {"ranks_bought": 0, "dp_spent": 0})
+                sk_ranks = sk_buy["ranks_bought"]
+                sk_other = skill_other_ranks.get(sk_name, 0)
+                current_ranks = sk_ranks + sk_other
+                sk_rank_b = progression_bonus(
+                    skill_prog, standard_skill_bonus, current_ranks,
+                )
+                sk_stat_b = 0
+                for code in parse_stat_codes(sk.get("stat")):
+                    if code in raw_temps:
+                        sk_stat_b += basic_stat_bonus(int(raw_temps[code]))
+                sk_total = int(round(sk_rank_b + sk_stat_b + cat_total))
+                next_sk_cost = dp_for_rank(cost, sk_ranks + 1) if cost else None
+                leaves.append(SkillRow(
+                    skill_name=sk_name,
+                    stat=sk.get("stat"),
+                    ranks_bought=sk_ranks,
+                    current_ranks=current_ranks,
+                    dp_spent=sk_buy["dp_spent"],
+                    next_rank_cost_dp=next_sk_cost,
+                    class_bonus=class_b,
+                    special_bonus=special_b,
+                    total_bonus=sk_total,
+                ))
 
         out_categories.append(SkillCategoryRow(
             group_name=group,
-            category_name=cat_label,
-            classification=sc.get("classification"),
+            # Always use the profession-side spelling (the cost-table is
+            # the source of truth for what's purchasable, and that
+            # vocabulary is what the SPA's stripGroupPrefix expects).
+            # The catalog's own spelling (e.g. "Communication" singular)
+            # may differ; that's a display issue we don't surface here.
+            category_name=f"{group} • {cat_short}",
+            classification=(catalog or {}).get("classification"),
             cost=cost or "",
             rank_cap_per_level=cap,
             ranks_bought=ranks,
+            current_ranks=ranks,   # no non-DP source for category ranks today
             dp_spent=cat_buy["dp_spent"],
             next_rank_cost_dp=next_cost,
+            class_bonus=class_b,
+            special_bonus=special_b,
             total_bonus=cat_total,
             skills=leaves,
         ))
+        seen_keys.add((group, cat_short))
+
+    # Pass 1: every (group, category) the profession has a cost for.
+    # Sort by group then category for stable output.
+    for (group, cat_short), raw_cost in sorted(prof_costs.items()):
+        cost = _effective_cost_for_category(
+            conn, character_id, prof_id, prof_costs, group, cat_short,
+        )
+        catalog = find_skill_catalog_match(conn, group, cat_short)
+        emit_category_row(group, cat_short, cost, catalog)
+
+    # Pass 2: catalog categories the profession DOESN'T list — surfaced
+    # as untrainable so the SPA can show them when its "Show categories
+    # with no profession cost" toggle is on.
+    from core.chargen.skills import list_skill_categories
+    for sc in list_skill_categories(conn):
+        # Re-derive (group, category_short) using the same alias logic
+        # that find_skill_catalog_match uses, so this pass dedupes
+        # against pass 1.
+        parent = (sc.get("category_name") or "")
+        # Pull parent_group from skill_category directly; the convenience
+        # wrapper doesn't return it, so re-query.
+        sc_row = conn.execute(
+            "SELECT parent_group FROM skill_category WHERE name = ?",
+            (sc.get("category_name") or "",),
+        ).fetchone()
+        pgrp = (sc_row["parent_group"] or "").strip() if sc_row else ""
+        # Use skill_category_group.name when parent_group is empty/None.
+        group = pgrp if pgrp and pgrp != "None" else sc.get("group_name") or ""
+        # Apply alias forward (Craft → Crafts, Communication → Communications)
+        # so we dedupe against profession_costs that use the plural form.
+        from core.chargen.skills import _GROUP_ALIASES
+        group = _GROUP_ALIASES.get(group, group)
+
+        cat_label = sc.get("category_name") or ""
+        prefix = group + " • "
+        cat_short = cat_label[len(prefix):] if cat_label.startswith(prefix) else cat_label
+        if (group, cat_short) in seen_keys:
+            continue
+        emit_category_row(group, cat_short, "", sc)
 
     tp_rows = conn.execute(
         "SELECT ctp.training_package_slug AS slug, tp.name, "

@@ -159,6 +159,13 @@ export interface SkillRow {
   ranks_bought: number;
   dp_spent: number;
   next_rank_cost_dp: number | null;
+  /** Total ranks from all sources (DP purchases + adolescence + hobby
+   *  + TP-granted). At chargen this typically equals ranks_bought. */
+  current_ranks: number;
+  /** Profession-derived flat bonus (category bonus + group bonus). */
+  class_bonus: number;
+  /** Race / TP / item bonuses — 0 today, layered in later phases. */
+  special_bonus: number;
   total_bonus: number;
 }
 
@@ -171,6 +178,10 @@ export interface SkillCategoryRow {
   ranks_bought: number;
   dp_spent: number;
   next_rank_cost_dp: number | null;
+  /** Same as on SkillRow — total ranks from all sources. */
+  current_ranks: number;
+  class_bonus: number;
+  special_bonus: number;
   total_bonus: number;
   skills: SkillRow[];
 }
