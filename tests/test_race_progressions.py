@@ -7,7 +7,12 @@ covers the end-to-end wiring."""
 
 from __future__ import annotations
 
-from core.chargen.race import body_dev_progression, pp_dev_progression
+from core.chargen.race import (
+    body_dev_progression,
+    pp_dev_progression,
+    pp_dev_stat_bonus,
+    pp_dev_stat_codes,
+)
 
 
 def _race(**fields) -> dict:
@@ -160,3 +165,111 @@ def test_pp_dev_progression_blank_realm_field_falls_through() -> None:
     at all. Return empty (caller falls back)."""
     race = _race(chan_pp_prog="", ess_pp_prog="")
     assert pp_dev_progression(race, ["Channeling"]) == ""
+
+
+# ---------------------------------------------------------------------------
+# pp_dev_stat_codes — realm → stat-code mapping
+# ---------------------------------------------------------------------------
+
+def test_pp_dev_stat_codes_single_realm() -> None:
+    assert pp_dev_stat_codes(["Channeling"]) == ["In"]
+    assert pp_dev_stat_codes(["Essence"]) == ["Em"]
+    assert pp_dev_stat_codes(["Mentalism"]) == ["Pr"]
+
+
+def test_pp_dev_stat_codes_hybrid_preserves_order() -> None:
+    """Sorcerer (Chan + Ess) -> [In, Em] in realm-name order."""
+    assert pp_dev_stat_codes(["Channeling", "Essence"]) == ["In", "Em"]
+    assert pp_dev_stat_codes(["Essence", "Mentalism"]) == ["Em", "Pr"]
+    assert pp_dev_stat_codes(["Channeling", "Mentalism"]) == ["In", "Pr"]
+
+
+def test_pp_dev_stat_codes_dedupes() -> None:
+    """A realm listed twice doesn't duplicate the stat code."""
+    assert pp_dev_stat_codes(["Channeling", "Channeling"]) == ["In"]
+
+
+def test_pp_dev_stat_codes_skips_unknown() -> None:
+    """Arcane / unknown realm strings get dropped silently."""
+    assert pp_dev_stat_codes(["Arcane"]) == []
+    assert pp_dev_stat_codes(["Channeling", "Arcane"]) == ["In"]
+
+
+def test_pp_dev_stat_codes_empty_realms() -> None:
+    """Non-spell-using profession (no realm assigned) -> no stat codes."""
+    assert pp_dev_stat_codes([]) == []
+
+
+# ---------------------------------------------------------------------------
+# pp_dev_stat_bonus — T-2.1 bonus per realm, averaged for hybrids
+# ---------------------------------------------------------------------------
+
+# T-2.1 lookup pins for sanity-checking the values below (verified
+# against core.chargen.stats.basic_stat_bonus):
+#   stat 50 -> 0
+#   stat 75 -> +2
+#   stat 80 -> +3
+#   stat 90 -> +5
+
+def _temps(**overrides: int) -> dict:
+    """Default 50/50/50 temps; override individual stats for the test."""
+    base = {"Ag": 50, "Co": 50, "Me": 50, "Re": 50, "SD": 50,
+            "Em": 50, "In": 50, "Pr": 50, "Qu": 50, "St": 50}
+    base.update(overrides)
+    return base
+
+
+def test_pp_dev_stat_bonus_single_realm_uses_that_stat() -> None:
+    """Magician (Essence): Em 80 -> T-2.1 bonus = +3."""
+    assert pp_dev_stat_bonus(["Essence"], _temps(Em=80)) == 3
+
+
+def test_pp_dev_stat_bonus_single_realm_channeling() -> None:
+    """Cleric (Channeling): In 90 -> T-2.1 bonus = +5."""
+    assert pp_dev_stat_bonus(["Channeling"], _temps(In=90)) == 5
+
+
+def test_pp_dev_stat_bonus_single_realm_mentalism() -> None:
+    """Mentalist: Pr 80 -> +3."""
+    assert pp_dev_stat_bonus(["Mentalism"], _temps(Pr=80)) == 3
+
+
+def test_pp_dev_stat_bonus_hybrid_averages_rounded_down() -> None:
+    """Sorcerer (Chan + Ess): In=90 (+5), Em=80 (+3). Avg=(5+3)//2=4,
+    matching RMSS hybrid PP rule."""
+    bonus = pp_dev_stat_bonus(["Channeling", "Essence"],
+                                _temps(In=90, Em=80))
+    assert bonus == 4
+
+
+def test_pp_dev_stat_bonus_hybrid_odd_avg_rounds_down() -> None:
+    """Odd numerator floors per RMSS "rounded down" convention.
+    Bonuses 3 and 2 -> (3+2)//2 = 2 (not 2.5 or 3).
+    Em 80 -> +3, In 75 -> +2."""
+    bonus = pp_dev_stat_bonus(["Channeling", "Essence"],
+                                _temps(In=75, Em=80))
+    assert bonus == 2
+
+
+def test_pp_dev_stat_bonus_three_realm_arcane() -> None:
+    """If a profession ever lists all three (Arcane casters in custom
+    homebrew), average across all three. In=90 (+5), Em=80 (+3),
+    Pr=80 (+3) -> avg(5,3,3) = 11//3 = 3."""
+    bonus = pp_dev_stat_bonus(
+        ["Channeling", "Essence", "Mentalism"],
+        _temps(In=90, Em=80, Pr=80),
+    )
+    assert bonus == 3
+
+
+def test_pp_dev_stat_bonus_no_realm_returns_zero() -> None:
+    """Non-spell-user (Fighter) -> 0 bonus, regardless of stats."""
+    assert pp_dev_stat_bonus([], _temps(Em=90, In=90, Pr=90)) == 0
+
+
+def test_pp_dev_stat_bonus_missing_stat_in_temps_skipped() -> None:
+    """If raw_temps doesn't carry the realm stat, that realm is silently
+    skipped (defensive — shouldn't happen in production). Only Em
+    present; Channeling realm gets dropped, Essence contributes Em=80
+    -> +3."""
+    assert pp_dev_stat_bonus(["Channeling", "Essence"], {"Em": 80}) == 3

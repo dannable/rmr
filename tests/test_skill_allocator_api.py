@@ -679,6 +679,20 @@ def _add_profession_cost(prof_slug: str, group: str, category: str, cost: str) -
         conn.commit()
 
 
+def _set_character_stat_temp(cid: int, code: str, temp: int) -> None:
+    """Override a single character_stat.temp value so we can target a
+    specific T-2.1 bonus in the test (default 50 -> 0)."""
+    from web.db import connect_rw
+    with connect_rw() as conn:
+        conn.execute(
+            "INSERT INTO character_stat (character_id, stat_code, temp, potential) "
+            "VALUES (?, ?, ?, 100) "
+            "ON CONFLICT(character_id, stat_code) DO UPDATE SET temp = excluded.temp",
+            (cid, code, temp),
+        )
+        conn.commit()
+
+
 def _assign_profession_realm(prof_slug: str, *realms: str) -> None:
     from web.db import connect_rw
     with connect_rw() as conn:
@@ -885,6 +899,105 @@ def test_body_dev_skill_bonus_with_ranks(client) -> None:
     sk = next(s for s in body_dev["skills"] if s["skill_name"] == "BODY DEVELOPMENT")
     assert sk["current_ranks"] == 3
     assert sk["total_bonus"] == 21
+
+
+def test_pp_dev_stat_bonus_single_realm_uses_realm_stat(client) -> None:
+    """PP Dev catalog stores stat_bonuses="Realm stat" as a placeholder;
+    the allocator resolves it to the real stat code(s) from the
+    profession's realm list and applies the right T-2.1 bonus.
+    Magician (Essence) → Em. With Em=80 (T-2.1 +3), we should see "Em"
+    in stat_bonuses and stat_bonus=3 on the PP Dev category row."""
+    _seed_minimal_fighter()
+    _add_profession_cost("test_fighter", "Concepts", "Power Point Development", "4")
+    _assign_profession_realm("test_fighter", "Essence")
+    _seed_skill_category("Concepts", "Power Point Development",
+                          stat_bonuses="Realm stat",
+                          skills_list="Power Point Development",
+                          rank_progression="",
+                          category_progression="0 • 0 • 0 • 0 • 0")
+    rid = _seed_race_with_progressions(
+        "magician_test_race",
+        body="0 • 6 • 4 • 2 • 1",
+        chan="0 • 6 • 5 • 4 • 3",
+        ess="0 • 6 • 5 • 4 • 3",
+        ment="0 • 7 • 6 • 5 • 4",
+    )
+    cid = _create_character_at_fighter(client)
+    _assign_race(cid, rid)
+    _set_character_stat_temp(cid, "Em", 80)   # Em 80 -> T-2.1 +3
+
+    body = client.get(f"/api/v1/characters/{cid}/skill-allocator").json()
+    by_cat = {(c["group_name"], c["category_name"]): c for c in body["categories"]}
+    pp_dev = by_cat[("Concepts", "Concepts • Power Point Development")]
+    # "Realm stat" -> resolved to the actual stat code for display.
+    assert pp_dev["stat_bonuses"] == "Em"
+    # And the numeric bonus equals basic_stat_bonus(Em=80) = +3.
+    assert pp_dev["stat_bonus"] == 3
+
+
+def test_pp_dev_stat_bonus_hybrid_averages(client) -> None:
+    """Hybrid spellcaster (Sorcerer = Channeling + Essence) uses the
+    AVERAGE of the two realm stat bonuses, rounded down per RMSS.
+    In=90 (+5), Em=80 (+3) -> avg(5,3)//2 = 4."""
+    _seed_minimal_fighter()
+    _add_profession_cost("test_fighter", "Concepts", "Power Point Development", "9")
+    _assign_profession_realm("test_fighter", "Channeling", "Essence")
+    _seed_skill_category("Concepts", "Power Point Development",
+                          stat_bonuses="Realm stat",
+                          skills_list="Power Point Development",
+                          rank_progression="",
+                          category_progression="0 • 0 • 0 • 0 • 0")
+    rid = _seed_race_with_progressions(
+        "sorcerer_test_race",
+        body="0 • 6 • 4 • 2 • 1",
+        chan="0 • 6 • 5 • 4 • 3",
+        ess="0 • 6 • 5 • 4 • 3",
+        ment="0 • 6 • 5 • 4 • 3",
+    )
+    cid = _create_character_at_fighter(client)
+    _assign_race(cid, rid)
+    _set_character_stat_temp(cid, "In", 90)
+    _set_character_stat_temp(cid, "Em", 80)
+
+    body = client.get(f"/api/v1/characters/{cid}/skill-allocator").json()
+    by_cat = {(c["group_name"], c["category_name"]): c for c in body["categories"]}
+    pp_dev = by_cat[("Concepts", "Concepts • Power Point Development")]
+    # Both realm stats listed (display) — In before Em because realms
+    # came in alphabetical order from _load_profession_realms.
+    assert pp_dev["stat_bonuses"] == "In/Em"
+    # Averaged bonus: (5 + 3) // 2 = 4.
+    assert pp_dev["stat_bonus"] == 4
+
+
+def test_pp_dev_stat_bonus_falls_through_for_non_spellcaster(client) -> None:
+    """A profession with no realm (Fighter) keeps the catalog's
+    "Realm stat" placeholder string and gets 0 bonus — there's no
+    realm to map to a stat."""
+    _seed_minimal_fighter()
+    _add_profession_cost("test_fighter", "Concepts", "Power Point Development", "20")
+    _seed_skill_category("Concepts", "Power Point Development",
+                          stat_bonuses="Realm stat",
+                          skills_list="Power Point Development",
+                          rank_progression="",
+                          category_progression="0 • 0 • 0 • 0 • 0")
+    # No _assign_profession_realm call -> no realm rows.
+    rid = _seed_race_with_progressions(
+        "fighter_test_race",
+        body="0 • 6 • 4 • 2 • 1",
+        chan="", ess="", ment="",
+    )
+    cid = _create_character_at_fighter(client)
+    _assign_race(cid, rid)
+    _set_character_stat_temp(cid, "Em", 90)   # would-be +5 if applied
+
+    body = client.get(f"/api/v1/characters/{cid}/skill-allocator").json()
+    by_cat = {(c["group_name"], c["category_name"]): c for c in body["categories"]}
+    pp_dev = by_cat[("Concepts", "Concepts • Power Point Development")]
+    # Placeholder preserved.
+    assert pp_dev["stat_bonuses"] == "Realm stat"
+    # No realm -> 0 (no double-dipping on the Em the character happens
+    # to have).
+    assert pp_dev["stat_bonus"] == 0
 
 
 def test_body_dev_progression_falls_through_when_unraced(client) -> None:

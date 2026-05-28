@@ -143,6 +143,18 @@ _REALM_TO_PP_COL: dict[str, str] = {
     "Mentalism":  "ment_pp_prog",
 }
 
+# RMSS realm → stat code mapping for Power Point Development:
+#   Channeling → Intuition  (In)
+#   Essence    → Empathy    (Em)
+#   Mentalism  → Presence   (Pr)
+# Hybrid spellcasters use the AVERAGE of their contributing realms'
+# stat bonuses, rounded down (per RMSS Spell Law / Character Law).
+_REALM_TO_PP_STAT: dict[str, StatCode] = {
+    "Channeling": "In",
+    "Essence":    "Em",
+    "Mentalism":  "Pr",
+}
+
 
 def _parse_dotted_to_floats(text: str) -> list[float]:
     """Parse "0 • 7 • 4 • 2 • 1" into [0, 7, 4, 2, 1].
@@ -255,3 +267,50 @@ def pp_dev_progression(race: dict | None, realms: list[str]) -> str:
     padded = [p + [0.0] * (width - len(p)) for p in progs]
     merged = [min(col) for col in zip(*padded)]
     return _format_dotted(merged)
+
+
+def pp_dev_stat_codes(realms: list[str]) -> list[StatCode]:
+    """Realm-driven stat codes that apply to Power Point Development.
+
+    Returns the in-order list of stat codes for the contributing realms,
+    deduplicated while preserving order. Magician (Essence) -> ["Em"].
+    Sorcerer (Channeling, Essence) -> ["In", "Em"] (in realm-name order).
+    Empty if no recognised realm is supplied (non-spell-using profession;
+    PP Dev shouldn't get a stat bonus)."""
+    out: list[StatCode] = []
+    for realm in realms:
+        code = _REALM_TO_PP_STAT.get(realm)
+        if code is not None and code not in out:
+            out.append(code)
+    return out
+
+
+def pp_dev_stat_bonus(
+    realms: list[str], raw_temps: Mapping[StatCode, int],
+) -> int:
+    """Per-character PP Dev stat bonus from the realm-mapped stats.
+
+    Single realm: that realm's stat bonus directly.
+    Hybrid 2 realms: the AVERAGE of the two stat bonuses, rounded down
+        per RMSS convention for hybrid spellcasters.
+    Hybrid 3 realms (Arcane): the average of all three.
+
+    Returns 0 for non-spell-users (no recognised realm) or when raw_temps
+    doesn't carry the required stat — caller falls through to no bonus."""
+    # Late import to avoid pulling skills.py into race.py; the helper we
+    # need is a thin wrapper over T-2.1 that lives in core.chargen.stats.
+    from .stats import basic_stat_bonus
+
+    codes = pp_dev_stat_codes(realms)
+    if not codes:
+        return 0
+    bonuses: list[int] = []
+    for code in codes:
+        if code not in raw_temps:
+            continue
+        bonuses.append(basic_stat_bonus(int(raw_temps[code])))
+    if not bonuses:
+        return 0
+    # Floor division gives RMSS "rounded down" for the average. For one
+    # realm this is just that realm's bonus.
+    return sum(bonuses) // len(bonuses)
