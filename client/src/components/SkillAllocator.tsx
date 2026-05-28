@@ -681,14 +681,33 @@ function recomputeCategory(
       ? (parseInt(tokens[nextCatBought], 10) || 0)
       : null;
 
-  const catRankB = progressionBonus(cat.category_progression, nextCatCurrent, true);
-  const catTotal = Math.round(catRankB + cat.stat_bonus + cat.class_bonus + cat.special_bonus);
+  // Body Development and Power Point Development are conceptually
+  // single-row skills in RMSS. The server puts the race progression
+  // on the CATEGORY and a passthrough "0 • 0 • 0 • 0 • 0" on the SKILL,
+  // and sums category + skill ranks before applying the progression.
+  // Mirror that here so the optimistic UI matches what the server
+  // returns after refetch (no flash from 0 to the right number when
+  // the user clicks the skill-row +/-).
+  const isBodyOrPpDev = cat.skill_progression === "0 • 0 • 0 • 0 • 0";
 
-  const nextSkills = cat.skills.map((s) => {
+  // Pre-compute next-skill currentRanks so we can sum them for the
+  // race-progression case below.
+  const nextSkillCurrents = cat.skills.map((s) => {
     const isTouched = change.skill?.name === s.skill_name;
     const skBought = isTouched ? change.skill!.ranks_bought : s.ranks_bought;
-    const skNonDp = s.current_ranks - s.ranks_bought;
-    const skCurrent = skNonDp + skBought;
+    return s.current_ranks - s.ranks_bought + skBought;
+  });
+  const effectiveCatRanks = isBodyOrPpDev
+    ? nextCatCurrent + nextSkillCurrents.reduce((a, b) => a + b, 0)
+    : nextCatCurrent;
+
+  const catRankB = progressionBonus(cat.category_progression, effectiveCatRanks, true);
+  const catTotal = Math.round(catRankB + cat.stat_bonus + cat.class_bonus + cat.special_bonus);
+
+  const nextSkills = cat.skills.map((s, i) => {
+    const isTouched = change.skill?.name === s.skill_name;
+    const skBought = isTouched ? change.skill!.ranks_bought : s.ranks_bought;
+    const skCurrent = nextSkillCurrents[i];
     const skRankB = progressionBonus(cat.skill_progression, skCurrent, false);
     // Per RMSS: skill_total = skill_rank_bonus + category_total
     //                       + item_bonus + special_bonus.

@@ -1703,29 +1703,45 @@ def _build_skill_allocator(
         cat_prog = (catalog or {}).get("category_progression") or ""
         cat_stat_str = (catalog or {}).get("stat_bonuses") or ""
 
-        # Per-skill progression — pulled from the catalog by default, then
-        # overridden for Body Development and Power Point Development
-        # because RMSS T-2.2 ties THOSE skills' progressions to the
-        # character's race (and realm, for PP Dev). The catalog stores
-        # "0 • 0 • 0 • 0 • 0" as a placeholder for both, which would
-        # otherwise produce zero hits / zero PP regardless of ranks.
-        #
-        # Leave the CATEGORY progression at the catalog placeholder. RMSS
-        # treats Body Dev and PP Dev as special categories that DON'T
-        # incur the standard "-15 for zero ranks" malus — the all-zeros
-        # placeholder gives 0 at any rank, which is the right floor for
-        # an untrained Body Dev / PP Dev (hits == 0, PP == 0). The whole
-        # bonus lives on the skill row, where the race progression now
-        # drives the math.
+        # Body Dev / PP Dev are conceptually single-row skills in RMSS,
+        # not the two-tier category+skill split the rest of the catalog
+        # uses. The profession cost is filed under the CATEGORY (so the
+        # SPA's +/- buttons land on category-rank purchases), but other
+        # sources (adolescence T-1.6, training packages) write to the
+        # SKILL with kind='skill'. To make every rank source count
+        # toward the same bonus, we:
+        #   * put the race progression on the CATEGORY,
+        #   * SUM cat + skill ranks into a combined count fed to that
+        #     progression,
+        #   * zero out the per-skill rank track so the skill row's
+        #     sk_rank_b is 0 (no double-count when adolescence-applied
+        #     skill ranks already flow into combined_ranks above).
+        # The category total then carries the entire bonus, and the
+        # skill row displays it via the existing cascade
+        # (skill_total = sk_rank_b + cat_total) which lands at cat_total.
         skill_prog = (catalog or {}).get("rank_progression") or ""
+        is_body_or_pp_dev = False
         if cat_short == "Body Development" and body_dev_skill_prog:
-            skill_prog = body_dev_skill_prog
+            cat_prog = body_dev_skill_prog
+            skill_prog = "0 • 0 • 0 • 0 • 0"   # passthrough; no double-count
+            is_body_or_pp_dev = True
         elif cat_short == "Power Point Development" and pp_dev_skill_prog:
-            skill_prog = pp_dev_skill_prog
+            cat_prog = pp_dev_skill_prog
+            skill_prog = "0 • 0 • 0 • 0 • 0"
+            is_body_or_pp_dev = True
 
-        # Bonus math uses TOTAL ranks (DP + applied), per RMSS.
+        # Bonus math uses TOTAL ranks (DP + applied), per RMSS. For
+        # Body Dev / PP Dev that includes any skill-row ranks too —
+        # they share one progression track with category ranks here.
+        effective_cat_ranks = cat_current_ranks
+        if is_body_or_pp_dev and catalog is not None:
+            for sk in list_skills_in_skill_category(conn, catalog):
+                effective_cat_ranks += skill_other_ranks.get(sk["name"], 0)
+                sk_buy = skill_state.get((group, cat_short, sk["name"]),
+                                          {"ranks_bought": 0})
+                effective_cat_ranks += sk_buy["ranks_bought"]
         cat_rank_b = progression_bonus(
-            cat_prog, standard_category_bonus, cat_current_ranks,
+            cat_prog, standard_category_bonus, effective_cat_ranks,
             is_category=True,
         )
         cat_stat_b = stat_bonus_for(cat_stat_str, raw_temps)
