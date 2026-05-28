@@ -172,15 +172,43 @@ def _format_dotted(tokens: list[float]) -> str:
     return " • ".join(parts)
 
 
+def _strip_rank_zero_cell(prog: str) -> str:
+    """Race files store progressions in T-2.2 column order — five cells
+    where the FIRST is the rank-0 bonus and the remaining four are the
+    per-rank rates for bands 1-10, 11-20, 21-30, 31+. The skills.py
+    dispatcher, in contrast, treats tokens[0] as the rate for band 1-10
+    (it has no rank-0 cell — the dispatcher caller handles "no ranks"
+    via the named "Standard" default returning -15).
+
+    We strip the leading rank-0 cell here so the dispatcher gets a
+    correctly-shaped 4-band progression string. Blank / unparseable
+    input passes through unchanged so the caller's fallback still
+    triggers (empty -> Standard).
+
+    No-op if the string only has four tokens (already band-only) or
+    fewer (something's wrong with the source data — caller falls back)."""
+    tokens = _parse_dotted_to_floats(prog)
+    if len(tokens) <= 4:
+        # Already band-only, or unparseable / too short — let the caller
+        # decide what to do with the original.
+        return prog.strip()
+    return _format_dotted(tokens[1:])
+
+
 def body_dev_progression(race: dict | None) -> str:
     """Race-specific Body Development *skill* progression per RMSS T-2.2.
 
     The category itself uses Standard Category — only the skill is
-    race-specific. Returns "" when the race is unknown or the field is
-    blank, letting the caller fall through to its default."""
+    race-specific. The race file stores 5 cells (rank-0 + 4 bands); we
+    drop the rank-0 cell so the dispatcher reads it as a 4-band string.
+    Returns "" when the race is unknown or the field is blank, letting
+    the caller fall through to its default."""
     if race is None:
         return ""
-    return (race.get("body_dev_prog") or "").strip()
+    raw = (race.get("body_dev_prog") or "").strip()
+    if not raw:
+        return ""
+    return _strip_rank_zero_cell(raw)
 
 
 def pp_dev_progression(race: dict | None, realms: list[str]) -> str:
@@ -209,6 +237,14 @@ def pp_dev_progression(race: dict | None, realms: list[str]) -> str:
             progs.append(tokens)
     if not progs:
         return ""
+    # Strip each progression's rank-0 cell (same convention as
+    # body_dev_progression — race files store 5 cells where the first
+    # is the rank-0 bonus and the rest are per-band rates). Drop only
+    # when the cell count is >4; shorter strings already band-only.
+    def _without_rank_zero(p: list[float]) -> list[float]:
+        return p[1:] if len(p) > 4 else p
+    progs = [_without_rank_zero(p) for p in progs]
+
     if len(progs) == 1:
         return _format_dotted(progs[0])
     # Per-rank MIN across contributing realms. Pad to the longest
