@@ -129,3 +129,93 @@ def apply_stat_mods(temps: Mapping[StatCode, int],
     for callers that haven't been migrated; remove once the test suite
     no longer imports it."""
     return {code: int(temps[code]) for code in temps}
+
+
+# ---------------------------------------------------------------------------
+# Per-race Body Development and Power Point Development progressions
+# ---------------------------------------------------------------------------
+
+# Maps realm name (as stored in profession_realm.realm_name) to the race
+# column that carries that realm's PP-Dev progression string.
+_REALM_TO_PP_COL: dict[str, str] = {
+    "Channeling": "chan_pp_prog",
+    "Essence":    "ess_pp_prog",
+    "Mentalism":  "ment_pp_prog",
+}
+
+
+def _parse_dotted_to_floats(text: str) -> list[float]:
+    """Parse "0 • 7 • 4 • 2 • 1" into [0, 7, 4, 2, 1].
+
+    Returns [] for empty / non-numeric input; callers fall back to
+    Standard. Mirrors the parser in core/chargen/skills.py so we
+    don't have to depend on that module from here."""
+    out: list[float] = []
+    for part in text.replace("•", "·").split("·"):
+        t = part.strip()
+        if not t:
+            continue
+        try:
+            out.append(float(t))
+        except ValueError:
+            return []
+    return out
+
+
+def _format_dotted(tokens: list[float]) -> str:
+    """Inverse of _parse_dotted_to_floats — render as "0 • 7 • 4 • 2 • 1".
+    Integers come out as ints (no ".0" tails) so the string round-trips
+    against race-file expectations."""
+    parts = []
+    for t in tokens:
+        parts.append(str(int(t)) if t == int(t) else str(t))
+    return " • ".join(parts)
+
+
+def body_dev_progression(race: dict | None) -> str:
+    """Race-specific Body Development *skill* progression per RMSS T-2.2.
+
+    The category itself uses Standard Category — only the skill is
+    race-specific. Returns "" when the race is unknown or the field is
+    blank, letting the caller fall through to its default."""
+    if race is None:
+        return ""
+    return (race.get("body_dev_prog") or "").strip()
+
+
+def pp_dev_progression(race: dict | None, realms: list[str]) -> str:
+    """Race + realm Power Point Development *skill* progression.
+
+    `realms` is the profession's realm list (e.g. ["Essence"] for a
+    Magician, ["Channeling", "Essence"] for a Sorcerer hybrid). For
+    one realm we return that race column verbatim. For hybrids we
+    take the per-rank minimum across the contributing realms — RMSS
+    hybrids land on the worse progression per band, which approximates
+    the canonical "halved PP" rule without inventing math the source
+    doesn't sanction.
+
+    Returns "" when race is None, realms is empty, or every realm's
+    string is unparseable / blank — the caller falls through to
+    Standard."""
+    if race is None or not realms:
+        return ""
+    progs: list[list[float]] = []
+    for realm in realms:
+        col = _REALM_TO_PP_COL.get(realm)
+        if col is None:
+            continue
+        tokens = _parse_dotted_to_floats((race.get(col) or "").strip())
+        if tokens:
+            progs.append(tokens)
+    if not progs:
+        return ""
+    if len(progs) == 1:
+        return _format_dotted(progs[0])
+    # Per-rank MIN across contributing realms. Pad to the longest
+    # progression with zeros so a missing tail band doesn't accidentally
+    # "win" the min — if one realm doesn't grant beyond band 3, the
+    # hybrid shouldn't either.
+    width = max(len(p) for p in progs)
+    padded = [p + [0.0] * (width - len(p)) for p in progs]
+    merged = [min(col) for col in zip(*padded)]
+    return _format_dotted(merged)
