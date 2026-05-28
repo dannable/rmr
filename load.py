@@ -2103,6 +2103,55 @@ def _migrate_training_package_drop_unique_name(conn: sqlite3.Connection) -> None
     conn.commit()
 
 
+def _migrate_character_skill_add_kind(conn: sqlite3.Connection) -> None:
+    """Add `kind` column + recompose PRIMARY KEY on character_skill.
+
+    The original schema was `PRIMARY KEY (character_id, skill)` with no
+    kind discriminator — adolescence-applied ranks and (now) TP-granted
+    ranks couldn't coexist on the same skill because the second INSERT
+    would conflict. We change the PK to (character_id, kind, skill,
+    source) and add `kind` ('skill' or 'category'); the allocator then
+    sums per-skill ranks across sources to compute current_ranks.
+
+    SQLite can't alter PKs in place, so we do the rebuild dance:
+    CREATE _new with the new shape → INSERT … SELECT from the old →
+    DROP old → RENAME _new. Existing rows get kind='skill' (everything
+    previously written by apply_character_adolescence was a leaf row,
+    so the default is safe).
+    """
+    row = conn.execute(
+        "SELECT sql FROM sqlite_master "
+        "WHERE type='table' AND name='character_skill'"
+    ).fetchone()
+    if row is None:
+        return   # fresh DB — CREATE TABLE will use the new schema
+    sql = row[0] or ""
+    if " kind " in sql or " kind TEXT" in sql:
+        return   # already migrated
+
+    conn.executescript("""
+        CREATE TABLE character_skill__new (
+            character_id INTEGER NOT NULL
+                             REFERENCES character(character_id) ON DELETE CASCADE,
+            skill        TEXT    NOT NULL,
+            kind         TEXT    NOT NULL DEFAULT 'skill'
+                             CHECK (kind IN ('skill', 'category')),
+            rank         INTEGER NOT NULL DEFAULT 0,
+            source       TEXT    NOT NULL DEFAULT 'adolescence',
+            PRIMARY KEY (character_id, kind, skill, source)
+        );
+        INSERT INTO character_skill__new
+            (character_id, skill, kind, rank, source)
+            SELECT character_id, skill, 'skill', rank, source
+              FROM character_skill;
+        DROP TABLE character_skill;
+        ALTER TABLE character_skill__new RENAME TO character_skill;
+        CREATE INDEX IF NOT EXISTS idx_character_skill_by_source
+            ON character_skill(character_id, source);
+    """)
+    conn.commit()
+
+
 def _migrate_attack_result_checks(conn: sqlite3.Connection) -> None:
     """Recreate `attack_result` if its CHECK constraints are the pre-expansion
     set (severities A-F only, crit types G/K/P/S/T/U only).
@@ -2162,6 +2211,7 @@ def reload_ref_data(conn: sqlite3.Connection) -> None:
     _apply_missing_columns(conn)
     _migrate_attack_result_checks(conn)
     _migrate_training_package_drop_unique_name(conn)
+    _migrate_character_skill_add_kind(conn)
 
     cur = conn.execute(
         "SELECT name FROM sqlite_master WHERE type='table'"

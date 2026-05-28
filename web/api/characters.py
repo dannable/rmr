@@ -975,25 +975,49 @@ def apply_character_adolescence(
         applied = 0
         skipped: list[str] = []
         for r in rows:
-            if r["kind"] != "leaf":
-                # Categories don't become character_skill rows directly;
-                # they're aggregate counters for the DP allocator.
+            row_kind = r["kind"]
+            if row_kind == "summary":
+                # "Hobby Ranks", "Number of Background Options" — not skills.
                 continue
             try:
                 rank = int(r["value"])
             except ValueError:
-                # "Hobby Ranks" etc. have non-integer values; skip here.
                 continue
             if rank <= 0:
                 continue
+            if row_kind == "category":
+                # Adolescence-granted CATEGORY rank. Strip the
+                # " skill category" suffix so it matches the allocator's
+                # canonical "{group} • {category}" storage.
+                cat_name = r["skill"]
+                for suffix in (" skill category", " skill_category"):
+                    if cat_name.endswith(suffix):
+                        cat_name = cat_name[:-len(suffix)]
+                        break
+                cat_name = cat_name.strip()
+                if not cat_name:
+                    continue
+                conn.execute(
+                    "INSERT INTO character_skill "
+                    "(character_id, skill, kind, rank, source) "
+                    "VALUES (?, ?, 'category', ?, 'adolescence') "
+                    "ON CONFLICT (character_id, kind, skill, source) "
+                    "DO UPDATE SET rank = excluded.rank",
+                    (character_id, cat_name, rank),
+                )
+                applied += 1
+                continue
+            # leaf row
             resolved = _resolved_skill_name(r["skill"], choice_by_row.get(r["skill"]))
             if resolved is None:
                 skipped.append(r["skill"])
                 continue
             conn.execute(
-                "INSERT INTO character_skill (character_id, skill, rank, source) "
-                "VALUES (?, ?, ?, 'adolescence') ON CONFLICT(character_id, skill) "
-                "DO UPDATE SET rank = excluded.rank, source = excluded.source",
+                "INSERT INTO character_skill "
+                "(character_id, skill, kind, rank, source) "
+                "VALUES (?, ?, 'skill', ?, 'adolescence') "
+                "ON CONFLICT (character_id, kind, skill, source) "
+                "DO UPDATE SET rank = excluded.rank",
                 (character_id, resolved, rank),
             )
             applied += 1
@@ -1556,16 +1580,21 @@ def _build_skill_allocator(
     cat_state = category_purchase_state(conn, character_id, level=1)
     skill_state = skill_purchase_state(conn, character_id, level=1)
 
-    # Ranks already on the character from non-DP sources (adolescence
-    # so far; later hobby + TP-application). Keyed by skill name —
-    # there's no category-level non-DP source today.
-    skill_other_ranks = {
-        r["skill"]: int(r["rank"])
-        for r in conn.execute(
-            "SELECT skill, rank FROM character_skill WHERE character_id = ?",
-            (character_id,),
-        ).fetchall()
-    }
+    # Ranks already on the character from non-DP sources — adolescence
+    # apply, TP grants (source='tp:<slug>'), future hobby ranks. Summed
+    # across sources: a character_skill with two rows for "Climbing"
+    # (adolescence:5 + tp:my_tp:1) yields current_ranks 6.
+    skill_other_ranks: dict[str, int] = {}
+    category_other_ranks: dict[str, int] = {}
+    for r in conn.execute(
+        "SELECT skill, kind, SUM(rank) AS rank FROM character_skill "
+        "WHERE character_id = ? GROUP BY skill, kind",
+        (character_id,),
+    ).fetchall():
+        if r["kind"] == "category":
+            category_other_ranks[r["skill"]] = int(r["rank"])
+        else:
+            skill_other_ranks[r["skill"]] = int(r["rank"])
 
     out_categories: list[SkillCategoryRow] = []
     seen_keys: set[tuple[str, str]] = set()
@@ -1586,11 +1615,19 @@ def _build_skill_allocator(
         cap = rank_cap_per_level(cost)
         next_cost = dp_for_rank(cost, ranks + 1) if cost else None
 
+        # Adolescence-applied and TP-granted category ranks land in
+        # character_skill under "Group • Category". Sum them in.
+        cat_label_for_lookup = f"{group} • {cat_short}"
+        cat_other = category_other_ranks.get(cat_label_for_lookup, 0)
+        cat_current_ranks = ranks + cat_other
+
         cat_prog = (catalog or {}).get("category_progression") or ""
         cat_stat_str = (catalog or {}).get("stat_bonuses") or ""
 
+        # Bonus math uses TOTAL ranks (DP + applied), per RMSS.
         cat_rank_b = progression_bonus(
-            cat_prog, standard_category_bonus, ranks, is_category=True,
+            cat_prog, standard_category_bonus, cat_current_ranks,
+            is_category=True,
         )
         cat_stat_b = stat_bonus_for(cat_stat_str, raw_temps)
         class_b = cat_bonuses.get((group, cat_short), 0) + grp_bonuses.get(group, 0)
@@ -1641,7 +1678,7 @@ def _build_skill_allocator(
             cost=cost or "",
             rank_cap_per_level=cap,
             ranks_bought=ranks,
-            current_ranks=ranks,   # no non-DP source for category ranks today
+            current_ranks=cat_current_ranks,
             dp_spent=cat_buy["dp_spent"],
             next_rank_cost_dp=next_cost,
             class_bonus=class_b,
@@ -1965,12 +2002,83 @@ def purchase_character_training_package(
             "VALUES (?, ?, ?, ?)",
             (character_id, slug, eff_cost, now),
         )
+        _apply_tp_rank_grants(
+            conn, character_id, tp_row["training_package_id"], slug,
+        )
         conn.execute(
             "UPDATE character SET updated_at = ? WHERE character_id = ?",
             (now, character_id),
         )
         conn.commit()
         return _build_skill_allocator(conn, character_id)
+
+
+def _apply_tp_rank_grants(
+    conn: sqlite3.Connection,
+    character_id: int,
+    training_package_id: int,
+    slug: str,
+) -> None:
+    """Write character_skill rows for the TP's rank assignments.
+
+    For each FIXED assignment (reference_label is None, group/category
+    set), we write a category-rank row + a skill-rank row (when the
+    assignment lists exactly one skill_option). FLEXIBLE assignments
+    (reference_label set — "Melee Weapon", etc.) need a player pick
+    and are skipped here; a follow-up will surface them in the SPA.
+
+    All grants share the source tag f'tp:{slug}', which the refund
+    endpoint uses to wipe them cleanly when the TP is un-bought.
+    """
+    src = f"tp:{slug}"
+    ras = conn.execute(
+        "SELECT sort_order, reference_label, group_name, category_name, "
+        "       cat_ranks, skill_ranks "
+        "  FROM training_package_rank_assignment "
+        " WHERE training_package_id = ? "
+        " ORDER BY sort_order",
+        (training_package_id,),
+    ).fetchall()
+    for ra in ras:
+        if ra["reference_label"] is not None:
+            # Flexible — player needs to pick a category. Defer.
+            continue
+        group = ra["group_name"]
+        cat = ra["category_name"]
+        if not group or not cat:
+            continue
+        cat_ranks = int(ra["cat_ranks"] or 0)
+        skill_ranks = int(ra["skill_ranks"] or 0)
+        if cat_ranks > 0:
+            cat_label = f"{group} • {cat}"
+            conn.execute(
+                "INSERT INTO character_skill "
+                "(character_id, skill, kind, rank, source) "
+                "VALUES (?, ?, 'category', ?, ?) "
+                "ON CONFLICT (character_id, kind, skill, source) "
+                "DO UPDATE SET rank = excluded.rank",
+                (character_id, cat_label, cat_ranks, src),
+            )
+        if skill_ranks > 0:
+            # Skill ranks land on the assignment's listed skill_options.
+            # When there's exactly one option we apply automatically;
+            # multi-option distribution needs a player pick we'll add
+            # in a follow-up.
+            opts = conn.execute(
+                "SELECT skill_name FROM training_package_ra_skill_option "
+                "WHERE training_package_id = ? AND sort_order = ?",
+                (training_package_id, ra["sort_order"]),
+            ).fetchall()
+            if len(opts) == 1:
+                conn.execute(
+                    "INSERT INTO character_skill "
+                    "(character_id, skill, kind, rank, source) "
+                    "VALUES (?, ?, 'skill', ?, ?) "
+                    "ON CONFLICT (character_id, kind, skill, source) "
+                    "DO UPDATE SET rank = excluded.rank",
+                    (character_id, opts[0]["skill_name"], skill_ranks, src),
+                )
+            # else: ambiguous — leave for a future picker UI
 
 
 @router.delete("/{character_id}/training-packages/{slug}",
@@ -1997,6 +2105,14 @@ def refund_character_training_package(
             "DELETE FROM character_training_package "
             "WHERE character_id = ? AND training_package_slug = ?",
             (character_id, slug),
+        )
+        # Wipe the rank grants this TP made (tagged source = 'tp:<slug>').
+        # Other sources (adolescence, other TPs) on the same skills are
+        # left alone.
+        conn.execute(
+            "DELETE FROM character_skill "
+            "WHERE character_id = ? AND source = ?",
+            (character_id, f"tp:{slug}"),
         )
         conn.execute(
             "UPDATE character SET updated_at = ? WHERE character_id = ?",

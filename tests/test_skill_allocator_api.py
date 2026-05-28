@@ -393,6 +393,191 @@ def test_purchase_unknown_tp_404(client) -> None:
     assert r.status_code == 404
 
 
+def test_applied_adolescence_category_ranks_surface_in_allocator(client) -> None:
+    """User-reported bug: applied adolescence ranks didn't show up as
+    Current Ranks in Step 6. Categories with adolescence-granted ranks
+    are now written with kind='category' to character_skill, and the
+    allocator sums them in."""
+    from web.db import connect_rw
+    from datetime import datetime, timezone
+
+    _seed_minimal_fighter()
+    _seed_skill_category("Athletic", "Athletic • Brawn",
+                          stat_bonuses="St/Co/Ag", skills_list="")
+    cid = _create_character_at_fighter(client)
+    # Pretend adolescence applied 2 ranks of the Athletic • Brawn category.
+    with connect_rw() as conn:
+        conn.execute(
+            "INSERT INTO character_skill "
+            "(character_id, skill, kind, rank, source) "
+            "VALUES (?, 'Athletic • Brawn', 'category', 2, 'adolescence')",
+            (cid,),
+        )
+        conn.commit()
+
+    body = client.get(f"/api/v1/characters/{cid}/skill-allocator").json()
+    by_cat = {(c["group_name"], c["category_name"]): c for c in body["categories"]}
+    brawn = by_cat[("Athletic", "Athletic • Brawn")]
+    # current_ranks includes the adolescence-applied 2 (ranks_bought is 0).
+    assert brawn["current_ranks"] == 2
+    assert brawn["ranks_bought"] == 0
+    # Bonus uses TOTAL ranks: 2 ranks Standard category = +4; class bonus +5;
+    # stat 0; special 0. Total = 4 + 0 + 5 + 0 = 9.
+    assert brawn["total_bonus"] == 9
+
+
+def test_applied_adolescence_skill_ranks_surface_in_allocator(client) -> None:
+    """Same for leaf skills — adolescence-applied skill ranks land in
+    character_skill with kind='skill', and the allocator sums them."""
+    from web.db import connect_rw
+
+    _seed_minimal_fighter()
+    _seed_skill_category("Athletic", "Athletic • Brawn",
+                          stat_bonuses="St/Co/Ag",
+                          skills_list="Adrenal Stabilization",
+                          skill_stat="Co")
+    cid = _create_character_at_fighter(client)
+    with connect_rw() as conn:
+        conn.execute(
+            "INSERT INTO character_skill "
+            "(character_id, skill, kind, rank, source) "
+            "VALUES (?, 'Adrenal Stabilization', 'skill', 3, 'adolescence')",
+            (cid,),
+        )
+        conn.commit()
+
+    body = client.get(f"/api/v1/characters/{cid}/skill-allocator").json()
+    by_cat = {(c["group_name"], c["category_name"]): c for c in body["categories"]}
+    brawn = by_cat[("Athletic", "Athletic • Brawn")]
+    skill = next(s for s in brawn["skills"]
+                  if s["skill_name"] == "Adrenal Stabilization")
+    assert skill["current_ranks"] == 3
+    assert skill["ranks_bought"] == 0
+
+
+def test_tp_purchase_applies_fixed_rank_grants(client) -> None:
+    """A bought TP writes character_skill rows for its FIXED assignments
+    (reference_label is None, single skill_option), tagged source='tp:<slug>'.
+    The allocator's current_ranks reflects them immediately."""
+    from web.db import connect_rw
+
+    _seed_minimal_fighter()
+    _seed_skill_category("Athletic", "Athletic • Brawn",
+                          stat_bonuses="St/Co/Ag",
+                          skills_list="Adrenal Stabilization",
+                          skill_stat="Co")
+    _seed_tp_with_profession_cost("test_tp", "Test TP", 30,
+                                    prof_name="Test Fighter", prof_cost=20)
+    # Add a fixed rank assignment: 1 category rank + 1 skill rank to a
+    # single skill_option. The TP-apply path materialises both.
+    with connect_rw() as conn:
+        tpid = conn.execute(
+            "SELECT training_package_id FROM training_package WHERE slug = 'test_tp'",
+        ).fetchone()[0]
+        conn.execute(
+            "INSERT INTO training_package_rank_assignment "
+            "(training_package_id, sort_order, reference_label, "
+            " group_name, category_name, cat_ranks, skill_ranks) "
+            "VALUES (?, 0, NULL, 'Athletic', 'Brawn', 1, 1)", (tpid,),
+        )
+        conn.execute(
+            "INSERT INTO training_package_ra_skill_option "
+            "(training_package_id, sort_order, option_index, skill_name, classification) "
+            "VALUES (?, 0, 0, 'Adrenal Stabilization', 'Static Maneuver')", (tpid,),
+        )
+        conn.commit()
+
+    cid = _create_character_at_fighter(client)
+    client.post(f"/api/v1/characters/{cid}/training-packages/test_tp")
+
+    body = client.get(f"/api/v1/characters/{cid}/skill-allocator").json()
+    by_cat = {(c["group_name"], c["category_name"]): c for c in body["categories"]}
+    brawn = by_cat[("Athletic", "Athletic • Brawn")]
+    assert brawn["current_ranks"] == 1     # category rank from the TP
+    skill = next(s for s in brawn["skills"]
+                  if s["skill_name"] == "Adrenal Stabilization")
+    assert skill["current_ranks"] == 1     # skill rank from the TP
+
+
+def test_tp_refund_removes_applied_rank_grants(client) -> None:
+    """Refunding a TP wipes its 'tp:<slug>' rows from character_skill,
+    bringing current_ranks back down."""
+    from web.db import connect_rw
+
+    _seed_minimal_fighter()
+    _seed_skill_category("Athletic", "Athletic • Brawn",
+                          stat_bonuses="St/Co/Ag",
+                          skills_list="Adrenal Stabilization", skill_stat="Co")
+    _seed_tp_with_profession_cost("test_tp", "Test TP", 30,
+                                    prof_name="Test Fighter", prof_cost=20)
+    with connect_rw() as conn:
+        tpid = conn.execute(
+            "SELECT training_package_id FROM training_package WHERE slug = 'test_tp'",
+        ).fetchone()[0]
+        conn.execute(
+            "INSERT INTO training_package_rank_assignment "
+            "(training_package_id, sort_order, reference_label, "
+            " group_name, category_name, cat_ranks, skill_ranks) "
+            "VALUES (?, 0, NULL, 'Athletic', 'Brawn', 1, 0)", (tpid,),
+        )
+        conn.commit()
+
+    cid = _create_character_at_fighter(client)
+    client.post(f"/api/v1/characters/{cid}/training-packages/test_tp")
+    body = client.get(f"/api/v1/characters/{cid}/skill-allocator").json()
+    by_cat = {(c["group_name"], c["category_name"]): c for c in body["categories"]}
+    assert by_cat[("Athletic", "Athletic • Brawn")]["current_ranks"] == 1
+
+    client.delete(f"/api/v1/characters/{cid}/training-packages/test_tp")
+    body = client.get(f"/api/v1/characters/{cid}/skill-allocator").json()
+    by_cat = {(c["group_name"], c["category_name"]): c for c in body["categories"]}
+    assert by_cat[("Athletic", "Athletic • Brawn")]["current_ranks"] == 0
+
+
+def test_tp_ranks_stack_with_adolescence_ranks(client) -> None:
+    """Bonus math should use the SUM of ranks across sources. If
+    adolescence applied 2 category ranks and a TP grants 1 more, current
+    is 3 and the bonus reflects 3 ranks."""
+    from web.db import connect_rw
+
+    _seed_minimal_fighter()
+    _seed_skill_category("Athletic", "Athletic • Brawn",
+                          stat_bonuses="St/Co/Ag", skills_list="")
+    _seed_tp_with_profession_cost("test_tp", "Test TP", 30,
+                                    prof_name="Test Fighter", prof_cost=15)
+    with connect_rw() as conn:
+        tpid = conn.execute(
+            "SELECT training_package_id FROM training_package WHERE slug = 'test_tp'",
+        ).fetchone()[0]
+        conn.execute(
+            "INSERT INTO training_package_rank_assignment "
+            "(training_package_id, sort_order, reference_label, "
+            " group_name, category_name, cat_ranks, skill_ranks) "
+            "VALUES (?, 0, NULL, 'Athletic', 'Brawn', 1, 0)", (tpid,),
+        )
+        conn.commit()
+
+    cid = _create_character_at_fighter(client)
+    # Pre-seed an adolescence row for the same category.
+    with connect_rw() as conn:
+        conn.execute(
+            "INSERT INTO character_skill "
+            "(character_id, skill, kind, rank, source) "
+            "VALUES (?, 'Athletic • Brawn', 'category', 2, 'adolescence')",
+            (cid,),
+        )
+        conn.commit()
+    client.post(f"/api/v1/characters/{cid}/training-packages/test_tp")
+
+    body = client.get(f"/api/v1/characters/{cid}/skill-allocator").json()
+    by_cat = {(c["group_name"], c["category_name"]): c for c in body["categories"]}
+    brawn = by_cat[("Athletic", "Athletic • Brawn")]
+    # Adolescence:2 + TP:1 = 3 current ranks. Standard category at 3 ranks = +6.
+    # class +5, stat 0, special 0. Total = 6 + 0 + 5 + 0 = 11.
+    assert brawn["current_ranks"] == 3
+    assert brawn["total_bonus"] == 11
+
+
 def test_purchase_tp_requires_profession(client) -> None:
     _seed_tp_with_profession_cost("test_knight", "Test Knight", 60, None, None)
     r = client.post("/api/v1/characters", json={"name": "ProfLess"})

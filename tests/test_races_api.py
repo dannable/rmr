@@ -682,27 +682,28 @@ def test_apply_adolescence_writes_character_skill_rows(client) -> None:
     r = client.post(f"/api/v1/characters/{cid}/apply-adolescence")
     assert r.status_code == 200
     result = r.json()
-    # Applied rows: Rigid Leather (1), Climbing (5), Riding (1),
-    # 1-H Edged: short sword (2), 1-H Conc.: mace (1) = 5 rows.
-    # Soft Leather is 0 → skipped. Hobby Ranks is non-int → skipped.
-    assert result["applied"] == 5
+    # Applied: 5 leaf-skill rows + 1 category row (Athletic • Brawn = 1).
+    # The other category-rank rows in the fixture are 0 → skipped.
+    # Hobby Ranks is a summary row → also skipped.
+    assert result["applied"] == 6
     assert result["skipped_pending"] == []
 
-    # Verify the actual character_skill rows.
+    # Verify the actual character_skill rows — both skill and category kinds.
     from web.db import connect_rw
     with connect_rw() as conn:
-        skills = {
-            r["skill"]: (r["rank"], r["source"])
-            for r in conn.execute(
-                "SELECT skill, rank, source FROM character_skill WHERE character_id = ?",
-                (cid,),
-            ).fetchall()
-        }
-    assert skills["Rigid Leather"]            == (1, "adolescence")
-    assert skills["Climbing"]                 == (5, "adolescence")
-    assert skills["Riding (horses)"]          == (1, "adolescence")
-    assert skills["1-H Edged: short sword"]   == (2, "adolescence")
-    assert skills["1-H Conc.: mace"]          == (1, "adolescence")
+        rows = conn.execute(
+            "SELECT skill, kind, rank, source FROM character_skill "
+            "WHERE character_id = ?",
+            (cid,),
+        ).fetchall()
+    skills = {(r["skill"], r["kind"]): (r["rank"], r["source"]) for r in rows}
+    assert skills[("Rigid Leather",            "skill")]    == (1, "adolescence")
+    assert skills[("Climbing",                 "skill")]    == (5, "adolescence")
+    assert skills[("Riding (horses)",          "skill")]    == (1, "adolescence")
+    assert skills[("1-H Edged: short sword",   "skill")]    == (2, "adolescence")
+    assert skills[("1-H Conc.: mace",          "skill")]    == (1, "adolescence")
+    # NEW: category-level rank from adolescence applies too.
+    assert skills[("Athletic • Brawn",         "category")] == (1, "adolescence")
 
 
 def test_apply_skips_pending_picks(client) -> None:
@@ -719,8 +720,9 @@ def test_apply_skips_pending_picks(client) -> None:
     )
     r = client.post(f"/api/v1/characters/{cid}/apply-adolescence")
     result = r.json()
-    # Applied: Rigid Leather, Climbing, Riding = 3. Both weapons → skipped.
-    assert result["applied"] == 3
+    # Applied: 3 leaf skills (Rigid Leather, Climbing, Riding) + 1 category
+    # (Athletic • Brawn). Both weapons → skipped (no specifier picked).
+    assert result["applied"] == 4
     assert set(result["skipped_pending"]) == {
         "[Weapon • 1-H Edged skill category] 1 Weapon Based on Culture/Race ‡",
         "[Weapon • 1-H Conc. skill category] 1 Weapon Based on Culture/Race ‡",
