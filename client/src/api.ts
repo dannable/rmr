@@ -106,6 +106,45 @@ export const updateCharacterCulture = (id: number, slug: string | null) =>
     body: JSON.stringify({ slug }),
   });
 
+// ---- weapon-cost reassignment (RMSS Character Law §6.2) ----------------
+
+export interface WeaponCostRow {
+  weapon_category: string;
+  cost: string;
+  /** Max ranks/level — derived from cost: "1/5" → 2, "5" → 1. */
+  rank_cap_per_level: number;
+  /** True when the character has overridden the profession default for
+   *  this category; the SPA highlights the row visually. */
+  is_override: boolean;
+}
+
+export interface WeaponCostsResponse {
+  profession_slug: string | null;
+  rows: WeaponCostRow[];
+  /** The profession's underlying cost multiset, sorted cheap-first.
+   *  Represents the costs available for swapping between categories. */
+  pool: string[];
+}
+
+export interface WeaponCostAssignment {
+  weapon_category: string;
+  cost: string;
+}
+
+export const fetchCharacterWeaponCosts = (id: number) =>
+  api<WeaponCostsResponse>(`/api/v1/characters/${id}/weapon-costs`);
+
+/** Replace the character's weapon-cost overrides wholesale. Send `[]`
+ *  to clear all overrides (revert to profession defaults). */
+export const updateCharacterWeaponCosts = (
+  id: number,
+  assignments: WeaponCostAssignment[],
+) =>
+  api<WeaponCostsResponse>(`/api/v1/characters/${id}/weapon-costs`, {
+    method: "PUT",
+    body: JSON.stringify({ assignments }),
+  });
+
 export const updateCharacterProfession = (id: number, slug: string | null) =>
   api<Character>(`/api/v1/characters/${id}/profession`, {
     method: "PUT",

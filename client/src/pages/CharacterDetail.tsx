@@ -20,6 +20,7 @@ import { CulturePicker } from "../components/CulturePicker";
 import { ProfessionPicker } from "../components/ProfessionPicker";
 import { RacePicker } from "../components/RacePicker";
 import { StatsEditor } from "../components/StatsEditor";
+import { WeaponCostPicker } from "../components/WeaponCostPicker";
 
 /**
  * Character builder page, segmented into the 8-step RMSS Character
@@ -374,6 +375,10 @@ function ChoicesStep({ character }: { character: Character }) {
       <CulturePicker character={character} />
       <hr />
       <ProfessionPicker character={character} />
+      {/* Weapon-cost reassignment self-hides when no profession is picked.
+          Per RMSS §6.2 it's a profession-derived choice the player makes
+          at character creation. */}
+      <WeaponCostPicker character={character} />
       <hr />
       <div>
         <h3 style={{ margin: "0 0 6px", fontSize: 15 }}>Realm of Power</h3>
