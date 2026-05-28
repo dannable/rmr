@@ -112,11 +112,12 @@ def test_get_allocator_baseline(client) -> None:
     assert brawn["cost"] == "1/2"
     assert brawn["rank_cap_per_level"] == 2
     assert brawn["next_rank_cost_dp"] == 1
-    # Profession category bonus = +5; default 50/50 stats → St=0/Co=0/Ag=0 → 0;
-    # rank bonus at 0 ranks → 0. Total = 5. The breakdown surfaces it as class_bonus.
+    # RMSS T-2.2: Standard category at 0 ranks = -15 (untrained category).
+    # Default 50/50 stats → St/Co/Ag bonuses = 0; class bonus = +5
+    # (profession_category_bonus); special = 0. Total = -15 + 0 + 5 + 0 = -10.
     assert brawn["class_bonus"] == 5
     assert brawn["special_bonus"] == 0
-    assert brawn["total_bonus"] == 5
+    assert brawn["total_bonus"] == -10
     # current_ranks == ranks_bought (no adolescence/hobby/TP yet).
     assert brawn["current_ranks"] == 0
     assert brawn["ranks_bought"] == 0
@@ -197,7 +198,8 @@ def test_buy_category_ranks_charges_dp_and_updates_bonus(client) -> None:
     by_cat = {(c["group_name"], c["category_name"]): c for c in body["categories"]}
     brawn = by_cat[("Athletic", "Athletic • Brawn")]
     assert brawn["ranks_bought"] == 2
-    # Standard category progression: 2 ranks = 2×2 = 4 bonus; +5 prof = 9.
+    # RMSS T-2.2 standard category: 2 ranks = +4 (2×2). Stat bonus 0 (50/50
+    # → St/Co/Ag all 0). Class bonus +5. Total = 4 + 0 + 5 = 9.
     assert brawn["total_bonus"] == 9
     assert brawn["next_rank_cost_dp"] is None   # cap reached (2/2)
 
@@ -235,10 +237,12 @@ def test_buy_skill_ranks(client) -> None:
     edged = by_cat[("Weapon", "Weapon • 1-H Edged")]
     bsword = next(s for s in edged["skills"] if s["skill_name"] == "Broadsword")
     assert bsword["ranks_bought"] == 1
-    # Skill total = category total + skill rank bonus (5 @ 1 rank) + skill stat (St=0 @ temp 50).
-    # Category total = category ranks (0) + cat stat (St/Ag/St → 0) + prof bonus (0 for Weapon) = 0.
-    # → 0 + 5 + 0 = 5.
-    assert bsword["total_bonus"] == 5
+    # RMSS T-2.2:
+    #   Category 1-H Edged at 0 ranks: -15 (untrained); cat stat 0;
+    #     class bonus 0 (no Weapon group bonus on test_fighter). cat_total = -15.
+    #   Skill Broadsword at 1 rank: +3 (Standard skill); skill stat 0 (St=0).
+    #     skill_total = cat_total + skill_rank_bonus + skill_stat = -15 + 3 + 0 = -12.
+    assert bsword["total_bonus"] == -12
 
 
 def test_buy_uses_reassigned_weapon_cost(client) -> None:

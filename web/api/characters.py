@@ -1589,7 +1589,9 @@ def _build_skill_allocator(
         cat_prog = (catalog or {}).get("category_progression") or ""
         cat_stat_str = (catalog or {}).get("stat_bonuses") or ""
 
-        cat_rank_b = progression_bonus(cat_prog, standard_category_bonus, ranks)
+        cat_rank_b = progression_bonus(
+            cat_prog, standard_category_bonus, ranks, is_category=True,
+        )
         cat_stat_b = stat_bonus_for(cat_stat_str, raw_temps)
         class_b = cat_bonuses.get((group, cat_short), 0) + grp_bonuses.get(group, 0)
         special_b = 0   # race/TP/item bonuses to come in Phase C+
