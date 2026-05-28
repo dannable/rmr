@@ -1432,9 +1432,19 @@ def update_character_profession(
 # ---------------------------------------------------------------------------
 
 class SkillRow(BaseModel):
-    """One leaf skill under a category."""
+    """One leaf skill under a category.
+
+    Per RMSS, stat bonuses and profession bonuses apply at the CATEGORY
+    level only — they're already folded into the parent category's
+    total_bonus, which cascades into the skill total below. Skill rows
+    therefore don't carry stat / class fields; they only carry the
+    skill-specific layers (item + special) that the category total
+    doesn't already include.
+
+    skill_total = skill_rank_bonus + category_total
+                + item_bonus + special_bonus
+    """
     skill_name: str
-    stat: str | None = None
     ranks_bought: int = 0
     dp_spent: int = 0
     next_rank_cost_dp: int | None = None
@@ -1443,13 +1453,10 @@ class SkillRow(BaseModel):
     # ranks_bought, but it lets the SPA distinguish "ranks the player
     # already has" from "additional ranks they buy this level".
     current_ranks: int = 0
-    # Per-source bonus breakdown:
-    #   stat_bonus    = sum of T-2.1 stat bonuses for the relevant codes
-    #   class_bonus   = profession contribution (category + group bonuses)
-    #   special_bonus = race / TP / item bonuses — 0 today, layered later
-    # Total = rank-bonus + stat_bonus + class_bonus + special_bonus.
-    stat_bonus: int = 0
-    class_bonus: int = 0
+    # Skill-specific layers — both 0 today, layered later:
+    #   item_bonus    = magical items, etc. (a +5 sword's contribution)
+    #   special_bonus = TP / racial talents / other GM-granted bonuses
+    item_bonus: int = 0
     special_bonus: int = 0
     total_bonus: int = 0
 
@@ -1664,22 +1671,24 @@ def _build_skill_allocator(
                 sk_rank_b = progression_bonus(
                     skill_prog, standard_skill_bonus, current_ranks,
                 )
-                sk_stat_b = 0
-                for code in parse_stat_codes(sk.get("stat")):
-                    if code in raw_temps:
-                        sk_stat_b += basic_stat_bonus(int(raw_temps[code]))
-                sk_total = int(round(sk_rank_b + sk_stat_b + cat_total))
+                # RMSS: stat bonuses + profession bonuses apply at the
+                # CATEGORY level only. The skill total cascades from
+                # cat_total (which already has rank + stat + class +
+                # special at the category level) and adds the skill-
+                # specific layers — rank, item, special.
+                sk_item_b = 0      # placeholder for magical items etc.
+                sk_special_b = 0   # placeholder for per-skill TP / GM bonuses
+                sk_total = int(round(sk_rank_b + cat_total
+                                       + sk_item_b + sk_special_b))
                 next_sk_cost = dp_for_rank(cost, sk_ranks + 1) if cost else None
                 leaves.append(SkillRow(
                     skill_name=sk_name,
-                    stat=sk.get("stat"),
                     ranks_bought=sk_ranks,
                     current_ranks=current_ranks,
                     dp_spent=sk_buy["dp_spent"],
                     next_rank_cost_dp=next_sk_cost,
-                    stat_bonus=sk_stat_b,
-                    class_bonus=class_b,
-                    special_bonus=special_b,
+                    item_bonus=sk_item_b,
+                    special_bonus=sk_special_b,
                     total_bonus=sk_total,
                 ))
 

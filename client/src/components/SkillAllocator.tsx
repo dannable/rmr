@@ -231,23 +231,30 @@ function GroupSection({
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
         <thead>
           <tr style={{ textAlign: "left", borderBottom: "1px solid #ddd", color: "#666", fontSize: 12 }}>
-            <th style={{ padding: "4px 0", width: "22%" }}>Category / Skill</th>
+            <th style={{ padding: "4px 0", width: "20%" }}>Category / Skill</th>
             <th style={{ padding: "4px 0", width: "7%", textAlign: "center" }}
                 title="Total ranks from all sources (DP purchase + adolescence + TP)">
               Current Ranks
             </th>
             <th style={{ padding: "4px 0", width: "9%" }}
-                title="Stat codes that drive this category/skill's stat bonus (e.g. St/Co/Ag)">
+                title="Stat codes that drive each category's stat bonus, e.g. St/Co/Ag. Per RMSS, stat bonuses apply at the category level only — skills inherit them via category_total.">
               Stat Bonuses
             </th>
-            <th style={{ padding: "4px 0", width: "8%" }}>Cost</th>
+            <th style={{ padding: "4px 0", width: "7%" }}>Cost</th>
             <th style={{ padding: "4px 0", width: "10%", textAlign: "center" }}>Buy</th>
             <th style={{ padding: "4px 0", width: "7%", textAlign: "right" }}>DP spent</th>
             <th style={{ padding: "4px 0", width: "7%", textAlign: "right" }}
-                title="Numerical value of the stat bonus (sum of T-2.1 bonuses for the relevant stats)">
+                title="Numerical stat bonus (category-level only)">
               Stat
             </th>
-            <th style={{ padding: "4px 0", width: "7%", textAlign: "right" }}>Class</th>
+            <th style={{ padding: "4px 0", width: "7%", textAlign: "right" }}
+                title="Profession contribution (category-level only)">
+              Class
+            </th>
+            <th style={{ padding: "4px 0", width: "7%", textAlign: "right" }}
+                title="Magical-item / weapon contributions (skill-level only)">
+              Item
+            </th>
             <th style={{ padding: "4px 0", width: "7%", textAlign: "right" }}>Special</th>
             <th style={{ padding: "4px 0", width: "8%", textAlign: "right" }}>Total</th>
           </tr>
@@ -318,6 +325,9 @@ function CategoryAndSkills({
         </td>
         <td style={dimCell(c.stat_bonus)}>{fmt(c.stat_bonus)}</td>
         <td style={dimCell(c.class_bonus)}>{fmt(c.class_bonus)}</td>
+        {/* Item bonus applies at the skill level only — categories show —. */}
+        <td style={{ padding: "5px 0", textAlign: "right", color: "#bbb",
+                       fontVariantNumeric: "tabular-nums" }}>—</td>
         <td style={dimCell(c.special_bonus)}>{fmt(c.special_bonus)}</td>
         <td style={{ padding: "5px 0", textAlign: "right",
                        fontVariantNumeric: "tabular-nums", fontWeight: 600 }}>
@@ -334,10 +344,8 @@ function CategoryAndSkills({
                          color: s.current_ranks === 0 ? "#aaa" : "#222" }}>
             {s.current_ranks}
           </td>
-          <td style={{ padding: "3px 0", color: s.stat ? "#888" : "#bbb",
-                         fontSize: 11 }}>
-            {s.stat || "—"}
-          </td>
+          {/* Stat-bonus codes are a CATEGORY concept per RMSS. */}
+          <td style={{ padding: "3px 0", color: "#bbb", fontSize: 11 }}>—</td>
           <td style={{ padding: "3px 0", color: "#888",
                          fontVariantNumeric: "tabular-nums" }}>
             {untrainable ? "—" : c.cost}
@@ -354,8 +362,14 @@ function CategoryAndSkills({
                          fontVariantNumeric: "tabular-nums", color: "#666" }}>
             {s.dp_spent}
           </td>
-          <td style={dimCell(s.stat_bonus, 11)}>{fmt(s.stat_bonus)}</td>
-          <td style={dimCell(s.class_bonus, 11)}>{fmt(s.class_bonus)}</td>
+          {/* Stat + Class are category-level — skills inherit via category_total. */}
+          <td style={{ padding: "3px 0", textAlign: "right",
+                         color: "#bbb", fontVariantNumeric: "tabular-nums",
+                         fontSize: 11 }}>—</td>
+          <td style={{ padding: "3px 0", textAlign: "right",
+                         color: "#bbb", fontVariantNumeric: "tabular-nums",
+                         fontSize: 11 }}>—</td>
+          <td style={dimCell(s.item_bonus, 11)}>{fmt(s.item_bonus)}</td>
           <td style={dimCell(s.special_bonus, 11)}>{fmt(s.special_bonus)}</td>
           <td style={{ padding: "3px 0", textAlign: "right",
                          fontVariantNumeric: "tabular-nums", fontWeight: 500 }}>
@@ -676,7 +690,10 @@ function recomputeCategory(
     const skNonDp = s.current_ranks - s.ranks_bought;
     const skCurrent = skNonDp + skBought;
     const skRankB = progressionBonus(cat.skill_progression, skCurrent, false);
-    const skTotal = Math.round(skRankB + s.stat_bonus + catTotal);
+    // Per RMSS: skill_total = skill_rank_bonus + category_total
+    //                       + item_bonus + special_bonus.
+    // Stat + Class are absorbed into catTotal; no skill-level stat/class.
+    const skTotal = Math.round(skRankB + catTotal + s.item_bonus + s.special_bonus);
     const skDpSpent = tokens.slice(0, skBought)
                               .map((t) => parseInt(t, 10) || 0)
                               .reduce((a, b) => a + b, 0);
