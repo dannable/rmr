@@ -28,9 +28,11 @@ from core.chargen.stats import (
 )
 from core.chargen.race import (
     apply_stat_mods,
+    body_dev_progression,
     get_race_by_id,
     get_race_by_slug,
     is_umbrella_race,
+    pp_dev_progression,
     race_rr_mods,
     race_stat_mods,
     UMBRELLA_CULTURE_SLUGS,
@@ -534,6 +536,49 @@ def _load_character_race(conn: sqlite3.Connection, character_id: int) -> dict | 
     if row is None or row["race_id"] is None:
         return None
     return get_race_by_id(conn, row["race_id"])
+
+
+def _load_character_effective_race(
+    conn: sqlite3.Connection, character_id: int,
+) -> dict | None:
+    """The race row whose per-race columns (Body Dev / PP Dev progressions,
+    T-1.6 ranks, etc.) actually govern this character.
+
+    Umbrella races (Common Men, Mixed Men) don't carry the per-culture
+    detail themselves — they delegate to a picked sub-culture via
+    `character.culture_slug`. For specific races (Dwarves, High Elves)
+    culture_slug == race.slug and the lookup is a no-op. When neither is
+    set we return None so callers fall through to whatever default they
+    use for unraced characters."""
+    row = conn.execute(
+        "SELECT race_id, culture_slug FROM character WHERE character_id = ?",
+        (character_id,),
+    ).fetchone()
+    if row is None:
+        return None
+    if row["culture_slug"]:
+        culture = get_race_by_slug(conn, row["culture_slug"])
+        if culture is not None:
+            return culture
+    if row["race_id"] is not None:
+        return get_race_by_id(conn, row["race_id"])
+    return None
+
+
+def _load_profession_realms(
+    conn: sqlite3.Connection, prof_id: int | None,
+) -> list[str]:
+    """Realm names assigned to a profession (e.g. ["Channeling", "Essence"]
+    for a Sorcerer). Ordered alphabetically for determinism."""
+    if prof_id is None:
+        return []
+    return [
+        r[0] for r in conn.execute(
+            "SELECT realm_name FROM profession_realm "
+            "WHERE profession_id = ? ORDER BY realm_name",
+            (prof_id,),
+        ).fetchall()
+    ]
 
 
 def _load_character_prime_stats(conn: sqlite3.Connection,
@@ -1432,9 +1477,19 @@ def update_character_profession(
 # ---------------------------------------------------------------------------
 
 class SkillRow(BaseModel):
-    """One leaf skill under a category."""
+    """One leaf skill under a category.
+
+    Per RMSS, stat bonuses and profession bonuses apply at the CATEGORY
+    level only — they're already folded into the parent category's
+    total_bonus, which cascades into the skill total below. Skill rows
+    therefore don't carry stat / class fields; they only carry the
+    skill-specific layers (item + special) that the category total
+    doesn't already include.
+
+    skill_total = skill_rank_bonus + category_total
+                + item_bonus + special_bonus
+    """
     skill_name: str
-    stat: str | None = None
     ranks_bought: int = 0
     dp_spent: int = 0
     next_rank_cost_dp: int | None = None
@@ -1443,13 +1498,10 @@ class SkillRow(BaseModel):
     # ranks_bought, but it lets the SPA distinguish "ranks the player
     # already has" from "additional ranks they buy this level".
     current_ranks: int = 0
-    # Per-source bonus breakdown:
-    #   stat_bonus    = sum of T-2.1 stat bonuses for the relevant codes
-    #   class_bonus   = profession contribution (category + group bonuses)
-    #   special_bonus = race / TP / item bonuses — 0 today, layered later
-    # Total = rank-bonus + stat_bonus + class_bonus + special_bonus.
-    stat_bonus: int = 0
-    class_bonus: int = 0
+    # Skill-specific layers — both 0 today, layered later:
+    #   item_bonus    = magical items, etc. (a +5 sword's contribution)
+    #   special_bonus = TP / racial talents / other GM-granted bonuses
+    item_bonus: int = 0
     special_bonus: int = 0
     total_bonus: int = 0
 
@@ -1593,6 +1645,17 @@ def _build_skill_allocator(
     cat_bonuses = profession_category_bonuses(conn, prof_id) if prof_id else {}
     grp_bonuses = profession_group_bonuses(conn, prof_id) if prof_id else {}
 
+    # Race + profession realms drive the per-race progressions for
+    # Body Development and Power Point Development. Culture-first lookup
+    # so umbrella races (Common Men, Mixed Men) pick up their sub-culture's
+    # per-race numbers. Hybrid spellcasters (Sorcerer, Mystic, Healer,
+    # Runemage) carry multiple realms; pp_dev_progression takes the
+    # per-rank min across them.
+    eff_race = _load_character_effective_race(conn, character_id)
+    prof_realms = _load_profession_realms(conn, prof_id)
+    body_dev_skill_prog = body_dev_progression(eff_race)
+    pp_dev_skill_prog = pp_dev_progression(eff_race, prof_realms)
+
     cat_state = category_purchase_state(conn, character_id, level=1)
     skill_state = skill_purchase_state(conn, character_id, level=1)
 
@@ -1640,6 +1703,24 @@ def _build_skill_allocator(
         cat_prog = (catalog or {}).get("category_progression") or ""
         cat_stat_str = (catalog or {}).get("stat_bonuses") or ""
 
+        # Per-skill progression — pulled from the catalog by default, then
+        # overridden for Body Development and Power Point Development
+        # because RMSS T-2.2 ties THOSE skills' progressions to the
+        # character's race (and realm, for PP Dev). The catalog stores
+        # "0 • 0 • 0 • 0 • 0" as a placeholder for both, which would
+        # otherwise produce zero hits / zero PP regardless of ranks.
+        skill_prog = (catalog or {}).get("rank_progression") or ""
+        if cat_short == "Body Development" and body_dev_skill_prog:
+            skill_prog = body_dev_skill_prog
+            # The CATEGORY uses Standard Category — the race-specific
+            # progression applies to the skill only. Override the
+            # catalog's all-zeros placeholder so category ranks (rare,
+            # but legal per RMSS) actually contribute.
+            cat_prog = "Standard"
+        elif cat_short == "Power Point Development" and pp_dev_skill_prog:
+            skill_prog = pp_dev_skill_prog
+            cat_prog = "Standard"
+
         # Bonus math uses TOTAL ranks (DP + applied), per RMSS.
         cat_rank_b = progression_bonus(
             cat_prog, standard_category_bonus, cat_current_ranks,
@@ -1652,7 +1733,6 @@ def _build_skill_allocator(
 
         # Per-skill rows.
         leaves: list[SkillRow] = []
-        skill_prog = (catalog or {}).get("rank_progression") or ""
         if catalog is not None:
             for sk in list_skills_in_skill_category(conn, catalog):
                 sk_name = sk["name"]
@@ -1664,22 +1744,24 @@ def _build_skill_allocator(
                 sk_rank_b = progression_bonus(
                     skill_prog, standard_skill_bonus, current_ranks,
                 )
-                sk_stat_b = 0
-                for code in parse_stat_codes(sk.get("stat")):
-                    if code in raw_temps:
-                        sk_stat_b += basic_stat_bonus(int(raw_temps[code]))
-                sk_total = int(round(sk_rank_b + sk_stat_b + cat_total))
+                # RMSS: stat bonuses + profession bonuses apply at the
+                # CATEGORY level only. The skill total cascades from
+                # cat_total (which already has rank + stat + class +
+                # special at the category level) and adds the skill-
+                # specific layers — rank, item, special.
+                sk_item_b = 0      # placeholder for magical items etc.
+                sk_special_b = 0   # placeholder for per-skill TP / GM bonuses
+                sk_total = int(round(sk_rank_b + cat_total
+                                       + sk_item_b + sk_special_b))
                 next_sk_cost = dp_for_rank(cost, sk_ranks + 1) if cost else None
                 leaves.append(SkillRow(
                     skill_name=sk_name,
-                    stat=sk.get("stat"),
                     ranks_bought=sk_ranks,
                     current_ranks=current_ranks,
                     dp_spent=sk_buy["dp_spent"],
                     next_rank_cost_dp=next_sk_cost,
-                    stat_bonus=sk_stat_b,
-                    class_bonus=class_b,
-                    special_bonus=special_b,
+                    item_bonus=sk_item_b,
+                    special_bonus=sk_special_b,
                     total_bonus=sk_total,
                 ))
 

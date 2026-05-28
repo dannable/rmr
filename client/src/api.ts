@@ -155,14 +155,18 @@ export interface DPBudget {
 
 export interface SkillRow {
   skill_name: string;
-  stat: string | null;
   ranks_bought: number;
   dp_spent: number;
   next_rank_cost_dp: number | null;
   current_ranks: number;
-  /** Numerical stat-bonus contribution from the skill's relevant stats. */
-  stat_bonus: number;
-  class_bonus: number;
+  /** Per RMSS, stat/profession bonuses apply at the CATEGORY level only —
+   *  they're already in category_total, which cascades into total_bonus.
+   *  Skills only carry the layers the category doesn't already include:
+   *    item_bonus    = magical-item contributions
+   *    special_bonus = TP / racial / GM-granted per-skill bonuses
+   *  total_bonus = skill_rank_bonus + category_total
+   *              + item_bonus + special_bonus */
+  item_bonus: number;
   special_bonus: number;
   total_bonus: number;
 }
