@@ -28,9 +28,11 @@ from core.chargen.stats import (
 )
 from core.chargen.race import (
     apply_stat_mods,
+    body_dev_progression,
     get_race_by_id,
     get_race_by_slug,
     is_umbrella_race,
+    pp_dev_progression,
     race_rr_mods,
     race_stat_mods,
     UMBRELLA_CULTURE_SLUGS,
@@ -534,6 +536,49 @@ def _load_character_race(conn: sqlite3.Connection, character_id: int) -> dict | 
     if row is None or row["race_id"] is None:
         return None
     return get_race_by_id(conn, row["race_id"])
+
+
+def _load_character_effective_race(
+    conn: sqlite3.Connection, character_id: int,
+) -> dict | None:
+    """The race row whose per-race columns (Body Dev / PP Dev progressions,
+    T-1.6 ranks, etc.) actually govern this character.
+
+    Umbrella races (Common Men, Mixed Men) don't carry the per-culture
+    detail themselves — they delegate to a picked sub-culture via
+    `character.culture_slug`. For specific races (Dwarves, High Elves)
+    culture_slug == race.slug and the lookup is a no-op. When neither is
+    set we return None so callers fall through to whatever default they
+    use for unraced characters."""
+    row = conn.execute(
+        "SELECT race_id, culture_slug FROM character WHERE character_id = ?",
+        (character_id,),
+    ).fetchone()
+    if row is None:
+        return None
+    if row["culture_slug"]:
+        culture = get_race_by_slug(conn, row["culture_slug"])
+        if culture is not None:
+            return culture
+    if row["race_id"] is not None:
+        return get_race_by_id(conn, row["race_id"])
+    return None
+
+
+def _load_profession_realms(
+    conn: sqlite3.Connection, prof_id: int | None,
+) -> list[str]:
+    """Realm names assigned to a profession (e.g. ["Channeling", "Essence"]
+    for a Sorcerer). Ordered alphabetically for determinism."""
+    if prof_id is None:
+        return []
+    return [
+        r[0] for r in conn.execute(
+            "SELECT realm_name FROM profession_realm "
+            "WHERE profession_id = ? ORDER BY realm_name",
+            (prof_id,),
+        ).fetchall()
+    ]
 
 
 def _load_character_prime_stats(conn: sqlite3.Connection,
@@ -1600,6 +1645,17 @@ def _build_skill_allocator(
     cat_bonuses = profession_category_bonuses(conn, prof_id) if prof_id else {}
     grp_bonuses = profession_group_bonuses(conn, prof_id) if prof_id else {}
 
+    # Race + profession realms drive the per-race progressions for
+    # Body Development and Power Point Development. Culture-first lookup
+    # so umbrella races (Common Men, Mixed Men) pick up their sub-culture's
+    # per-race numbers. Hybrid spellcasters (Sorcerer, Mystic, Healer,
+    # Runemage) carry multiple realms; pp_dev_progression takes the
+    # per-rank min across them.
+    eff_race = _load_character_effective_race(conn, character_id)
+    prof_realms = _load_profession_realms(conn, prof_id)
+    body_dev_skill_prog = body_dev_progression(eff_race)
+    pp_dev_skill_prog = pp_dev_progression(eff_race, prof_realms)
+
     cat_state = category_purchase_state(conn, character_id, level=1)
     skill_state = skill_purchase_state(conn, character_id, level=1)
 
@@ -1647,6 +1703,24 @@ def _build_skill_allocator(
         cat_prog = (catalog or {}).get("category_progression") or ""
         cat_stat_str = (catalog or {}).get("stat_bonuses") or ""
 
+        # Per-skill progression — pulled from the catalog by default, then
+        # overridden for Body Development and Power Point Development
+        # because RMSS T-2.2 ties THOSE skills' progressions to the
+        # character's race (and realm, for PP Dev). The catalog stores
+        # "0 • 0 • 0 • 0 • 0" as a placeholder for both, which would
+        # otherwise produce zero hits / zero PP regardless of ranks.
+        skill_prog = (catalog or {}).get("rank_progression") or ""
+        if cat_short == "Body Development" and body_dev_skill_prog:
+            skill_prog = body_dev_skill_prog
+            # The CATEGORY uses Standard Category — the race-specific
+            # progression applies to the skill only. Override the
+            # catalog's all-zeros placeholder so category ranks (rare,
+            # but legal per RMSS) actually contribute.
+            cat_prog = "Standard"
+        elif cat_short == "Power Point Development" and pp_dev_skill_prog:
+            skill_prog = pp_dev_skill_prog
+            cat_prog = "Standard"
+
         # Bonus math uses TOTAL ranks (DP + applied), per RMSS.
         cat_rank_b = progression_bonus(
             cat_prog, standard_category_bonus, cat_current_ranks,
@@ -1659,7 +1733,6 @@ def _build_skill_allocator(
 
         # Per-skill rows.
         leaves: list[SkillRow] = []
-        skill_prog = (catalog or {}).get("rank_progression") or ""
         if catalog is not None:
             for sk in list_skills_in_skill_category(conn, catalog):
                 sk_name = sk["name"]
