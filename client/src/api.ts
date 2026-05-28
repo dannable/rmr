@@ -159,12 +159,10 @@ export interface SkillRow {
   ranks_bought: number;
   dp_spent: number;
   next_rank_cost_dp: number | null;
-  /** Total ranks from all sources (DP purchases + adolescence + hobby
-   *  + TP-granted). At chargen this typically equals ranks_bought. */
   current_ranks: number;
-  /** Profession-derived flat bonus (category bonus + group bonus). */
+  /** Numerical stat-bonus contribution from the skill's relevant stats. */
+  stat_bonus: number;
   class_bonus: number;
-  /** Race / TP / item bonuses — 0 today, layered in later phases. */
   special_bonus: number;
   total_bonus: number;
 }
@@ -175,14 +173,23 @@ export interface SkillCategoryRow {
   classification: string | null;
   cost: string;
   rank_cap_per_level: number;
+  /** Stat codes that drive this category's stat bonus, e.g. "St/Co/Ag".
+   *  Empty when the category has no stat bonus (Body Development). */
+  stat_bonuses: string;
   ranks_bought: number;
   dp_spent: number;
   next_rank_cost_dp: number | null;
-  /** Same as on SkillRow — total ranks from all sources. */
   current_ranks: number;
+  /** Numerical stat-bonus contribution from the category's relevant stats. */
+  stat_bonus: number;
   class_bonus: number;
   special_bonus: number;
   total_bonus: number;
+  /** Rank-progression strings for the local recompute path. The SPA
+   *  mirrors core.chargen.skills.progression_bonus to update totals
+   *  optimistically on +/- click. */
+  category_progression: string;
+  skill_progression: string;
   skills: SkillRow[];
 }
 

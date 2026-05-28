@@ -90,6 +90,36 @@ def _create_character_at_fighter(client) -> int:
 # GET skill-allocator
 # ---------------------------------------------------------------------------
 
+def test_allocator_exposes_stat_bonus_fields(client) -> None:
+    """Category rows surface BOTH the stat-code string ("St/Co/Ag") and
+    the computed integer stat bonus. Skill rows surface stat (codes) and
+    stat_bonus (value). Used by the SPA's new Stat Bonuses + Stat columns
+    AND by its local optimistic recompute (which needs the progression
+    strings too)."""
+    _seed_minimal_fighter()
+    _seed_skill_category("Athletic", "Athletic • Brawn",
+                          stat_bonuses="St/Co/Ag",
+                          skills_list="Adrenal Stabilization",
+                          skill_stat="St",
+                          rank_progression="Standard",
+                          category_progression="Standard")
+    cid = _create_character_at_fighter(client)
+    body = client.get(f"/api/v1/characters/{cid}/skill-allocator").json()
+    by_cat = {(c["group_name"], c["category_name"]): c for c in body["categories"]}
+    brawn = by_cat[("Athletic", "Athletic • Brawn")]
+    # Stat-bonus codes round-trip verbatim.
+    assert brawn["stat_bonuses"] == "St/Co/Ag"
+    # Stat-bonus VALUE at default 50/50 stats → 0 (T-2.1(50) = 0 for each).
+    assert brawn["stat_bonus"] == 0
+    # Progression strings flow through so the SPA can mirror the math.
+    assert brawn["category_progression"] == "Standard"
+    assert brawn["skill_progression"] == "Standard"
+    # Same fields on the leaf skill.
+    skill = next(s for s in brawn["skills"] if s["skill_name"] == "Adrenal Stabilization")
+    assert skill["stat"] == "St"
+    assert skill["stat_bonus"] == 0
+
+
 def test_get_allocator_baseline(client) -> None:
     """No purchases yet → 0 DP spent, all categories listed (the ones the
     profession has a cost for), category bonuses include profession contribution."""

@@ -11,9 +11,11 @@ import {
   type Character,
   type SkillAllocatorResponse,
   type SkillCategoryRow,
+  type SkillRow,
   type TrainingPackageOption,
   type TrainingPackagesAvailableResponse,
 } from "../api";
+import { progressionBonus } from "../skillBonus";
 
 interface Props {
   character: Character;
@@ -42,27 +44,64 @@ export function SkillAllocator({ character }: Props) {
     queryFn: () => fetchTrainingPackagesAvailable(character.character_id),
   });
 
-  const invalidate = () => {
-    qc.invalidateQueries({
-      queryKey: ["characters", character.character_id, "skill-allocator"],
-    });
-    qc.invalidateQueries({
-      queryKey: ["characters", character.character_id, "training-packages-available"],
-    });
+  const allocatorKey = ["characters", character.character_id, "skill-allocator"];
+  const tpKey = ["characters", character.character_id, "training-packages-available"];
+
+  // Stale-after-mutate reconciliation: the server is the source of truth,
+  // but the SPA also recomputes optimistically (below) so totals update
+  // immediately on +/- click. After the PUT settles we invalidate so any
+  // server-side corrections flow back in.
+  const invalidateAll = () => {
+    qc.invalidateQueries({ queryKey: allocatorKey });
+    qc.invalidateQueries({ queryKey: tpKey });
   };
 
   const catM = useMutation({
     mutationFn: ({ group_name, category_name, ranks_bought }: {
       group_name: string; category_name: string; ranks_bought: number;
     }) => updateCategoryRanks(character.character_id, group_name, category_name, ranks_bought),
-    onSuccess: invalidate,
+    onMutate: async ({ group_name, category_name, ranks_bought }) => {
+      await qc.cancelQueries({ queryKey: allocatorKey });
+      const prev = qc.getQueryData<SkillAllocatorResponse>(allocatorKey);
+      if (prev) {
+        qc.setQueryData<SkillAllocatorResponse>(
+          allocatorKey,
+          (cur) => cur && applyCategoryRankChange(
+            cur, group_name, stripGroupPrefix(group_name, category_name) === category_name
+                  ? category_name : stripGroupPrefix(group_name, category_name),
+            ranks_bought,
+          ),
+        );
+      }
+      return { prev };
+    },
+    onError: (_e, _v, ctx) => {
+      if (ctx?.prev) qc.setQueryData(allocatorKey, ctx.prev);
+    },
+    onSettled: invalidateAll,
   });
   const skillM = useMutation({
     mutationFn: ({ group_name, category_name, skill_name, ranks_bought }: {
       group_name: string; category_name: string; skill_name: string; ranks_bought: number;
     }) => updateSkillRanks(character.character_id, group_name, category_name,
                             skill_name, ranks_bought),
-    onSuccess: invalidate,
+    onMutate: async ({ group_name, category_name, skill_name, ranks_bought }) => {
+      await qc.cancelQueries({ queryKey: allocatorKey });
+      const prev = qc.getQueryData<SkillAllocatorResponse>(allocatorKey);
+      if (prev) {
+        qc.setQueryData<SkillAllocatorResponse>(
+          allocatorKey,
+          (cur) => cur && applySkillRankChange(
+            cur, group_name, category_name, skill_name, ranks_bought,
+          ),
+        );
+      }
+      return { prev };
+    },
+    onError: (_e, _v, ctx) => {
+      if (ctx?.prev) qc.setQueryData(allocatorKey, ctx.prev);
+    },
+    onSettled: invalidateAll,
   });
 
   // Group filter so the list is browsable. Default: only categories
@@ -137,7 +176,7 @@ export function SkillAllocator({ character }: Props) {
         characterId={character.character_id}
         purchased={data.training_packages_purchased}
         tpQ={tpQ}
-        onChange={invalidate}
+        onChange={invalidateAll}
       />
     </section>
   );
@@ -192,13 +231,24 @@ function GroupSection({
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
         <thead>
           <tr style={{ textAlign: "left", borderBottom: "1px solid #ddd", color: "#666", fontSize: 12 }}>
-            <th style={{ padding: "4px 0", width: "26%" }}>Category / Skill</th>
-            <th style={{ padding: "4px 0", width: "10%", textAlign: "center" }}>Current Ranks</th>
-            <th style={{ padding: "4px 0", width: "10%" }}>Cost</th>
-            <th style={{ padding: "4px 0", width: "12%", textAlign: "center" }}>Buy</th>
-            <th style={{ padding: "4px 0", width: "8%", textAlign: "right" }}>DP spent</th>
-            <th style={{ padding: "4px 0", width: "8%", textAlign: "right" }}>Class</th>
-            <th style={{ padding: "4px 0", width: "8%", textAlign: "right" }}>Special</th>
+            <th style={{ padding: "4px 0", width: "22%" }}>Category / Skill</th>
+            <th style={{ padding: "4px 0", width: "7%", textAlign: "center" }}
+                title="Total ranks from all sources (DP purchase + adolescence + TP)">
+              Current Ranks
+            </th>
+            <th style={{ padding: "4px 0", width: "9%" }}
+                title="Stat codes that drive this category/skill's stat bonus (e.g. St/Co/Ag)">
+              Stat Bonuses
+            </th>
+            <th style={{ padding: "4px 0", width: "8%" }}>Cost</th>
+            <th style={{ padding: "4px 0", width: "10%", textAlign: "center" }}>Buy</th>
+            <th style={{ padding: "4px 0", width: "7%", textAlign: "right" }}>DP spent</th>
+            <th style={{ padding: "4px 0", width: "7%", textAlign: "right" }}
+                title="Numerical value of the stat bonus (sum of T-2.1 bonuses for the relevant stats)">
+              Stat
+            </th>
+            <th style={{ padding: "4px 0", width: "7%", textAlign: "right" }}>Class</th>
+            <th style={{ padding: "4px 0", width: "7%", textAlign: "right" }}>Special</th>
             <th style={{ padding: "4px 0", width: "8%", textAlign: "right" }}>Total</th>
           </tr>
         </thead>
@@ -246,6 +296,10 @@ function CategoryAndSkills({
                        fontWeight: 500 }}>
           {c.current_ranks}
         </td>
+        <td style={{ padding: "5px 0", color: c.stat_bonuses ? "#444" : "#bbb",
+                       fontSize: 12 }}>
+          {c.stat_bonuses || "—"}
+        </td>
         <td style={{ padding: "5px 0", fontVariantNumeric: "tabular-nums",
                        color: untrainable ? "#aaa" : "#444" }}>
           {untrainable ? "—" : c.cost}
@@ -262,6 +316,7 @@ function CategoryAndSkills({
                        fontVariantNumeric: "tabular-nums", color: "#666" }}>
           {c.dp_spent}
         </td>
+        <td style={dimCell(c.stat_bonus)}>{fmt(c.stat_bonus)}</td>
         <td style={dimCell(c.class_bonus)}>{fmt(c.class_bonus)}</td>
         <td style={dimCell(c.special_bonus)}>{fmt(c.special_bonus)}</td>
         <td style={{ padding: "5px 0", textAlign: "right",
@@ -273,16 +328,15 @@ function CategoryAndSkills({
         <tr key={s.skill_name} style={{ borderBottom: "1px solid #f3f3f3" }}>
           <td style={{ padding: "3px 0 3px 18px", color: "#444" }}>
             {s.skill_name}
-            {s.stat && (
-              <span style={{ color: "#999", fontSize: 11, marginLeft: 6 }}>
-                [{s.stat}]
-              </span>
-            )}
           </td>
           <td style={{ padding: "3px 0", textAlign: "center",
                          fontVariantNumeric: "tabular-nums",
                          color: s.current_ranks === 0 ? "#aaa" : "#222" }}>
             {s.current_ranks}
+          </td>
+          <td style={{ padding: "3px 0", color: s.stat ? "#888" : "#bbb",
+                         fontSize: 11 }}>
+            {s.stat || "—"}
           </td>
           <td style={{ padding: "3px 0", color: "#888",
                          fontVariantNumeric: "tabular-nums" }}>
@@ -300,6 +354,7 @@ function CategoryAndSkills({
                          fontVariantNumeric: "tabular-nums", color: "#666" }}>
             {s.dp_spent}
           </td>
+          <td style={dimCell(s.stat_bonus, 11)}>{fmt(s.stat_bonus)}</td>
           <td style={dimCell(s.class_bonus, 11)}>{fmt(s.class_bonus)}</td>
           <td style={dimCell(s.special_bonus, 11)}>{fmt(s.special_bonus)}</td>
           <td style={{ padding: "3px 0", textAlign: "right",
@@ -537,6 +592,136 @@ function TPRow({
       </td>
     </tr>
   );
+}
+
+
+// ----- optimistic update helpers --------------------------------------
+
+/** Walk the cached allocator response, find the category, rebuild it
+ *  with the new rank count, and recompute its + each child skill's
+ *  totals. This is the optimistic equivalent of the server-side
+ *  _build_skill_allocator pass — same math, just over cached data.
+ *
+ *  `categoryShort` matches what the server expects in `/category-ranks`
+ *  body (e.g. "Active", not "Artistic • Active"). The cached row's
+ *  `category_name` is the full label, so we strip when comparing. */
+function applyCategoryRankChange(
+  snap: SkillAllocatorResponse,
+  groupName: string,
+  categoryShort: string,
+  newRanksBought: number,
+): SkillAllocatorResponse {
+  const nextCategories = snap.categories.map((c) => {
+    if (c.group_name !== groupName) return c;
+    const short = stripGroupPrefix(c.group_name, c.category_name);
+    if (short !== categoryShort) return c;
+    return recomputeCategory(c, { ranks_bought: newRanksBought });
+  });
+  return {
+    ...snap,
+    budget: recomputeBudget(snap, nextCategories, snap.training_packages_purchased),
+    categories: nextCategories,
+  };
+}
+
+function applySkillRankChange(
+  snap: SkillAllocatorResponse,
+  groupName: string,
+  categoryShort: string,
+  skillName: string,
+  newRanksBought: number,
+): SkillAllocatorResponse {
+  const nextCategories = snap.categories.map((c) => {
+    if (c.group_name !== groupName) return c;
+    const short = stripGroupPrefix(c.group_name, c.category_name);
+    if (short !== categoryShort) return c;
+    return recomputeCategory(c, { skill: { name: skillName, ranks_bought: newRanksBought } });
+  });
+  return {
+    ...snap,
+    budget: recomputeBudget(snap, nextCategories, snap.training_packages_purchased),
+    categories: nextCategories,
+  };
+}
+
+/** Rebuild a SkillCategoryRow with the new rank count (category- and/or
+ *  skill-level) applied. Mirrors the math in web/api/characters.py
+ *  _build_skill_allocator. */
+function recomputeCategory(
+  cat: SkillCategoryRow,
+  change: { ranks_bought?: number; skill?: { name: string; ranks_bought: number } },
+): SkillCategoryRow {
+  const nextCatBought = change.ranks_bought ?? cat.ranks_bought;
+  // Adolescence-derived ranks are baked into (current_ranks - ranks_bought)
+  // on every server snapshot. We preserve that delta when bumping the
+  // bought count: new current = (current - bought) + new_bought.
+  const catNonDp = cat.current_ranks - cat.ranks_bought;
+  const nextCatCurrent = catNonDp + nextCatBought;
+
+  const tokens = cat.cost.split("/").filter((t) => t.trim());
+  const nextCatDpSpent = tokens.slice(0, nextCatBought)
+                                .map((t) => parseInt(t, 10) || 0)
+                                .reduce((a, b) => a + b, 0);
+  const nextCatNextRankCost =
+    nextCatBought < tokens.length
+      ? (parseInt(tokens[nextCatBought], 10) || 0)
+      : null;
+
+  const catRankB = progressionBonus(cat.category_progression, nextCatCurrent, true);
+  const catTotal = Math.round(catRankB + cat.stat_bonus + cat.class_bonus + cat.special_bonus);
+
+  const nextSkills = cat.skills.map((s) => {
+    const isTouched = change.skill?.name === s.skill_name;
+    const skBought = isTouched ? change.skill!.ranks_bought : s.ranks_bought;
+    const skNonDp = s.current_ranks - s.ranks_bought;
+    const skCurrent = skNonDp + skBought;
+    const skRankB = progressionBonus(cat.skill_progression, skCurrent, false);
+    const skTotal = Math.round(skRankB + s.stat_bonus + catTotal);
+    const skDpSpent = tokens.slice(0, skBought)
+                              .map((t) => parseInt(t, 10) || 0)
+                              .reduce((a, b) => a + b, 0);
+    const skNextRankCost =
+      skBought < tokens.length
+        ? (parseInt(tokens[skBought], 10) || 0)
+        : null;
+    return {
+      ...s,
+      ranks_bought: skBought,
+      current_ranks: skCurrent,
+      dp_spent: skDpSpent,
+      next_rank_cost_dp: skNextRankCost,
+      total_bonus: skTotal,
+      // class/special/stat unchanged from server snapshot.
+    } satisfies SkillRow;
+  });
+
+  return {
+    ...cat,
+    ranks_bought: nextCatBought,
+    current_ranks: nextCatCurrent,
+    dp_spent: nextCatDpSpent,
+    next_rank_cost_dp: nextCatNextRankCost,
+    total_bonus: catTotal,
+    skills: nextSkills,
+  };
+}
+
+function recomputeBudget(
+  snap: SkillAllocatorResponse,
+  categories: SkillCategoryRow[],
+  tpsPurchased: SkillAllocatorResponse["training_packages_purchased"],
+): SkillAllocatorResponse["budget"] {
+  let dpSpent = 0;
+  for (const c of categories) {
+    dpSpent += c.dp_spent;
+    for (const s of c.skills) dpSpent += s.dp_spent;
+  }
+  for (const tp of tpsPurchased) dpSpent += tp.dp_paid;
+  return {
+    dp_total: snap.budget.dp_total,
+    dp_spent: dpSpent,
+    dp_remaining: snap.budget.dp_total - dpSpent,
+  };
 }
 
 

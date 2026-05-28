@@ -1444,9 +1444,11 @@ class SkillRow(BaseModel):
     # already has" from "additional ranks they buy this level".
     current_ranks: int = 0
     # Per-source bonus breakdown:
+    #   stat_bonus    = sum of T-2.1 stat bonuses for the relevant codes
     #   class_bonus   = profession contribution (category + group bonuses)
     #   special_bonus = race / TP / item bonuses — 0 today, layered later
-    # Total = rank-bonus + stat-bonus + class_bonus + special_bonus.
+    # Total = rank-bonus + stat_bonus + class_bonus + special_bonus.
+    stat_bonus: int = 0
     class_bonus: int = 0
     special_bonus: int = 0
     total_bonus: int = 0
@@ -1459,14 +1461,28 @@ class SkillCategoryRow(BaseModel):
     classification: str | None = None
     cost: str
     rank_cap_per_level: int
+    # Stat codes that drive the category's stat bonus, slash-separated
+    # ("St/Co/Ag"). Surfaced verbatim so the SPA can render the column
+    # showing WHICH stats contribute; the computed integer goes in
+    # stat_bonus below. Empty string when the category has no stat
+    # bonus (e.g. Body Development).
+    stat_bonuses: str = ""
     ranks_bought: int = 0
     dp_spent: int = 0
     next_rank_cost_dp: int | None = None
     # Same conventions as SkillRow.
     current_ranks: int = 0
+    stat_bonus: int = 0
     class_bonus: int = 0
     special_bonus: int = 0
     total_bonus: int = 0
+    # Rank progression string ("Standard", "Combined", "Limited",
+    # "Special", or a dotted form like "0 • 7 • 5 • 3 • 1"). The SPA
+    # uses this to compute the rank-bonus locally for the live
+    # recompute on +/- click — so totals update without waiting for
+    # the server round-trip.
+    category_progression: str = ""
+    skill_progression: str = ""
     skills: list[SkillRow] = []
 
 
@@ -1661,6 +1677,7 @@ def _build_skill_allocator(
                     current_ranks=current_ranks,
                     dp_spent=sk_buy["dp_spent"],
                     next_rank_cost_dp=next_sk_cost,
+                    stat_bonus=sk_stat_b,
                     class_bonus=class_b,
                     special_bonus=special_b,
                     total_bonus=sk_total,
@@ -1677,13 +1694,17 @@ def _build_skill_allocator(
             classification=(catalog or {}).get("classification"),
             cost=cost or "",
             rank_cap_per_level=cap,
+            stat_bonuses=cat_stat_str,
             ranks_bought=ranks,
             current_ranks=cat_current_ranks,
             dp_spent=cat_buy["dp_spent"],
             next_rank_cost_dp=next_cost,
+            stat_bonus=cat_stat_b,
             class_bonus=class_b,
             special_bonus=special_b,
             total_bonus=cat_total,
+            category_progression=cat_prog,
+            skill_progression=skill_prog,
             skills=leaves,
         ))
         seen_keys.add((group, cat_short))
