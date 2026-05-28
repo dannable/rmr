@@ -1401,3 +1401,513 @@ def update_character_profession(
         ).fetchone()
         conn.commit()
     return _row_to_character(row)
+
+
+# ---------------------------------------------------------------------------
+# Skill allocator (RMSS Character Law §6 — DP allocation) + TP market
+# ---------------------------------------------------------------------------
+
+class SkillRow(BaseModel):
+    """One leaf skill under a category."""
+    skill_name: str
+    stat: str | None = None
+    ranks_bought: int = 0
+    dp_spent: int = 0
+    next_rank_cost_dp: int | None = None
+    total_bonus: int = 0
+
+
+class SkillCategoryRow(BaseModel):
+    """One skill category — Weapon/1-H Edged, Athletic/Brawn, etc."""
+    group_name: str
+    category_name: str
+    classification: str | None = None
+    cost: str
+    rank_cap_per_level: int
+    ranks_bought: int = 0
+    dp_spent: int = 0
+    next_rank_cost_dp: int | None = None
+    total_bonus: int = 0
+    skills: list[SkillRow] = []
+
+
+class TrainingPackagePurchase(BaseModel):
+    slug: str
+    name: str
+    dp_paid: int
+    purchased_at: str
+
+
+class TrainingPackageOption(BaseModel):
+    slug: str
+    name: str
+    category: str
+    source: str
+    effective_cost: int
+    affordable: bool
+
+
+class DPBudget(BaseModel):
+    dp_total: int
+    dp_spent: int
+    dp_remaining: int
+
+
+class SkillAllocatorResponse(BaseModel):
+    budget: DPBudget
+    categories: list[SkillCategoryRow]
+    training_packages_purchased: list[TrainingPackagePurchase]
+
+
+class CategoryRanksUpdate(BaseModel):
+    group_name: str = Field(..., min_length=1)
+    category_name: str = Field(..., min_length=1)
+    ranks_bought: int = Field(..., ge=0, le=50)
+
+
+class SkillRanksUpdate(BaseModel):
+    group_name: str = Field(..., min_length=1)
+    category_name: str = Field(..., min_length=1)
+    skill_name: str = Field(..., min_length=1)
+    ranks_bought: int = Field(..., ge=0, le=50)
+
+
+def _load_character_raw_temps(
+    conn: sqlite3.Connection, character_id: int,
+) -> dict:
+    rows = conn.execute(
+        "SELECT stat_code, temp FROM character_stat WHERE character_id = ?",
+        (character_id,),
+    ).fetchall()
+    return {r["stat_code"]: int(r["temp"]) for r in rows}
+
+
+def _effective_cost_for_category(
+    conn: sqlite3.Connection,
+    character_id: int,
+    profession_id: int | None,
+    profession_costs: dict[tuple[str, str], str],
+    group_name: str,
+    category_name: str,
+) -> str:
+    """Effective cost string for a category. Weapon categories honour the
+    character's reassignment overrides; everything else flows from
+    profession_category_cost as-is. Returns "" when untrainable."""
+    if group_name == "Weapon" and profession_id is not None:
+        eff = effective_weapon_costs(conn, character_id, profession_id)
+        if category_name in eff:
+            return eff[category_name]
+    return profession_costs.get((group_name, category_name), "")
+
+
+def _build_skill_allocator(
+    conn: sqlite3.Connection, character_id: int,
+) -> SkillAllocatorResponse:
+    """Snapshot every category + skill with current purchases + bonuses."""
+    from core.chargen.skills import (
+        category_purchase_state, skill_purchase_state, total_dp_spent,
+        progression_bonus, standard_skill_bonus, standard_category_bonus,
+        stat_bonus_for, parse_stat_codes, rank_cap_per_level,
+        dp_for_rank, list_skill_categories, list_skills_in_category,
+        profession_category_costs, profession_category_bonuses,
+        profession_group_bonuses,
+    )
+    from core.chargen.stats import basic_stat_bonus, development_points
+
+    raw_temps = _load_character_raw_temps(conn, character_id)
+    dp_total = development_points(raw_temps) if raw_temps else 0
+    dp_spent = total_dp_spent(conn, character_id, level=1)
+
+    prof_id = _load_character_profession_id(conn, character_id)
+    prof_costs = profession_category_costs(conn, prof_id) if prof_id else {}
+    cat_bonuses = profession_category_bonuses(conn, prof_id) if prof_id else {}
+    grp_bonuses = profession_group_bonuses(conn, prof_id) if prof_id else {}
+
+    cat_state = category_purchase_state(conn, character_id, level=1)
+    skill_state = skill_purchase_state(conn, character_id, level=1)
+
+    out_categories: list[SkillCategoryRow] = []
+    for sc in list_skill_categories(conn):
+        group = sc["group_name"]
+        cat_label = sc["category_name"]
+        # Strip "Group • " prefix when looking up profession costs —
+        # skill_category names are full ("Weapon • 1-H Edged"); the
+        # cost table uses short ("1-H Edged").
+        cat_short = cat_label
+        prefix1 = group + " • "
+        prefix2 = group + " · "
+        if cat_label.startswith(prefix1):
+            cat_short = cat_label[len(prefix1):]
+        elif cat_label.startswith(prefix2):
+            cat_short = cat_label[len(prefix2):]
+
+        cost = _effective_cost_for_category(
+            conn, character_id, prof_id, prof_costs, group, cat_short,
+        )
+
+        cat_buy = cat_state.get((group, cat_short),
+                                 {"ranks_bought": 0, "dp_spent": 0})
+        ranks = cat_buy["ranks_bought"]
+        cap = rank_cap_per_level(cost)
+        next_cost = dp_for_rank(cost, ranks + 1) if cost else None
+
+        cat_rank_b = progression_bonus(
+            sc.get("category_progression") or "",
+            standard_category_bonus, ranks,
+        )
+        cat_stat_b = stat_bonus_for(sc.get("stat_bonuses"), raw_temps)
+        prof_cat_b = cat_bonuses.get((group, cat_short), 0)
+        prof_grp_b = grp_bonuses.get(group, 0)
+        cat_total = int(round(cat_rank_b + cat_stat_b + prof_cat_b + prof_grp_b))
+
+        leaves: list[SkillRow] = []
+        for sk in list_skills_in_category(conn, group, cat_label):
+            sk_buy = skill_state.get((group, cat_short, sk["name"]),
+                                      {"ranks_bought": 0, "dp_spent": 0})
+            sk_ranks = sk_buy["ranks_bought"]
+            sk_rank_b = progression_bonus(
+                sc.get("rank_progression") or "",
+                standard_skill_bonus, sk_ranks,
+            )
+            sk_stat_b = 0
+            for code in parse_stat_codes(sk.get("stat")):
+                if code in raw_temps:
+                    sk_stat_b += basic_stat_bonus(int(raw_temps[code]))
+            sk_total = int(round(sk_rank_b + sk_stat_b + cat_total))
+            next_sk_cost = dp_for_rank(cost, sk_ranks + 1) if cost else None
+            leaves.append(SkillRow(
+                skill_name=sk["name"],
+                stat=sk.get("stat"),
+                ranks_bought=sk_ranks,
+                dp_spent=sk_buy["dp_spent"],
+                next_rank_cost_dp=next_sk_cost,
+                total_bonus=sk_total,
+            ))
+
+        out_categories.append(SkillCategoryRow(
+            group_name=group,
+            category_name=cat_label,
+            classification=sc.get("classification"),
+            cost=cost or "",
+            rank_cap_per_level=cap,
+            ranks_bought=ranks,
+            dp_spent=cat_buy["dp_spent"],
+            next_rank_cost_dp=next_cost,
+            total_bonus=cat_total,
+            skills=leaves,
+        ))
+
+    tp_rows = conn.execute(
+        "SELECT ctp.training_package_slug AS slug, tp.name, "
+        "       ctp.dp_paid, ctp.purchased_at "
+        "FROM character_training_package ctp "
+        "LEFT JOIN training_package tp "
+        "  ON tp.slug = ctp.training_package_slug "
+        "WHERE ctp.character_id = ? "
+        "ORDER BY ctp.purchased_at",
+        (character_id,),
+    ).fetchall()
+    tps = [
+        TrainingPackagePurchase(
+            slug=r["slug"],
+            name=r["name"] or r["slug"],
+            dp_paid=int(r["dp_paid"]),
+            purchased_at=r["purchased_at"],
+        ) for r in tp_rows
+    ]
+
+    return SkillAllocatorResponse(
+        budget=DPBudget(
+            dp_total=dp_total,
+            dp_spent=dp_spent,
+            dp_remaining=dp_total - dp_spent,
+        ),
+        categories=out_categories,
+        training_packages_purchased=tps,
+    )
+
+
+@router.get("/{character_id}/skill-allocator",
+            response_model=SkillAllocatorResponse)
+def get_character_skill_allocator(
+    character_id: int,
+    user: dict = CurrentUser,
+) -> SkillAllocatorResponse:
+    """Snapshot of every category + skill: ranks bought, DP spent, total
+    bonus computed, per-rank cost, and the character's DP budget."""
+    with connect_rw() as conn:
+        _assert_owned(conn, character_id, user["user_id"])
+        return _build_skill_allocator(conn, character_id)
+
+
+@router.put("/{character_id}/category-ranks",
+            response_model=SkillAllocatorResponse)
+def update_character_category_ranks(
+    character_id: int,
+    body: CategoryRanksUpdate,
+    user: dict = CurrentUser,
+) -> SkillAllocatorResponse:
+    """Set the character's category ranks for the current level (=1 at chargen)."""
+    from core.chargen.skills import (
+        cumulative_cost, profession_category_costs, rank_cap_per_level,
+    )
+
+    with connect_rw() as conn:
+        _assert_owned(conn, character_id, user["user_id"])
+        prof_id = _load_character_profession_id(conn, character_id)
+        if prof_id is None:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Pick a profession before buying category ranks.",
+            )
+        prof_costs = profession_category_costs(conn, prof_id)
+        cost = _effective_cost_for_category(
+            conn, character_id, prof_id, prof_costs,
+            body.group_name, body.category_name,
+        )
+        if not cost:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail=f"Category {body.group_name}/{body.category_name} "
+                       "is not in this profession's cost table.",
+            )
+        cap = rank_cap_per_level(cost)
+        if body.ranks_bought > cap:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail=f"At most {cap} rank(s)/level for cost '{cost}'.",
+            )
+        dp_spent = cumulative_cost(cost, body.ranks_bought) or 0
+        conn.execute(
+            "INSERT INTO character_category_purchase "
+            "(character_id, group_name, category_name, level, ranks_bought, dp_spent) "
+            "VALUES (?, ?, ?, 1, ?, ?) "
+            "ON CONFLICT(character_id, group_name, category_name, level) "
+            "DO UPDATE SET ranks_bought = excluded.ranks_bought, "
+            "              dp_spent     = excluded.dp_spent",
+            (character_id, body.group_name, body.category_name,
+             body.ranks_bought, dp_spent),
+        )
+        conn.execute(
+            "UPDATE character SET updated_at = ? WHERE character_id = ?",
+            (_utcnow(), character_id),
+        )
+        conn.commit()
+        return _build_skill_allocator(conn, character_id)
+
+
+@router.put("/{character_id}/skill-ranks",
+            response_model=SkillAllocatorResponse)
+def update_character_skill_ranks(
+    character_id: int,
+    body: SkillRanksUpdate,
+    user: dict = CurrentUser,
+) -> SkillAllocatorResponse:
+    """Set a per-skill rank count (level 1). Skill ranks use the SAME cost
+    table as their parent category — RMSS lets you spend DP on either
+    the category as a whole or on specific skills inside it."""
+    from core.chargen.skills import (
+        cumulative_cost, profession_category_costs, rank_cap_per_level,
+    )
+
+    with connect_rw() as conn:
+        _assert_owned(conn, character_id, user["user_id"])
+        prof_id = _load_character_profession_id(conn, character_id)
+        if prof_id is None:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Pick a profession before buying skill ranks.",
+            )
+        prof_costs = profession_category_costs(conn, prof_id)
+        cost = _effective_cost_for_category(
+            conn, character_id, prof_id, prof_costs,
+            body.group_name, body.category_name,
+        )
+        if not cost:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail="That category isn't in the profession's cost table.",
+            )
+        cap = rank_cap_per_level(cost)
+        if body.ranks_bought > cap:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail=f"At most {cap} rank(s)/level for cost '{cost}'.",
+            )
+        dp_spent = cumulative_cost(cost, body.ranks_bought) or 0
+        conn.execute(
+            "INSERT INTO character_skill_purchase "
+            "(character_id, group_name, category_name, skill_name, level, "
+            " ranks_bought, dp_spent) "
+            "VALUES (?, ?, ?, ?, 1, ?, ?) "
+            "ON CONFLICT(character_id, group_name, category_name, skill_name, level) "
+            "DO UPDATE SET ranks_bought = excluded.ranks_bought, "
+            "              dp_spent     = excluded.dp_spent",
+            (character_id, body.group_name, body.category_name, body.skill_name,
+             body.ranks_bought, dp_spent),
+        )
+        conn.execute(
+            "UPDATE character SET updated_at = ? WHERE character_id = ?",
+            (_utcnow(), character_id),
+        )
+        conn.commit()
+        return _build_skill_allocator(conn, character_id)
+
+
+class TrainingPackagesAvailableResponse(BaseModel):
+    options: list[TrainingPackageOption]
+    purchased_slugs: list[str]
+    dp_remaining: int
+
+
+@router.get("/{character_id}/training-packages-available",
+            response_model=TrainingPackagesAvailableResponse)
+def get_character_training_packages_available(
+    character_id: int,
+    user: dict = CurrentUser,
+) -> TrainingPackagesAvailableResponse:
+    """List every training package + the effective DP cost for this character.
+
+    Effective cost = the per-profession cost from
+    `training_package_profession_cost` if there's a row for the
+    character's profession, else the TP's `default_cost`."""
+    with connect_rw() as conn:
+        _assert_owned(conn, character_id, user["user_id"])
+
+        snap = _build_skill_allocator(conn, character_id)
+        purchased = {tp.slug for tp in snap.training_packages_purchased}
+        dp_remaining = snap.budget.dp_remaining
+
+        prof_row = conn.execute(
+            "SELECT p.name FROM character ch "
+            "LEFT JOIN profession p ON p.profession_id = ch.profession_id "
+            "WHERE ch.character_id = ?",
+            (character_id,),
+        ).fetchone()
+        prof_name = prof_row[0] if prof_row else None
+
+        tp_rows = conn.execute(
+            "SELECT tp.slug, tp.name, tp.category, tp.source, tp.default_cost, "
+            "       tpc.cost AS prof_cost "
+            "  FROM training_package tp "
+            "  LEFT JOIN training_package_profession_cost tpc "
+            "    ON tpc.training_package_id = tp.training_package_id "
+            "       AND tpc.profession_name = ? "
+            " ORDER BY tp.name",
+            (prof_name,),
+        ).fetchall()
+        options: list[TrainingPackageOption] = []
+        for r in tp_rows:
+            eff = r["prof_cost"] if r["prof_cost"] is not None else r["default_cost"]
+            eff_int = int(eff) if eff is not None else 999
+            options.append(TrainingPackageOption(
+                slug=r["slug"],
+                name=r["name"],
+                category=r["category"] or "",
+                source=r["source"] or "character_law",
+                effective_cost=eff_int,
+                affordable=(eff_int <= dp_remaining),
+            ))
+        return TrainingPackagesAvailableResponse(
+            options=options,
+            purchased_slugs=sorted(purchased),
+            dp_remaining=dp_remaining,
+        )
+
+
+@router.post("/{character_id}/training-packages/{slug}",
+             response_model=SkillAllocatorResponse,
+             status_code=status.HTTP_201_CREATED)
+def purchase_character_training_package(
+    character_id: int,
+    slug: str,
+    user: dict = CurrentUser,
+) -> SkillAllocatorResponse:
+    """Buy a training package. Pays the per-profession cost (or default_cost
+    when the profession isn't in the TP's cost table)."""
+    with connect_rw() as conn:
+        _assert_owned(conn, character_id, user["user_id"])
+        prof_id = _load_character_profession_id(conn, character_id)
+        if prof_id is None:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Pick a profession before buying training packages.",
+            )
+        tp_row = conn.execute(
+            "SELECT training_package_id, name, default_cost "
+            "  FROM training_package WHERE slug = ?",
+            (slug,),
+        ).fetchone()
+        if tp_row is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Unknown training package: {slug!r}",
+            )
+        existing = conn.execute(
+            "SELECT 1 FROM character_training_package "
+            "WHERE character_id = ? AND training_package_slug = ?",
+            (character_id, slug),
+        ).fetchone()
+        if existing:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Training package already purchased.",
+            )
+        prof_name_row = conn.execute(
+            "SELECT name FROM profession WHERE profession_id = ?",
+            (prof_id,),
+        ).fetchone()
+        prof_name = prof_name_row[0] if prof_name_row else None
+        cost_row = conn.execute(
+            "SELECT cost FROM training_package_profession_cost "
+            "WHERE training_package_id = ? AND profession_name = ?",
+            (tp_row["training_package_id"], prof_name),
+        ).fetchone()
+        eff_cost = int(cost_row["cost"]) if cost_row else int(tp_row["default_cost"])
+
+        now = _utcnow()
+        conn.execute(
+            "INSERT INTO character_training_package "
+            "(character_id, training_package_slug, dp_paid, purchased_at) "
+            "VALUES (?, ?, ?, ?)",
+            (character_id, slug, eff_cost, now),
+        )
+        conn.execute(
+            "UPDATE character SET updated_at = ? WHERE character_id = ?",
+            (now, character_id),
+        )
+        conn.commit()
+        return _build_skill_allocator(conn, character_id)
+
+
+@router.delete("/{character_id}/training-packages/{slug}",
+               response_model=SkillAllocatorResponse)
+def refund_character_training_package(
+    character_id: int,
+    slug: str,
+    user: dict = CurrentUser,
+) -> SkillAllocatorResponse:
+    """Refund a previously-purchased TP. The DP comes back into the budget."""
+    with connect_rw() as conn:
+        _assert_owned(conn, character_id, user["user_id"])
+        existing = conn.execute(
+            "SELECT 1 FROM character_training_package "
+            "WHERE character_id = ? AND training_package_slug = ?",
+            (character_id, slug),
+        ).fetchone()
+        if not existing:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Training package not in this character's purchases.",
+            )
+        conn.execute(
+            "DELETE FROM character_training_package "
+            "WHERE character_id = ? AND training_package_slug = ?",
+            (character_id, slug),
+        )
+        conn.execute(
+            "UPDATE character SET updated_at = ? WHERE character_id = ?",
+            (_utcnow(), character_id),
+        )
+        conn.commit()
+        return _build_skill_allocator(conn, character_id)
