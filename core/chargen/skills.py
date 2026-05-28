@@ -252,6 +252,129 @@ def list_skill_categories(conn: sqlite3.Connection) -> list[dict]:
     return [_row_dict(r) for r in rows]
 
 
+# Vocabulary fixes for the skill_category → profession_category_cost
+# mapping. The skill catalog and the profession ERA use different
+# spellings for a few groups:
+#   skill_category.parent_group      profession_category_cost.group_name
+#   "Craft"                          "Crafts"
+#   "Communication"                  "Communications"
+#   "" / "None"                      <fall through to skill_category_group.name>
+_GROUP_ALIASES: dict[str, str] = {
+    "Craft":         "Crafts",
+    "Communication": "Communications",
+}
+
+
+def find_skill_catalog_match(
+    conn: sqlite3.Connection,
+    profession_group: str,
+    profession_category: str,
+) -> dict | None:
+    """Find the skill_category row that matches a profession cost row.
+
+    The profession cost table uses short names like ("Artistic", "Active"),
+    but skill_category.name is the full "Artistic • Active" form filed
+    under the skill_category_group with the BULLET name too (so the bare
+    join doesn't work). We compose the expected full name and search.
+    Returns None when nothing matches (e.g. profession's "Spells • Own
+    Realm Closed Lists" has no skill_category counterpart — totally fine,
+    the allocator just shows it with no rank-progression metadata).
+    """
+    # Apply alias both directions: profession may use "Crafts" and the
+    # catalog uses "Craft"; pre-image with the reverse alias too.
+    reverse_aliases = {v: k for k, v in _GROUP_ALIASES.items()}
+    group_candidates = [profession_group]
+    if profession_group in reverse_aliases:
+        group_candidates.append(reverse_aliases[profession_group])
+    if profession_group in _GROUP_ALIASES:
+        group_candidates.append(_GROUP_ALIASES[profession_group])
+
+    # Compose the set of exact-name candidates we'll search for.
+    # Trying group-only or category-only lookups (the previous code did)
+    # produced false positives — e.g. profession's "Spells • Own Realm
+    # Closed Lists" wrongly matched the catalog's "Spells • Arcane Lists"
+    # by group identity. We stay strict: only exact full-name matches.
+    name_candidates: list[str] = []
+    for grp in group_candidates:
+        name_candidates.append(f"{grp} • {profession_category}")
+        name_candidates.append(f"{grp} • {profession_category}")  # explicit U+2022 bullet
+        # Same-name category case: when the profession's category equals
+        # its group (or differs only by trailing 's'), the catalog
+        # typically stores it as a bare row whose name matches the
+        # singular group form. E.g. profession ("Communications",
+        # "Communications") → catalog "Communication".
+        if profession_category in (grp, grp + "s", grp.rstrip("s")):
+            name_candidates.append(grp)
+        # Body Development / Combat Maneuvers / Crafts / etc.: category
+        # and group are identical in the profession cost table, and the
+        # catalog stores them as a single non-prefixed row.
+        if profession_category in ("Communications", "Crafts",
+                                   "Body Development", "Combat Maneuvers",
+                                   "Directed Spells", "Influence",
+                                   "Martial Arts", "Power Awareness",
+                                   "Power Manipulation",
+                                   "Power Point Development", "Self Control",
+                                   "Special Attacks", "Special Defenses",
+                                   "Urban"):
+            name_candidates.append(profession_category)
+
+    # Deduplicate while preserving order — first hit wins.
+    seen: set[str] = set()
+    deduped: list[str] = []
+    for n in name_candidates:
+        if n not in seen:
+            deduped.append(n)
+            seen.add(n)
+
+    for full_name in deduped:
+        row = conn.execute("""
+            SELECT g.name AS group_name,
+                   sc.name AS category_name,
+                   sc.rank_progression,
+                   sc.category_progression,
+                   sc.stat_bonuses,
+                   sc.classification,
+                   sc.skills_list
+              FROM skill_category sc
+              JOIN skill_category_group g ON g.group_id = sc.group_id
+             WHERE sc.name = ?
+             LIMIT 1
+        """, (full_name,)).fetchone()
+        if row is not None:
+            return _row_dict(row)
+
+    return None
+
+
+def list_skills_in_skill_category(
+    conn: sqlite3.Connection,
+    skill_category_row: dict,
+) -> list[dict]:
+    """Skills filed under the matched skill_category (uses its skills_list).
+
+    Caller passes the dict returned by find_skill_catalog_match. Returns
+    [] when the row's skills_list is empty / "-" / None.
+    """
+    raw = (skill_category_row.get("skills_list") or "").strip()
+    if not raw or raw == "-":
+        return []
+    expected = {s.strip() for s in raw.split(",") if s.strip() and s.strip() != "-"}
+    if not expected:
+        return []
+    # We don't have a direct FK from skill → skill_category, so look up
+    # by name in the same group.
+    cat_group_name = skill_category_row.get("group_name")
+    placeholders = ",".join("?" * len(expected))
+    rows = conn.execute(f"""
+        SELECT s.name, s.stat
+          FROM skill s
+          JOIN skill_category_group g ON g.group_id = s.group_id
+         WHERE g.name = ? AND s.name IN ({placeholders})
+         ORDER BY s.name
+    """, (cat_group_name, *sorted(expected))).fetchall()
+    return [_row_dict(r) for r in rows]
+
+
 def list_skills_in_category(
     conn: sqlite3.Connection,
     group_name: str,

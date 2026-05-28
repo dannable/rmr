@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
@@ -192,12 +192,14 @@ function GroupSection({
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
         <thead>
           <tr style={{ textAlign: "left", borderBottom: "1px solid #ddd", color: "#666", fontSize: 12 }}>
-            <th style={{ padding: "4px 0", width: "32%" }}>Category / Skill</th>
-            <th style={{ padding: "4px 0", width: "12%" }}>Cost</th>
-            <th style={{ padding: "4px 0", width: "10%", textAlign: "center" }}>Ranks</th>
-            <th style={{ padding: "4px 0", width: "10%", textAlign: "right" }}>DP spent</th>
-            <th style={{ padding: "4px 0", width: "10%", textAlign: "right" }}>Next rank</th>
-            <th style={{ padding: "4px 0", width: "10%", textAlign: "right" }}>Total bonus</th>
+            <th style={{ padding: "4px 0", width: "26%" }}>Category / Skill</th>
+            <th style={{ padding: "4px 0", width: "10%", textAlign: "center" }}>Current Ranks</th>
+            <th style={{ padding: "4px 0", width: "10%" }}>Cost</th>
+            <th style={{ padding: "4px 0", width: "12%", textAlign: "center" }}>Buy</th>
+            <th style={{ padding: "4px 0", width: "8%", textAlign: "right" }}>DP spent</th>
+            <th style={{ padding: "4px 0", width: "8%", textAlign: "right" }}>Class</th>
+            <th style={{ padding: "4px 0", width: "8%", textAlign: "right" }}>Special</th>
+            <th style={{ padding: "4px 0", width: "8%", textAlign: "right" }}>Total</th>
           </tr>
         </thead>
         <tbody>
@@ -238,12 +240,18 @@ function CategoryAndSkills({
             </span>
           )}
         </td>
+        <td style={{ padding: "5px 0", textAlign: "center",
+                       fontVariantNumeric: "tabular-nums",
+                       color: c.current_ranks === 0 ? "#aaa" : "#222",
+                       fontWeight: 500 }}>
+          {c.current_ranks}
+        </td>
         <td style={{ padding: "5px 0", fontVariantNumeric: "tabular-nums",
                        color: untrainable ? "#aaa" : "#444" }}>
           {untrainable ? "—" : c.cost}
         </td>
         <td style={{ padding: "5px 0", textAlign: "center" }}>
-          <RankInput
+          <RankAdjuster
             value={c.ranks_bought}
             max={c.rank_cap_per_level}
             disabled={disabled || untrainable}
@@ -254,10 +262,8 @@ function CategoryAndSkills({
                        fontVariantNumeric: "tabular-nums", color: "#666" }}>
           {c.dp_spent}
         </td>
-        <td style={{ padding: "5px 0", textAlign: "right",
-                       fontVariantNumeric: "tabular-nums", color: "#888" }}>
-          {c.next_rank_cost_dp === null ? "—" : c.next_rank_cost_dp}
-        </td>
+        <td style={dimCell(c.class_bonus)}>{fmt(c.class_bonus)}</td>
+        <td style={dimCell(c.special_bonus)}>{fmt(c.special_bonus)}</td>
         <td style={{ padding: "5px 0", textAlign: "right",
                        fontVariantNumeric: "tabular-nums", fontWeight: 600 }}>
           {fmt(c.total_bonus)}
@@ -273,12 +279,17 @@ function CategoryAndSkills({
               </span>
             )}
           </td>
+          <td style={{ padding: "3px 0", textAlign: "center",
+                         fontVariantNumeric: "tabular-nums",
+                         color: s.current_ranks === 0 ? "#aaa" : "#222" }}>
+            {s.current_ranks}
+          </td>
           <td style={{ padding: "3px 0", color: "#888",
                          fontVariantNumeric: "tabular-nums" }}>
             {untrainable ? "—" : c.cost}
           </td>
           <td style={{ padding: "3px 0", textAlign: "center" }}>
-            <RankInput
+            <RankAdjuster
               value={s.ranks_bought}
               max={c.rank_cap_per_level}
               disabled={disabled || untrainable}
@@ -289,10 +300,8 @@ function CategoryAndSkills({
                          fontVariantNumeric: "tabular-nums", color: "#666" }}>
             {s.dp_spent}
           </td>
-          <td style={{ padding: "3px 0", textAlign: "right",
-                         fontVariantNumeric: "tabular-nums", color: "#888" }}>
-            {s.next_rank_cost_dp === null ? "—" : s.next_rank_cost_dp}
-          </td>
+          <td style={dimCell(s.class_bonus, 11)}>{fmt(s.class_bonus)}</td>
+          <td style={dimCell(s.special_bonus, 11)}>{fmt(s.special_bonus)}</td>
           <td style={{ padding: "3px 0", textAlign: "right",
                          fontVariantNumeric: "tabular-nums", fontWeight: 500 }}>
             {fmt(s.total_bonus)}
@@ -304,35 +313,72 @@ function CategoryAndSkills({
 }
 
 
-function RankInput({
+/** Compact +/- buttons that adjust the rank count on the fly. Replaces
+ *  the old dropdown — clicking + buys the next rank (POST happens via
+ *  the parent's onChange); clicking - refunds the last rank. */
+function RankAdjuster({
   value, max, disabled, onChange,
 }: {
   value: number; max: number; disabled: boolean;
   onChange: (newValue: number) => void;
 }) {
-  const [draft, setDraft] = useState<number>(value);
-  // Resync to the server value whenever it changes (e.g. after a successful PUT).
-  useMemo(() => setDraft(value), [value]);
-
   if (max === 0) {
     return <span style={{ color: "#aaa" }}>—</span>;
   }
+  const canDec = !disabled && value > 0;
+  const canInc = !disabled && value < max;
   return (
-    <select
-      value={draft}
-      disabled={disabled}
-      onChange={(e) => {
-        const n = Number(e.target.value);
-        setDraft(n);
-        onChange(n);
-      }}
-      style={{ padding: "1px 4px", fontSize: 13, border: "1px solid #ccc", borderRadius: 3 }}
-    >
-      {Array.from({ length: max + 1 }, (_, i) => (
-        <option key={i} value={i}>{i}</option>
-      ))}
-    </select>
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
+      <button
+        type="button"
+        onClick={() => onChange(value - 1)}
+        disabled={!canDec}
+        title="Refund this rank"
+        style={btn(canDec)}
+      >
+        −
+      </button>
+      <span style={{
+        minWidth: 20, textAlign: "center",
+        fontVariantNumeric: "tabular-nums",
+        color: value === 0 ? "#999" : "#222",
+        fontWeight: 500,
+      }}>{value}</span>
+      <button
+        type="button"
+        onClick={() => onChange(value + 1)}
+        disabled={!canInc}
+        title={canInc ? "Buy next rank" : "At per-level rank cap"}
+        style={btn(canInc)}
+      >
+        +
+      </button>
+    </span>
   );
+}
+
+function btn(enabled: boolean): React.CSSProperties {
+  return {
+    padding: "0 6px",
+    fontSize: 14,
+    lineHeight: 1.2,
+    minWidth: 22,
+    border: "1px solid " + (enabled ? "#999" : "#ddd"),
+    borderRadius: 3,
+    background: enabled ? "white" : "#fafafa",
+    color: enabled ? "#222" : "#bbb",
+    cursor: enabled ? "pointer" : "default",
+  };
+}
+
+function dimCell(value: number, fontSize: number = 13): React.CSSProperties {
+  return {
+    padding: "5px 0",
+    textAlign: "right" as const,
+    fontVariantNumeric: "tabular-nums",
+    color: value === 0 ? "#bbb" : (value > 0 ? "#16a34a" : "#dc2626"),
+    fontSize,
+  };
 }
 
 
