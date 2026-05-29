@@ -742,15 +742,35 @@ CREATE TABLE IF NOT EXISTS spell_class (
 );
 
 -- One row per spell list (e.g., "Barrier Law", "Holy Healing").
--- category is one of: 'Open', 'Closed', 'Base'.
--- list_number is the source-PDF section number (e.g., "2.1.1", "2.4.3").
+-- category covers the six shapes a list can take in the source ERAs:
+--   'Open' / 'Closed'         — every spellcaster of the realm has access
+--   'Base'                    — owned by exactly one class (spell_class).
+--                               Treasure Companion's Alchemist Base
+--                               lists also land here; the alchemist
+--                               flavour is carried by source +
+--                               spell_class.name (Channeling Alchemist
+--                               etc.) rather than a separate category.
+--   'Evil'                    — Spell Law restricted-access lists
+--   'Training Package'        — Companion lists tied to specific TPs
+--   'Divine Alchemy'          — Treasure Companion's divine alchemy block
+-- source tags which book each list comes from (matches the same pattern
+-- on profession.source and training_package.source). Sample values:
+--   'spell_law', 'channeling_companion', 'essence_companion',
+--   'mentalism_companion', 'treasure_companion'.
+-- list_number is the source-PDF section number (e.g., "2.1.1"); kept
+-- for cross-reference with the historical PDF format but no longer
+-- required after the ERA-driven reload.
 CREATE TABLE IF NOT EXISTS spell_list (
     list_id      INTEGER PRIMARY KEY AUTOINCREMENT,
     realm_id     INTEGER NOT NULL REFERENCES spell_realm(realm_id) ON DELETE CASCADE,
     name         TEXT    NOT NULL,
     list_number  TEXT,                       -- "2.1.1" etc.
-    category     TEXT    NOT NULL CHECK (category IN ('Open', 'Closed', 'Base')),
-    UNIQUE (realm_id, name)
+    category     TEXT    NOT NULL CHECK (category IN (
+        'Open', 'Closed', 'Base',
+        'Evil', 'Training Package', 'Divine Alchemy'
+    )),
+    source       TEXT    NOT NULL DEFAULT 'spell_law',
+    UNIQUE (realm_id, name, source)
 );
 
 -- Many-to-many: which classes have access to which lists.

@@ -644,18 +644,33 @@ def insert_spell_lists(conn: sqlite3.Connection) -> tuple[int, int, int, int]:
         n_realms += 1
 
         # Pass 1: insert all spell lists (so the class index can reference them).
+        # The class-to-list index references lists by NAME, not by (name,
+        # source), so we map name → list_id. The UNIQUE(realm, name, source)
+        # constraint means a name could theoretically resolve to >1 list_id
+        # if the same name shows up in multiple sources; in practice the
+        # five canonical ERAs introduce no such collisions (verified by the
+        # extractor's pre-scan). We still log a soft warning if it ever
+        # happens so the class-index pass picks a deterministic winner.
         list_id_by_name: dict[str, int] = {}
         open_ids: list[int] = []
         closed_ids: list[int] = []
         for f in sorted(realm_dir.glob("*.txt")):
             data = parse_spell_list_file(f)
             m = data["meta"]
+            source = m.get("source", "spell_law")
             cur = conn.execute(
-                "INSERT INTO spell_list (realm_id, name, list_number, category) "
-                "VALUES (?, ?, ?, ?)",
-                (realm_id, m["name"], m.get("number"), m["category"]),
+                "INSERT INTO spell_list (realm_id, name, list_number, "
+                "                        category, source) "
+                "VALUES (?, ?, ?, ?, ?)",
+                (realm_id, m["name"], m.get("number"), m["category"], source),
             )
             list_id = cur.lastrowid
+            if m["name"] in list_id_by_name:
+                # Soft warning: a future supplement might reuse a name.
+                # The latest-loaded list wins for class-index lookups.
+                print(f"  warn: list name {m['name']!r} appears in "
+                      f"multiple sources within {realm_name}; class "
+                      f"memberships will bind to the last-loaded.")
             list_id_by_name[m["name"]] = list_id
             n_lists += 1
             if m["category"] == "Open":
@@ -2197,6 +2212,57 @@ def _migrate_attack_result_checks(conn: sqlite3.Connection) -> None:
         conn.commit()
 
 
+def _migrate_spell_list_add_source_and_categories(conn: sqlite3.Connection) -> None:
+    """Recreate `spell_list` for the ERA re-import.
+
+    Two changes:
+      * Add `source TEXT NOT NULL DEFAULT 'spell_law'` to tag which book
+        each list comes from (matches profession.source / TP.source).
+      * Extend the category CHECK to accept the four new shapes that
+        appear in the source ERAs — Evil, Training Package, Divine
+        Alchemy — plus retain Open/Closed/Base.
+
+    SQLite has no ALTER for either UNIQUE or CHECK constraints, so we
+    detect the old shape via sqlite_master and drop+recreate. The
+    spell_list / spell / class_spell_list trio gets repopulated from
+    data/spell_lists/ on the upcoming reload pass, so dropping the
+    parent (which CASCADEs to spell + class_spell_list) is safe."""
+    row = conn.execute(
+        "SELECT sql FROM sqlite_master WHERE type='table' AND name='spell_list'"
+    ).fetchone()
+    if row is None:
+        return   # fresh DB — CREATE TABLE in schema.sql uses the new shape
+    sql = row[0] or ""
+    # Pre-migration signature: the old CHECK was exactly the three-value
+    # whitelist and the row had no `source` column.
+    if "category IN ('Open', 'Closed', 'Base')" not in sql:
+        return   # already migrated (or differs cosmetically)
+
+    # Wipe descendants then the parent. The reload pass repopulates
+    # everything from .txt — no user data on spell_list.
+    for tbl in ("spell", "class_spell_list", "spell_list"):
+        try:
+            conn.execute(f"DELETE FROM {tbl}")
+        except sqlite3.OperationalError:
+            pass
+    conn.execute("DROP TABLE spell_list")
+    conn.executescript("""
+        CREATE TABLE IF NOT EXISTS spell_list (
+            list_id      INTEGER PRIMARY KEY AUTOINCREMENT,
+            realm_id     INTEGER NOT NULL REFERENCES spell_realm(realm_id) ON DELETE CASCADE,
+            name         TEXT    NOT NULL,
+            list_number  TEXT,
+            category     TEXT    NOT NULL CHECK (category IN (
+                'Open', 'Closed', 'Base',
+                'Evil', 'Training Package', 'Divine Alchemy'
+            )),
+            source       TEXT    NOT NULL DEFAULT 'spell_law',
+            UNIQUE (realm_id, name, source)
+        );
+    """)
+    conn.commit()
+
+
 def reload_ref_data(conn: sqlite3.Connection) -> None:
     """Wipe reference tables in dependency order, leaving user tables (app_user,
     future character tables) untouched. Caller is expected to re-insert ref data.
@@ -2212,6 +2278,7 @@ def reload_ref_data(conn: sqlite3.Connection) -> None:
     _migrate_attack_result_checks(conn)
     _migrate_training_package_drop_unique_name(conn)
     _migrate_character_skill_add_kind(conn)
+    _migrate_spell_list_add_source_and_categories(conn)
 
     cur = conn.execute(
         "SELECT name FROM sqlite_master WHERE type='table'"
