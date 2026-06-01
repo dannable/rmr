@@ -1191,6 +1191,187 @@ def test_add_weapon_skill_idempotent(client) -> None:
 
 
 # ---------------------------------------------------------------------------
+# TP flexible weapon-slot selection (plan + purchase-with-choices)
+# ---------------------------------------------------------------------------
+
+def _seed_tp_flexible_weapon_slot(slug: str = "weapon_tp") -> int:
+    """A TP with one flexible 'Weapon/Attack'-style slot: cat 1 + skill 1,
+    category options = a couple of weapon categories, no preset skill."""
+    from web.db import connect_rw
+    tpid = _seed_tp_with_profession_cost(
+        slug, "Weapon TP", 20, prof_name="Test Fighter", prof_cost=10)
+    with connect_rw() as conn:
+        conn.execute(
+            "INSERT INTO training_package_rank_assignment "
+            "(training_package_id, sort_order, reference_label, "
+            " group_name, category_name, cat_ranks, skill_ranks) "
+            "VALUES (?, 0, 'Weapon/Attack', NULL, NULL, 1, 1)", (tpid,),
+        )
+        for idx, cat in enumerate(["1-H Edged", "Missile"]):
+            conn.execute(
+                "INSERT INTO training_package_ra_category_option "
+                "(training_package_id, sort_order, option_index, group_name, category_name) "
+                "VALUES (?, 0, ?, 'Weapon', ?)", (tpid, idx, cat),
+            )
+        conn.commit()
+    return tpid
+
+
+def test_tp_plan_surfaces_weapon_choice(client) -> None:
+    """GET .../plan returns the flexible slot as a choice with weapon
+    category options, each carrying its categorised weapons."""
+    _seed_minimal_fighter()
+    _seed_weapons("Short Sword", "Broadsword", "Long Bow")
+    _seed_tp_flexible_weapon_slot()
+    cid = _create_character_at_fighter(client)
+
+    plan = client.get(f"/api/v1/characters/{cid}/training-packages/weapon_tp/plan").json()
+    assert len(plan["choices"]) == 1
+    ch = plan["choices"][0]
+    assert ch["label"] == "Weapon/Attack"
+    assert ch["cat_ranks"] == 1 and ch["skill_ranks"] == 1
+    assert ch["needs_skill"] is True
+    cats = {o["category_name"]: o for o in ch["category_options"]}
+    assert set(cats) == {"1-H Edged", "Missile"}
+    assert cats["1-H Edged"]["is_weapon"] is True
+    # 1-H Edged weapons present; Long Bow (Missile) not among them.
+    assert "Short Sword" in cats["1-H Edged"]["weapons"]
+    assert "Long Bow" not in cats["1-H Edged"]["weapons"]
+    assert "Long Bow" in cats["Missile"]["weapons"]
+
+
+def test_tp_purchase_with_weapon_choice_applies_and_designates(client) -> None:
+    """Purchasing with a choice applies cat+skill ranks to the chosen
+    category/weapon and designates the weapon as a leaf skill."""
+    _seed_minimal_fighter()
+    _seed_weapons("Short Sword", "Broadsword")
+    _seed_tp_flexible_weapon_slot()
+    cid = _create_character_at_fighter(client)
+
+    r = client.post(
+        f"/api/v1/characters/{cid}/training-packages/weapon_tp",
+        json={"choices": [{
+            "sort_order": 0, "group_name": "Weapon",
+            "category_name": "1-H Edged", "skill_name": "Short Sword",
+        }]},
+    )
+    assert r.status_code == 201
+    body = r.json()
+    by_cat = {(c["group_name"], c["category_name"]): c for c in body["categories"]}
+    edged = by_cat[("Weapon", "Weapon • 1-H Edged")]
+    # Category got the cat rank.
+    assert edged["current_ranks"] == 1
+    # Short Sword is now a designated leaf with the skill rank.
+    leaf = next(s for s in edged["skills"] if s["skill_name"] == "Short Sword")
+    assert leaf["is_weapon_skill"] is True
+    assert leaf["current_ranks"] == 1
+
+
+def test_tp_refund_removes_weapon_designation(client) -> None:
+    """Refunding the TP clears the weapon it designated + its ranks."""
+    _seed_minimal_fighter()
+    _seed_weapons("Short Sword")
+    _seed_tp_flexible_weapon_slot()
+    cid = _create_character_at_fighter(client)
+    client.post(
+        f"/api/v1/characters/{cid}/training-packages/weapon_tp",
+        json={"choices": [{
+            "sort_order": 0, "group_name": "Weapon",
+            "category_name": "1-H Edged", "skill_name": "Short Sword",
+        }]},
+    )
+    client.delete(f"/api/v1/characters/{cid}/training-packages/weapon_tp")
+    body = client.get(f"/api/v1/characters/{cid}/skill-allocator").json()
+    by_cat = {(c["group_name"], c["category_name"]): c for c in body["categories"]}
+    edged = by_cat[("Weapon", "Weapon • 1-H Edged")]
+    assert edged["current_ranks"] == 0
+    assert all(s["skill_name"] != "Short Sword" for s in edged["skills"])
+    # Short Sword is back in the addable options pool.
+    assert "Short Sword" in edged["weapon_options"]
+
+
+def test_tp_refund_keeps_manual_weapon_designation(client) -> None:
+    """A weapon the player added manually survives a TP refund even if the
+    TP also granted ranks to it."""
+    _seed_minimal_fighter()
+    _seed_weapons("Short Sword")
+    _seed_tp_flexible_weapon_slot()
+    cid = _create_character_at_fighter(client)
+    # Manually designate Short Sword first (source='manual').
+    client.post(f"/api/v1/characters/{cid}/weapon-skills", json={
+        "group_name": "Weapon", "category_name": "1-H Edged",
+        "weapon_name": "Short Sword",
+    })
+    # Then a TP grants ranks to the same weapon.
+    client.post(
+        f"/api/v1/characters/{cid}/training-packages/weapon_tp",
+        json={"choices": [{
+            "sort_order": 0, "group_name": "Weapon",
+            "category_name": "1-H Edged", "skill_name": "Short Sword",
+        }]},
+    )
+    client.delete(f"/api/v1/characters/{cid}/training-packages/weapon_tp")
+    body = client.get(f"/api/v1/characters/{cid}/skill-allocator").json()
+    by_cat = {(c["group_name"], c["category_name"]): c for c in body["categories"]}
+    edged = by_cat[("Weapon", "Weapon • 1-H Edged")]
+    # Manual designation persists.
+    assert any(s["skill_name"] == "Short Sword" for s in edged["skills"])
+
+
+def test_tp_purchase_rejects_category_not_in_options(client) -> None:
+    """A choice whose category isn't one of the slot's options is a 422."""
+    _seed_minimal_fighter()
+    _seed_tp_flexible_weapon_slot()
+    cid = _create_character_at_fighter(client)
+    r = client.post(
+        f"/api/v1/characters/{cid}/training-packages/weapon_tp",
+        json={"choices": [{
+            "sort_order": 0, "group_name": "Weapon",
+            "category_name": "Pole Arms", "skill_name": "Spear",
+        }]},
+    )
+    assert r.status_code == 422
+
+
+def test_tp_purchase_without_choices_skips_flexible(client) -> None:
+    """Buying a flexible-slot TP with no choices applies nothing for that
+    slot (no regression) and doesn't error."""
+    _seed_minimal_fighter()
+    _seed_tp_flexible_weapon_slot()
+    cid = _create_character_at_fighter(client)
+    r = client.post(f"/api/v1/characters/{cid}/training-packages/weapon_tp")
+    assert r.status_code == 201
+
+
+def test_tp_plan_flags_multi_distribution_as_manual(client) -> None:
+    """A spread slot (cat_spread_max=2) lands in `manual`, not `choices`."""
+    from web.db import connect_rw
+    _seed_minimal_fighter()
+    tpid = _seed_tp_with_profession_cost(
+        "spread_tp", "Spread TP", 20, prof_name="Test Fighter", prof_cost=10)
+    with connect_rw() as conn:
+        conn.execute(
+            "INSERT INTO training_package_rank_assignment "
+            "(training_package_id, sort_order, reference_label, group_name, "
+            " category_name, cat_ranks, skill_ranks, cat_spread_max, ranks_assigned_max) "
+            "VALUES (?, 0, 'Assign 3 ranks to weapon category #1, 1 to #2', "
+            " NULL, NULL, 4, 0, 2, 3)", (tpid,),
+        )
+        for idx, cat in enumerate(["1-H Edged", "Missile"]):
+            conn.execute(
+                "INSERT INTO training_package_ra_category_option "
+                "(training_package_id, sort_order, option_index, group_name, category_name) "
+                "VALUES (?, 0, ?, 'Weapon', ?)", (tpid, idx, cat),
+            )
+        conn.commit()
+    cid = _create_character_at_fighter(client)
+    plan = client.get(f"/api/v1/characters/{cid}/training-packages/spread_tp/plan").json()
+    assert plan["choices"] == []
+    assert len(plan["manual"]) == 1
+    assert "category #1" in plan["manual"][0]["label"]
+
+
+# ---------------------------------------------------------------------------
 # auth
 # ---------------------------------------------------------------------------
 
@@ -1205,6 +1386,7 @@ def test_add_weapon_skill_idempotent(client) -> None:
     ("DELETE", "/api/v1/characters/1/weapon-skills",
        {"group_name": "Weapon", "category_name": "1-H Edged", "weapon_name": "Dagger"}),
     ("GET",    "/api/v1/characters/1/training-packages-available", None),
+    ("GET",    "/api/v1/characters/1/training-packages/foo/plan", None),
     ("POST",   "/api/v1/characters/1/training-packages/foo", None),
     ("DELETE", "/api/v1/characters/1/training-packages/foo", None),
 ])

@@ -1963,6 +1963,14 @@ REF_TABLES_DELETE_ORDER: tuple[str, ...] = (
 # table — that's an ALTER TABLE.)
 _REQUIRED_COLUMNS: tuple[tuple[str, str, str], ...] = (
     # (table, column, "ADD COLUMN ..." clause)
+    # Provenance tag on designated weapon skills, so a TP refund can wipe
+    # the weapons it designated ('tp:<slug>') without touching manual
+    # ones ('manual'). Added after character_weapon_skill shipped.
+    (
+        "character_weapon_skill",
+        "source",
+        "ADD COLUMN source TEXT NOT NULL DEFAULT 'manual'",
+    ),
     ("spell", "updated_at", "ADD COLUMN updated_at TEXT"),
     (
         "spell",

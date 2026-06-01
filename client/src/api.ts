@@ -236,6 +236,56 @@ export interface TrainingPackagesAvailableResponse {
   dp_remaining: number;
 }
 
+// --- TP flexible-slot selection (the pre-apply choices modal) ---
+
+export interface TPCategoryOption {
+  group_name: string;
+  category_name: string;
+  is_weapon: boolean;
+  /** Categorised weapons for a weapon category, to populate the weapon
+   *  dropdown. Empty for non-weapon categories. */
+  weapons: string[];
+}
+
+export interface TPChoiceSlot {
+  sort_order: number;
+  label: string;
+  cat_ranks: number;
+  skill_ranks: number;
+  needs_skill: boolean;
+  category_options: TPCategoryOption[];
+  /** Distinct named skill options to choose from (empty → free text /
+   *  weapon entry). */
+  skill_options: string[];
+}
+
+export interface TPManualSlot {
+  label: string;
+  description: string;
+}
+
+export interface TPPurchasePlan {
+  slug: string;
+  name: string;
+  effective_cost: number;
+  affordable: boolean;
+  auto_summary: string[];
+  choices: TPChoiceSlot[];
+  manual: TPManualSlot[];
+}
+
+export interface TPChoice {
+  sort_order: number;
+  group_name: string;
+  category_name: string;
+  skill_name?: string | null;
+}
+
+export const fetchTrainingPackagePlan = (id: number, slug: string) =>
+  api<TPPurchasePlan>(
+    `/api/v1/characters/${id}/training-packages/${encodeURIComponent(slug)}/plan`,
+  );
+
 export const fetchSkillAllocator = (id: number) =>
   api<SkillAllocatorResponse>(`/api/v1/characters/${id}/skill-allocator`);
 
@@ -289,10 +339,12 @@ export const fetchTrainingPackagesAvailable = (id: number) =>
     `/api/v1/characters/${id}/training-packages-available`,
   );
 
-export const purchaseTrainingPackage = (id: number, slug: string) =>
+export const purchaseTrainingPackage = (
+  id: number, slug: string, choices: TPChoice[] = [],
+) =>
   api<SkillAllocatorResponse>(
     `/api/v1/characters/${id}/training-packages/${encodeURIComponent(slug)}`,
-    { method: "POST" },
+    { method: "POST", body: JSON.stringify({ choices }) },
   );
 
 export const refundTrainingPackage = (id: number, slug: string) =>

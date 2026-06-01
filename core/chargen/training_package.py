@@ -17,6 +17,7 @@ that need to filter to "professions we actually know" can join against
 
 from __future__ import annotations
 
+import math
 import sqlite3
 
 
@@ -136,3 +137,102 @@ def get_training_package_by_slug(conn: sqlite3.Connection,
     # leak it through to the API surface.
     tp.pop("training_package_id", None)
     return tp
+
+
+# ---------------------------------------------------------------------------
+# Flexible rank-assignment classification (TP weapon/skill selection)
+# ---------------------------------------------------------------------------
+#
+# A "flexible" rank assignment (reference_label set) lets the player choose
+# where its ranks land. Most are single-pick — one category + one skill —
+# but some spread ranks across several targets ("3 ranks to category #1,
+# 1 to #2"). The SPA's selection modal only resolves single-pick slots;
+# multi-distribution slots are surfaced as a note and applied manually in
+# Step 6. These pure helpers decide which bucket a slot falls into so the
+# logic is unit-testable without a DB.
+
+
+def skill_options_are_generic(skill_option_names: list[str]) -> bool:
+    """True when a slot's skill options are all the same generic label
+    (e.g. ['Languages', 'Languages']) rather than distinct named skills
+    (e.g. ['Animal Training', 'Animal Mastery']).
+
+    Generic-duplicate options mean "pick a specific skill yourself"
+    (free text in the SPA); distinct options mean "choose one of these".
+    Empty or single-option lists are not 'generic' in this sense."""
+    if len(skill_option_names) < 2:
+        return False
+    return len(set(skill_option_names)) == 1
+
+
+def slot_pick_counts(
+    *,
+    cat_ranks: int,
+    skill_ranks: int,
+    cat_spread_max: int | None,
+    skill_spread_max: int | None,
+    ranks_assigned_max: int | None,
+    skill_option_names: list[str],
+) -> tuple[int, int]:
+    """How many DISTINCT category picks and skill picks a flexible slot
+    wants, given its rank counts + spread constraints.
+
+    Returns (n_category_picks, n_skill_picks). A value of 0 means that
+    dimension grants no ranks; 1 means a single pick; >1 means the slot
+    spreads ranks across multiple distinct targets (multi-distribution).
+
+    Inference rules (most specific first):
+      * explicit spread max (cat_spread_max / skill_spread_max) wins;
+      * else, ranks_assigned_max (max ranks per single target) implies
+        ceil(ranks / max) distinct picks when it's below the rank total;
+      * else, duplicate-generic skill options (N copies of 'Languages')
+        imply N distinct skill picks;
+      * else a single pick."""
+    def cat_picks() -> int:
+        if cat_ranks <= 0:
+            return 0
+        if cat_spread_max:
+            return cat_spread_max
+        if ranks_assigned_max and ranks_assigned_max < cat_ranks:
+            return math.ceil(cat_ranks / ranks_assigned_max)
+        return 1
+
+    def skill_picks() -> int:
+        if skill_ranks <= 0:
+            return 0
+        if skill_spread_max:
+            return skill_spread_max
+        if ranks_assigned_max and ranks_assigned_max < skill_ranks:
+            # ranks_assigned_max caps ranks per target, but only forces
+            # multiple picks when the options are duplicate-generic
+            # (N different languages) — a single named skill can legally
+            # hold up to its own cap and the rest cascade in play. We use
+            # the generic-options signal to decide.
+            if skill_options_are_generic(skill_option_names):
+                return math.ceil(skill_ranks / ranks_assigned_max)
+            return 1
+        if skill_options_are_generic(skill_option_names):
+            return len(skill_option_names)
+        return 1
+
+    return (cat_picks(), skill_picks())
+
+
+def slot_is_single_pick(
+    *,
+    cat_ranks: int,
+    skill_ranks: int,
+    cat_spread_max: int | None,
+    skill_spread_max: int | None,
+    ranks_assigned_max: int | None,
+    skill_option_names: list[str],
+) -> bool:
+    """True when a flexible slot needs at most one category pick and at
+    most one skill pick — the case the selection modal resolves."""
+    n_cat, n_skill = slot_pick_counts(
+        cat_ranks=cat_ranks, skill_ranks=skill_ranks,
+        cat_spread_max=cat_spread_max, skill_spread_max=skill_spread_max,
+        ranks_assigned_max=ranks_assigned_max,
+        skill_option_names=skill_option_names,
+    )
+    return n_cat <= 1 and n_skill <= 1
