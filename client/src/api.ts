@@ -169,6 +169,9 @@ export interface SkillRow {
   item_bonus: number;
   special_bonus: number;
   total_bonus: number;
+  /** True for a player-designated weapon skill (added via "Add Weapon
+   *  Skill"). The SPA shows a remove affordance on these. */
+  is_weapon_skill: boolean;
 }
 
 export interface SkillCategoryRow {
@@ -195,6 +198,14 @@ export interface SkillCategoryRow {
   category_progression: string;
   skill_progression: string;
   skills: SkillRow[];
+  /** True when this is a single-weapon skill category (1-H Edged,
+   *  Missile, …) where the player designates specific weapons. The SPA
+   *  shows an "Add Weapon Skill" button for these. */
+  is_weapon_category: boolean;
+  /** Categorised weapons the player can still add to this category
+   *  (already-designated ones are excluded). Drives the dropdown; the
+   *  SPA also offers a free-text "Other weapon…" entry. */
+  weapon_options: string[];
 }
 
 export interface TrainingPackagePurchase {
@@ -249,6 +260,28 @@ export const updateSkillRanks = (
   api<SkillAllocatorResponse>(`/api/v1/characters/${id}/skill-ranks`, {
     method: "PUT",
     body: JSON.stringify({ group_name, category_name, skill_name, ranks_bought }),
+  });
+
+export const addWeaponSkill = (
+  id: number,
+  group_name: string,
+  category_name: string,
+  weapon_name: string,
+) =>
+  api<SkillAllocatorResponse>(`/api/v1/characters/${id}/weapon-skills`, {
+    method: "POST",
+    body: JSON.stringify({ group_name, category_name, weapon_name }),
+  });
+
+export const removeWeaponSkill = (
+  id: number,
+  group_name: string,
+  category_name: string,
+  weapon_name: string,
+) =>
+  api<SkillAllocatorResponse>(`/api/v1/characters/${id}/weapon-skills`, {
+    method: "DELETE",
+    body: JSON.stringify({ group_name, category_name, weapon_name }),
   });
 
 export const fetchTrainingPackagesAvailable = (id: number) =>
