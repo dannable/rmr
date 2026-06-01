@@ -5,6 +5,7 @@ import {
   addWeaponSkill,
   fetchSkillAllocator,
   fetchTrainingPackage,
+  fetchTrainingPackagePlan,
   fetchTrainingPackagesAvailable,
   purchaseTrainingPackage,
   refundTrainingPackage,
@@ -15,6 +16,9 @@ import {
   type SkillAllocatorResponse,
   type SkillCategoryRow,
   type SkillRow,
+  type TPChoice,
+  type TPChoiceSlot,
+  type TPPurchasePlan,
   type TrainingPackageDetail,
   type TrainingPackageOption,
   type TrainingPackagesAvailableResponse,
@@ -733,14 +737,45 @@ function TPPurchaseModal({
       return next;
     });
 
+  const qc = useQueryClient();
   const buyM = useMutation({
-    mutationFn: (slug: string) => purchaseTrainingPackage(characterId, slug),
+    mutationFn: ({ slug, choices }: { slug: string; choices: TPChoice[] }) =>
+      purchaseTrainingPackage(characterId, slug, choices),
     onSuccess: onChange,
   });
   const refundM = useMutation({
     mutationFn: (slug: string) => refundTrainingPackage(characterId, slug),
     onSuccess: onChange,
   });
+
+  // When a TP has flexible single-pick slots, buying opens a 2nd modal to
+  // collect the weapon/category/skill picks before applying. `applyPlan`
+  // holds the plan being resolved; null when no selection is in progress.
+  const [applyPlan, setApplyPlan] = useState<TPPurchasePlan | null>(null);
+  const [planError, setPlanError] = useState<string | null>(null);
+  const [planningSlug, setPlanningSlug] = useState<string | null>(null);
+
+  const onBuyRow = async (slug: string) => {
+    setPlanError(null);
+    setPlanningSlug(slug);
+    try {
+      // Fetch the plan imperatively (cached) so we can branch without a
+      // render-phase side effect.
+      const plan = await qc.fetchQuery({
+        queryKey: ["characters", characterId, "tp-plan", slug],
+        queryFn: () => fetchTrainingPackagePlan(characterId, slug),
+      });
+      if (plan.choices.length === 0) {
+        buyM.mutate({ slug, choices: [] });   // nothing to pick — buy now
+      } else {
+        setApplyPlan(plan);                     // open the selection modal
+      }
+    } catch (e) {
+      setPlanError(String(e));
+    } finally {
+      setPlanningSlug(null);
+    }
+  };
 
   // Escape-to-close. Registered once; onClose is stable enough (recreated
   // each render but the effect re-binds, which is fine for a key handler).
@@ -838,10 +873,11 @@ function TPPurchaseModal({
                     key={opt.slug}
                     opt={opt}
                     owned={owned.has(opt.slug)}
-                    disabled={buyM.isPending || refundM.isPending}
+                    disabled={buyM.isPending || refundM.isPending
+                              || planningSlug === opt.slug}
                     expanded={expanded.has(opt.slug)}
                     onToggle={() => toggleExpanded(opt.slug)}
-                    onBuy={() => buyM.mutate(opt.slug)}
+                    onBuy={() => onBuyRow(opt.slug)}
                     onRefund={() => refundM.mutate(opt.slug)}
                   />
                 ))}
@@ -849,9 +885,9 @@ function TPPurchaseModal({
             </table>
           )}
 
-          {(buyM.error || refundM.error) && (
+          {(buyM.error || refundM.error || planError) && (
             <p style={{ color: "crimson", fontSize: 13, marginTop: 6 }}>
-              {String(buyM.error ?? refundM.error)}
+              {String(buyM.error ?? refundM.error ?? planError)}
             </p>
           )}
         </div>
@@ -865,9 +901,260 @@ function TPPurchaseModal({
           </button>
         </footer>
       </div>
+
+      {applyPlan && (
+        <TPApplyChoicesModal
+          plan={applyPlan}
+          onCancel={() => setApplyPlan(null)}
+          onApply={(choices) => {
+            buyM.mutate({ slug: applyPlan.slug, choices });
+            setApplyPlan(null);
+          }}
+        />
+      )}
     </div>
   );
 }
+
+
+/**
+ * Second modal: resolve a TP's flexible single-pick slots before applying.
+ * Each slot gets a category dropdown and — when it grants skill ranks — a
+ * weapon/skill picker (weapons for weapon categories, the slot's named
+ * options otherwise, or free text). Fixed grants are summarised; multi-
+ * distribution slots are listed as manual follow-ups.
+ */
+function TPApplyChoicesModal({
+  plan, onApply, onCancel,
+}: {
+  plan: TPPurchasePlan;
+  onApply: (choices: TPChoice[]) => void;
+  onCancel: () => void;
+}) {
+  // Per-slot selection keyed by sort_order: the chosen category index and
+  // the chosen skill string (weapon name / named skill / free text).
+  const [picks, setPicks] = useState<Record<number, { catIdx: number; skill: string }>>(
+    () => Object.fromEntries(plan.choices.map((c) => [c.sort_order, { catIdx: 0, skill: "" }])),
+  );
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onCancel(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onCancel]);
+
+  const setPick = (sort: number, patch: Partial<{ catIdx: number; skill: string }>) =>
+    setPicks((prev) => ({ ...prev, [sort]: { ...prev[sort], ...patch } }));
+
+  // A slot is satisfied when its category is chosen and — if it needs a
+  // skill — a non-empty skill/weapon is chosen.
+  const slotReady = (c: TPChoiceSlot): boolean => {
+    const p = picks[c.sort_order];
+    if (!p) return false;
+    if (c.category_options.length === 0) return false;
+    if (c.needs_skill && !p.skill.trim()) return false;
+    return true;
+  };
+  const allReady = plan.choices.every(slotReady);
+
+  const buildChoices = (): TPChoice[] =>
+    plan.choices.map((c) => {
+      const p = picks[c.sort_order];
+      const opt = c.category_options[p.catIdx];
+      return {
+        sort_order: c.sort_order,
+        group_name: opt.group_name,
+        category_name: opt.category_name,
+        skill_name: c.needs_skill ? p.skill.trim() : null,
+      };
+    });
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Assign training package ranks"
+      onClick={onCancel}
+      style={{
+        position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)",
+        display: "flex", alignItems: "flex-start", justifyContent: "center",
+        padding: "5vh 16px", zIndex: 1100,
+      }}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          background: "#fff", borderRadius: 8,
+          boxShadow: "0 10px 40px rgba(0,0,0,0.3)",
+          width: "min(620px, 100%)", maxHeight: "88vh",
+          display: "flex", flexDirection: "column", overflow: "hidden",
+        }}
+      >
+        <header style={{ padding: "14px 18px", borderBottom: "1px solid #eee" }}>
+          <h3 style={{ margin: 0 }}>Assign “{plan.name}” ranks</h3>
+          <p style={{ margin: "4px 0 0", fontSize: 12, color: "#666" }}>
+            Choose where this package's flexible ranks land before it applies.
+          </p>
+        </header>
+
+        <div style={{ overflowY: "auto", padding: "12px 18px", flex: 1 }}>
+          {plan.auto_summary.length > 0 && (
+            <div style={{ marginBottom: 14 }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: 0.3 }}>
+                Applies automatically
+              </div>
+              <ul style={{ margin: "4px 0 0 18px", padding: 0, fontSize: 13, color: "#444" }}>
+                {plan.auto_summary.map((s, i) => <li key={i}>{s}</li>)}
+              </ul>
+            </div>
+          )}
+
+          {plan.choices.map((c) => {
+            const p = picks[c.sort_order];
+            const opt = c.category_options[p?.catIdx ?? 0];
+            return (
+              <div key={c.sort_order} style={{
+                border: "1px solid #e6e6e6", borderRadius: 6,
+                padding: "10px 12px", marginBottom: 10,
+              }}>
+                <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 6 }}>
+                  {c.label}
+                  <span style={{ color: "#888", fontWeight: 400, marginLeft: 6 }}>
+                    ({c.cat_ranks ? `${c.cat_ranks} category` : ""}
+                    {c.cat_ranks && c.skill_ranks ? " + " : ""}
+                    {c.skill_ranks ? `${c.skill_ranks} skill` : ""} rank
+                    {c.cat_ranks + c.skill_ranks === 1 ? "" : "s"})
+                  </span>
+                </div>
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+                  {/* Category picker (hidden when there's only one option) */}
+                  {c.category_options.length > 1 ? (
+                    <select
+                      value={p?.catIdx ?? 0}
+                      onChange={(e) => setPick(c.sort_order, { catIdx: Number(e.target.value), skill: "" })}
+                      style={selectStyle}
+                    >
+                      {c.category_options.map((o, i) => (
+                        <option key={i} value={i}>{o.group_name} • {o.category_name}</option>
+                      ))}
+                    </select>
+                  ) : (
+                    <span style={{ fontSize: 13, color: "#444" }}>
+                      {opt?.group_name} • {opt?.category_name}
+                    </span>
+                  )}
+
+                  {c.needs_skill && opt && (
+                    <SkillPicker
+                      slot={c}
+                      option={opt}
+                      value={p?.skill ?? ""}
+                      onChange={(skill) => setPick(c.sort_order, { skill })}
+                    />
+                  )}
+                </div>
+              </div>
+            );
+          })}
+
+          {plan.manual.length > 0 && (
+            <div style={{ marginTop: 6, padding: "8px 12px", background: "#fffdf5",
+                          border: "1px solid #eadfae", borderRadius: 6 }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: "#7a6a2a" }}>
+                Set up manually in Step 6
+              </div>
+              <ul style={{ margin: "4px 0 0 18px", padding: 0, fontSize: 12, color: "#6a5a2a" }}>
+                {plan.manual.map((m, i) => (
+                  <li key={i}><strong>{m.label}</strong> — {m.description}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+
+        <footer style={{
+          display: "flex", justifyContent: "flex-end", gap: 8,
+          padding: "12px 18px", borderTop: "1px solid #eee",
+        }}>
+          <button className="btn btn-secondary" onClick={onCancel}>Cancel</button>
+          <button
+            className="btn"
+            disabled={!allReady}
+            title={allReady ? "Apply & purchase" : "Make every selection first"}
+            onClick={() => onApply(buildChoices())}
+          >
+            Apply &amp; Purchase ({plan.effective_cost} DP)
+          </button>
+        </footer>
+      </div>
+    </div>
+  );
+}
+
+
+/** Skill/weapon picker for one flexible slot, dependent on the chosen
+ *  category: weapons for weapon categories (+ free text), the slot's
+ *  named options otherwise, or a plain free-text field. */
+function SkillPicker({
+  slot, option, value, onChange,
+}: {
+  slot: TPChoiceSlot;
+  option: { is_weapon: boolean; weapons: string[] };
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  const OTHER = "__other__";
+  // List of dropdown options for this category context.
+  const listed = option.is_weapon ? option.weapons : slot.skill_options;
+  // Whether the current value is "free text" (not in the listed set).
+  const isOther = value !== "" && !listed.includes(value);
+  const [otherMode, setOtherMode] = useState(isOther);
+
+  // If there are no listed options at all, it's pure free text.
+  if (listed.length === 0) {
+    return (
+      <input
+        type="text"
+        placeholder={option.is_weapon ? "Weapon name" : "Skill name"}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        style={{ ...selectStyle, width: 180 }}
+      />
+    );
+  }
+
+  return (
+    <>
+      <select
+        value={otherMode ? OTHER : value}
+        onChange={(e) => {
+          if (e.target.value === OTHER) { setOtherMode(true); onChange(""); }
+          else { setOtherMode(false); onChange(e.target.value); }
+        }}
+        style={selectStyle}
+      >
+        <option value="">{option.is_weapon ? "Choose a weapon…" : "Choose a skill…"}</option>
+        {listed.map((s) => <option key={s} value={s}>{s}</option>)}
+        {/* Weapon categories allow free text; named-skill slots don't. */}
+        {option.is_weapon && <option value={OTHER}>Other weapon…</option>}
+      </select>
+      {otherMode && option.is_weapon && (
+        <input
+          type="text"
+          autoFocus
+          placeholder="Weapon name"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          style={{ ...selectStyle, width: 160 }}
+        />
+      )}
+    </>
+  );
+}
+
+const selectStyle: React.CSSProperties = {
+  fontSize: 13, padding: "4px 8px", border: "1px solid #ccc", borderRadius: 4,
+};
 
 
 function TPRow({

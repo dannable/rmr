@@ -48,6 +48,10 @@ from core.chargen.weapons import (
     normalize_category_label,
     weapons_in_category,
 )
+from core.chargen.training_package import (
+    skill_options_are_generic,
+    slot_is_single_pick,
+)
 from core.chargen.weapon_costs import (
     effective_weapon_costs,
     profession_weapon_costs,
@@ -1571,6 +1575,67 @@ class TrainingPackageOption(BaseModel):
     affordable: bool
 
 
+# --- TP flexible-slot selection (the pre-apply choices modal) -------------
+
+class TPCategoryOptionOut(BaseModel):
+    """One category a flexible slot can target. For weapon categories we
+    pre-list the categorised weapons so the SPA can offer them directly."""
+    group_name: str
+    category_name: str
+    is_weapon: bool = False
+    weapons: list[str] = []
+
+
+class TPChoiceSlot(BaseModel):
+    """A single-pick flexible rank assignment the player must resolve
+    before the TP applies: pick one category, and — when skill_ranks > 0
+    — one specific skill (a weapon for weapon categories)."""
+    sort_order: int
+    label: str
+    cat_ranks: int
+    skill_ranks: int
+    needs_skill: bool
+    category_options: list[TPCategoryOptionOut]
+    # Distinct named skill options (e.g. ["Animal Training", "Animal
+    # Mastery"]) the player chooses from. Empty when the slot's skills
+    # are generic ("Languages") or weapon-driven — the SPA then offers a
+    # free-text / weapon entry instead.
+    skill_options: list[str] = []
+
+
+class TPManualSlot(BaseModel):
+    """A multi-distribution flexible slot the selection modal doesn't
+    resolve — surfaced as a note; the player sets it up manually in
+    Step 6 afterwards."""
+    label: str
+    description: str
+
+
+class TPPurchasePlan(BaseModel):
+    slug: str
+    name: str
+    effective_cost: int
+    affordable: bool
+    # Human-readable summary of the FIXED grants that apply automatically.
+    auto_summary: list[str] = []
+    # Single-pick flexible slots needing a player decision.
+    choices: list[TPChoiceSlot] = []
+    # Multi-distribution slots that won't auto-apply (manual follow-up).
+    manual: list[TPManualSlot] = []
+
+
+class TPChoice(BaseModel):
+    """One resolved flexible-slot decision submitted with a purchase."""
+    sort_order: int
+    group_name: str = Field(..., min_length=1)
+    category_name: str = Field(..., min_length=1)
+    skill_name: str | None = None
+
+
+class TPPurchaseBody(BaseModel):
+    choices: list[TPChoice] = []
+
+
 class DPBudget(BaseModel):
     dp_total: int
     dp_spent: int
@@ -2240,16 +2305,173 @@ def get_character_training_packages_available(
         )
 
 
+def _tp_flexible_assignments(conn: sqlite3.Connection, tp_id: int) -> list[dict]:
+    """All rank assignments for a TP, each enriched with its category +
+    skill options and the single-pick classification. Shared by the plan
+    endpoint and the apply path so they agree on which slots are choices."""
+    ras = conn.execute(
+        "SELECT sort_order, reference_label, group_name, category_name, "
+        "       cat_ranks, skill_ranks, cat_spread_max, skill_spread_max, "
+        "       ranks_assigned_max "
+        "  FROM training_package_rank_assignment "
+        " WHERE training_package_id = ? ORDER BY sort_order",
+        (tp_id,),
+    ).fetchall()
+    out: list[dict] = []
+    for ra in ras:
+        cat_opts = [
+            (r["group_name"], r["category_name"]) for r in conn.execute(
+                "SELECT group_name, category_name "
+                "FROM training_package_ra_category_option "
+                "WHERE training_package_id = ? AND sort_order = ? "
+                "ORDER BY option_index",
+                (tp_id, ra["sort_order"]),
+            ).fetchall()
+        ]
+        skill_opts = [
+            r["skill_name"] for r in conn.execute(
+                "SELECT skill_name FROM training_package_ra_skill_option "
+                "WHERE training_package_id = ? AND sort_order = ? "
+                "ORDER BY option_index",
+                (tp_id, ra["sort_order"]),
+            ).fetchall()
+        ]
+        d = dict(ra)
+        d["category_options"] = cat_opts
+        d["skill_option_names"] = skill_opts
+        d["is_single_pick"] = slot_is_single_pick(
+            cat_ranks=int(ra["cat_ranks"] or 0),
+            skill_ranks=int(ra["skill_ranks"] or 0),
+            cat_spread_max=ra["cat_spread_max"],
+            skill_spread_max=ra["skill_spread_max"],
+            ranks_assigned_max=ra["ranks_assigned_max"],
+            skill_option_names=skill_opts,
+        )
+        out.append(d)
+    return out
+
+
+def _build_tp_purchase_plan(
+    conn: sqlite3.Connection, slug: str, prof_name: str | None,
+    dp_remaining: int,
+) -> TPPurchasePlan:
+    """Compose the pre-apply plan for a TP: fixed grants (auto), single-
+    pick flexible slots (choices), and multi-distribution slots (manual)."""
+    tp_row = conn.execute(
+        "SELECT training_package_id, name, default_cost "
+        "  FROM training_package WHERE slug = ?",
+        (slug,),
+    ).fetchone()
+    if tp_row is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Unknown training package: {slug!r}",
+        )
+    tp_id = tp_row["training_package_id"]
+    cost_row = conn.execute(
+        "SELECT cost FROM training_package_profession_cost "
+        "WHERE training_package_id = ? AND profession_name = ?",
+        (tp_id, prof_name),
+    ).fetchone()
+    eff_cost = int(cost_row["cost"]) if cost_row else int(tp_row["default_cost"])
+
+    auto: list[str] = []
+    choices: list[TPChoiceSlot] = []
+    manual: list[TPManualSlot] = []
+    for ra in _tp_flexible_assignments(conn, tp_id):
+        cat_ranks = int(ra["cat_ranks"] or 0)
+        skill_ranks = int(ra["skill_ranks"] or 0)
+        if ra["reference_label"] is None:
+            # Fixed — applies automatically.
+            if cat_ranks and ra["group_name"] and ra["category_name"]:
+                auto.append(f"{cat_ranks} category rank(s) → "
+                            f"{ra['group_name']} • {ra['category_name']}")
+            if skill_ranks:
+                names = ra["skill_option_names"]
+                if len(names) == 1:
+                    auto.append(f"{skill_ranks} skill rank(s) → {names[0]}")
+            continue
+        if not ra["is_single_pick"]:
+            bits = []
+            if cat_ranks:
+                bits.append(f"{cat_ranks} category rank(s)")
+            if skill_ranks:
+                bits.append(f"{skill_ranks} skill rank(s)")
+            manual.append(TPManualSlot(
+                label=ra["reference_label"],
+                description=(", ".join(bits) +
+                            " spread across several targets — set up "
+                            "manually in Step 6 after purchase."),
+            ))
+            continue
+        # Single-pick flexible slot → a player choice.
+        opt_out: list[TPCategoryOptionOut] = []
+        for (g, c) in ra["category_options"]:
+            is_weapon = (g == "Weapon"
+                         and normalize_category_label(c) is not None)
+            opt_out.append(TPCategoryOptionOut(
+                group_name=g, category_name=c, is_weapon=is_weapon,
+                weapons=weapons_in_category(conn, c) if is_weapon else [],
+            ))
+        names = ra["skill_option_names"]
+        distinct = ([] if skill_options_are_generic(names)
+                    else sorted(set(names)))
+        choices.append(TPChoiceSlot(
+            sort_order=ra["sort_order"],
+            label=ra["reference_label"],
+            cat_ranks=cat_ranks,
+            skill_ranks=skill_ranks,
+            needs_skill=skill_ranks > 0,
+            category_options=opt_out,
+            skill_options=distinct,
+        ))
+    return TPPurchasePlan(
+        slug=slug, name=tp_row["name"], effective_cost=eff_cost,
+        affordable=(eff_cost <= dp_remaining),
+        auto_summary=auto, choices=choices, manual=manual,
+    )
+
+
+@router.get("/{character_id}/training-packages/{slug}/plan",
+            response_model=TPPurchasePlan)
+def get_character_training_package_plan(
+    character_id: int,
+    slug: str,
+    user: dict = CurrentUser,
+) -> TPPurchasePlan:
+    """Pre-purchase plan: what applies automatically, which flexible
+    slots need a player pick (weapon category + weapon/skill), and which
+    multi-distribution slots fall to manual Step-6 setup."""
+    with connect_rw() as conn:
+        _assert_owned(conn, character_id, user["user_id"])
+        prof_id = _load_character_profession_id(conn, character_id)
+        prof_name = None
+        if prof_id is not None:
+            row = conn.execute(
+                "SELECT name FROM profession WHERE profession_id = ?",
+                (prof_id,),
+            ).fetchone()
+            prof_name = row[0] if row else None
+        dp_remaining = _build_skill_allocator(conn, character_id).budget.dp_remaining
+        return _build_tp_purchase_plan(conn, slug, prof_name, dp_remaining)
+
+
 @router.post("/{character_id}/training-packages/{slug}",
              response_model=SkillAllocatorResponse,
              status_code=status.HTTP_201_CREATED)
 def purchase_character_training_package(
     character_id: int,
     slug: str,
+    body: TPPurchaseBody | None = None,
     user: dict = CurrentUser,
 ) -> SkillAllocatorResponse:
     """Buy a training package. Pays the per-profession cost (or default_cost
-    when the profession isn't in the TP's cost table)."""
+    when the profession isn't in the TP's cost table).
+
+    `body.choices` resolves the TP's single-pick flexible slots (weapon
+    category + weapon/skill). Fixed grants apply regardless; multi-
+    distribution slots are skipped (manual Step-6 setup)."""
+    choices = body.choices if body else []
     with connect_rw() as conn:
         _assert_owned(conn, character_id, user["user_id"])
         prof_id = _load_character_profession_id(conn, character_id)
@@ -2298,7 +2520,7 @@ def purchase_character_training_package(
             (character_id, slug, eff_cost, now),
         )
         _apply_tp_rank_grants(
-            conn, character_id, tp_row["training_package_id"], slug,
+            conn, character_id, tp_row["training_package_id"], slug, choices,
         )
         conn.execute(
             "UPDATE character SET updated_at = ? WHERE character_id = ?",
@@ -2308,72 +2530,117 @@ def purchase_character_training_package(
         return _build_skill_allocator(conn, character_id)
 
 
+def _grant_skill_rank(conn, character_id, skill_name, rank, src) -> None:
+    conn.execute(
+        "INSERT INTO character_skill (character_id, skill, kind, rank, source) "
+        "VALUES (?, ?, 'skill', ?, ?) "
+        "ON CONFLICT (character_id, kind, skill, source) "
+        "DO UPDATE SET rank = excluded.rank",
+        (character_id, skill_name, rank, src),
+    )
+
+
+def _grant_category_rank(conn, character_id, cat_label, rank, src) -> None:
+    conn.execute(
+        "INSERT INTO character_skill (character_id, skill, kind, rank, source) "
+        "VALUES (?, ?, 'category', ?, ?) "
+        "ON CONFLICT (character_id, kind, skill, source) "
+        "DO UPDATE SET rank = excluded.rank",
+        (character_id, cat_label, rank, src),
+    )
+
+
 def _apply_tp_rank_grants(
     conn: sqlite3.Connection,
     character_id: int,
     training_package_id: int,
     slug: str,
+    choices: "list[TPChoice] | None" = None,
 ) -> None:
     """Write character_skill rows for the TP's rank assignments.
 
-    For each FIXED assignment (reference_label is None, group/category
-    set), we write a category-rank row + a skill-rank row (when the
-    assignment lists exactly one skill_option). FLEXIBLE assignments
-    (reference_label set — "Melee Weapon", etc.) need a player pick
-    and are skipped here; a follow-up will surface them in the SPA.
+    FIXED assignments (reference_label is None) apply automatically: a
+    category-rank row + a skill-rank row (when the assignment lists
+    exactly one skill_option).
+
+    SINGLE-PICK flexible assignments are resolved by `choices` (one per
+    sort_order): the chosen category gets cat_ranks, the chosen skill
+    gets skill_ranks. A weapon choice is also recorded in
+    character_weapon_skill (source='tp:<slug>') so it surfaces as a leaf
+    in the allocator and refunds cleanly. Multi-distribution slots are
+    skipped (manual Step-6 setup), as are single-pick slots with no
+    choice supplied.
 
     All grants share the source tag f'tp:{slug}', which the refund
     endpoint uses to wipe them cleanly when the TP is un-bought.
     """
     src = f"tp:{slug}"
-    ras = conn.execute(
-        "SELECT sort_order, reference_label, group_name, category_name, "
-        "       cat_ranks, skill_ranks "
-        "  FROM training_package_rank_assignment "
-        " WHERE training_package_id = ? "
-        " ORDER BY sort_order",
-        (training_package_id,),
-    ).fetchall()
-    for ra in ras:
-        if ra["reference_label"] is not None:
-            # Flexible — player needs to pick a category. Defer.
-            continue
-        group = ra["group_name"]
-        cat = ra["category_name"]
-        if not group or not cat:
-            continue
+    by_sort = {ch.sort_order: ch for ch in (choices or [])}
+    for ra in _tp_flexible_assignments(conn, training_package_id):
         cat_ranks = int(ra["cat_ranks"] or 0)
         skill_ranks = int(ra["skill_ranks"] or 0)
-        if cat_ranks > 0:
-            cat_label = f"{group} • {cat}"
-            conn.execute(
-                "INSERT INTO character_skill "
-                "(character_id, skill, kind, rank, source) "
-                "VALUES (?, ?, 'category', ?, ?) "
-                "ON CONFLICT (character_id, kind, skill, source) "
-                "DO UPDATE SET rank = excluded.rank",
-                (character_id, cat_label, cat_ranks, src),
+
+        # ----- fixed assignment -----
+        if ra["reference_label"] is None:
+            group = ra["group_name"]
+            cat = ra["category_name"]
+            if not group or not cat:
+                continue
+            if cat_ranks > 0:
+                _grant_category_rank(conn, character_id,
+                                     f"{group} • {cat}", cat_ranks, src)
+            if skill_ranks > 0 and len(ra["skill_option_names"]) == 1:
+                _grant_skill_rank(conn, character_id,
+                                  ra["skill_option_names"][0], skill_ranks, src)
+            continue
+
+        # ----- flexible: only single-pick slots with a supplied choice -----
+        if not ra["is_single_pick"]:
+            continue
+        ch = by_sort.get(ra["sort_order"])
+        if ch is None:
+            continue   # no choice supplied — skip (no regression vs. before)
+
+        allowed_cats = {(g, c) for (g, c) in ra["category_options"]}
+        if allowed_cats and (ch.group_name, ch.category_name) not in allowed_cats:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail=(f"{ch.group_name} • {ch.category_name} isn't an option "
+                        f"for {ra['reference_label']!r}."),
             )
+        if cat_ranks > 0:
+            _grant_category_rank(conn, character_id,
+                                 f"{ch.group_name} • {ch.category_name}",
+                                 cat_ranks, src)
         if skill_ranks > 0:
-            # Skill ranks land on the assignment's listed skill_options.
-            # When there's exactly one option we apply automatically;
-            # multi-option distribution needs a player pick we'll add
-            # in a follow-up.
-            opts = conn.execute(
-                "SELECT skill_name FROM training_package_ra_skill_option "
-                "WHERE training_package_id = ? AND sort_order = ?",
-                (training_package_id, ra["sort_order"]),
-            ).fetchall()
-            if len(opts) == 1:
-                conn.execute(
-                    "INSERT INTO character_skill "
-                    "(character_id, skill, kind, rank, source) "
-                    "VALUES (?, ?, 'skill', ?, ?) "
-                    "ON CONFLICT (character_id, kind, skill, source) "
-                    "DO UPDATE SET rank = excluded.rank",
-                    (character_id, opts[0]["skill_name"], skill_ranks, src),
+            skill_name = (ch.skill_name or "").strip()
+            if not skill_name:
+                raise HTTPException(
+                    status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                    detail=f"{ra['reference_label']!r} needs a skill/weapon pick.",
                 )
-            # else: ambiguous — leave for a future picker UI
+            is_weapon = (ch.group_name == "Weapon"
+                         and normalize_category_label(ch.category_name) is not None)
+            # When the slot lists distinct named skills, the pick must be
+            # one of them (unless it's a weapon category — those are free).
+            distinct = ([] if skill_options_are_generic(ra["skill_option_names"])
+                        else sorted(set(ra["skill_option_names"])))
+            if distinct and not is_weapon and skill_name not in distinct:
+                raise HTTPException(
+                    status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                    detail=(f"{skill_name!r} isn't a listed skill for "
+                            f"{ra['reference_label']!r}."),
+                )
+            _grant_skill_rank(conn, character_id, skill_name, skill_ranks, src)
+            if is_weapon:
+                conn.execute(
+                    "INSERT INTO character_weapon_skill "
+                    "(character_id, group_name, category_name, weapon_name, source) "
+                    "VALUES (?, ?, ?, ?, ?) "
+                    "ON CONFLICT(character_id, group_name, category_name, weapon_name) "
+                    "DO NOTHING",
+                    (character_id, ch.group_name, ch.category_name, skill_name, src),
+                )
 
 
 @router.delete("/{character_id}/training-packages/{slug}",
@@ -2406,6 +2673,12 @@ def refund_character_training_package(
         # left alone.
         conn.execute(
             "DELETE FROM character_skill "
+            "WHERE character_id = ? AND source = ?",
+            (character_id, f"tp:{slug}"),
+        )
+        # Drop weapon designations this TP made (manual ones survive).
+        conn.execute(
+            "DELETE FROM character_weapon_skill "
             "WHERE character_id = ? AND source = ?",
             (character_id, f"tp:{slug}"),
         )

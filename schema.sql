@@ -683,6 +683,13 @@ CREATE TABLE IF NOT EXISTS character_weapon_skill (
     group_name     TEXT    NOT NULL,           -- always "Weapon" today
     category_name  TEXT    NOT NULL,           -- short form, e.g. "1-H Edged"
     weapon_name    TEXT    NOT NULL,           -- "Short Sword" or free-text
+    -- Provenance: 'manual' for a player-added weapon, 'tp:<slug>' for a
+    -- weapon designated while applying a training package. Refunding a TP
+    -- removes its designations (source = 'tp:<slug>') but leaves manual
+    -- ones intact. NOT part of the PK: a manual designation and a TP one
+    -- for the same weapon collapse to a single row (manual wins, since
+    -- the TP insert uses ON CONFLICT DO NOTHING).
+    source         TEXT    NOT NULL DEFAULT 'manual',
     PRIMARY KEY (character_id, group_name, category_name, weapon_name)
 );
 
