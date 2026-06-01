@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
   fetchSkillAllocator,
+  fetchTrainingPackage,
   fetchTrainingPackagesAvailable,
   purchaseTrainingPackage,
   refundTrainingPackage,
@@ -12,10 +13,12 @@ import {
   type SkillAllocatorResponse,
   type SkillCategoryRow,
   type SkillRow,
+  type TrainingPackageDetail,
   type TrainingPackageOption,
   type TrainingPackagesAvailableResponse,
 } from "../api";
 import { progressionBonus } from "../skillBonus";
+import { TPDetailSections } from "./TrainingPackageDetailBody";
 
 interface Props {
   character: Character;
@@ -187,10 +190,19 @@ function DPBudgetBanner({ budget }: { budget: SkillAllocatorResponse["budget"] }
   const over = budget.dp_remaining < 0;
   return (
     <div style={{
+      // Stick to the top of the viewport while the player scrolls the
+      // (long) skill list, so the running DP total is always visible.
+      // The app header scrolls away with the page, so top:0 is correct —
+      // there's no fixed chrome to offset under. zIndex keeps the banner
+      // above skill rows; the box-shadow gives a little lift once stuck.
+      position: "sticky",
+      top: 0,
+      zIndex: 10,
       padding: "10px 14px",
       background: over ? "#fff4f4" : "#f5f7fb",
       border: `1px solid ${over ? "#f5a3a3" : "#d8e0ef"}`,
       borderRadius: 4,
+      boxShadow: "0 2px 6px rgba(0,0,0,0.06)",
       fontSize: 14,
       display: "flex",
       gap: 18,
@@ -560,6 +572,15 @@ function TPPurchaseModal({
   onClose: () => void;
 }) {
   const [filter, setFilter] = useState("");
+  // Slugs whose detail panel is expanded. A Set (not a single slug) so
+  // the player can open several packages side-by-side to compare.
+  const [expanded, setExpanded] = useState<ReadonlySet<string>>(new Set());
+  const toggleExpanded = (slug: string) =>
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      if (next.has(slug)) next.delete(slug); else next.add(slug);
+      return next;
+    });
 
   const buyM = useMutation({
     mutationFn: (slug: string) => purchaseTrainingPackage(characterId, slug),
@@ -653,8 +674,9 @@ function TPPurchaseModal({
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
               <thead>
                 <tr style={{ textAlign: "left", borderBottom: "1px solid #ddd", color: "#666", fontSize: 12 }}>
-                  <th style={{ padding: "4px 0", width: "40%" }}>Name</th>
-                  <th style={{ padding: "4px 0", width: "22%" }}>Source</th>
+                  <th style={{ padding: "4px 0", width: 28 }} />
+                  <th style={{ padding: "4px 0", width: "38%" }}>Name</th>
+                  <th style={{ padding: "4px 0", width: "20%" }}>Source</th>
                   <th style={{ padding: "4px 0", width: "12%", textAlign: "right" }}>Cost (DP)</th>
                   <th style={{ padding: "4px 0", width: "26%" }} />
                 </tr>
@@ -666,6 +688,8 @@ function TPPurchaseModal({
                     opt={opt}
                     owned={owned.has(opt.slug)}
                     disabled={buyM.isPending || refundM.isPending}
+                    expanded={expanded.has(opt.slug)}
+                    onToggle={() => toggleExpanded(opt.slug)}
                     onBuy={() => buyM.mutate(opt.slug)}
                     onRefund={() => refundM.mutate(opt.slug)}
                   />
@@ -696,50 +720,116 @@ function TPPurchaseModal({
 
 
 function TPRow({
-  opt, owned, disabled, onBuy, onRefund,
+  opt, owned, disabled, expanded, onToggle, onBuy, onRefund,
 }: {
   opt: TrainingPackageOption;
   owned: boolean;
   disabled: boolean;
+  expanded: boolean;
+  onToggle: () => void;
   onBuy: () => void;
   onRefund: () => void;
 }) {
   return (
-    <tr style={{ borderBottom: "1px solid #f3f3f3" }}>
-      <td style={{ padding: "5px 0" }}>{opt.name}</td>
-      <td style={{ padding: "5px 0", color: "#888", fontSize: 12 }}>
-        {prettySource(opt.source)}
-      </td>
-      <td style={{ padding: "5px 0", textAlign: "right",
-                     fontVariantNumeric: "tabular-nums",
-                     color: opt.affordable ? "#222" : "#c00",
-                     fontWeight: 500 }}>
-        {opt.effective_cost}
-      </td>
-      <td style={{ padding: "5px 0", textAlign: "right" }}>
-        {owned ? (
+    <>
+      <tr style={{ borderBottom: expanded ? "none" : "1px solid #f3f3f3" }}>
+        <td style={{ padding: "5px 0" }}>
           <button
-            className="btn btn-secondary"
-            style={{ padding: "2px 8px", fontSize: 12 }}
-            onClick={onRefund}
-            disabled={disabled}
+            onClick={onToggle}
+            aria-expanded={expanded}
+            aria-label={expanded ? `Hide ${opt.name} details` : `Show ${opt.name} details`}
+            title={expanded ? "Hide details" : "Show details"}
+            style={{
+              width: 20, height: 20, lineHeight: "18px", textAlign: "center",
+              padding: 0, border: "1px solid #ccc", borderRadius: 3,
+              background: "#fafafa", cursor: "pointer", fontSize: 13,
+              fontFamily: "monospace", color: "#555",
+            }}
           >
-            Refund
+            {expanded ? "−" : "+"}
           </button>
-        ) : (
-          <button
-            className="btn"
-            style={{ padding: "2px 8px", fontSize: 12 }}
-            onClick={onBuy}
-            disabled={disabled || !opt.affordable}
-            title={!opt.affordable ? "Not enough DP remaining" : "Buy this TP"}
-          >
-            Buy ({opt.effective_cost} DP)
-          </button>
-        )}
-      </td>
-    </tr>
+        </td>
+        <td style={{ padding: "5px 0" }}>{opt.name}</td>
+        <td style={{ padding: "5px 0", color: "#888", fontSize: 12 }}>
+          {prettySource(opt.source)}
+        </td>
+        <td style={{ padding: "5px 0", textAlign: "right",
+                       fontVariantNumeric: "tabular-nums",
+                       color: opt.affordable ? "#222" : "#c00",
+                       fontWeight: 500 }}>
+          {opt.effective_cost}
+        </td>
+        <td style={{ padding: "5px 0", textAlign: "right" }}>
+          {owned ? (
+            <button
+              className="btn btn-secondary"
+              style={{ padding: "2px 8px", fontSize: 12 }}
+              onClick={onRefund}
+              disabled={disabled}
+            >
+              Refund
+            </button>
+          ) : (
+            <button
+              className="btn"
+              style={{ padding: "2px 8px", fontSize: 12 }}
+              onClick={onBuy}
+              disabled={disabled || !opt.affordable}
+              title={!opt.affordable ? "Not enough DP remaining" : "Buy this TP"}
+            >
+              Buy ({opt.effective_cost} DP)
+            </button>
+          )}
+        </td>
+      </tr>
+      {expanded && (
+        <tr style={{ borderBottom: "1px solid #f3f3f3" }}>
+          <td />
+          <td colSpan={4} style={{ padding: "0 0 12px" }}>
+            <div style={{
+              background: "#fafafa",
+              border: "1px solid #eee",
+              borderRadius: 4,
+              padding: "8px 12px",
+            }}>
+              <TPDetailPanel slug={opt.slug} />
+            </div>
+          </td>
+        </tr>
+      )}
+    </>
   );
+}
+
+
+/**
+ * Lazy-loaded detail panel for one TP, shown when its row is expanded
+ * in the purchase modal. Fetches the full TP record (description, stat
+ * gains, rank assignments, special outfitting) from the catalog
+ * endpoint — character-independent, so it caches per-slug and is shared
+ * with the standalone TP detail page via TPDetailSections.
+ */
+function TPDetailPanel({ slug }: { slug: string }) {
+  const q = useQuery<TrainingPackageDetail>({
+    queryKey: ["training-package", slug],
+    queryFn: () => fetchTrainingPackage(slug),
+  });
+
+  if (q.isLoading) return <p style={{ margin: 0, color: "#666", fontSize: 13 }}>Loading details…</p>;
+  if (q.error) return <p style={{ margin: 0, color: "crimson", fontSize: 13 }}>{String(q.error)}</p>;
+  if (!q.data) return null;
+
+  const tp = q.data;
+  const hasBody =
+    tp.description ||
+    tp.stat_gains.length > 0 ||
+    tp.rank_assignments.length > 0 ||
+    tp.specials.length > 0;
+
+  if (!hasBody) {
+    return <p style={{ margin: 0, color: "#888", fontSize: 13 }}>No further details recorded.</p>;
+  }
+  return <TPDetailSections tp={tp} />;
 }
 
 
