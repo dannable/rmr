@@ -662,6 +662,30 @@ CREATE TABLE IF NOT EXISTS character_training_package (
     PRIMARY KEY (character_id, training_package_slug)
 );
 
+-- =========================================================================
+-- Per-character DESIGNATED weapon skills (RMSS Character Law §6).
+-- =========================================================================
+-- Weapon skill categories ("Weapon • 1-H Edged") don't enumerate their
+-- leaf skills in the catalog — the player picks which specific weapons
+-- (Short Sword, Broadsword, …) to develop beneath each category. This
+-- table records those designations so a weapon row persists in the
+-- allocator even at 0 ranks (until the player buys ranks against it via
+-- character_skill_purchase, keyed by the same skill_name).
+--
+-- weapon_name is free TEXT: usually one of the categorised weapons
+-- (core.chargen.weapons.weapons_in_category) but the SPA also allows a
+-- free-text "Other weapon…" entry for homebrew / uncategorised weapons.
+-- Removing a designation also clears its purchased ranks (handled in the
+-- API), so a weapon never lingers as an orphaned purchase.
+CREATE TABLE IF NOT EXISTS character_weapon_skill (
+    character_id   INTEGER NOT NULL
+                       REFERENCES character(character_id) ON DELETE CASCADE,
+    group_name     TEXT    NOT NULL,           -- always "Weapon" today
+    category_name  TEXT    NOT NULL,           -- short form, e.g. "1-H Edged"
+    weapon_name    TEXT    NOT NULL,           -- "Short Sword" or free-text
+    PRIMARY KEY (character_id, group_name, category_name, weapon_name)
+);
+
 
 -- =========================================================================
 -- Per-character weapon-cost assignments (RMSS Character Law §6.2).

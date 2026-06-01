@@ -1025,6 +1025,172 @@ def test_body_dev_progression_falls_through_when_unraced(client) -> None:
 
 
 # ---------------------------------------------------------------------------
+# weapon skills — designate / buy ranks / remove
+# ---------------------------------------------------------------------------
+
+def _seed_weapons(*names: str) -> None:
+    """Insert bare weapon rows so weapons_in_category can populate the
+    Add-Weapon-Skill dropdown options. The test DB is schema-only, so
+    the weapon table starts empty."""
+    from web.db import connect_rw
+    with connect_rw() as conn:
+        for n in names:
+            conn.execute(
+                "INSERT OR IGNORE INTO weapon (name, attack_table) VALUES (?, '2.6')",
+                (n,),
+            )
+        conn.commit()
+
+
+def _weapon_cat(body: dict) -> dict:
+    """Pull the Weapon • 1-H Edged category row out of an allocator body."""
+    by_cat = {(c["group_name"], c["category_name"]): c for c in body["categories"]}
+    return by_cat[("Weapon", "Weapon • 1-H Edged")]
+
+
+def test_weapon_category_flagged_and_offers_options(client) -> None:
+    """A weapon category surfaces is_weapon_category=True and a
+    weapon_options list drawn from the categorised weapons in the DB."""
+    _seed_minimal_fighter()   # has Weapon / 1-H Edged at 2/5
+    _seed_weapons("Short Sword", "Broadsword", "Dagger", "Long Bow")
+    cid = _create_character_at_fighter(client)
+
+    body = client.get(f"/api/v1/characters/{cid}/skill-allocator").json()
+    cat = _weapon_cat(body)
+    assert cat["is_weapon_category"] is True
+    opts = cat["weapon_options"]
+    # The seeded 1-H Edged weapons are offered (other tests may leave
+    # extra weapons in the shared table, so assert membership not equality).
+    assert {"Broadsword", "Dagger", "Short Sword"} <= set(opts)
+    # Long Bow is Missile, never offered under 1-H Edged. Options sorted.
+    assert "Long Bow" not in opts
+    assert opts == sorted(opts)
+    # No player-DESIGNATED weapon skills yet (catalog leaf skills from
+    # other tests' shared skill_category seed may be present; only the
+    # is_weapon_skill flag marks a designation).
+    assert not any(s["is_weapon_skill"] for s in cat["skills"])
+
+
+def test_add_weapon_skill_creates_leaf(client) -> None:
+    """POST /weapon-skills designates a weapon; it shows as a leaf with
+    is_weapon_skill=True and drops out of the remaining options."""
+    _seed_minimal_fighter()
+    _seed_weapons("Short Sword", "Broadsword", "Dagger")
+    cid = _create_character_at_fighter(client)
+
+    r = client.post(f"/api/v1/characters/{cid}/weapon-skills", json={
+        "group_name": "Weapon", "category_name": "1-H Edged",
+        "weapon_name": "Short Sword",
+    })
+    assert r.status_code == 201
+    cat = _weapon_cat(r.json())
+    leaf = next(s for s in cat["skills"] if s["skill_name"] == "Short Sword")
+    assert leaf["is_weapon_skill"] is True
+    assert leaf["ranks_bought"] == 0
+    # Short Sword no longer offered as an option (already added); the
+    # other seeded weapons still are.
+    assert "Short Sword" not in cat["weapon_options"]
+    assert {"Broadsword", "Dagger"} <= set(cat["weapon_options"])
+
+
+def test_add_weapon_skill_then_buy_ranks(client) -> None:
+    """After designating a weapon, the player buys ranks against it via
+    the existing /skill-ranks endpoint (skill_name = weapon name)."""
+    _seed_minimal_fighter()
+    _seed_weapons("Short Sword")
+    cid = _create_character_at_fighter(client)
+    client.post(f"/api/v1/characters/{cid}/weapon-skills", json={
+        "group_name": "Weapon", "category_name": "1-H Edged",
+        "weapon_name": "Short Sword",
+    })
+    r = client.put(f"/api/v1/characters/{cid}/skill-ranks", json={
+        "group_name": "Weapon", "category_name": "1-H Edged",
+        "skill_name": "Short Sword", "ranks_bought": 2,
+    })
+    assert r.status_code == 200
+    cat = _weapon_cat(r.json())
+    leaf = next(s for s in cat["skills"] if s["skill_name"] == "Short Sword")
+    assert leaf["ranks_bought"] == 2
+    assert leaf["current_ranks"] == 2
+    assert leaf["dp_spent"] > 0
+
+
+def test_add_weapon_skill_free_text_allowed(client) -> None:
+    """Homebrew / uncatalogued weapons are accepted as free text even
+    though they aren't in weapon_options."""
+    _seed_minimal_fighter()
+    cid = _create_character_at_fighter(client)
+    r = client.post(f"/api/v1/characters/{cid}/weapon-skills", json={
+        "group_name": "Weapon", "category_name": "1-H Edged",
+        "weapon_name": "Sword of Plot Convenience",
+    })
+    assert r.status_code == 201
+    cat = _weapon_cat(r.json())
+    assert any(s["skill_name"] == "Sword of Plot Convenience" for s in cat["skills"])
+
+
+def test_add_weapon_skill_rejects_non_weapon_category(client) -> None:
+    """Designating under a non-weapon category is a 422."""
+    _seed_minimal_fighter()
+    cid = _create_character_at_fighter(client)
+    r = client.post(f"/api/v1/characters/{cid}/weapon-skills", json={
+        "group_name": "Athletic", "category_name": "Brawn",
+        "weapon_name": "Short Sword",
+    })
+    assert r.status_code == 422
+
+
+def test_remove_weapon_skill_clears_ranks(client) -> None:
+    """DELETE /weapon-skills removes the leaf AND clears any ranks bought
+    against it, so it never lingers as an orphaned purchase."""
+    _seed_minimal_fighter()
+    _seed_weapons("Short Sword")
+    cid = _create_character_at_fighter(client)
+    client.post(f"/api/v1/characters/{cid}/weapon-skills", json={
+        "group_name": "Weapon", "category_name": "1-H Edged",
+        "weapon_name": "Short Sword",
+    })
+    client.put(f"/api/v1/characters/{cid}/skill-ranks", json={
+        "group_name": "Weapon", "category_name": "1-H Edged",
+        "skill_name": "Short Sword", "ranks_bought": 2,
+    })
+    r = client.request("DELETE", f"/api/v1/characters/{cid}/weapon-skills", json={
+        "group_name": "Weapon", "category_name": "1-H Edged",
+        "weapon_name": "Short Sword",
+    })
+    assert r.status_code == 200
+    cat = _weapon_cat(r.json())
+    assert all(s["skill_name"] != "Short Sword" for s in cat["skills"])
+    # Short Sword is back in the options pool.
+    assert "Short Sword" in cat["weapon_options"]
+    # And the purchase row is gone (re-add shows 0 ranks, not 2).
+    client.post(f"/api/v1/characters/{cid}/weapon-skills", json={
+        "group_name": "Weapon", "category_name": "1-H Edged",
+        "weapon_name": "Short Sword",
+    })
+    body = client.get(f"/api/v1/characters/{cid}/skill-allocator").json()
+    cat = _weapon_cat(body)
+    leaf = next(s for s in cat["skills"] if s["skill_name"] == "Short Sword")
+    assert leaf["ranks_bought"] == 0
+
+
+def test_add_weapon_skill_idempotent(client) -> None:
+    """Designating the same weapon twice doesn't create a duplicate leaf."""
+    _seed_minimal_fighter()
+    _seed_weapons("Short Sword")
+    cid = _create_character_at_fighter(client)
+    for _ in range(2):
+        client.post(f"/api/v1/characters/{cid}/weapon-skills", json={
+            "group_name": "Weapon", "category_name": "1-H Edged",
+            "weapon_name": "Short Sword",
+        })
+    body = client.get(f"/api/v1/characters/{cid}/skill-allocator").json()
+    cat = _weapon_cat(body)
+    matches = [s for s in cat["skills"] if s["skill_name"] == "Short Sword"]
+    assert len(matches) == 1
+
+
+# ---------------------------------------------------------------------------
 # auth
 # ---------------------------------------------------------------------------
 
@@ -1034,6 +1200,10 @@ def test_body_dev_progression_falls_through_when_unraced(client) -> None:
        {"group_name": "g", "category_name": "c", "ranks_bought": 0}),
     ("PUT",    "/api/v1/characters/1/skill-ranks",
        {"group_name": "g", "category_name": "c", "skill_name": "s", "ranks_bought": 0}),
+    ("POST",   "/api/v1/characters/1/weapon-skills",
+       {"group_name": "Weapon", "category_name": "1-H Edged", "weapon_name": "Dagger"}),
+    ("DELETE", "/api/v1/characters/1/weapon-skills",
+       {"group_name": "Weapon", "category_name": "1-H Edged", "weapon_name": "Dagger"}),
     ("GET",    "/api/v1/characters/1/training-packages-available", None),
     ("POST",   "/api/v1/characters/1/training-packages/foo", None),
     ("DELETE", "/api/v1/characters/1/training-packages/foo", None),

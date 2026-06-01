@@ -45,6 +45,8 @@ from core.chargen.weapons import (
     category_for_t16_row,
     filter_race_weapons_by_category,
     all_race_weapons,
+    normalize_category_label,
+    weapons_in_category,
 )
 from core.chargen.weapon_costs import (
     effective_weapon_costs,
@@ -1506,6 +1508,10 @@ class SkillRow(BaseModel):
     item_bonus: int = 0
     special_bonus: int = 0
     total_bonus: int = 0
+    # True for a player-designated weapon skill (added beneath a weapon
+    # category via the "Add Weapon Skill" flow). The SPA shows a remove
+    # affordance on these; catalog skills aren't removable.
+    is_weapon_skill: bool = False
 
 
 class SkillCategoryRow(BaseModel):
@@ -1538,6 +1544,15 @@ class SkillCategoryRow(BaseModel):
     category_progression: str = ""
     skill_progression: str = ""
     skills: list[SkillRow] = []
+    # True when this is a single-weapon skill category (1-H Edged,
+    # Missile, …) where the player designates specific weapons beneath
+    # it. The SPA renders an "Add Weapon Skill" button for these.
+    is_weapon_category: bool = False
+    # Categorised weapons available to add to this category that the
+    # player hasn't designated yet — drives the Add-Weapon-Skill
+    # dropdown. Empty for non-weapon categories. The SPA also offers a
+    # free-text "Other weapon…" entry for anything not listed here.
+    weapon_options: list[str] = []
 
 
 class TrainingPackagePurchase(BaseModel):
@@ -1579,6 +1594,14 @@ class SkillRanksUpdate(BaseModel):
     category_name: str = Field(..., min_length=1)
     skill_name: str = Field(..., min_length=1)
     ranks_bought: int = Field(..., ge=0, le=50)
+
+
+class WeaponSkillDesignation(BaseModel):
+    """Designate (or remove) a specific weapon as a leaf skill under a
+    weapon category. `category_name` is the short form ("1-H Edged")."""
+    group_name: str = Field(..., min_length=1)
+    category_name: str = Field(..., min_length=1)
+    weapon_name: str = Field(..., min_length=1, max_length=80)
 
 
 def _load_character_raw_temps(
@@ -1677,6 +1700,20 @@ def _build_skill_allocator(
         else:
             skill_other_ranks[r["skill"]] = int(r["rank"])
 
+    # Player-designated weapon skills, keyed by (group, category_short).
+    # These are leaf weapon rows the player added beneath a weapon
+    # category (e.g. "Short Sword" under "1-H Edged"). They render as
+    # leaf skills even at 0 ranks, alongside any catalog skills.
+    designated_weapons: dict[tuple[str, str], list[str]] = {}
+    for r in conn.execute(
+        "SELECT group_name, category_name, weapon_name FROM character_weapon_skill "
+        "WHERE character_id = ? ORDER BY weapon_name",
+        (character_id,),
+    ).fetchall():
+        designated_weapons.setdefault(
+            (r["group_name"], r["category_name"]), []
+        ).append(r["weapon_name"])
+
     out_categories: list[SkillCategoryRow] = []
     seen_keys: set[tuple[str, str]] = set()
 
@@ -1769,39 +1806,70 @@ def _build_skill_allocator(
         special_b = 0   # race/TP/item bonuses to come in Phase C+
         cat_total = int(round(cat_rank_b + cat_stat_b + class_b + special_b))
 
+        # Leaf skill NAMES = catalog skills ∪ player-designated weapons.
+        # Most categories enumerate their leaves in the catalog; weapon
+        # categories don't (the player picks specific weapons), so their
+        # leaves come entirely from `designated_weapons`. We union the
+        # two, preserving catalog order then appending designated names
+        # that aren't already present.
+        catalog_skill_names: list[str] = []
+        if catalog is not None:
+            catalog_skill_names = [
+                sk["name"] for sk in list_skills_in_skill_category(conn, catalog)
+            ]
+        designated_here = designated_weapons.get((group, cat_short), [])
+        designated_set = set(designated_here)
+        leaf_names: list[str] = list(catalog_skill_names)
+        seen_leaf = set(catalog_skill_names)
+        for w in designated_here:
+            if w not in seen_leaf:
+                leaf_names.append(w)
+                seen_leaf.add(w)
+
         # Per-skill rows.
         leaves: list[SkillRow] = []
-        if catalog is not None:
-            for sk in list_skills_in_skill_category(conn, catalog):
-                sk_name = sk["name"]
-                sk_buy = skill_state.get((group, cat_short, sk_name),
-                                          {"ranks_bought": 0, "dp_spent": 0})
-                sk_ranks = sk_buy["ranks_bought"]
-                sk_other = skill_other_ranks.get(sk_name, 0)
-                current_ranks = sk_ranks + sk_other
-                sk_rank_b = progression_bonus(
-                    skill_prog, standard_skill_bonus, current_ranks,
-                )
-                # RMSS: stat bonuses + profession bonuses apply at the
-                # CATEGORY level only. The skill total cascades from
-                # cat_total (which already has rank + stat + class +
-                # special at the category level) and adds the skill-
-                # specific layers — rank, item, special.
-                sk_item_b = 0      # placeholder for magical items etc.
-                sk_special_b = 0   # placeholder for per-skill TP / GM bonuses
-                sk_total = int(round(sk_rank_b + cat_total
-                                       + sk_item_b + sk_special_b))
-                next_sk_cost = dp_for_rank(cost, sk_ranks + 1) if cost else None
-                leaves.append(SkillRow(
-                    skill_name=sk_name,
-                    ranks_bought=sk_ranks,
-                    current_ranks=current_ranks,
-                    dp_spent=sk_buy["dp_spent"],
-                    next_rank_cost_dp=next_sk_cost,
-                    item_bonus=sk_item_b,
-                    special_bonus=sk_special_b,
-                    total_bonus=sk_total,
-                ))
+        for sk_name in leaf_names:
+            sk_buy = skill_state.get((group, cat_short, sk_name),
+                                      {"ranks_bought": 0, "dp_spent": 0})
+            sk_ranks = sk_buy["ranks_bought"]
+            sk_other = skill_other_ranks.get(sk_name, 0)
+            current_ranks = sk_ranks + sk_other
+            sk_rank_b = progression_bonus(
+                skill_prog, standard_skill_bonus, current_ranks,
+            )
+            # RMSS: stat bonuses + profession bonuses apply at the
+            # CATEGORY level only. The skill total cascades from
+            # cat_total (which already has rank + stat + class +
+            # special at the category level) and adds the skill-
+            # specific layers — rank, item, special.
+            sk_item_b = 0      # placeholder for magical items etc.
+            sk_special_b = 0   # placeholder for per-skill TP / GM bonuses
+            sk_total = int(round(sk_rank_b + cat_total
+                                   + sk_item_b + sk_special_b))
+            next_sk_cost = dp_for_rank(cost, sk_ranks + 1) if cost else None
+            leaves.append(SkillRow(
+                skill_name=sk_name,
+                ranks_bought=sk_ranks,
+                current_ranks=current_ranks,
+                dp_spent=sk_buy["dp_spent"],
+                next_rank_cost_dp=next_sk_cost,
+                item_bonus=sk_item_b,
+                special_bonus=sk_special_b,
+                total_bonus=sk_total,
+                is_weapon_skill=(sk_name in designated_set),
+            ))
+
+        # Weapon-category metadata: is this a single-weapon category, and
+        # which categorised weapons can still be added (minus ones the
+        # player already designated)?
+        canonical_weapon_cat = normalize_category_label(cat_short)
+        is_weapon_cat = canonical_weapon_cat is not None
+        weapon_opts: list[str] = []
+        if is_weapon_cat:
+            weapon_opts = [
+                w for w in weapons_in_category(conn, cat_short)
+                if w not in designated_set
+            ]
 
         out_categories.append(SkillCategoryRow(
             group_name=group,
@@ -1826,6 +1894,8 @@ def _build_skill_allocator(
             category_progression=cat_prog,
             skill_progression=skill_prog,
             skills=leaves,
+            is_weapon_category=is_weapon_cat,
+            weapon_options=weapon_opts,
         ))
         seen_keys.add((group, cat_short))
 
@@ -2016,6 +2086,90 @@ def update_character_skill_ranks(
             "              dp_spent     = excluded.dp_spent",
             (character_id, body.group_name, body.category_name, body.skill_name,
              body.ranks_bought, dp_spent),
+        )
+        conn.execute(
+            "UPDATE character SET updated_at = ? WHERE character_id = ?",
+            (_utcnow(), character_id),
+        )
+        conn.commit()
+        return _build_skill_allocator(conn, character_id)
+
+
+@router.post("/{character_id}/weapon-skills",
+             response_model=SkillAllocatorResponse,
+             status_code=status.HTTP_201_CREATED)
+def add_character_weapon_skill(
+    character_id: int,
+    body: WeaponSkillDesignation,
+    user: dict = CurrentUser,
+) -> SkillAllocatorResponse:
+    """Designate a specific weapon as a leaf skill under a weapon category.
+
+    The weapon then shows in the allocator beneath its category at 0
+    ranks; the player buys ranks against it via /skill-ranks using the
+    weapon name as skill_name. `weapon_name` is usually one of the
+    category's catalogued weapons but free text is allowed for homebrew
+    / uncatalogued weapons (the SPA's "Other weapon…" entry)."""
+    weapon = body.weapon_name.strip()
+    if not weapon:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="Weapon name is required.",
+        )
+    # Only weapon categories accept designated weapons.
+    if normalize_category_label(body.category_name) is None:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=f"{body.category_name!r} isn't a weapon skill category.",
+        )
+    with connect_rw() as conn:
+        _assert_owned(conn, character_id, user["user_id"])
+        conn.execute(
+            "INSERT INTO character_weapon_skill "
+            "(character_id, group_name, category_name, weapon_name) "
+            "VALUES (?, ?, ?, ?) "
+            "ON CONFLICT(character_id, group_name, category_name, weapon_name) "
+            "DO NOTHING",
+            (character_id, body.group_name, body.category_name, weapon),
+        )
+        conn.execute(
+            "UPDATE character SET updated_at = ? WHERE character_id = ?",
+            (_utcnow(), character_id),
+        )
+        conn.commit()
+        return _build_skill_allocator(conn, character_id)
+
+
+@router.delete("/{character_id}/weapon-skills",
+               response_model=SkillAllocatorResponse)
+def remove_character_weapon_skill(
+    character_id: int,
+    body: WeaponSkillDesignation,
+    user: dict = CurrentUser,
+) -> SkillAllocatorResponse:
+    """Remove a designated weapon skill and clear any ranks bought or
+    granted for it, so it never lingers as an orphaned purchase."""
+    weapon = body.weapon_name.strip()
+    with connect_rw() as conn:
+        _assert_owned(conn, character_id, user["user_id"])
+        conn.execute(
+            "DELETE FROM character_weapon_skill "
+            "WHERE character_id = ? AND group_name = ? "
+            "      AND category_name = ? AND weapon_name = ?",
+            (character_id, body.group_name, body.category_name, weapon),
+        )
+        # Clear DP-bought ranks on this weapon (all levels).
+        conn.execute(
+            "DELETE FROM character_skill_purchase "
+            "WHERE character_id = ? AND group_name = ? "
+            "      AND category_name = ? AND skill_name = ?",
+            (character_id, body.group_name, body.category_name, weapon),
+        )
+        # Clear any non-DP ranks (adolescence / TP grants) on the weapon.
+        conn.execute(
+            "DELETE FROM character_skill "
+            "WHERE character_id = ? AND kind = 'skill' AND skill = ?",
+            (character_id, weapon),
         )
         conn.execute(
             "UPDATE character SET updated_at = ? WHERE character_id = ?",

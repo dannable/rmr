@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
+  addWeaponSkill,
   fetchSkillAllocator,
   fetchTrainingPackage,
   fetchTrainingPackagesAvailable,
   purchaseTrainingPackage,
   refundTrainingPackage,
+  removeWeaponSkill,
   updateCategoryRanks,
   updateSkillRanks,
   type Character,
@@ -107,6 +109,24 @@ export function SkillAllocator({ character }: Props) {
     onSettled: invalidateAll,
   });
 
+  // Weapon-skill designation. Both endpoints return the authoritative
+  // allocator snapshot, so we drop it straight into the cache (immediate
+  // re-render) and then invalidate to keep the rest of the builder in sync.
+  const addWeaponM = useMutation({
+    mutationFn: ({ group_name, category_name, weapon_name }: {
+      group_name: string; category_name: string; weapon_name: string;
+    }) => addWeaponSkill(character.character_id, group_name, category_name, weapon_name),
+    onSuccess: (snap) => qc.setQueryData(allocatorKey, snap),
+    onSettled: invalidateAll,
+  });
+  const removeWeaponM = useMutation({
+    mutationFn: ({ group_name, category_name, weapon_name }: {
+      group_name: string; category_name: string; weapon_name: string;
+    }) => removeWeaponSkill(character.character_id, group_name, category_name, weapon_name),
+    onSuccess: (snap) => qc.setQueryData(allocatorKey, snap),
+    onSettled: invalidateAll,
+  });
+
   // Group filter so the list is browsable. Default: only categories
   // the profession can actually train (cost present).
   const [showUntrainable, setShowUntrainable] = useState(false);
@@ -129,8 +149,10 @@ export function SkillAllocator({ character }: Props) {
   }
   const sortedGroups = Array.from(byGroup.keys()).sort();
 
-  const mutating = catM.isPending || skillM.isPending;
-  const mutationError = catM.error ?? skillM.error;
+  const mutating = catM.isPending || skillM.isPending
+    || addWeaponM.isPending || removeWeaponM.isPending;
+  const mutationError = catM.error ?? skillM.error
+    ?? addWeaponM.error ?? removeWeaponM.error;
 
   return (
     <section>
@@ -169,6 +191,16 @@ export function SkillAllocator({ character }: Props) {
             category_name: stripGroupPrefix(c.group_name, c.category_name),
             skill_name: skillName,
             ranks_bought: ranks,
+          })}
+          onAddWeapon={(c, weaponName) => addWeaponM.mutate({
+            group_name: c.group_name,
+            category_name: stripGroupPrefix(c.group_name, c.category_name),
+            weapon_name: weaponName,
+          })}
+          onRemoveWeapon={(c, weaponName) => removeWeaponM.mutate({
+            group_name: c.group_name,
+            category_name: stripGroupPrefix(c.group_name, c.category_name),
+            weapon_name: weaponName,
           })}
           disabled={mutating}
         />
@@ -229,12 +261,15 @@ function DPBudgetBanner({ budget }: { budget: SkillAllocatorResponse["budget"] }
 
 
 function GroupSection({
-  group, categories, onCategoryChange, onSkillChange, disabled,
+  group, categories, onCategoryChange, onSkillChange,
+  onAddWeapon, onRemoveWeapon, disabled,
 }: {
   group: string;
   categories: SkillCategoryRow[];
   onCategoryChange: (c: SkillCategoryRow, ranks: number) => void;
   onSkillChange: (c: SkillCategoryRow, skillName: string, ranks: number) => void;
+  onAddWeapon: (c: SkillCategoryRow, weaponName: string) => void;
+  onRemoveWeapon: (c: SkillCategoryRow, weaponName: string) => void;
   disabled: boolean;
 }) {
   return (
@@ -278,6 +313,8 @@ function GroupSection({
               category={c}
               onCategoryChange={(r) => onCategoryChange(c, r)}
               onSkillChange={(sn, r) => onSkillChange(c, sn, r)}
+              onAddWeapon={(wn) => onAddWeapon(c, wn)}
+              onRemoveWeapon={(wn) => onRemoveWeapon(c, wn)}
               disabled={disabled}
             />
           ))}
@@ -289,15 +326,20 @@ function GroupSection({
 
 
 function CategoryAndSkills({
-  category, onCategoryChange, onSkillChange, disabled,
+  category, onCategoryChange, onSkillChange,
+  onAddWeapon, onRemoveWeapon, disabled,
 }: {
   category: SkillCategoryRow;
   onCategoryChange: (ranks: number) => void;
   onSkillChange: (skillName: string, ranks: number) => void;
+  onAddWeapon: (weaponName: string) => void;
+  onRemoveWeapon: (weaponName: string) => void;
   disabled: boolean;
 }) {
   const c = category;
   const untrainable = c.cost === "";
+  // Column count for full-width helper rows (the Add-Weapon-Skill row).
+  const COL_COUNT = 11;
   return (
     <>
       <tr style={{ borderBottom: "1px solid #f3f3f3", background: "#fafafa" }}>
@@ -350,6 +392,21 @@ function CategoryAndSkills({
         <tr key={s.skill_name} style={{ borderBottom: "1px solid #f3f3f3" }}>
           <td style={{ padding: "3px 0 3px 18px", color: "#444" }}>
             {s.skill_name}
+            {s.is_weapon_skill && (
+              <button
+                onClick={() => onRemoveWeapon(s.skill_name)}
+                disabled={disabled}
+                title={`Remove ${s.skill_name}`}
+                aria-label={`Remove ${s.skill_name}`}
+                style={{
+                  marginLeft: 6, padding: "0 5px", fontSize: 11, lineHeight: "16px",
+                  border: "1px solid #e0c0c0", borderRadius: 3, background: "#fff5f5",
+                  color: "#b54", cursor: "pointer",
+                }}
+              >
+                ×
+              </button>
+            )}
           </td>
           <td style={{ padding: "3px 0", textAlign: "center",
                          fontVariantNumeric: "tabular-nums",
@@ -389,7 +446,101 @@ function CategoryAndSkills({
           </td>
         </tr>
       ))}
+      {c.is_weapon_category && (
+        <tr style={{ borderBottom: "1px solid #f3f3f3" }}>
+          <td colSpan={COL_COUNT} style={{ padding: "3px 0 6px 18px" }}>
+            <AddWeaponSkillControl
+              options={c.weapon_options}
+              disabled={disabled}
+              onAdd={onAddWeapon}
+            />
+          </td>
+        </tr>
+      )}
     </>
+  );
+}
+
+
+/** "Add Weapon Skill" affordance shown beneath each weapon category.
+ *  Collapsed: a button. Expanded: a dropdown of the category's
+ *  catalogued weapons plus an "Other weapon…" free-text option, with
+ *  Add / Cancel. Selecting a weapon designates it as a leaf skill the
+ *  player can then buy ranks against. */
+function AddWeaponSkillControl({
+  options, disabled, onAdd,
+}: {
+  options: string[];
+  disabled: boolean;
+  onAdd: (weaponName: string) => void;
+}) {
+  const OTHER = "__other__";
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState("");
+  const [freeText, setFreeText] = useState("");
+
+  const reset = () => { setOpen(false); setSelected(""); setFreeText(""); };
+
+  const chosen = selected === OTHER ? freeText.trim() : selected;
+  const canAdd = !disabled && chosen.length > 0;
+
+  if (!open) {
+    return (
+      <button
+        onClick={() => setOpen(true)}
+        disabled={disabled}
+        style={{
+          padding: "2px 10px", fontSize: 12, cursor: "pointer",
+          border: "1px dashed #b9c2da", borderRadius: 4,
+          background: "#f7f9ff", color: "#42506e",
+        }}
+      >
+        + Add Weapon Skill
+      </button>
+    );
+  }
+
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+      <select
+        value={selected}
+        disabled={disabled}
+        onChange={(e) => setSelected(e.target.value)}
+        style={{ fontSize: 12, padding: "3px 6px", border: "1px solid #ccc", borderRadius: 3 }}
+      >
+        <option value="">Choose a weapon…</option>
+        {options.map((w) => (
+          <option key={w} value={w}>{w}</option>
+        ))}
+        <option value={OTHER}>Other weapon…</option>
+      </select>
+      {selected === OTHER && (
+        <input
+          type="text"
+          autoFocus
+          placeholder="Weapon name"
+          value={freeText}
+          onChange={(e) => setFreeText(e.target.value)}
+          onKeyDown={(e) => { if (e.key === "Enter" && canAdd) { onAdd(chosen); reset(); } }}
+          style={{ fontSize: 12, padding: "3px 6px", border: "1px solid #ccc", borderRadius: 3, width: 160 }}
+        />
+      )}
+      <button
+        className="btn"
+        style={{ padding: "2px 10px", fontSize: 12 }}
+        disabled={!canAdd}
+        onClick={() => { onAdd(chosen); reset(); }}
+      >
+        Add
+      </button>
+      <button
+        className="btn btn-secondary"
+        style={{ padding: "2px 10px", fontSize: 12 }}
+        onClick={reset}
+      >
+        Cancel
+      </button>
+    </div>
   );
 }
 
