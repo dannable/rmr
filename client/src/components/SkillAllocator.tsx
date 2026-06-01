@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
@@ -459,24 +459,15 @@ function TPMarketSection({
   tpQ: ReturnType<typeof useQuery<TrainingPackagesAvailableResponse>>;
   onChange: () => void;
 }) {
-  const buyM = useMutation({
-    mutationFn: (slug: string) => purchaseTrainingPackage(characterId, slug),
-    onSuccess: onChange,
-  });
+  const [modalOpen, setModalOpen] = useState(false);
+
+  // Refund mutation for the compact purchased-summary list. Buying lives
+  // in the modal; refund is offered both here and in the modal so the
+  // player can drop a TP without re-opening the shop.
   const refundM = useMutation({
     mutationFn: (slug: string) => refundTrainingPackage(characterId, slug),
     onSuccess: onChange,
   });
-  const [filter, setFilter] = useState("");
-
-  if (tpQ.isLoading) return <p style={{ color: "#666" }}>Loading training packages…</p>;
-  if (tpQ.error) return <p style={{ color: "crimson" }}>{String(tpQ.error)}</p>;
-  if (!tpQ.data) return null;
-
-  const owned = new Set(purchased.map((p) => p.slug));
-  const filtered = tpQ.data.options.filter((o) =>
-    !filter || o.name.toLowerCase().includes(filter.toLowerCase()),
-  );
 
   return (
     <section style={{ marginTop: 16 }}>
@@ -487,7 +478,7 @@ function TPMarketSection({
         </span>
       </header>
 
-      {purchased.length > 0 && (
+      {purchased.length > 0 ? (
         <div style={{ marginTop: 8 }}>
           <strong style={{ fontSize: 13 }}>Purchased:</strong>
           <ul style={{ margin: "4px 0 0 18px", padding: 0, fontSize: 13 }}>
@@ -506,57 +497,200 @@ function TPMarketSection({
             ))}
           </ul>
         </div>
-      )}
-
-      <div style={{ marginTop: 10 }}>
-        <input
-          type="search"
-          placeholder="Filter training packages…"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-          style={{
-            width: "60%", maxWidth: 320, padding: "4px 8px",
-            fontSize: 13, border: "1px solid #ccc", borderRadius: 3,
-          }}
-        />
-      </div>
-
-      <table style={{ width: "100%", borderCollapse: "collapse", marginTop: 8, fontSize: 13 }}>
-        <thead>
-          <tr style={{ textAlign: "left", borderBottom: "1px solid #ddd", color: "#666", fontSize: 12 }}>
-            <th style={{ padding: "4px 0", width: "40%" }}>Name</th>
-            <th style={{ padding: "4px 0", width: "20%" }}>Source</th>
-            <th style={{ padding: "4px 0", width: "10%", textAlign: "right" }}>Cost (DP)</th>
-            <th style={{ padding: "4px 0", width: "30%" }} />
-          </tr>
-        </thead>
-        <tbody>
-          {filtered.map((opt) => (
-            <TPRow
-              key={opt.slug}
-              opt={opt}
-              owned={owned.has(opt.slug)}
-              disabled={buyM.isPending || refundM.isPending}
-              onBuy={() => buyM.mutate(opt.slug)}
-              onRefund={() => refundM.mutate(opt.slug)}
-            />
-          ))}
-        </tbody>
-      </table>
-
-      {(buyM.error || refundM.error) && (
-        <p style={{ color: "crimson", fontSize: 13, marginTop: 6 }}>
-          {String(buyM.error ?? refundM.error)}
+      ) : (
+        <p style={{ marginTop: 8, fontSize: 13, color: "#888" }}>
+          No training packages purchased yet.
         </p>
       )}
 
+      {refundM.error && (
+        <p style={{ color: "crimson", fontSize: 13, marginTop: 6 }}>
+          {String(refundM.error)}
+        </p>
+      )}
+
+      <button
+        className="btn"
+        style={{ marginTop: 12 }}
+        onClick={() => setModalOpen(true)}
+      >
+        Purchase Training Package
+      </button>
+
       <p style={{ marginTop: 8, fontSize: 12, color: "#888" }}>
-        Buying a TP deducts the listed DP from your budget. Refunding restores it.
-        Purchased TPs don't yet auto-apply their granted ranks / stat gains —
-        that's a follow-up. For now you can see what you've paid for and refund
-        anything you change your mind about.
+        Buying a TP deducts the listed DP from your budget and applies any
+        fixed rank grants to the skill list above. Refunding restores the DP
+        and removes those ranks.
       </p>
+
+      {modalOpen && (
+        <TPPurchaseModal
+          characterId={characterId}
+          purchased={purchased}
+          tpQ={tpQ}
+          onChange={onChange}
+          onClose={() => {
+            // Final reconcile so the skill list reflects everything bought
+            // while the modal was open, then dismiss.
+            onChange();
+            setModalOpen(false);
+          }}
+        />
+      )}
     </section>
+  );
+}
+
+
+/**
+ * Modal shop for browsing + buying training packages. Buying / refunding
+ * fires `onChange` (the parent's invalidateAll) so the allocator query
+ * refetches and the skill list behind the modal updates live. Closing
+ * reconciles once more and dismisses.
+ *
+ * Dismissal: the Close button, a click on the backdrop, or the Escape key.
+ */
+function TPPurchaseModal({
+  characterId, purchased, tpQ, onChange, onClose,
+}: {
+  characterId: number;
+  purchased: SkillAllocatorResponse["training_packages_purchased"];
+  tpQ: ReturnType<typeof useQuery<TrainingPackagesAvailableResponse>>;
+  onChange: () => void;
+  onClose: () => void;
+}) {
+  const [filter, setFilter] = useState("");
+
+  const buyM = useMutation({
+    mutationFn: (slug: string) => purchaseTrainingPackage(characterId, slug),
+    onSuccess: onChange,
+  });
+  const refundM = useMutation({
+    mutationFn: (slug: string) => refundTrainingPackage(characterId, slug),
+    onSuccess: onChange,
+  });
+
+  // Escape-to-close. Registered once; onClose is stable enough (recreated
+  // each render but the effect re-binds, which is fine for a key handler).
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  const owned = new Set(purchased.map((p) => p.slug));
+  const options = tpQ.data?.options ?? [];
+  const filtered = options.filter((o) =>
+    !filter || o.name.toLowerCase().includes(filter.toLowerCase()),
+  );
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Purchase training package"
+      onClick={onClose}
+      style={{
+        position: "fixed",
+        inset: 0,
+        background: "rgba(0,0,0,0.45)",
+        display: "flex",
+        alignItems: "flex-start",
+        justifyContent: "center",
+        padding: "5vh 16px",
+        zIndex: 1000,
+      }}
+    >
+      <div
+        // Stop backdrop clicks that land on the dialog from closing it.
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          background: "#fff",
+          borderRadius: 8,
+          boxShadow: "0 10px 40px rgba(0,0,0,0.25)",
+          width: "min(720px, 100%)",
+          maxHeight: "90vh",
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden",
+        }}
+      >
+        <header style={{
+          display: "flex", alignItems: "baseline", justifyContent: "space-between",
+          padding: "14px 18px", borderBottom: "1px solid #eee",
+        }}>
+          <h3 style={{ margin: 0 }}>Purchase Training Package</h3>
+          <span style={{ fontSize: 13, color: "#444" }}>
+            {tpQ.data
+              ? <><strong>{tpQ.data.dp_remaining}</strong> DP remaining</>
+              : null}
+          </span>
+        </header>
+
+        <div style={{ padding: "12px 18px 0" }}>
+          <input
+            type="search"
+            placeholder="Filter training packages…"
+            value={filter}
+            autoFocus
+            onChange={(e) => setFilter(e.target.value)}
+            style={{
+              width: "100%", padding: "6px 10px",
+              fontSize: 13, border: "1px solid #ccc", borderRadius: 4,
+            }}
+          />
+        </div>
+
+        <div style={{ overflowY: "auto", padding: "8px 18px 0", flex: 1 }}>
+          {tpQ.isLoading && <p style={{ color: "#666" }}>Loading training packages…</p>}
+          {tpQ.error && <p style={{ color: "crimson" }}>{String(tpQ.error)}</p>}
+          {tpQ.data && filtered.length === 0 && (
+            <p style={{ color: "#888", fontSize: 13 }}>No training packages match “{filter}”.</p>
+          )}
+          {tpQ.data && filtered.length > 0 && (
+            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+              <thead>
+                <tr style={{ textAlign: "left", borderBottom: "1px solid #ddd", color: "#666", fontSize: 12 }}>
+                  <th style={{ padding: "4px 0", width: "40%" }}>Name</th>
+                  <th style={{ padding: "4px 0", width: "22%" }}>Source</th>
+                  <th style={{ padding: "4px 0", width: "12%", textAlign: "right" }}>Cost (DP)</th>
+                  <th style={{ padding: "4px 0", width: "26%" }} />
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map((opt) => (
+                  <TPRow
+                    key={opt.slug}
+                    opt={opt}
+                    owned={owned.has(opt.slug)}
+                    disabled={buyM.isPending || refundM.isPending}
+                    onBuy={() => buyM.mutate(opt.slug)}
+                    onRefund={() => refundM.mutate(opt.slug)}
+                  />
+                ))}
+              </tbody>
+            </table>
+          )}
+
+          {(buyM.error || refundM.error) && (
+            <p style={{ color: "crimson", fontSize: 13, marginTop: 6 }}>
+              {String(buyM.error ?? refundM.error)}
+            </p>
+          )}
+        </div>
+
+        <footer style={{
+          display: "flex", justifyContent: "flex-end", gap: 8,
+          padding: "12px 18px", borderTop: "1px solid #eee",
+        }}>
+          <button className="btn btn-secondary" onClick={onClose}>
+            Done
+          </button>
+        </footer>
+      </div>
+    </div>
   );
 }
 
